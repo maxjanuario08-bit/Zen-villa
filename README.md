@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zenvilla – Conciergerie Corse Sud
 
-## Getting Started
+Site vitrine premium pour **Zenvilla**, solution complète et digitale de conciergerie destinée aux propriétaires de villas et aux voyageurs en Corse Sud.
 
-First, run the development server:
+## Stack technique
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 16** (App Router) + **TypeScript**
+- **Tailwind CSS v4**
+- SEO (metadata, OpenGraph, sitemap)
+- Responsive mobile-first, animations légères
+
+## Structure du projet
+
+```
+zenvilla/
+├── app/
+│   ├── layout.tsx          # Layout racine + métadonnées globales
+│   ├── page.tsx            # Accueil
+│   ├── globals.css         # Design system + animations
+│   ├── sitemap.ts          # Sitemap généré
+│   ├── contact/
+│   │   ├── layout.tsx      # Métadonnées page contact
+│   │   └── page.tsx        # Formulaire + FAQ
+│   ├── proprietaires/
+│   │   └── page.tsx
+│   ├── voyageurs/
+│   │   └── page.tsx
+│   └── packs/
+│       └── page.tsx
+├── components/
+│   ├── Navbar.tsx          # Navigation sticky
+│   ├── Footer.tsx          # Pied de page
+│   └── ui/
+│       ├── Button.tsx      # Bouton pill
+│       └── Card.tsx        # Carte arrondie
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Commandes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Développement
+npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Build production
+npm run build
 
-## Learn More
+# Lancer en production
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Métadonnées SEO (titres & descriptions)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Page | Meta Title | Meta Description |
+|------|------------|------------------|
+| **Accueil** | Zenvilla – Conciergerie Corse Sud \| Villas de prestige | Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés. |
+| **Propriétaires** | Propriétaires – Conciergerie villa Corse Sud \| Zenvilla | Confiez la gestion de votre villa en Corse Sud à Zenvilla. Gain de temps, qualité premium, transparence via notre application, assistance 7j/7. |
+| **Voyageurs** | Voyageurs – Prestations & services villa Corse \| Zenvilla | Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location paddle et plus. |
+| **Packs** | Packs – Zen Tranquillité, Zen Premium, Zen Flex \| Zenvilla | Découvrez nos 3 packs conciergerie : Zen Tranquillité (essentiel), Zen Premium (tout inclus), Zen Flex (à l'usage). Tarifs transparents. |
+| **Contact** | Contact – Devis et informations \| Zenvilla | Contactez Zenvilla pour un devis personnalisé. Réponse rapide 7j/7. Propriétaires de villas et voyageurs en Corse Sud. |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design system
 
-## Deploy on Vercel
+- **Couleurs** : bleu lagon (`#2d7a8f`), sable (`#e8dcc8`), blanc
+- **Typographie** : Cormorant Garamond (titres), Source Sans 3 (corps)
+- **Boutons** : pill (rounded-full), ombres légères
+- **Cartes** : rounded-2xl, bordure sand, hover léger
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Formulaire de contact
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Le formulaire intègre :
+- Validation (nom, email, téléphone, message requis)
+- Envoi par `mailto:` (à remplacer par un endpoint API en production)
+- Champs : Nom, Email, Téléphone, Ville/zone, Type de bien, Message
+
+## Configuration
+
+Pour le déploiement, adapter si besoin :
+- `app/sitemap.ts` : variable `baseUrl` selon le domaine final
+- Formulaire : remplacer le `mailto` par un véritable endpoint (API route, Formspree, etc.)
