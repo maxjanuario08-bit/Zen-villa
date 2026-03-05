@@ -18,6 +18,7 @@ const packs = [
   {
     nom: "Zen Tranquillité",
     sousTitre: "Pack Essentiel",
+    image: "/hero-eau.png",
     tarif: "1 600 € / villa",
     tarifLabel: "Tarif saison",
     description: "Pour les propriétaires qui veulent la sérénité sur place.",
@@ -34,6 +35,7 @@ const packs = [
   {
     nom: "Zen Premium",
     sousTitre: "Pack Premium",
+    image: "/hero-packs.png",
     tarif: "20% sur le CA locatif",
     tarifLabel: "Commission",
     description: "Pour les propriétaires qui veulent zéro gestion et maximiser leurs revenus.",
@@ -49,6 +51,7 @@ const packs = [
   {
     nom: "Zen Flex",
     sousTitre: "Pack Sérénité",
+    image: "/hero-cote.png",
     tarif: "180 €",
     tarifLabel: "Tarif pour la prestation",
     description: "Pour les propriétaires qui veulent payer à l'usage.",
@@ -67,7 +70,7 @@ export default function PacksPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
+      <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-packs.png"
@@ -79,7 +82,7 @@ export default function PacksPage() {
           />
           <div className="absolute inset-0 bg-lagoon-dark/45" />
         </div>
-        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center py-12">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
             Nos packs
           </h1>
@@ -100,25 +103,35 @@ export default function PacksPage() {
       {/* Packs grid */}
       <section className="py-12 sm:py-20 pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             {packs.map((pack) => (
               <Card
                 key={pack.nom}
                 hover={false}
-                className={`relative flex flex-col ${
+                className={`relative flex flex-col overflow-hidden p-0 ${
                   pack.featured
                     ? "lg:-mt-4 lg:mb-4 border-2 border-lagoon shadow-lg ring-2 ring-lagoon/20"
                     : ""
                 }`}
               >
                 {pack.featured && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
                     <span className="rounded-full bg-lagoon px-4 py-1 text-xs font-medium text-white">
                       Populaire
                     </span>
                   </div>
                 )}
-                <div className="flex-1">
+                <div className="h-40 sm:h-44 shrink-0 relative">
+                  <Image
+                    src={pack.image}
+                    alt={pack.nom}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-lagoon-dark/20" />
+                </div>
+                <div className="flex flex-col flex-1 p-6 sm:p-8">
                   <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">
                     {pack.nom}
                   </h2>
@@ -131,11 +144,11 @@ export default function PacksPage() {
                       </div>
                     ))}
                   </div>
-                  <p className="mt-6 text-sm text-muted italic">
+                  <p className="mt-6 text-sm text-muted italic flex-1">
                     {pack.description}
                   </p>
                 </div>
-                <div className="mt-8 pt-6 border-t border-sand/50">
+                <div className="mt-auto pt-6 border-t border-sand/50 px-6 sm:px-8 pb-6">
                   <p className="text-xs text-muted uppercase tracking-wider">
                     {pack.tarifLabel}
                   </p>

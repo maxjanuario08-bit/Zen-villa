@@ -55,7 +55,7 @@ npm start
 |------|------------|------------------|
 | **Accueil** | Zenvilla – Conciergerie Corse Sud \| Villas de prestige | Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés. |
 | **Propriétaires** | Propriétaires – Conciergerie villa Corse Sud \| Zenvilla | Confiez la gestion de votre villa en Corse Sud à Zenvilla. Gain de temps, qualité premium, transparence via notre application, assistance 7j/7. |
-| **Voyageurs** | Voyageurs – Prestations & services villa Corse \| Zenvilla | Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location paddle et plus. |
+| **Voyageurs** | Voyageurs – Prestations & services villa Corse \| Zenvilla | Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location équipement et véhicules. |
 | **Packs** | Packs – Zen Tranquillité, Zen Premium, Zen Flex \| Zenvilla | Découvrez nos 3 packs conciergerie : Zen Tranquillité (essentiel), Zen Premium (tout inclus), Zen Flex (à l'usage). Tarifs transparents. |
 | **Contact** | Contact – Devis et informations \| Zenvilla | Contactez Zenvilla pour un devis personnalisé. Réponse rapide 7j/7. Propriétaires de villas et voyageurs en Corse Sud. |
 

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ServiceIcon from "@/components/icons/ServiceIcon";
-import type { IconName } from "@/components/icons/ServiceIcons";
+import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
 
 export const metadata: Metadata = {
   title: "Propriétaires – Conciergerie villa Corse Sud",
@@ -16,44 +17,11 @@ export const metadata: Metadata = {
   },
 };
 
-const avantages: { titre: string; description: string; icon: IconName }[] = [
-  {
-    titre: "Gain de temps",
-    description: "Déléguez toute la gestion de votre villa : réservations, ménage, maintenance, accueil des voyageurs.",
-    icon: "temps",
-  },
-  {
-    titre: "Qualité premium",
-    description: "Des prestations haut de gamme pour préserver et valoriser votre bien de prestige.",
-    icon: "qualite",
-  },
-  {
-    titre: "Transparence totale",
-    description: "Suivez l'activité de votre villa en temps réel via notre application digitale dédiée.",
-    icon: "mobile",
-  },
-  {
-    titre: "Assistance 7j/7",
-    description: "Une équipe locale disponible tous les jours pour vos voyageurs et votre propriété.",
-    icon: "assistance",
-  },
-  {
-    titre: "Entretien & maintenance",
-    description: "Ménage professionnel, gestion du linge, maintenance préventive et curative.",
-    icon: "maintenance",
-  },
-  {
-    titre: "Optimisation des revenus",
-    description: "Pack Premium : création d'annonces, photos pro, gestion des plateformes pour maximiser votre CA locatif.",
-    icon: "chart",
-  },
-];
-
 export default function ProprietairesPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
+      <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-eau.png"
@@ -66,7 +34,7 @@ export default function ProprietairesPage() {
           <div className="absolute inset-0 bg-lagoon-dark/50" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-12">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
             Propriétaires de villas
           </h1>
@@ -92,16 +60,21 @@ export default function ProprietairesPage() {
             Pourquoi confier votre villa à Zenvilla ?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {avantages.map((item) => (
-              <Card key={item.titre}>
-                <ServiceIcon name={item.icon} />
-                <h3 className="font-serif text-xl font-medium text-lagoon-dark mb-2">
-                  {item.titre}
-                </h3>
-                <p className="text-foreground/80 leading-relaxed">
-                  {item.description}
-                </p>
-              </Card>
+            {proprietairesAvantages.map((item) => (
+              <Link key={item.slug} href={`/proprietaires/${item.slug}`}>
+                <Card className="h-full hover:border-lagoon/40 cursor-pointer transition-all">
+                  <ServiceIcon name={item.icon} />
+                  <h3 className="font-serif text-xl font-medium text-lagoon-dark mb-2">
+                    {item.titre}
+                  </h3>
+                  <p className="text-foreground/80 leading-relaxed">
+                    {item.description}
+                  </p>
+                  <p className="mt-3 text-sm text-lagoon font-medium">
+                    En savoir plus →
+                  </p>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ServiceIcon from "@/components/icons/ServiceIcon";
-import type { IconName } from "@/components/icons/ServiceIcons";
-
 export const metadata: Metadata = {
   title: "Voyageurs – Prestations & services villa Corse",
   description:
-    "Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location paddle et plus.",
+    "Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location équipement et véhicules.",
   openGraph: {
     title: "Voyageurs | Zenvilla – Conciergerie Corse Sud",
     description:
@@ -16,23 +15,13 @@ export const metadata: Metadata = {
   },
 };
 
-const services: { label: string; icon: IconName }[] = [
-  { label: "Service de transport", icon: "voiture" },
-  { label: "Service petit-déjeuner", icon: "petit-dejeuner" },
-  { label: "Service linge", icon: "linge" },
-  { label: "Livraison des courses", icon: "courses" },
-  { label: "Activités nautiques", icon: "nautique" },
-  { label: "Balades équestres", icon: "equestre" },
-  { label: "Visite et randonnée", icon: "randonnee" },
-  { label: "Location paddle", icon: "paddle" },
-  { label: "Location de scooter", icon: "scooter" },
-];
+import { voyageursServices } from "@/lib/voyageurs-services";
 
 export default function VoyageursPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
+      <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-cote.png"
@@ -45,7 +34,7 @@ export default function VoyageursPage() {
           <div className="absolute inset-0 bg-lagoon-dark/45" />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-12">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
             Prestations aux voyageurs
           </h1>
@@ -73,13 +62,18 @@ export default function VoyageursPage() {
             encore plus agréable.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => (
-              <Card key={service.label}>
-                <ServiceIcon name={service.icon} />
-                <h3 className="font-serif text-xl font-medium text-lagoon-dark">
-                  {service.label}
-                </h3>
-              </Card>
+            {voyageursServices.map((service) => (
+              <Link key={service.slug} href={`/voyageurs/${service.slug}`}>
+                <Card className="h-full hover:border-lagoon/40 cursor-pointer transition-all">
+                  <ServiceIcon name={service.icon} />
+                  <h3 className="font-serif text-xl font-medium text-lagoon-dark">
+                    {service.label}
+                  </h3>
+                  <p className="mt-2 text-sm text-foreground/70">
+                    En savoir plus →
+                  </p>
+                </Card>
+              </Link>
             ))}
           </div>
           <div className="mt-12 text-center">

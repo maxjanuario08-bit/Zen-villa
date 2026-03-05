@@ -3,22 +3,13 @@ import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ServiceIcon from "@/components/icons/ServiceIcon";
-import type { IconName } from "@/components/icons/ServiceIcons";
-
-const services: { label: string; icon: IconName }[] = [
-  { label: "Accueil check in/out", icon: "check-in" },
-  { label: "Ménage professionnel", icon: "menage" },
-  { label: "Gestion des réservations", icon: "reservations" },
-  { label: "Maintenance des villas", icon: "maintenance" },
-  { label: "Services et activités", icon: "activites" },
-  { label: "Assistance 7/7j", icon: "assistance" },
-];
+import { homeServices } from "@/lib/services";
 
 export default function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center overflow-hidden">
+      <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-baie.png"
@@ -77,13 +68,18 @@ export default function HomePage() {
             Nos services
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, i) => (
-              <Card key={service.label} className="text-center">
-                <ServiceIcon name={service.icon} />
-                <h3 className="font-serif text-xl font-medium text-lagoon-dark">
-                  {service.label}
-                </h3>
-              </Card>
+            {homeServices.map((service) => (
+              <Link key={service.slug} href={`/services/${service.slug}`}>
+                <Card className="text-center h-full hover:border-lagoon/40 cursor-pointer transition-all">
+                  <ServiceIcon name={service.icon} />
+                  <h3 className="font-serif text-xl font-medium text-lagoon-dark">
+                    {service.label}
+                  </h3>
+                  <p className="mt-2 text-sm text-foreground/70">
+                    En savoir plus →
+                  </p>
+                </Card>
+              </Link>
             ))}
           </div>
           <div className="mt-12 text-center">

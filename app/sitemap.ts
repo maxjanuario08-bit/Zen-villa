@@ -1,8 +1,32 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
+import { voyageursServices } from "@/lib/voyageurs-services";
+import { homeServices } from "@/lib/services";
+import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE.url;
+
+  const servicesPages = homeServices.map((s) => ({
+    url: `${baseUrl}/services/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const proprietairesPages = proprietairesAvantages.map((s) => ({
+    url: `${baseUrl}/proprietaires/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const voyageursPages = voyageursServices.map((s) => ({
+    url: `${baseUrl}/voyageurs/${s.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
   return [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 1 },
@@ -42,5 +66,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.3,
     },
+    ...servicesPages,
+    ...proprietairesPages,
+    ...voyageursPages,
   ];
 }
