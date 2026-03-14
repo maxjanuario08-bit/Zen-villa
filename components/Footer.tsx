@@ -5,8 +5,12 @@ import { CONTACT } from "@/lib/constants";
 const footerLinks = {
   services: [
     { href: "/proprietaires", label: "Propriétaires" },
-    { href: "/voyageurs", label: "Voyageurs" },
     { href: "/packs", label: "Nos packs" },
+    { href: "/combien-peut-rapporter-villa", label: "Combien peut rapporter votre villa ?" },
+    { href: "/demander-prestation", label: "Demander une prestation" },
+    { href: "/conciergerie-porto-vecchio", label: "Conciergerie Porto-Vecchio" },
+    { href: "/conciergerie-santa-giulia", label: "Conciergerie Santa Giulia" },
+    { href: "/voyageurs", label: "Voyageurs" },
   ],
   contact: [
     { href: "/contact", label: "Contact" },

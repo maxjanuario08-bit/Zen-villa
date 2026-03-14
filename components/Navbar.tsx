@@ -8,8 +8,8 @@ import { CONTACT } from "@/lib/constants";
 const navLinks = [
   { href: "/", label: "Accueil" },
   { href: "/proprietaires", label: "Propriétaires" },
-  { href: "/voyageurs", label: "Voyageurs" },
   { href: "/packs", label: "Packs" },
+  { href: "/voyageurs", label: "Voyageurs" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -50,10 +50,10 @@ export default function Navbar() {
             {CONTACT.telephone}
           </a>
           <Link
-            href="/contact"
+            href="/combien-peut-rapporter-villa"
             className="rounded-full bg-lagoon px-5 py-2.5 text-sm font-medium text-white shadow-md hover:bg-lagoon-dark transition-all hover:shadow-lg"
           >
-            Demander un devis
+            Estimer mes revenus
           </Link>
         </div>
 
@@ -115,11 +115,11 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href="/combien-peut-rapporter-villa"
               className="rounded-full bg-lagoon px-5 py-3 text-center text-sm font-medium text-white mt-2"
               onClick={() => setIsOpen(false)}
             >
-              Demander un devis
+              Estimer mes revenus
             </Link>
           </div>
         </div>

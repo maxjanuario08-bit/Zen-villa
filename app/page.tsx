@@ -24,47 +24,49 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-20">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
-            Zenvilla – Conciergerie Corse Sud
+            Conciergerie premium pour villas à Santa Giulia et Porto-Vecchio
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-100">
-            Une solution complète et digitale pour gérer la location de villas de
-            prestige en toute transparence et simplicité.
+            Maximisez vos revenus locatifs pendant que nous gérons tout pour vous.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-200">
-            <Button href="/packs" variant="primary">
-              Découvrir nos packs
+            <Button href="/proprietaires" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+              Confier ma villa
             </Button>
-            <Button href="/contact" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
-              Demander un devis
+            <Button href="/combien-peut-rapporter-villa" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
+              Estimer mes revenus
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Nos prestations */}
-      <section className="py-16 sm:py-24 bg-sand-light">
+      {/* Pourquoi ZenVilla */}
+      <section className="py-16 sm:py-24 bg-white">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-8 animate-fade-in-up">
-            Nos prestations
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
+            Pourquoi nous choisir
           </h2>
-          <div className="text-center space-y-4 text-foreground/90 leading-relaxed animate-fade-in-up animation-delay-100">
-            <p>
-              Nous proposons une solution complète et digitale de conciergerie
-              destinée aux propriétaires de villas et aux voyageurs.
-            </p>
-            <p>
-              Notre application et nos services personnalisés permettent de
-              gérer la location de biens de prestige en toute transparence et
-              simplicité.
-            </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            {[
+              "Expertise locale Santa Giulia & Porto-Vecchio",
+              "Gestion complète de A à Z",
+              "Optimisation revenus Airbnb & Booking",
+              "Assistance voyageurs 7j/7",
+              "Réseau de services premium",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <span className="text-lagoon mt-0.5 font-bold">✓</span>
+                <span className="text-foreground/90">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Services */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-sand-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12 animate-fade-in-up">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
             Nos services
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,8 +85,8 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Button href="/contact" variant="primary">
-              En savoir plus
+            <Button href="/proprietaires" variant="primary">
+              Voir notre offre pour les propriétaires
             </Button>
           </div>
         </div>
@@ -94,24 +96,23 @@ export default function HomePage() {
       <section className="py-16 sm:py-24 bg-lagoon">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-white mb-6">
-            Propriétaire ou voyageur ?
+            Prêt à confier votre villa ?
           </h2>
           <p className="text-white/90 text-lg mb-8">
-            Découvrez comment Zenvilla peut simplifier la gestion de votre villa
-            ou embellir votre séjour en Corse.
+            Obtenez une estimation de vos revenus et découvrez nos packs Zen Tranquillité, Zen Premium ou à la carte.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/proprietaires"
+              href="/combien-peut-rapporter-villa"
               className="rounded-full bg-white px-6 py-3 text-sm font-medium text-lagoon hover:bg-sand-light transition-colors"
             >
-              Je suis propriétaire
+              Estimer mes revenus
             </Link>
             <Link
-              href="/voyageurs"
+              href="/packs"
               className="rounded-full border-2 border-white px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors"
             >
-              Je suis voyageur
+              Découvrir nos packs
             </Link>
           </div>
         </div>

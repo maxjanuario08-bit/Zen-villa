@@ -87,7 +87,7 @@ export default async function VoyageurServicePage({ params }: Props) {
               Pour réserver ce service ou obtenir un devis personnalisé, contactez notre équipe.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button href="/contact" variant="primary">
+              <Button href="/demander-prestation" variant="primary">
                 Demander une prestation
               </Button>
               <Button href="/voyageurs" variant="outline">

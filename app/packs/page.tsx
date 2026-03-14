@@ -4,13 +4,13 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 
 export const metadata: Metadata = {
-  title: "Packs – Zen Tranquillité, Zen Premium, Zen Flex",
+  title: "Packs – Zen Tranquillité, Zen Premium & À la carte",
   description:
-    "Découvrez nos 3 packs conciergerie : Zen Tranquillité (essentiel), Zen Premium (tout inclus), Zen Flex (à l'usage). Tarifs transparents.",
+    "Découvrez nos packs conciergerie : Zen Tranquillité, Zen Premium ou prestations à la carte. Santa Giulia, Porto-Vecchio, Corse Sud.",
   openGraph: {
     title: "Nos packs | Zenvilla – Conciergerie Corse Sud",
     description:
-      "Packs conciergerie pour propriétaires : essentiel, premium ou à l'usage. Choisissez selon vos besoins.",
+      "Packs conciergerie pour propriétaires : essentiel, premium, à l'usage ou prestations à la carte.",
   },
 };
 
@@ -19,8 +19,6 @@ const packs = [
     nom: "Zen Tranquillité",
     sousTitre: "Pack Essentiel",
     image: "/hero-eau.png",
-    tarif: "1 600 € / villa",
-    tarifLabel: "Tarif saison",
     description: "Pour les propriétaires qui veulent la sérénité sur place.",
     inclus: [
       "Check-in / Check-out des voyageurs",
@@ -36,8 +34,6 @@ const packs = [
     nom: "Zen Premium",
     sousTitre: "Pack Premium",
     image: "/hero-packs.png",
-    tarif: "20% sur le CA locatif",
-    tarifLabel: "Commission",
     description: "Pour les propriétaires qui veulent zéro gestion et maximiser leurs revenus.",
     inclus: [
       "Tout le Pack Essentiel +",
@@ -49,18 +45,16 @@ const packs = [
     featured: true,
   },
   {
-    nom: "Zen Flex",
-    sousTitre: "Pack Sérénité",
-    image: "/hero-cote.png",
-    tarif: "180 €",
-    tarifLabel: "Tarif pour la prestation",
-    description: "Pour les propriétaires qui veulent payer à l'usage.",
+    nom: "À la carte",
+    sousTitre: "Prestations unitaires",
+    image: "/hero-eau.png",
+    description: "Pour les propriétaires qui gèrent eux-mêmes leur location et souhaitent déléguer uniquement certaines prestations.",
     inclus: [
-      "Check-in / Check-out",
-      "Ménage complet et préparation de la villa",
-      "Gestion du linge",
-      "Tout suivi via notre application digitale transparente",
-      "Petit cadeau de bienvenue pour vos voyageurs",
+      "Check-in / Check-out uniquement",
+      "Ménage entre deux séjours",
+      "Maintenance ponctuelle",
+      "Assistance voyageurs sur demande",
+      "Tarification au forfait par prestation",
     ],
     featured: false,
   },
@@ -87,8 +81,7 @@ export default function PacksPage() {
             Nos packs
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-2xl mx-auto animate-fade-in-up animation-delay-100">
-            Choisissez le pack adapté à vos besoins : de l'essentiel à la gestion
-            complète, en toute transparence.
+            Choisissez le pack adapté à vos besoins : Zen Tranquillité, Zen Premium ou prestations à la carte.
           </p>
           <Button
             href="/contact"
@@ -103,7 +96,7 @@ export default function PacksPage() {
       {/* Packs grid */}
       <section className="py-12 sm:py-20 pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
             {packs.map((pack) => (
               <Card
                 key={pack.nom}
@@ -149,12 +142,6 @@ export default function PacksPage() {
                   </p>
                 </div>
                 <div className="mt-auto pt-6 border-t border-sand/50 px-6 sm:px-8 pb-6">
-                  <p className="text-xs text-muted uppercase tracking-wider">
-                    {pack.tarifLabel}
-                  </p>
-                  <p className="font-serif text-2xl font-semibold text-lagoon-dark mt-1">
-                    {pack.tarif}
-                  </p>
                   <Button
                     href="/contact"
                     variant={pack.featured ? "primary" : "outline"}

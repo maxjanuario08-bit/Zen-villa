@@ -7,15 +7,31 @@ import ServiceIcon from "@/components/icons/ServiceIcon";
 import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
 
 export const metadata: Metadata = {
-  title: "Propriétaires – Conciergerie villa Corse Sud",
+  title: "Propriétaires – Conciergerie villa Santa Giulia & Porto-Vecchio",
   description:
-    "Confiez la gestion de votre villa en Corse Sud à Zenvilla. Gain de temps, qualité premium, transparence via notre application, assistance 7j/7.",
+    "Confiez votre villa à ZenVilla. Gestion complète, optimisation revenus Airbnb, expertise locale Santa Giulia et Porto-Vecchio. Demandez une estimation gratuite.",
   openGraph: {
-    title: "Propriétaires | Zenvilla – Conciergerie Corse Sud",
+    title: "Propriétaires | ZenVilla – Conciergerie villa Corse Sud",
     description:
-      "Solution complète de conciergerie pour propriétaires de villas. Transparence, optimisation des revenus, zéro gestion.",
+      "Conciergerie premium pour villas. Maximisez vos revenus locatifs, zéro gestion, assistance 7j/7.",
   },
 };
+
+const pourquoiZenVilla = [
+  "Expertise locale Santa Giulia & Porto-Vecchio",
+  "Gestion complète de A à Z",
+  "Optimisation revenus Airbnb & Booking",
+  "Assistance voyageurs 7j/7",
+  "Réseau de services premium",
+];
+
+const processus = [
+  { step: 1, titre: "Estimation des revenus", desc: "Évaluation gratuite du potentiel de votre villa" },
+  { step: 2, titre: "Signature du contrat", desc: "Engagement clair et transparent" },
+  { step: 3, titre: "Création de l'annonce", desc: "Photos pro, texte optimisé pour les plateformes" },
+  { step: 4, titre: "Gestion des voyageurs", desc: "Accueil, ménage, réponses 7j/7" },
+  { step: 5, titre: "Optimisation revenus", desc: "Tarifs dynamiques, suivi temps réel" },
+];
 
 export default function ProprietairesPage() {
   return (
@@ -25,7 +41,7 @@ export default function ProprietairesPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-eau.png"
-            alt="Côte corse - eaux turquoise et calanques"
+            alt="Villa Corse Sud - Santa Giulia Porto-Vecchio"
             fill
             className="object-cover"
             priority
@@ -36,28 +52,64 @@ export default function ProprietairesPage() {
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-12">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
-            Propriétaires de villas
+            Confiez votre villa à une conciergerie premium à Santa Giulia – Porto-Vecchio
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-2xl mx-auto animate-fade-in-up animation-delay-100">
-            Une conciergerie premium pour gérer votre villa en toute sérénité.
-            Zéro stress, maximisation des revenus.
+            Maximisez vos revenus locatifs pendant que nous gérons tout pour vous.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-200">
-            <Button href="/contact" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
-              Planifier un appel
+            <Button href="/packs" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+              Confier ma villa
             </Button>
-            <Button href="/contact" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
-              Demander un devis
+            <Button href="/combien-peut-rapporter-villa" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
+              Estimer mes revenus
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Avantages */}
+      {/* Pourquoi ZenVilla */}
+      <section className="py-16 sm:py-24 bg-white">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
+            Pourquoi ZenVilla ?
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+            {pourquoiZenVilla.map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <span className="text-lagoon mt-0.5 font-bold text-lg">✓</span>
+                <span className="text-foreground/90">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comment ça fonctionne */}
       <section className="py-16 sm:py-24 bg-sand-light">
+        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
+            Comment ça fonctionne
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {processus.map(({ step, titre, desc }) => (
+              <div key={step} className={`text-center ${step === 5 ? "min-w-[180px]" : ""}`}>
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-lagoon text-white font-serif font-semibold text-lg mb-4">
+                  {step}
+                </span>
+                <h3 className={`font-serif text-lg font-medium text-lagoon-dark mb-2 ${step === 5 ? "whitespace-nowrap" : ""}`}>{titre}</h3>
+                <p className={`text-sm text-foreground/80 ${step === 5 ? "whitespace-nowrap" : ""}`}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Avantages détaillés */}
+      <section className="py-16 sm:py-24 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
-            Pourquoi confier votre villa à Zenvilla ?
+            Pourquoi confier votre villa à ZenVilla ?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {proprietairesAvantages.map((item) => (
@@ -84,19 +136,18 @@ export default function ProprietairesPage() {
       <section className="py-16 sm:py-24 bg-lagoon">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-white mb-6">
-            Prêt à déléguer ?
+            Prêt à confier votre villa ?
           </h2>
           <p className="text-white/90 text-lg mb-8">
-            Demandez un devis personnalisé ou planifiez un appel pour découvrir
-            nos packs adaptés à votre villa.
+            Obtenez une estimation gratuite de vos revenus et découvrez nos packs Zen Tranquillité, Zen Premium ou à la carte.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              href="/contact"
+              href="/combien-peut-rapporter-villa"
               variant="secondary"
               className="!bg-white !text-lagoon hover:!bg-sand-light"
             >
-              Planifier un appel
+              Estimer mes revenus
             </Button>
             <Button
               href="/packs"

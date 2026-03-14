@@ -42,7 +42,7 @@ export default function VoyageursPage() {
             Pour un séjour en tout confort en villa de prestige en Corse Sud.
           </p>
           <Button
-            href="/contact"
+            href="/demander-prestation"
             variant="primary"
             className="mt-10 !bg-white !text-lagoon hover:!bg-sand-light animate-fade-in-up animation-delay-200"
           >
@@ -77,8 +77,8 @@ export default function VoyageursPage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Button href="/contact" variant="primary">
-              Nous contacter
+            <Button href="/demander-prestation" variant="primary">
+              Demander une prestation
             </Button>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function VoyageursPage() {
             courses ou une balade à cheval, notre équipe est à votre écoute.
           </p>
           <Button
-            href="/contact"
+            href="/demander-prestation"
             variant="secondary"
             className="!bg-white !text-lagoon hover:!bg-sand-light"
           >

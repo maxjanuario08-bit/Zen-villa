@@ -18,9 +18,9 @@ const faqItems = [
       "Nous intervenons sur l'ensemble du Corse Sud : Bonifacio, Porto-Vecchio, Propriano, Sartène, et les alentours. N'hésitez pas à nous contacter pour vérifier la couverture de votre zone.",
   },
   {
-    question: "Comment est calculée la tarification ?",
+    question: "Comment fonctionne la tarification ?",
     reponse:
-      "Nous proposons 3 formules : le Pack Zen Tranquillité (tarif saison forfaitaire), le Pack Zen Premium (commission sur le CA locatif), et le Pack Zen Flex (à la prestation). Chaque pack est détaillé sur notre page Packs.",
+      "Nous proposons les packs Zen Tranquillité (essentiel), Zen Premium (gestion complète) et une option à la carte pour les prestations unitaires (ménage, check-in/check-out, maintenance…). Demandez un devis personnalisé ou une estimation de vos revenus.",
   },
 ];
 
@@ -67,8 +67,12 @@ function FAQSection() {
   );
 }
 
+const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_ID
+  ? `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID}`
+  : null;
+
 export default function ContactPage() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = (data: Record<string, string>) => {
@@ -83,7 +87,7 @@ export default function ContactPage() {
     return Object.keys(err).length === 0;
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -91,14 +95,29 @@ export default function ContactPage() {
 
     if (!validate(data)) return;
 
-    try {
-      setStatus("success");
-      const mailto = `mailto:${CONTACT.email}?subject=Demande de contact - ${encodeURIComponent(
-        data.nom
-      )}&body=${encodeURIComponent(
-        `Nom: ${data.nom}\nEmail: ${data.email}\nTéléphone: ${data.telephone}\nVille/zone: ${data.ville}\nType de bien: ${data.type}\n\nMessage:\n${data.message}`
+    // Fallback mailto si Formspree n'est pas configuré
+    if (!FORMSPREE_URL) {
+      const mailto = `mailto:${CONTACT.email}?subject=Demande de contact - ${encodeURIComponent(data.nom)}&body=${encodeURIComponent(
+        `Nom: ${data.nom}\nEmail: ${data.email}\nTéléphone: ${data.telephone}\nVille/zone: ${data.ville || "-"}\nType de bien: ${data.type || "-"}\n\nMessage:\n${data.message}`
       )}`;
       window.location.href = mailto;
+      setStatus("success");
+      return;
+    }
+
+    setStatus("loading");
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }
@@ -294,16 +313,23 @@ export default function ContactPage() {
                   </div>
                   {status === "success" && (
                     <p className="text-sm text-green-600 font-medium">
-                      Votre messagerie va s&apos;ouvrir avec les détails de votre demande. Merci de l&apos;envoyer pour finaliser.
+                      {FORMSPREE_URL
+                        ? "Votre message a bien été envoyé. Nous vous répondrons rapidement."
+                        : "Votre messagerie va s'ouvrir. Merci d'envoyer l'email pour finaliser."}
                     </p>
                   )}
                   {status === "error" && (
                     <p className="text-sm text-red-600">
-                      Une erreur s'est produite. Veuillez réessayer.
+                      Une erreur s'est produite. Veuillez réessayer ou nous contacter par téléphone.
                     </p>
                   )}
-                  <Button type="submit" variant="primary" className="w-full">
-                    Envoyer ma demande
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full"
+                    disabled={status === "loading"}
+                  >
+                    {status === "loading" ? "Envoi en cours..." : "Envoyer ma demande"}
                   </Button>
                 </form>
               </Card>
