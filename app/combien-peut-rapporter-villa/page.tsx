@@ -6,7 +6,7 @@ import EstimerRevenusForm from "@/components/EstimerRevenusForm";
 export const metadata: Metadata = {
   title: "Combien peut rapporter votre villa ? – Estimation ZenVilla",
   description:
-    "Estimez les revenus locatifs de votre villa à Santa Giulia, Porto-Vecchio. Prix moyen nuit ~300 €, revenus annuels 36 000 € à 70 000 €. Demandez une estimation gratuite.",
+    "Estimez les revenus locatifs de votre villa à Santa Giulia, Porto-Vecchio et Corse Sud. Demandez une estimation gratuite.",
   openGraph: {
     title: "Combien peut rapporter votre villa ? | ZenVilla",
     description:
@@ -46,19 +46,9 @@ export default function CombienPeutRapporterVillaPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
               <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-lagoon-dark mb-6">
-                Exemple : Villa à Santa Giulia
+                Estimation personnalisée
               </h2>
-              <div className="bg-white rounded-2xl border border-sand/50 p-8">
-                <ul className="space-y-3 text-foreground/90">
-                  <li>• Prix moyen nuit : <strong>300 €</strong></li>
-                  <li>• ~120 nuits louées par an</li>
-                  <li>• <strong className="text-lagoon-dark">Revenu annuel estimé : 36 000 € à 70 000 €</strong></li>
-                </ul>
-                <p className="mt-6 text-lagoon font-medium">
-                  Avec ZenVilla : optimisation des revenus + gestion complète sans stress.
-                </p>
-              </div>
-              <p className="mt-6 text-foreground/80 leading-relaxed">
+              <p className="text-foreground/80 leading-relaxed">
                 Chaque villa est unique. En fonction de la localisation, du nombre de chambres, de la saisonnalité et de la qualité de l&apos;annonce, les revenus varient. Remplissez le formulaire pour obtenir une estimation personnalisée et gratuite.
               </p>
               <Button href="/packs" variant="outline" className="mt-6">

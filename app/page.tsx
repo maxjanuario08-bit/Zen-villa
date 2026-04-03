@@ -24,7 +24,7 @@ export default function HomePage() {
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-20">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
-            Conciergerie premium pour villas à Santa Giulia et Porto-Vecchio
+            Conciergerie pour villas à Santa Giulia et Porto-Vecchio
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-100">
             Maximisez vos revenus locatifs pendant que nous gérons tout pour vous.
