@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 const COOKIE_CONSENT_KEY = "zenvilla-cookie-consent";
 
 export default function CookieBanner() {
+  const t = useTranslations("CookieBanner");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -37,27 +39,29 @@ export default function CookieBanner() {
       <div className="mx-auto max-w-4xl flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1">
           <h2 id="cookie-banner-title" className="font-semibold text-foreground">
-            Utilisation des cookies
+            {t("title")}
           </h2>
           <p id="cookie-banner-desc" className="mt-1 text-sm text-foreground/80">
-            Ce site utilise des cookies pour améliorer votre expérience. En cliquant sur « Accepter », vous consentez à leur utilisation.{" "}
+            {t("description")}{" "}
             <Link href="/politique-confidentialite#cookies" className="text-lagoon hover:underline">
-              En savoir plus
+              {t("learnMore")}
             </Link>
           </p>
         </div>
         <div className="flex gap-3 shrink-0">
           <button
+            type="button"
             onClick={refuseCookies}
             className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground border border-sand/60 rounded-full hover:bg-sand-light transition-colors"
           >
-            Refuser
+            {t("refuse")}
           </button>
           <button
+            type="button"
             onClick={acceptCookies}
             className="px-4 py-2 text-sm font-medium text-white bg-lagoon rounded-full hover:bg-lagoon-dark transition-colors"
           >
-            Accepter
+            {t("accept")}
           </button>
         </div>
       </div>

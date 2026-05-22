@@ -1,0 +1,76 @@
+const navFooter = {
+  Nav: {
+    home: "Accueil",
+    owners: "Propriétaires",
+    packs: "Packs",
+    guests: "Voyageurs",
+    contact: "Contact",
+    phoneAria: "Appeler",
+    menuAria: "Menu",
+    ctaQuote: "Demander un devis",
+  },
+  Footer: {
+    tagline:
+      "Conciergerie Corse Sud – Solution complète et digitale pour la gestion de villas de prestige.",
+    servicesTitle: "Services",
+    contactTitle: "Contact",
+    followTitle: "Suivez-nous",
+    legalMentions: "Mentions légales",
+    privacy: "Politique de confidentialité",
+    rights: "Tous droits réservés.",
+    linkRequestService: "Demander une prestation",
+    linkPorto: "Conciergerie Porto-Vecchio",
+    linkSantaGiulia: "Conciergerie Santa Giulia",
+    copyright: "© {year} Zenvilla – Conciergerie Corse Sud. {rights}",
+    faq: "FAQ",
+  },
+  Languages: {
+    spoken: "Nous parlons",
+    spokenSentence: "Équipe multilingue : français, anglais & espagnol.",
+    switcherLabel: "Langue du site",
+    fr: "FR",
+    en: "EN",
+    es: "ES",
+    frLong: "Français",
+    enLong: "English",
+    esLong: "Español",
+  },
+  CookieBanner: {
+    title: "Utilisation des cookies",
+    description:
+      "Ce site utilise des cookies pour améliorer votre expérience. En cliquant sur « Accepter », vous consentez à leur utilisation.",
+    learnMore: "En savoir plus",
+    refuse: "Refuser",
+    accept: "Accepter",
+  },
+  Common: {
+    learnMore: "En savoir plus",
+    backHome: "Retour à l'accueil",
+    inDetail: "En détail",
+    contactUs: "Nous contacter",
+    discoverPacks: "Découvrir nos packs",
+    requestQuote: "Demander un devis",
+    seeOwnersOffer: "Voir notre offre pour les propriétaires",
+    readyToTrust: "Prêt à confier votre villa ?",
+    discoverZenVilla: "Découvrir ZenVilla",
+    seePacks: "Voir nos packs",
+    planCall: "Planifier un appel",
+    allBenefits: "Voir tous les avantages",
+    backToServices: "Retour aux services",
+    backToAdvantages: "Retour aux avantages",
+    notFound: "Page introuvable",
+    serviceNotFound: "Service non trouvé",
+    bookingHintGuest:
+      "Pour réserver ce service ou obtenir un devis personnalisé, contactez notre équipe.",
+    viewAllGuestServices: "Voir tous les services",
+    learnMoreArrow: "En savoir plus →",
+    openMenu: "Ouvrir le menu",
+  },
+  Metadata: {
+    siteTitle: "Zenvilla – Conciergerie Corse Sud | Villas de prestige",
+    siteDescription:
+      "Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés.",
+  },
+} as const;
+
+export default navFooter;

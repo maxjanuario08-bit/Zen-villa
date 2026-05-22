@@ -1,0 +1,76 @@
+const navFooter = {
+  Nav: {
+    home: "Inicio",
+    owners: "Propietarios",
+    packs: "Packs",
+    guests: "Viajeros",
+    contact: "Contacto",
+    phoneAria: "Llamar",
+    menuAria: "Menú",
+    ctaQuote: "Pedir presupuesto",
+  },
+  Footer: {
+    tagline:
+      "Conserjería Córcega del Sur – Solución digital completa para la gestión de villas de prestigio.",
+    servicesTitle: "Servicios",
+    contactTitle: "Contacto",
+    followTitle: "Síguenos",
+    legalMentions: "Aviso legal",
+    privacy: "Política de privacidad",
+    rights: "Todos los derechos reservados.",
+    linkRequestService: "Solicitar un servicio",
+    linkPorto: "Conserjería Porto-Vecchio",
+    linkSantaGiulia: "Conserjería Santa Giulia",
+    copyright: "© {year} Zenvilla – Conserjería Córcega del Sur. {rights}",
+    faq: "FAQ",
+  },
+  Languages: {
+    spoken: "Hablamos",
+    spokenSentence: "Equipo plurilingüe: francés, inglés y español.",
+    switcherLabel: "Idioma del sitio",
+    fr: "FR",
+    en: "EN",
+    es: "ES",
+    frLong: "Francés",
+    enLong: "Inglés",
+    esLong: "Español",
+  },
+  CookieBanner: {
+    title: "Uso de cookies",
+    description:
+      "Este sitio utiliza cookies para mejorar tu experiencia. Al hacer clic en «Aceptar», consientes su uso.",
+    learnMore: "Más información",
+    refuse: "Rechazar",
+    accept: "Aceptar",
+  },
+  Common: {
+    learnMore: "Más información",
+    backHome: "Volver al inicio",
+    inDetail: "En detalle",
+    contactUs: "Contacto",
+    discoverPacks: "Descubre nuestros packs",
+    requestQuote: "Pedir presupuesto",
+    seeOwnersOffer: "Ver nuestra propuesta para propietarios",
+    readyToTrust: "¿Confías tu villa?",
+    discoverZenVilla: "Descubrir ZenVilla",
+    seePacks: "Ver packs",
+    planCall: "Programar una llamada",
+    allBenefits: "Ver todas las ventajas",
+    backToServices: "Volver a servicios",
+    backToAdvantages: "Volver a ventajas",
+    notFound: "Página no encontrada",
+    serviceNotFound: "Servicio no encontrado",
+    bookingHintGuest:
+      "Para reservar este servicio u obtener un presupuesto a medida, contacte con nuestro equipo.",
+    viewAllGuestServices: "Ver todos los servicios",
+    learnMoreArrow: "Saber más →",
+    openMenu: "Abrir el menú",
+  },
+  Metadata: {
+    siteTitle: "Zenvilla – Conserjería Córcega del Sur | Villas de prestigio",
+    siteDescription:
+      "Conserjería digital completa para propietarios y viajeros en Córcega del Sur. Transparencia, simplicidad, servicios a medida.",
+  },
+} as const;
+
+export default navFooter;

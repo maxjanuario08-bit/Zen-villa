@@ -1,0 +1,76 @@
+const navFooter = {
+  Nav: {
+    home: "Home",
+    owners: "Owners",
+    packs: "Packs",
+    guests: "Guests",
+    contact: "Contact",
+    phoneAria: "Call",
+    menuAria: "Menu",
+    ctaQuote: "Request a quote",
+  },
+  Footer: {
+    tagline:
+      "South Corsica concierge – A complete, digital solution for managing premium villas.",
+    servicesTitle: "Services",
+    contactTitle: "Contact",
+    followTitle: "Follow us",
+    legalMentions: "Legal notice",
+    privacy: "Privacy policy",
+    rights: "All rights reserved.",
+    linkRequestService: "Request a service",
+    linkPorto: "Porto-Vecchio concierge",
+    linkSantaGiulia: "Santa Giulia concierge",
+    copyright: "© {year} Zenvilla – South Corsica concierge. {rights}",
+    faq: "FAQ",
+  },
+  Languages: {
+    spoken: "We speak",
+    spokenSentence: "Our team speaks French, English & Spanish.",
+    switcherLabel: "Site language",
+    fr: "FR",
+    en: "EN",
+    es: "ES",
+    frLong: "French",
+    enLong: "English",
+    esLong: "Spanish",
+  },
+  CookieBanner: {
+    title: "Cookie use",
+    description:
+      "This site uses cookies to improve your experience. By clicking “Accept”, you consent to their use.",
+    learnMore: "Learn more",
+    refuse: "Decline",
+    accept: "Accept",
+  },
+  Common: {
+    learnMore: "Learn more",
+    backHome: "Back to home",
+    inDetail: "In detail",
+    contactUs: "Contact us",
+    discoverPacks: "Discover our packages",
+    requestQuote: "Request a quote",
+    seeOwnersOffer: "See our offer for villa owners",
+    readyToTrust: "Ready to entrust us with your villa?",
+    discoverZenVilla: "Discover ZenVilla",
+    seePacks: "See our packages",
+    planCall: "Schedule a call",
+    allBenefits: "See all benefits",
+    backToServices: "Back to services",
+    backToAdvantages: "Back to benefits",
+    notFound: "Page not found",
+    serviceNotFound: "Service not found",
+    bookingHintGuest:
+      "To book this service or get a tailored quote, contact our team.",
+    viewAllGuestServices: "See all services",
+    learnMoreArrow: "Learn more →",
+    openMenu: "Open menu",
+  },
+  Metadata: {
+    siteTitle: "Zenvilla – South Corsica concierge | Premium villas",
+    siteDescription:
+      "Complete digital concierge for villa owners and guests in South Corsica. Transparency, simplicity, bespoke services.",
+  },
+} as const;
+
+export default navFooter;
