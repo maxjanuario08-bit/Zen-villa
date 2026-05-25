@@ -206,6 +206,11 @@ const site = {
     errSend:
       "Something went wrong—please use phone or email on the right.",
   },
+  Legal: {
+    mentionsLead:
+      "Information provided pursuant to Articles 6-III and 19 of French Law No. 2004-575 of 21 June 2004 on confidence in the digital economy (LCEN).",
+    lastUpdatedPrefix: "Last updated:",
+  },
   ConciergePV: {
     heroTitle: "Porto-Vecchio villa concierge",
     heroSubtitle:

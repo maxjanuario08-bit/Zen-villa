@@ -213,6 +213,11 @@ const site = {
     errSend:
       "Se produjo un error. Use email o teléfono en el panel derecho.",
   },
+  Legal: {
+    mentionsLead:
+      "Información facilitada conforme a los artículos 6-III y 19 de la ley francesa núm. 2004-575 del 21 de junio de 2004 para la economía digital (LEN).",
+    lastUpdatedPrefix: "Última actualización:",
+  },
   ConciergePV: {
     heroTitle: "Conserjería villa Porto-Vecchio",
     heroSubtitle:

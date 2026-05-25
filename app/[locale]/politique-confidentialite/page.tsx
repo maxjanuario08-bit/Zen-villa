@@ -1,24 +1,44 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CONTACT, COMPANY, SITE } from "@/lib/constants";
 
-export const metadata: Metadata = {
-  title: "Politique de confidentialité",
-  description:
-    "Politique de confidentialité, protection des données (RGPD) et gestion des cookies du site Zenvilla – Conciergerie Corse Sud.",
-  robots: { index: true, follow: true },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default function PolitiqueConfidentialitePage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Titles" });
+  return {
+    title: t("politiqueMetaTitle"),
+    description: t("politiqueMetaDesc"),
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function PolitiqueConfidentialitePage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const tTitles = await getTranslations({ locale, namespace: "Titles" });
+  const tLegal = await getTranslations({ locale, namespace: "Legal" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
+  const tFoot = await getTranslations({ locale, namespace: "Footer" });
+
+  const dateLocale = locale === "en" ? "en-GB" : locale === "es" ? "es-ES" : "fr-FR";
+  const updatedFmt = new Intl.DateTimeFormat(dateLocale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+
   return (
     <div>
       <section className="py-16 sm:py-24 bg-gradient-to-b from-sand-light to-background">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-lagoon-dark">
-            Politique de confidentialité
+            {tTitles("politiqueMetaTitle")}
           </h1>
           <p className="mt-4 text-foreground/80">
-            Dernière mise à jour : {new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+            {tLegal("lastUpdatedPrefix")} {updatedFmt}
           </p>
         </div>
       </section>
@@ -197,10 +217,10 @@ export default function PolitiqueConfidentialitePage() {
       <section className="py-8 border-t border-sand/50">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/mentions-legales" className="text-lagoon font-medium hover:underline">
-            Mentions légales
+            {tFoot("legalMentions")}
           </Link>
           <Link href="/" className="text-lagoon font-medium hover:underline">
-            Retour à l'accueil
+            {tCommon("backHome")}
           </Link>
         </div>
       </section>

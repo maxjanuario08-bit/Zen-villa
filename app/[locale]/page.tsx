@@ -44,8 +44,8 @@ export default async function HomePage({ params }: Props) {
             {t("heroPillars")}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
-            <Button href="/proprietaires" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
-              {t("ctaTrustVilla")}
+            <Button href="/packs" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+              {tCommon("discoverPacks")}
             </Button>
             <Button href="/contact" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
               {tCommon("contactUs")}
@@ -95,7 +95,7 @@ export default async function HomePage({ params }: Props) {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Button href="/proprietaires" variant="primary">
+            <Button href="/packs" variant="primary">
               {tCommon("seeOwnersOffer")}
             </Button>
           </div>

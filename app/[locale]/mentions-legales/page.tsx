@@ -1,23 +1,36 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CONTACT, COMPANY, SITE } from "@/lib/constants";
 
-export const metadata: Metadata = {
-  title: "Mentions légales",
-  description: "Mentions légales et informations juridiques du site Zenvilla – Conciergerie Corse Sud.",
-  robots: { index: true, follow: true },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default function MentionsLegalesPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Titles" });
+  return {
+    title: t("mentionsMetaTitle"),
+    description: t("mentionsMetaDesc"),
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function MentionsLegalesPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const tTitles = await getTranslations({ locale, namespace: "Titles" });
+  const tLegal = await getTranslations({ locale, namespace: "Legal" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
+
   return (
     <div>
       <section className="py-16 sm:py-24 bg-gradient-to-b from-sand-light to-background">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-lagoon-dark">
-            Mentions légales
+            {tTitles("mentionsMetaTitle")}
           </h1>
           <p className="mt-4 text-foreground/80">
-            Conformément aux dispositions des articles 6-III et 19 de la Loi n° 2004-575 du 21 juin 2004 pour la Confiance dans l'économie numérique.
+            {tLegal("mentionsLead")}
           </p>
         </div>
       </section>
@@ -118,7 +131,7 @@ export default function MentionsLegalesPage() {
             href="/"
             className="text-lagoon font-medium hover:underline"
           >
-            ← Retour à l'accueil
+            ← {tCommon("backHome")}
           </Link>
         </div>
       </section>

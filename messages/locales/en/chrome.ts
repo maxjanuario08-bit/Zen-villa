@@ -1,7 +1,6 @@
 const navFooter = {
   Nav: {
     home: "Home",
-    owners: "Owners",
     packs: "Packs",
     guests: "Guests",
     contact: "Contact",
