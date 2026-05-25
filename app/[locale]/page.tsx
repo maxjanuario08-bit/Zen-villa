@@ -8,13 +8,15 @@ import { homeServices } from "@/lib/services";
 
 type Props = { params: Promise<{ locale: string }> };
 
+type WhyPillar = { title: string; body: string };
+
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("Home");
   const tSvc = await getTranslations("ownerServices");
   const tCommon = await getTranslations("Common");
-  const whyList = (t.raw("whyList") as string[]) ?? [];
+  const pillars = (t.raw("whyPillars") as readonly WhyPillar[]) ?? [];
 
   return (
     <div>
@@ -35,10 +37,13 @@ export default async function HomePage({ params }: Props) {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
             {t("heroTitle")}
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-100">
+          <p className="mt-6 text-xl sm:text-2xl text-white/95 max-w-3xl mx-auto leading-snug sm:leading-relaxed animate-fade-in-up animation-delay-100">
             {t("heroSubtitle")}
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-200">
+          <p className="mt-8 font-sans text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
+            {t("heroPillars")}
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
             <Button href="/proprietaires" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {t("ctaTrustVilla")}
             </Button>
@@ -49,16 +54,22 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="py-16 sm:py-24 bg-white">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
+      <section className="bg-white py-16 sm:py-24">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-8">
             {t("whyTitle")}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-            {whyList.map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <span className="text-lagoon mt-0.5 font-bold">✓</span>
-                <span className="text-foreground/90">{item}</span>
+          <p className="mx-auto max-w-3xl text-center text-lg sm:text-xl text-foreground/90 leading-relaxed mb-14 sm:mb-16">
+            {t("whyLead")}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {pillars.map((pillar) => (
+              <div
+                key={pillar.title}
+                className="rounded-2xl border border-white/20 bg-lagoon px-6 py-7 text-center text-white shadow-lg shadow-lagoon/25 md:text-left flex flex-col justify-start transition-[transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-lagoon/35"
+              >
+                <h3 className="font-sans font-bold text-lg leading-snug mb-4">{pillar.title}</h3>
+                <p className="text-[0.9375rem] sm:text-base leading-relaxed text-white/90">{pillar.body}</p>
               </div>
             ))}
           </div>
@@ -98,18 +109,12 @@ export default async function HomePage({ params }: Props) {
           </h2>
           <p className="text-white/90 text-lg mb-8">{t("ownersCtaBody")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="rounded-full bg-white px-6 py-3 text-sm font-medium text-lagoon hover:bg-sand-light transition-colors"
-            >
+            <Button href="/contact" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tCommon("requestQuote")}
-            </Link>
-            <Link
-              href="/packs"
-              className="rounded-full border-2 border-white px-6 py-3 text-sm font-medium text-white hover:bg-white/10 transition-colors"
-            >
-              {tCommon("discoverPacks")}
-            </Link>
+            </Button>
+            <Button href="/packs" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
+              {tCommon("seePacks")}
+            </Button>
           </div>
         </div>
       </section>

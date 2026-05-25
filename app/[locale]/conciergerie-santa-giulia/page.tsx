@@ -49,7 +49,7 @@ export default function ConciergerieSantaGiuliaPage() {
       <section className="py-16 sm:py-24 bg-sand-light">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-lagoon-dark text-center mb-8">
-            Conciergerie Santa Giulia – Gestion villa luxe Corse
+            Conciergerie Santa Giulia – Gestion de villas en Corse
           </h2>
           <div className="prose prose-lg text-foreground/90 space-y-4">
             <p>

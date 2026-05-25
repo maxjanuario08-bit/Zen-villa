@@ -5,6 +5,9 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ServiceIcon from "@/components/icons/ServiceIcon";
 import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
+import { SITE } from "@/lib/constants";
+
+type OwnersFlyerPhase = { readonly line1: string; readonly line2: string };
 
 export default async function ProprietairesPage({
   params,
@@ -20,7 +23,7 @@ export default async function ProprietairesPage({
   const tPacks = await getTranslations({ locale, namespace: "Packs" });
 
   const whyBullets = tOwners.raw("whyBullets") as readonly string[];
-  const processSteps = tOwners.raw("processSteps") as readonly { titre: string; desc: string }[];
+  const flyerPhases = tOwners.raw("flyerPhases") as readonly OwnersFlyerPhase[];
 
   return (
     <div>
@@ -38,13 +41,24 @@ export default async function ProprietairesPage({
         </div>
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center py-12">
-          <h1 className="text-4xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg animate-fade-in-up">
+          <div className="animate-fade-in-up mb-6 space-y-1">
+            <p className="flyer-kicker text-white">{tOwners("flyerKickerTop")}</p>
+            <p className="flyer-kicker text-white">{tOwners("flyerKickerBot")}</p>
+          </div>
+
+          <h1 className="text-3xl sm:text-4xl lg:text-[2.65rem] font-serif font-semibold text-white drop-shadow-lg whitespace-pre-line leading-tight animate-fade-in-up animation-delay-100">
             {tOwners("heroTitle")}
           </h1>
-          <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-2xl mx-auto animate-fade-in-up animation-delay-100">
+
+          <p className="mt-8 text-base sm:text-lg text-white/95 max-w-xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
             {tOwners("heroSubtitle")}
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-200">
+
+          <p className="mt-10 font-sans text-[0.7rem] sm:text-xs font-semibold uppercase tracking-[0.22em] text-white/90 animate-fade-in-up animation-delay-200">
+            {tOwners("flyerPillars")}
+          </p>
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
             <Button href="/packs" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tHome("ctaTrustVilla")}
             </Button>
@@ -64,11 +78,13 @@ export default async function ProprietairesPage({
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
             {tOwners("whySectionTitle")}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          <div className="mx-auto max-w-3xl flex flex-col gap-3 sm:gap-4">
             {whyBullets.map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <span className="text-lagoon mt-0.5 font-bold text-lg">✓</span>
-                <span className="text-foreground/90">{item}</span>
+              <div
+                key={item}
+                className="rounded-xl border border-sand-dark/25 bg-sand-light/35 px-4 py-3.5 text-left shadow-sm sm:px-5"
+              >
+                <p className="text-foreground/95 text-[0.9375rem] sm:text-base leading-snug">{item}</p>
               </div>
             ))}
           </div>
@@ -76,18 +92,18 @@ export default async function ProprietairesPage({
       </section>
 
       <section className="py-16 sm:py-24 bg-sand-light">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
-            {tOwners("processTitle")}
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <h2 className="text-center font-sans text-xs font-semibold uppercase tracking-[0.25em] text-lagoon mb-3">
+            {SITE.name}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {processSteps.map((step, idx) => (
-              <div key={`${step.titre}-${step.desc}`} className="text-center">
-                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-lagoon text-white font-serif font-semibold text-lg mb-4">
-                  {idx + 1}
-                </span>
-                <h3 className="font-serif text-lg font-medium text-lagoon-dark mb-2">{step.titre}</h3>
-                <p className="text-sm text-foreground/80">{step.desc}</p>
+          <h3 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
+            {tOwners("processTitle")}
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {flyerPhases.map((phase) => (
+              <div key={`${phase.line1}-${phase.line2}`} className="flyer-phase-ring px-4 py-6 rounded-sm shadow-sm">
+                <p className="flyer-phase-line1">{phase.line1}</p>
+                <p className="flyer-phase-line2">{phase.line2}</p>
               </div>
             ))}
           </div>

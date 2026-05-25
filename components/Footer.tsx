@@ -1,6 +1,5 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
@@ -30,14 +29,11 @@ export default async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Marque */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block hover:opacity-90 transition-opacity">
-              <Image
-                src="/logo.png"
-                alt="Zenvilla"
-                width={140}
-                height={48}
-                className="h-10 w-auto"
-              />
+            <Link
+              href="/"
+              className="inline-block font-serif text-2xl font-semibold tracking-tight text-white hover:text-white/90 transition-colors"
+            >
+              Zenvilla
             </Link>
             <p className="mt-4 text-sm text-white/80 leading-relaxed">{tFoot("tagline")}</p>
           </div>
@@ -72,7 +68,7 @@ export default async function Footer() {
             <ul className="space-y-3">
               <li>
                 <a
-                  href={`tel:${CONTACT.telephoneRaw}`}
+                  href={`tel:${CONTACT.telephoneTel}`}
                   className="text-sm text-white/80 hover:text-white transition-colors"
                 >
                   {CONTACT.telephone}

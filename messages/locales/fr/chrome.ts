@@ -11,7 +11,7 @@ const navFooter = {
   },
   Footer: {
     tagline:
-      "Conciergerie Corse Sud – Solution complète et digitale pour la gestion de villas de prestige.",
+      "Conciergerie Corse Sud – Solution complète et digitale pour la gestion de villas en Corse Sud.",
     servicesTitle: "Services",
     contactTitle: "Contact",
     followTitle: "Suivez-nous",
@@ -67,7 +67,7 @@ const navFooter = {
     openMenu: "Ouvrir le menu",
   },
   Metadata: {
-    siteTitle: "Zenvilla – Conciergerie Corse Sud | Villas de prestige",
+    siteTitle: "Zenvilla – Conciergerie Corse Sud | Gestion de villas",
     siteDescription:
       "Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés.",
   },

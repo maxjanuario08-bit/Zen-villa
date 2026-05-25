@@ -16,6 +16,21 @@ const nextConfig: NextConfig = {
         destination: "/proprietaires/mise-en-valeur-annonces",
         permanent: true,
       },
+      {
+        source: "/proprietaires/qualite-premium",
+        destination: "/proprietaires/qualite-excellente",
+        permanent: true,
+      },
+      {
+        source: "/en/proprietaires/qualite-premium",
+        destination: "/en/proprietaires/qualite-excellente",
+        permanent: true,
+      },
+      {
+        source: "/es/proprietaires/qualite-premium",
+        destination: "/es/proprietaires/qualite-excellente",
+        permanent: true,
+      },
     ];
   },
   images: {

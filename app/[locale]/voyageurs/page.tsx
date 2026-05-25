@@ -47,10 +47,9 @@ export default async function VoyageursPage({ params }: { params: Promise<{ loca
 
       <section className="py-16 sm:py-24 bg-sand-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-4">
+          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-lagoon-dark text-center mb-12">
             {tGuests("servicesHeading")}
           </h2>
-          <p className="text-center text-foreground/80 mb-12 max-w-2xl mx-auto">{tGuests("servicesIntro")}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {voyageursServices.map((service) => (
               <Link key={service.slug} href={`/voyageurs/${service.slug}`}>

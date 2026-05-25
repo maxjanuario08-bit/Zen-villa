@@ -4,7 +4,7 @@
 
 export const SITE = {
   name: "Zenvilla",
-  title: "Zenvilla – Conciergerie Corse Sud | Villas de prestige",
+  title: "Zenvilla – Conciergerie Corse Sud | Gestion de villas",
   description:
     "Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés.",
   url: "https://zen-villa.fr",
@@ -18,9 +18,11 @@ export const COMPANY = {
 } as const;
 
 export const CONTACT = {
-  telephone: "06 86 40 13 16",
-  telephoneRaw: "0686401316",
+  /** Affichage (flyer / site) */
+  telephone: "+33 6 37 48 12 58",
+  /** Lien tel: (E.164) */
+  telephoneTel: "+33637481258",
   email: "contact@zen-villa.fr",
-  instagram: "https://instagram.com/zenvilla_corse",
+  instagram: "https://www.instagram.com/zen_villa_corse/",
   whatsapp: "https://wa.me/33686401316",
 } as const;

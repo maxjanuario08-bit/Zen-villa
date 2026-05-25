@@ -67,7 +67,7 @@ export default function MentionsLegalesPage() {
               </li>
               <li>
                 <strong>Téléphone :</strong>{" "}
-                <a href={`tel:${CONTACT.telephoneRaw}`} className="text-lagoon hover:underline">
+                <a href={`tel:${CONTACT.telephoneTel}`} className="text-lagoon hover:underline">
                   {CONTACT.telephone}
                 </a>
               </li>

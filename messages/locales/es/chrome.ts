@@ -11,7 +11,7 @@ const navFooter = {
   },
   Footer: {
     tagline:
-      "Conserjería Córcega del Sur – Solución digital completa para la gestión de villas de prestigio.",
+      "Conserjería Córcega del Sur – Solución digital completa para la gestión de villas en Córcega del Sur.",
     servicesTitle: "Servicios",
     contactTitle: "Contacto",
     followTitle: "Síguenos",
@@ -67,7 +67,7 @@ const navFooter = {
     openMenu: "Abrir el menú",
   },
   Metadata: {
-    siteTitle: "Zenvilla – Conserjería Córcega del Sur | Villas de prestigio",
+    siteTitle: "Zenvilla – Conserjería Córcega del Sur | Gestión de villas",
     siteDescription:
       "Conserjería digital completa para propietarios y viajeros en Córcega del Sur. Transparencia, simplicidad, servicios a medida.",
   },

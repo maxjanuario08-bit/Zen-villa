@@ -1,6 +1,6 @@
 # Zenvilla – Conciergerie Corse Sud
 
-Site vitrine premium pour **Zenvilla**, solution complète et digitale de conciergerie destinée aux propriétaires de villas et aux voyageurs en Corse Sud.
+Site vitrine pour **Zenvilla**, solution complète et digitale de conciergerie destinée aux propriétaires de villas et aux voyageurs en Corse Sud.
 
 ## Stack technique
 
@@ -53,10 +53,10 @@ npm start
 
 | Page | Meta Title | Meta Description |
 |------|------------|------------------|
-| **Accueil** | Zenvilla – Conciergerie Corse Sud \| Villas de prestige | Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés. |
-| **Propriétaires** | Propriétaires – Conciergerie villa Corse Sud \| Zenvilla | Confiez la gestion de votre villa en Corse Sud à Zenvilla. Gain de temps, qualité premium, transparence via notre application, assistance 7j/7. |
-| **Voyageurs** | Voyageurs – Prestations & services villa Corse \| Zenvilla | Profitez de prestations premium pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location équipement et véhicules. |
-| **Packs** | Packs – Zen Tranquillité, Zen Premium, Zen Flex \| Zenvilla | Découvrez nos 3 packs conciergerie : Zen Tranquillité (essentiel), Zen Premium (tout inclus), Zen Flex (à l'usage). Tarifs transparents. |
+| **Accueil** | Zenvilla – Conciergerie Corse Sud \| Gestion de villas | Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés. |
+| **Propriétaires** | Propriétaires – Conciergerie villa Corse Sud \| Zenvilla | Confiez la gestion de votre villa en Corse Sud à Zenvilla. Gain de temps, exigence sur la qualité, transparence via notre application, assistance 7j/7. |
+| **Voyageurs** | Voyageurs – Prestations & services villa Corse \| Zenvilla | Profitez de prestations soignées pour votre séjour en villa en Corse Sud : transport, petit-déjeuner, activités nautiques, location équipement et véhicules. |
+| **Packs** | Packs – Zen Tranquillité & Zen Intégral \| Zenvilla | Deux offres : Zen Tranquillité (essentiel) et Zen Intégral (gestion étendue avec annonces et réservations). Demandez un devis. |
 | **Contact** | Contact – Devis et informations \| Zenvilla | Contactez Zenvilla pour un devis personnalisé. Réponse rapide 7j/7. Propriétaires de villas et voyageurs en Corse Sud. |
 
 ## Design system

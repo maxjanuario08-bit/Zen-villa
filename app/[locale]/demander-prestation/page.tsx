@@ -216,7 +216,7 @@ export default function DemanderPrestationPage() {
                 <h2 className="font-serif text-xl font-semibold text-lagoon-dark">{t("asideTitleDirect")}</h2>
                 <p className="text-foreground/80 text-sm">{t("asideLead")}</p>
                 <a
-                  href={`tel:${CONTACT.telephoneRaw}`}
+                  href={`tel:${CONTACT.telephoneTel}`}
                   className="flex items-center gap-3 p-4 rounded-2xl border border-sand/50 bg-white hover:border-lagoon/40 transition-colors"
                 >
                   <span className="flex-shrink-0 w-12 h-12 rounded-full bg-lagoon/10 flex items-center justify-center">

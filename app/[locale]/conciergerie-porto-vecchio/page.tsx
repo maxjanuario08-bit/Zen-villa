@@ -49,11 +49,11 @@ export default function ConciergeriePortoVecchioPage() {
       <section className="py-16 sm:py-24 bg-sand-light">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-lagoon-dark text-center mb-8">
-            Conciergerie villa luxe Porto-Vecchio – ZenVilla
+            Conciergerie villa Porto-Vecchio – ZenVilla
           </h2>
           <div className="prose prose-lg text-foreground/90 space-y-4">
             <p>
-              <strong>ZenVilla</strong> est votre conciergerie de référence à Porto-Vecchio et en Corse Sud. Nous gérons votre villa de prestige à Santa Giulia, Palombaggia ou ailleurs dans la région : annonces Airbnb et Booking, check-in/check-out, ménage, maintenance et assistance voyageurs 7j/7.
+              <strong>ZenVilla</strong> est votre conciergerie de référence à Porto-Vecchio et en Corse Sud. Nous gérons votre villa à Santa Giulia, Palombaggia ou ailleurs dans la région : annonces Airbnb et Booking, check-in/check-out, ménage, maintenance et assistance voyageurs 7j/7.
             </p>
             <p>
               Confiez-nous la gestion de votre bien pour une location sereine tout au long de l&apos;année.

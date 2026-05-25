@@ -48,9 +48,10 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
       "Corse",
       "villa",
       "location",
-      "prestige",
       "Bonifacio",
       "Porto-Vecchio",
+      "Santa Giulia",
+      "Palombaggia",
       "Propriano",
       "Sartène",
       "location saisonnière",
@@ -83,7 +84,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
       follow: true,
     },
     icons: {
-      icon: [{ url: "/logo.png", type: "image/png" }],
+      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     },
   };
 }

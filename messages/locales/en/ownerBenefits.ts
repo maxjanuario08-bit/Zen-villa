@@ -10,10 +10,10 @@ export const ownerBenefits = {
       "Single point of contact for every service line",
     ],
   },
-  "qualite-premium": {
-    titre: "Premium quality",
+  "qualite-excellente": {
+    titre: "Uncompromising quality",
     description:
-      "Upscale housekeeping and care preserving your prestige asset—as if it were our own home.",
+      "Upscale housekeeping and care for your villa—as if it were our own home.",
     details: [
       "Careful housekeeping with curated products",
       "Hotel-grade linens & laundry",
@@ -57,7 +57,7 @@ export const ownerBenefits = {
   "mise-en-valeur-annonces": {
     titre: "Showcase & listings",
     description:
-      "Premium pack: editorial-quality photos & listings synced across Airbnb, Booking and Abritel.",
+      "Zen Integral pack: editorial-quality photos & listings synced across Airbnb, Booking and Abritel.",
     details: [
       "Professional photo shoot",
       "Polished multilingual copywriting",

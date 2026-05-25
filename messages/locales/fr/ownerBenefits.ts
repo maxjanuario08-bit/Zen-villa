@@ -10,10 +10,10 @@ export const ownerBenefits = {
       "Un seul interlocuteur pour toutes les prestations",
     ],
   },
-  "qualite-premium": {
-    titre: "Qualité premium",
+  "qualite-excellente": {
+    titre: "Excellence du service",
     description:
-      "Des prestations haut de gamme pour préserver et valoriser votre bien de prestige. Nous traitons votre villa comme si c'était la nôtre.",
+      "Des prestations haut de gamme pour préserver et valoriser votre bien d'exception. Nous traitons votre villa comme si c'était la nôtre.",
     details: [
       "Ménage soigné avec produits adaptés",
       "Linge de qualité professionnelle",
@@ -46,7 +46,7 @@ export const ownerBenefits = {
   "entretien-maintenance": {
     titre: "Entretien & maintenance",
     description:
-      "Ménage professionnel, gestion du linge, maintenance préventive et curative. Votre villa reste impeccable et fonctionnelle.",
+      "Ménage professionnel, gestion du linge, maintenance préventive et curative. Votre villa reste soignée et prête tout au long de l’année.",
     details: [
       "Ménage complet entre chaque séjour",
       "Blanchisserie et repassage",
@@ -57,7 +57,7 @@ export const ownerBenefits = {
   "mise-en-valeur-annonces": {
     titre: "Mise en valeur & annonces",
     description:
-      "Pack Premium : photos professionnelles, annonces complètes et présence maîtrisée sur Airbnb, Booking et Abritel pour valoriser votre villa.",
+      "Avec le pack Zen Intégral : photos professionnelles, annonces complètes et présence maîtrisée sur Airbnb, Booking et Abritel pour valoriser votre villa.",
     details: [
       "Shooting photo professionnel",
       "Rédaction d'annonces claires et soignées",

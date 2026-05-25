@@ -10,15 +10,15 @@ const site = {
     demanderOg:
       "Transporte, desayuno, actividades náuticas, equitación… Cuéntenos qué necesita.",
     packsOg:
-      "Packs de conserjería para propietarios: esencial o gestión integral con reservas.",
+      "Packs de conserjería para propietarios: esencial, gestión completa u opción a la carte.",
     ownersOg:
-      "Conserjería premium: acogida, limpieza, anuncios y soporte para huéspedes 7d/7.",
+      "Conserjería para villas destacadas: acogida, limpieza, anuncios y soporte para huéspedes 7d/7.",
     voyageursOg:
       "Servicios para viajeros: transportes, desayunos, deportes náuticos y alquileres.",
     pvMetaTitle:
       "Conserjería villa Porto-Vecchio – gestión Airbnb y estancias",
     pvMetaDesc:
-      "Acompañamos villas de lujo en Porto-Vecchio, Santa Giulia y Palombaggia.",
+      "Acompañamos propietarios de villas en Porto-Vecchio, Santa Giulia y Palombaggia.",
     pvOgTitle: "Conserjería villa Porto-Vecchio | ZenVilla",
     pvOgDesc:
       "Confíenos la gestión de su villa con experiencia local e integralidad.",
@@ -36,38 +36,47 @@ const site = {
       "Protección de datos (RGPD) y cookies del sitio ZenVilla.",
   },
   Home: {
-    heroTitle: "Conserjería de villas en Santa Giulia y Porto-Vecchio",
+    heroTitle: "Confíenos las llaves: nos encargamos del resto.",
     heroSubtitle:
-      "Una gestión impecable de su propiedad en Córcega del Sur, con total tranquilidad.",
+      "Nuestra conserjería digital y personalizada lo gestiona todo con total transparencia para que usted pueda despejarse.",
+    heroPillars: "REACTIVIDAD • FLEXIBILIDAD • PROXIMIDAD",
     heroAlt: "Bahía de Córcega del Sur – mar turquesa",
-    whyTitle: "Por qué elegirnos",
-    whyList: [
-      "Experiencia local Santa Giulia & Porto-Vecchio",
-      "Gestión integral de principio a fin",
-      "Difusión en Airbnb & Booking",
-      "Asistencia a huéspedes 7d/7",
-      "Red de servicios premium",
+    whyTitle: "¿Por qué confiar en ZenVilla?",
+    whyLead:
+      "Porque gestionar un alquiler a distancia debería ser sencillo. Nuestra conserjería reinventa la gestión de sus villas en Santa Giulia y Porto-Vecchio, con experiencia local única y transparencia total. Usted se libera la mente: nos ocupamos de todo.",
+    whyPillars: [
+      {
+        title: "📍 Cercanía & experiencia",
+        body: "Un equipo presente cada día entre Santa Giulia y Porto-Vecchio para una rápida reactividad y mantenimiento 7d/7.",
+      },
+      {
+        title: "🔑 Llave en mano (de la A a la Z)",
+        body: "De la creación y optimización del anuncio a la acogida de huéspedes, con limpieza profesional en el medio.",
+      },
+      {
+        title: "🌐 Transparencia",
+        body: "Seguimiento riguroso de sus agendas, reservas y del estado de su villa en tiempo real, esté donde esté.",
+      },
     ],
     servicesTitle: "Nuestros servicios",
     servicesHint: "Más información →",
     ctaTrustVilla: "Confiar mi villa",
     ownersCtaTitle: "¿Confía su villa?",
     ownersCtaBody:
-      "Pida presupuesto y descubra los packs Zen Tranquillité y Zen Premium.",
+      "Pida presupuesto: Zen Tranquillité, Zen Integral o fórmula a la carte.",
   },
   Packs: {
-    metaTitlePacks: "Packs – Zen Tranquillité & Zen Premium",
+    metaTitlePacks: "Packs – Zen Tranquillité, Zen Integral & a la carte",
     metaDescPacks:
-      "Packs de conserjería para propietarios en Santa Giulia, Porto-Vecchio y Córcega del Sur.",
+      "Descubra los packs Zen Tranquillité, Zen Integral y opción a la carte para propietarios en Santa Giulia, Porto-Vecchio y Córcega del Sur.",
     ogTitle: "Nuestros packs | ZenVilla",
     heroTitle: "Nuestros packs",
     heroSubtitle:
-      "Elija Zen Tranquillité (esencial) o Zen Premium (gestión completa).",
+      "Elija Zen Tranquillité (esencial), Zen Integral (gestión completa) o a la carte.",
     heroAlt: "Costa corsa – aguas turquesas",
     badgePopular: "Popular",
     zenTTitle: "Zen Tranquillité",
     zenTSubtitle: "Pack Esencial",
-    zenTDesc: "Para propietarios que buscan sosiego in situ.",
     zenTEssential: [
       "Check-in / check-out de huéspedes",
       "Limpieza integral y preparación de la villa",
@@ -76,10 +85,8 @@ const site = {
       "Ayuda local si hace falta",
       "Regalo de bienvenida para huéspedes",
     ],
-    zenPTitle: "Zen Premium",
-    zenPSubtitle: "Pack Premium",
-    zenPDesc:
-      "Gestión llave en mano: anuncios, calendarios y huéspedes con atención continua.",
+    zenPTitle: "Zen Integral",
+    zenPSubtitle: "Pack integral",
     zenPEssential: [
       "Todo el Pack Esencial +",
       "Creación y publicación de anuncios Airbnb, Booking, Abritel…",
@@ -87,65 +94,78 @@ const site = {
       "Gestión de calendario y reservas",
       "Respuestas a huéspedes 7d/7",
     ],
+    carteTitle: "A la carte",
+    carteSubtitle: "Las que necesite",
+    carteEssential: [
+      "Prestaciones modulares: limpieza, ropa blanca, check-in / check-out, reparaciones, mantenimiento…",
+    ],
   },
   Owners: {
     metaTitleOwners:
       "Propietarios – conserjería villa Santa Giulia & Porto-Vecchio",
     metaDescOwners:
       "Confíe su villa a ZenVilla: gestión completa y experiencia local.",
-    heroTitle:
-      "Conserjería premium para villas en Santa Giulia – Porto-Vecchio",
+    flyerKickerTop: "Conserjería",
+    flyerKickerBot: "Córcega del Sur",
+    heroTitle: "Confíenos las llaves:\nnosotros hacemos el resto.",
     heroSubtitle:
-      "Un equipo local que cuida su propiedad con exigencia para su tranquilidad.",
+      "Una conserjería digital y personalizada que lo gestiona todo con total transparencia para que usted pueda tranquilizarse.",
+    flyerPillars: "Rapidez • Flexibilidad • Cercanía",
     heroAlt: "Villa Córcega del Sur – Santa Giulia",
     whySectionTitle: "¿Por qué ZenVilla?",
     whyBullets: [
-      "Experiencia local Santa Giulia & Porto-Vecchio",
-      "Gestión integral de principio a fin",
-      "Difusión en Airbnb & Booking",
-      "Asistencia a huéspedes 7d/7",
-      "Red de servicios premium",
+      "📍 Experiencia local única • Santa Giulia & Porto-Vecchio",
+      "🔑 Gestión integral de punta a punta • Confíenos las llaves, nos encargamos de todo",
+      "🌐 Creación & optimización • Valorización de su anuncio en las plataformas",
+      "🗓️ Gestión de reservas • Seguimiento riguroso de agendas y huéspedes",
+      "🛎️ Acogida & inventarios • Check-in/out cuidadoso en cada estancia",
+      "✨ Limpieza & lavandería • Mantenimiento profesional de alta gama",
+      "🛠️ Mantenimiento & reparaciones • Asistencia urgente reactiva 7d/7",
+      "👑 Servicios viajero a medida • Prestaciones y actividades personalizadas",
+      "🛡️ Conserjería digital • Total transparencia para su tranquilidad",
     ],
-    processTitle: "Cómo funciona",
-    processSteps: [
+    processTitle: "Nuestro alcance para su villa",
+    flyerPhases: [
       {
-        titre: "Primer contacto",
-        desc: "Hablamos de su villa y expectativas",
+        line1: "Creación & optimización",
+        line2: "de su anuncio",
       },
       {
-        titre: "Firma del contrato",
-        desc: "Compromiso claro y transparente",
+        line1: "Gestión de reservas",
+        line2: "& planificación",
       },
       {
-        titre: "Creación del anuncio",
-        desc: "Fotos pro y textos cuidados para cada plataforma",
+        line1: "Acogida, check-in / out",
+        line2: "& inventarios",
       },
       {
-        titre: "Gestión de huéspedes",
-        desc: "Acogida, limpieza, respuestas 7d/7",
+        line1: "Limpieza profesional",
+        line2: "& lavandería",
       },
       {
-        titre: "Seguimiento personalizado",
-        desc: "Acompañamiento continuo y app dedicada",
+        line1: "Mantenimiento & reparaciones",
+        line2: "urgentes (7d/7)",
+      },
+      {
+        line1: "Servicios & experiencias",
+        line2: "personalizadas para huéspedes",
       },
     ],
     advantagesSectionTitle: "Por qué confiar su villa a ZenVilla",
     ctaTitle: "¿Listo para confiar su villa?",
     ctaSubtitle:
-      "Pida presupuesto y descubra Zen Tranquillité y Zen Premium.",
+      "Pida presupuesto: Zen Tranquillité, Zen Integral o fórmula a la carte.",
   },
   GuestsIndex: {
     metaTitleGuests:
       "Viajeros – servicios y ventajas villa Córcega del Sur",
     metaDescGuests:
-      "Prestaciones premium para su estancia en villa: transporte, desayuno, deportes náuticos, alquileres.",
+      "Prestaciones cuidadas para su estancia en villa: transporte, desayuno, deportes náuticos, alquileres.",
     heroTitle: "Servicios para viajeros",
     heroSubtitle:
-      "Máximo confort en su villa de prestigio en Córcega del Sur.",
+      "Máximo confort en su villa en Córcega del Sur.",
     heroAlt: "Costa mediterránea – mar turquesa",
     servicesHeading: "Servicios para su estancia",
-    servicesIntro:
-      "Servicios a medida para que su estancia en Córcega sea aún más agradable.",
     hint: "Más información →",
     ctaTitle: "¿Una estancia a medida?",
     ctaBody:
@@ -198,9 +218,9 @@ const site = {
     heroSubtitle:
       "Gestión integral en Santa Giulia, Palombaggia y Porto-Vecchio.",
     heroImgAlt: "Conserjería villa Porto-Vecchio – Santa Giulia",
-    bodyTitle: "Conserjería de lujo Porto-Vecchio – ZenVilla",
+    bodyTitle: "Conserjería villa Porto-Vecchio – ZenVilla",
     bodyLead:
-      "ZenVilla es su conserjería de referencia en Porto-Vecchio y Córcega del Sur. Gestionamos villas de prestigio en Santa Giulia, Palombaggia y alrededores: anuncios Airbnb y Booking, check-in/out, limpieza, mantenimiento y asistencia 7d/7.",
+      "ZenVilla es su conserjería de referencia en Porto-Vecchio y Córcega del Sur. Gestionamos su villa en Santa Giulia, Palombaggia y alrededores: anuncios Airbnb y Booking, check-in/out, limpieza, mantenimiento y asistencia 7d/7.",
     bodyNext:
       "Confíenos su propiedad para alquileres serenos durante todo el año.",
     ctaTitle: "¿Villa en Porto-Vecchio? Hablemos",
@@ -210,7 +230,7 @@ const site = {
     heroSubtitle:
       "Experiencia local para su villa en Santa Giulia y playas emblemáticas.",
     heroImgAlt: "Conserjería villa Santa Giulia",
-    bodyTitle: "Santa Giulia – gestión villa de lujo",
+    bodyTitle: "Santa Giulia – gestión de villas en Córcega",
     bodyLead:
       "Santa Giulia es una de las playas más bellas de Córcega. ZenVilla ofrece conserjería completa: Airbnb y Booking, acogida, limpieza y disponibilidad 7d/7.",
     bodyNext:
@@ -221,6 +241,8 @@ const site = {
     heroTitle: "Contacto",
     heroSubtitle:
       "¿Una pregunta o un proyecto? Respondemos rápido.",
+    heroAlt:
+      "Contactar ZenVilla – aguas turquesas Córcega del Sur, conserjería villas",
     fastReply: "Respuesta rápida – 7d/7",
     formTitle: "Pedir presupuesto",
     lblName: "Nombre *",
@@ -260,8 +282,9 @@ const site = {
       "Intervenimos en Córcega del Sur: Bonifacio, Porto-Vecchio, Propriano, Sartène y alrededores. Pregunte por su zona.",
     faqPriceTitle: "¿Cómo es la tarificación?",
     faqPriceBody:
-      "Packs Zen Tranquillité (esencial) y Zen Premium (gestión completa de anuncios y estancias). Pida presupuesto personalizado.",
+      "Ofrecemos Zen Tranquillité (esencial), Zen Integral (gestión completa) y fórmula a la carte. Pida un presupuesto personalizado.",
     faqHeading: "FAQ",
+    mailtoSubject: "Solicitud de contacto — {name}",
   },
 } as const;
 

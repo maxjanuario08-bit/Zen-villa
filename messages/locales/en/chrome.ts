@@ -11,7 +11,7 @@ const navFooter = {
   },
   Footer: {
     tagline:
-      "South Corsica concierge – A complete, digital solution for managing premium villas.",
+      "South Corsica concierge – A complete, digital solution for managing standout villas.",
     servicesTitle: "Services",
     contactTitle: "Contact",
     followTitle: "Follow us",
@@ -67,7 +67,7 @@ const navFooter = {
     openMenu: "Open menu",
   },
   Metadata: {
-    siteTitle: "Zenvilla – South Corsica concierge | Premium villas",
+    siteTitle: "Zenvilla – South Corsica concierge | Standout villas",
     siteDescription:
       "Complete digital concierge for villa owners and guests in South Corsica. Transparency, simplicity, bespoke services.",
   },

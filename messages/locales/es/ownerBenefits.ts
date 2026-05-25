@@ -10,8 +10,8 @@ export const ownerBenefits = {
       "Un solo interlocutor para todos los servicios",
     ],
   },
-  "qualite-premium": {
-    titre: "Calidad premium",
+  "qualite-excellente": {
+    titre: "Excelencia del servicio",
     description:
       "Servicios altos para cuidar y valorar tu propiedad privilegiada, con el mismo mimos que nuestra casa.",
     details: [
@@ -57,7 +57,7 @@ export const ownerBenefits = {
   "mise-en-valeur-annonces": {
     titre: "Puesta en valor y anuncios",
     description:
-      "Pack Premium: fotos profesionales, fichas completas en Airbnb, Booking y Abritel.",
+      "Con el pack Zen Integral: fotos profesionales, fichas completas en Airbnb, Booking y Abritel.",
     details: [
       "Reportaje fotográfico",
       "Redacción clara de anuncios",

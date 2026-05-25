@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  /* Zenvilla Design System - Corse, luxe sobre */
+  /* Zenvilla Design System — Corse, ton sobre */
   --background: #fefdfb;
   --foreground: #1a3644;
   --lagoon: #2d7a8f;
@@ -79,4 +79,51 @@ h1, h2, h3, h4 {
 .animation-delay-200 { animation-delay: 200ms; }
 .animation-delay-300 { animation-delay: 300ms; }
 .animation-delay-400 { animation-delay: 400ms; }
+
+/* Bloc façon flyer (page Propriétaires) */
+.flyer-kicker {
+  font-family: var(--font-sans);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-size: 0.6875rem;
+  line-height: 1.9;
+}
+
+@media (min-width: 640px) {
+  .flyer-kicker {
+    letter-spacing: 0.38em;
+    font-size: 0.75rem;
+  }
+}
+
+.flyer-phase-ring {
+  border: 2px solid var(--lagoon);
+  background: white;
+}
+
+.flyer-phase-line1 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lagoon-dark);
+  line-height: 1.35;
+}
+
+@media (min-width: 640px) {
+  .flyer-phase-line1 {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+}
+
+.flyer-phase-line2 {
+  margin-top: 0.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.35;
+}
 .animation-delay-500 { animation-delay: 500ms; }

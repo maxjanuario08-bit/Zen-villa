@@ -6,11 +6,10 @@ import { useTranslations } from "next-intl";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
-const navKeys = ["home", "owners", "packs", "guests", "contact"] as const;
+const navKeys = ["home", "packs", "guests", "contact"] as const;
 
 const PATHS = {
   home: "/",
-  owners: "/proprietaires",
   packs: "/packs",
   guests: "/voyageurs",
   contact: "/contact",
@@ -31,6 +30,12 @@ export default function Navbar() {
         {/* Desktop */}
         <div className="hidden md:flex flex-1 items-center justify-between gap-6">
           <div className="flex items-center gap-8">
+            <Link
+              href="/"
+              className="font-serif text-xl font-semibold text-lagoon-dark whitespace-nowrap hover:text-lagoon transition-colors shrink-0"
+            >
+              Zenvilla
+            </Link>
             {navKeys.map((key) => {
               const href = PATHS[key];
               return (
@@ -50,7 +55,7 @@ export default function Navbar() {
           <div className="flex items-center gap-5">
             <LocaleSwitcher />
             <a
-              href={`tel:${CONTACT.telephoneRaw}`}
+              href={`tel:${CONTACT.telephoneTel}`}
               className="flex items-center gap-2 text-foreground/80 hover:text-lagoon transition-colors font-medium text-sm"
               aria-label={`${t("phoneAria")}: ${CONTACT.telephone}`}
             >
@@ -103,7 +108,7 @@ export default function Navbar() {
             <LocaleSwitcher />
           </div>
           <a
-            href={`tel:${CONTACT.telephoneRaw}`}
+            href={`tel:${CONTACT.telephoneTel}`}
             className="flex items-center gap-2 py-2 text-base font-medium text-foreground"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

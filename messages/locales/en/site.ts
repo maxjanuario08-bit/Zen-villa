@@ -9,14 +9,15 @@ const site = {
       "Ask for concierge services during your villa stay—transfers, breakfast, nautical activities, horse riding & gear rental. ZenVilla in South Corsica.",
     demanderOg:
       "Transfers, breakfast, nautical fun, horseback rides… Tell us what you need in South Corsica.",
-    packsOg: "ZenVilla concierge packages for owners—from essentials to turnkey listings.",
+    packsOg:
+      "ZenVilla concierge packages for owners—essentials, full service or à la carte bundles.",
     ownersOg:
-      "Premium villa concierge—we handle greetings, housekeeping, listings and travellers’ support.",
+      "Villa concierge—we handle greetings, housekeeping, listings and travellers’ support.",
     voyageursOg:
       "Concierge perks for travellers: transfers, breakfasts, nautical play and rentals.",
     pvMetaTitle: "Porto-Vecchio villa concierge—Airbnb-ready management",
     pvMetaDesc:
-      "ZenVilla supports luxury villas across Porto-Vecchio, Santa Giulia and Palombaggia with turnkey operations.",
+      "ZenVilla supports villa owners across Porto-Vecchio, Santa Giulia and Palombaggia with turnkey operations.",
     pvOgTitle: "Porto-Vecchio villa concierge | ZenVilla",
     pvOgDesc: "Local expertise and full management for your Porto-Vecchio villa.",
     sgMetaTitle: "Santa Giulia villa concierge—Porto-Vecchio",
@@ -31,37 +32,47 @@ const site = {
       "GDPR compliance, data protection and cookie practices for ZenVilla.",
   },
   Home: {
-    heroTitle: "Villa concierge in Santa Giulia & Porto-Vecchio",
+    heroTitle: "Hand us your keys—we take care of the rest.",
     heroSubtitle:
-      "Impeccable care for your property in South Corsica—rent with peace of mind.",
+      "Our digital, tailored concierge manages everything with total transparency so you can free your mind.",
+    heroPillars: "RESPONSIVENESS • FLEXIBILITY • PROXIMITY",
     heroAlt: "South Corsica bay—turquoise sea view",
-    whyTitle: "Why choose us",
-    whyList: [
-      "Local expertise in Santa Giulia & Porto-Vecchio",
-      "End-to-end management",
-      "Distribution on Airbnb & Booking",
-      "Traveller assistance 7 days a week",
-      "Premium partner network",
+    whyTitle: "Why trust ZenVilla?",
+    whyLead:
+      "Because running a rental from afar should feel easy. Our concierge service redefines villa management in Santa Giulia and Porto-Vecchio—pairing unmistakably local expertise with complete transparency. You free your mind; we handle everything.",
+    whyPillars: [
+      {
+        title: "📍 Proximity & local expertise",
+        body: "A team on the ground every day across Santa Giulia and Porto-Vecchio—from fast responses to seven-day upkeep.",
+      },
+      {
+        title: "🔑 Turn-key, A to Z",
+        body: "From listing creation and optimisation through guest welcomes—with professional housekeeping along the way.",
+      },
+      {
+        title: "🌐 Transparency",
+        body: "Rigorous tracking of your calendars, bookings and your villa’s condition in real time, wherever you are.",
+      },
     ],
     servicesTitle: "Our services",
     servicesHint: "Learn more →",
     ctaTrustVilla: "Entrust my villa",
     ownersCtaTitle: "Ready to hand us your villa?",
     ownersCtaBody:
-      "Request a quote and explore the Zen Tranquillité and Zen Premium packages.",
+      "Ask for a quote: Zen Tranquillité, Zen Integral or an à-la-carte plan.",
   },
   Packs: {
-    metaTitlePacks: "Packages – Zen Tranquillité & Zen Premium",
+    metaTitlePacks: "Packages – Zen Tranquillité, Zen Integral & à la carte",
     metaDescPacks:
-      "Choose the concierge pack that fits your Santa Giulia or Porto-Vecchio villa.",
+      "Discover concierge packages Zen Tranquillité, Zen Integral and à la carte for owners in South Corsica.",
     ogTitle: "Our packages | ZenVilla",
     heroTitle: "Our packages",
-    heroSubtitle: "Pick Zen Tranquillité for essentials or Zen Premium for full service.",
+    heroSubtitle:
+      "Pick Zen Tranquillité for essentials, Zen Integral for full service, or tailor your own bundle.",
     heroAlt: "Corsican coast—turquoise waters",
     badgePopular: "Popular",
     zenTTitle: "Zen Tranquillité",
     zenTSubtitle: "Essential pack",
-    zenTDesc: "For owners who want calm on the ground.",
     zenTEssential: [
       "Guest check-in / check-out",
       "Full cleaning & villa prep",
@@ -70,10 +81,8 @@ const site = {
       "Local assistance when needed",
       "Welcome gift for guests",
     ],
-    zenPTitle: "Zen Premium",
-    zenPSubtitle: "Premium pack",
-    zenPDesc:
-      "Turnkey management of listings, calendars and guest relations.",
+    zenPTitle: "Zen Integral",
+    zenPSubtitle: "Full-management pack",
     zenPEssential: [
       "Everything in the Essential pack +",
       "Creation & publication of Airbnb, Booking, Abritel listings…",
@@ -81,55 +90,75 @@ const site = {
       "Calendar & booking operations",
       "Guest messaging 7 days a week",
     ],
+    carteTitle: "À la carte",
+    carteSubtitle: "Pick what you need",
+    carteEssential: [
+      "Modular services: housekeeping, linen, check-in/check-out, repairs & maintenance…",
+    ],
   },
   Owners: {
     metaTitleOwners: "Owners – Santa Giulia & Porto-Vecchio villa concierge",
     metaDescOwners:
       "Trust ZenVilla with your villa: calm rentals thanks to local experts.",
-    heroTitle: "Premium concierge for Santa Giulia – Porto-Vecchio villas",
+    flyerKickerTop: "Concierge",
+    flyerKickerBot: "South Corsica",
+    heroTitle: "Give us your keys —\nwe handle the rest.",
     heroSubtitle:
-      "A local team that runs your property to high standards so you can relax.",
+      "Our digital, tailored concierge manages everything transparently while you breathe easy.",
+    flyerPillars: "Responsive • Flexible • Close to you",
     heroAlt: "South Corsica villa—Santa Giulia",
     whySectionTitle: "Why ZenVilla?",
     whyBullets: [
-      "Local expertise in Santa Giulia & Porto-Vecchio",
-      "End-to-end management",
-      "Distribution on Airbnb & Booking",
-      "Traveller assistance 7 days a week",
-      "Premium partner network",
+      "📍 Rooted local expertise • Santa Giulia & Porto-Vecchio",
+      "🔑 Truly end-to-end care • Give us your keys—we take care of everything",
+      "🌐 Listing creation & optimisation • Showcasing your property on every platform",
+      "🗓️ Booking coordination • Rigorous calendars and traveller follow-up",
+      "🛎️ Welcomes & condition reports • Meticulous check-in/out each stay",
+      "✨ Housekeeping & laundry • Professional upkeep for your villa",
+      "🛠️ Maintenance & repairs • Responsive on-call emergencies—7 days a week",
+      "👑 Bespoke guest services • Tailored activities and concierge extras",
+      "🛡️ Digital concierge • Full transparency—peace of mind for owners",
     ],
-    processTitle: "How it works",
-    processSteps: [
-      { titre: "First contact", desc: "We discuss your villa and goals" },
-      { titre: "Contract signature", desc: "Clear, transparent agreement" },
+    processTitle: "What we manage for your villa",
+    flyerPhases: [
       {
-        titre: "Listing creation",
-        desc: "Pro photos and polished copy for every channel",
+        line1: "Listing creation & optimisation",
+        line2: "for every channel",
       },
       {
-        titre: "Guest management",
-        desc: "Greetings, housekeeping, responses 7/7",
+        line1: "Bookings management",
+        line2: "& calendar planning",
       },
       {
-        titre: "Personal follow-up",
-        desc: "Continuous care with a dedicated app",
+        line1: "Guest welcome / check-out",
+        line2: "& condition reports",
+      },
+      {
+        line1: "Professional cleaning",
+        line2: "& laundry",
+      },
+      {
+        line1: "Maintenance & reactive repairs",
+        line2: "emergencies — 7/7",
+      },
+      {
+        line1: "Services & experiences",
+        line2: "tailored to your guests",
       },
     ],
     advantagesSectionTitle: "Why owners choose ZenVilla",
     ctaTitle: "Ready to hand us your villa?",
     ctaSubtitle:
-      "Request a quote and discover Zen Tranquillité & Zen Premium.",
+      "Ask for a quote: Zen Tranquillité, Zen Integral or an à-la-carte plan.",
   },
   GuestsIndex: {
     metaTitleGuests: "Travellers – Villa services in South Corsica",
     metaDescGuests:
-      "Premium add-ons for your Corsican villa stay: transfers, breakfast, sea sports, rentals.",
+      "Thoughtful extras for your Corsican villa stay—transfers, breakfasts, sea sports & rentals.",
     heroTitle: "Services for travellers",
     heroSubtitle: "Five-star comfort for your South Corsica villa holiday.",
     heroAlt: "Mediterranean coast—turquoise sea",
     servicesHeading: "Services for your stay",
-    servicesIntro:
-      "Tailored touches to make your Corsican escape even smoother.",
     hint: "Learn more →",
     ctaTitle: "A bespoke stay?",
     ctaBody:
@@ -182,9 +211,9 @@ const site = {
     heroSubtitle:
       "Full management across Santa Giulia, Palombaggia and Porto-Vecchio.",
     heroImgAlt: "Porto-Vecchio villa concierge—Santa Giulia beaches",
-    bodyTitle: "Luxury villa concierge in Porto-Vecchio – ZenVilla",
+    bodyTitle: "Villa concierge in Porto-Vecchio – ZenVilla",
     bodyLead:
-      "ZenVilla is the go-to concierge in Porto-Vecchio and South Corsica. We operate premium villas in Santa Giulia, Palombaggia and beyond: Airbnb & Booking listings, check-in/out, cleaning, maintenance and 7/7 guest care.",
+      "ZenVilla is the go-to concierge in Porto-Vecchio and South Corsica. We care for outstanding villas in Santa Giulia, Palombaggia and beyond: Airbnb & Booking listings, check-in/out, cleaning, maintenance and 7/7 guest care.",
     bodyNext:
       "Let us run your property for calm, year-round rentals.",
     ctaTitle: "Porto-Vecchio villa? Let’s talk.",
@@ -194,7 +223,7 @@ const site = {
     heroSubtitle:
       "Local experts for Santa Giulia villas—listings and iconic beaches covered.",
     heroImgAlt: "Santa Giulia villa concierge",
-    bodyTitle: "Santa Giulia – luxury villa management",
+    bodyTitle: "Santa Giulia – proactive villa management",
     bodyLead:
       "Santa Giulia is one of Corsica’s most beautiful bays. ZenVilla delivers full concierge there: Airbnb & Booking operations, guest welcomes, housekeeping and 7/7 assistance.",
     bodyNext:
@@ -204,6 +233,8 @@ const site = {
   ContactPage: {
     heroTitle: "Contact",
     heroSubtitle: "Questions or projects? We reply fast.",
+    heroAlt:
+      "Contact ZenVilla – turquoise waters South Corsica, villa concierge",
     fastReply: "Quick answers – 7 days a week",
     formTitle: "Request a quote",
     lblName: "Name *",
@@ -243,8 +274,9 @@ const site = {
       "We cover Bonifacio, Porto-Vecchio, Propriano, Sartène and surrounding areas—ask us to confirm your exact location.",
     faqPriceTitle: "How does pricing work?",
     faqPriceBody:
-      "We offer Zen Tranquillité (essentials) and Zen Premium (listings & stays fully managed). Request a tailored quote.",
+      "We offer Zen Tranquillité (essentials), Zen Integral (full listing & guest management) and an à-la-carte bundle for only the services you need. Ask for a tailored quote.",
     faqHeading: "FAQ",
+    mailtoSubject: "Contact request — {name}",
   },
 } as const;
 
