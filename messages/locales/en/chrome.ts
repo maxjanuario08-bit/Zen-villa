@@ -2,6 +2,8 @@ const navFooter = {
   Nav: {
     home: "Home",
     packs: "Packs",
+    rentals: "Homes",
+    trust: "Trust",
     guests: "Guests",
     contact: "Contact",
     phoneAria: "Call",
@@ -64,6 +66,8 @@ const navFooter = {
     viewAllGuestServices: "See all services",
     learnMoreArrow: "Learn more →",
     openMenu: "Open menu",
+    seeRentals: "Browse homes",
+    seeTrust: "See villas in our care",
   },
   Metadata: {
     siteTitle: "Zenvilla – South Corsica concierge | Standout villas",

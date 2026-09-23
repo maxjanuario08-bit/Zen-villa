@@ -2,6 +2,8 @@ const navFooter = {
   Nav: {
     home: "Accueil",
     packs: "Packs",
+    rentals: "Logements",
+    trust: "Confiance",
     guests: "Voyageurs",
     contact: "Contact",
     phoneAria: "Appeler",
@@ -64,6 +66,8 @@ const navFooter = {
     viewAllGuestServices: "Voir tous les services",
     learnMoreArrow: "En savoir plus →",
     openMenu: "Ouvrir le menu",
+    seeRentals: "Voir les logements",
+    seeTrust: "Voir les villas confiées",
   },
   Metadata: {
     siteTitle: "Zenvilla – Conciergerie Corse Sud | Gestion de villas",

@@ -7,6 +7,21 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/book",
+        destination: "/confiance",
+        permanent: true,
+      },
+      {
+        source: "/en/book",
+        destination: "/en/confiance",
+        permanent: true,
+      },
+      {
+        source: "/es/book",
+        destination: "/es/confiance",
+        permanent: true,
+      },
+      {
         source: "/combien-peut-rapporter-villa",
         destination: "/contact",
         permanent: true,

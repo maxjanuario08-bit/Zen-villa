@@ -3,6 +3,8 @@ import site from "./site";
 import { ownerServices } from "./ownerServices";
 import { guestServices } from "./guestServices";
 import { ownerBenefits } from "./ownerBenefits";
+import livretVillaPinson from "./livretVillaPinson";
+import Logements from "./logements";
 
 export default {
   ...chrome,
@@ -10,4 +12,6 @@ export default {
   ownerServices,
   guestServices,
   ownerBenefits,
+  livretVillaPinson,
+  Logements,
 };

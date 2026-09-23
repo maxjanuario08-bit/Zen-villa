@@ -94,9 +94,15 @@ export default async function HomePage({ params }: Props) {
               </Link>
             ))}
           </div>
-          <div className="mt-12 text-center">
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
             <Button href="/packs" variant="primary">
               {tCommon("seeOwnersOffer")}
+            </Button>
+            <Button href="/logements" variant="outline">
+              {tCommon("seeRentals")}
+            </Button>
+            <Button href="/confiance" variant="outline">
+              {tCommon("seeTrust")}
             </Button>
           </div>
         </div>

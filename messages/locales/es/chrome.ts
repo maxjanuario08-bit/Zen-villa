@@ -2,6 +2,8 @@ const navFooter = {
   Nav: {
     home: "Inicio",
     packs: "Packs",
+    rentals: "Alojamientos",
+    trust: "Confianza",
     guests: "Viajeros",
     contact: "Contacto",
     phoneAria: "Llamar",
@@ -64,6 +66,8 @@ const navFooter = {
     viewAllGuestServices: "Ver todos los servicios",
     learnMoreArrow: "Saber más →",
     openMenu: "Abrir el menú",
+    seeRentals: "Ver alojamientos",
+    seeTrust: "Ver las villas confiadas",
   },
   Metadata: {
     siteTitle: "Zenvilla – Conserjería Córcega del Sur | Gestión de villas",

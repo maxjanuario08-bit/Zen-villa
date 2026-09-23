@@ -6,11 +6,13 @@ import { useTranslations } from "next-intl";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
-const navKeys = ["home", "packs", "guests", "contact"] as const;
+const navKeys = ["home", "packs", "rentals", "trust", "guests", "contact"] as const;
 
 const PATHS = {
   home: "/",
   packs: "/packs",
+  rentals: "/logements",
+  trust: "/confiance",
   guests: "/voyageurs",
   contact: "/contact",
 } satisfies Record<(typeof navKeys)[number], string>;
