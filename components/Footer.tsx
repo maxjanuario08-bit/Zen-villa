@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
@@ -32,8 +33,9 @@ export default async function Footer() {
           <div className="lg:col-span-1">
             <Link
               href="/"
-              className="inline-block font-serif text-2xl font-semibold tracking-tight text-white hover:text-white/90 transition-colors"
+              className="inline-flex items-center gap-2 font-serif text-2xl font-semibold tracking-tight text-white hover:text-white/90 transition-colors"
             >
+              <Image src="/favicon-48.png" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
               Zenvilla
             </Link>
             <p className="mt-4 text-sm text-white/80 leading-relaxed">{tFoot("tagline")}</p>
