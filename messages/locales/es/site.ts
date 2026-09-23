@@ -10,7 +10,7 @@ const site = {
     demanderOg:
       "Transporte, desayuno, actividades náuticas, equitación… Cuéntenos qué necesita.",
     packsOg:
-      "Packs de conserjería para propietarios: esencial, gestión completa u opción a la carte.",
+      "Fórmulas de conserjería para propietarios: esencial, gestión completa u opción a la carte.",
     ownersOg:
       "Conserjería para villas destacadas: acogida, limpieza, anuncios y soporte para huéspedes 7d/7.",
     voyageursOg:
@@ -66,17 +66,17 @@ const site = {
       "Pida presupuesto: Zen Tranquillité, Zen Integral o fórmula a la carte.",
   },
   Packs: {
-    metaTitlePacks: "Packs – Zen Tranquillité, Zen Integral & a la carte",
+    metaTitlePacks: "Fórmulas – Zen Tranquillité, Zen Integral y a la carte",
     metaDescPacks:
-      "Descubra los packs Zen Tranquillité, Zen Integral y opción a la carte para propietarios en Santa Giulia, Porto-Vecchio y Córcega del Sur.",
-    ogTitle: "Nuestros packs | ZenVilla",
-    heroTitle: "Nuestros packs",
+      "Descubra nuestras fórmulas de conserjería: Zen Tranquillité, Zen Integral y a la carte para propietarios en Santa Giulia, Porto-Vecchio y Córcega del Sur.",
+    ogTitle: "Nuestras fórmulas | ZenVilla",
+    heroTitle: "Nuestras fórmulas",
     heroSubtitle:
       "Elija Zen Tranquillité (esencial), Zen Integral (gestión completa) o a la carte.",
     heroAlt: "Costa corsa – aguas turquesas",
     badgePopular: "Popular",
     zenTTitle: "Zen Tranquillité",
-    zenTSubtitle: "Pack Esencial",
+    zenTSubtitle: "Fórmula esencial",
     zenTEssential: [
       "Check-in / check-out de huéspedes",
       "Limpieza integral y preparación de la villa",
@@ -86,9 +86,9 @@ const site = {
       "Regalo de bienvenida para huéspedes",
     ],
     zenPTitle: "Zen Integral",
-    zenPSubtitle: "Pack integral",
+    zenPSubtitle: "Fórmula integral",
     zenPEssential: [
-      "Todo el Pack Esencial +",
+      "Toda la fórmula esencial +",
       "Creación y publicación de anuncios Airbnb, Booking, Abritel…",
       "Reportaje fotográfico pro y puesta en valor",
       "Gestión de calendario y reservas",

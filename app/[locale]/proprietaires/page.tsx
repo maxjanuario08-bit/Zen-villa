@@ -59,7 +59,7 @@ export default async function ProprietairesPage({
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
-            <Button href="/packs" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+            <Button href="/formules" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tHome("ctaTrustVilla")}
             </Button>
             <Button
@@ -145,7 +145,7 @@ export default async function ProprietairesPage({
               {tCommon("requestQuote")}
             </Button>
             <Button
-              href="/packs"
+              href="/formules"
               variant="outline"
               className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark"
             >

@@ -1,7 +1,7 @@
 const navFooter = {
   Nav: {
     home: "Home",
-    packs: "Packs",
+    formules: "Plans",
     rentals: "Homes",
     trust: "Trust",
     guests: "Guests",
@@ -49,12 +49,12 @@ const navFooter = {
     backHome: "Back to home",
     inDetail: "In detail",
     contactUs: "Contact us",
-    discoverPacks: "Discover our packages",
+    discoverPacks: "Discover our plans",
     requestQuote: "Request a quote",
     seeOwnersOffer: "See our offer for villa owners",
     readyToTrust: "Ready to entrust us with your villa?",
     discoverZenVilla: "Discover ZenVilla",
-    seePacks: "See our packages",
+    seePacks: "See our plans",
     planCall: "Schedule a call",
     allBenefits: "See all benefits",
     backToServices: "Back to services",

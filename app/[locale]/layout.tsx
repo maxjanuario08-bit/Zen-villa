@@ -84,7 +84,12 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
       follow: true,
     },
     icons: {
-      icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+      icon: [
+        { url: "/favicon.jpg", type: "image/jpeg", sizes: "32x32" },
+        { url: "/icon-512.jpg", type: "image/jpeg", sizes: "512x512" },
+      ],
+      apple: [{ url: "/apple-touch-icon.jpg", type: "image/jpeg", sizes: "180x180" }],
+      shortcut: "/favicon.jpg",
     },
   };
 }

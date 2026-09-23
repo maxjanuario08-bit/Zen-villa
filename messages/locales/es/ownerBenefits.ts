@@ -57,7 +57,7 @@ export const ownerBenefits = {
   "mise-en-valeur-annonces": {
     titre: "Puesta en valor y anuncios",
     description:
-      "Con el pack Zen Integral: fotos profesionales, fichas completas en Airbnb, Booking y Abritel.",
+      "Con la fórmula Zen Integral: fotos profesionales, fichas completas en Airbnb, Booking y Abritel.",
     details: [
       "Reportaje fotográfico",
       "Redacción clara de anuncios",

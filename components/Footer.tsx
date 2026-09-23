@@ -3,13 +3,13 @@ import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
-type NavKey = "packs" | "rentals" | "trust" | "guests";
+type NavKey = "formules" | "rentals" | "trust" | "guests";
 type ServiceLink =
   | { href: string; navKey: NavKey }
   | { href: string; footKey: "linkRequestService" | "linkPorto" | "linkSantaGiulia" };
 
 const serviceLinks: ServiceLink[] = [
-  { href: "/packs", navKey: "packs" },
+  { href: "/formules", navKey: "formules" },
   { href: "/logements", navKey: "rentals" },
   { href: "/confiance", navKey: "trust" },
   { href: "/demander-prestation", footKey: "linkRequestService" },

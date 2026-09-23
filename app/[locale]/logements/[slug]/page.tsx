@@ -7,7 +7,10 @@ import BookingWidget from "@/components/BookingWidget";
 import { getLogement, logements } from "@/lib/logements";
 import type { BookingConfig } from "@/lib/booking";
 
-type Props = { params: Promise<{ locale: string; slug: string }> };
+type Props = {
+  params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ paid?: string; canceled?: string }>;
+};
 
 export function generateStaticParams() {
   return logements.map((l) => ({ slug: l.slug }));
@@ -28,8 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function LogementDetailPage({ params }: Props) {
+export default async function LogementDetailPage({ params, searchParams }: Props) {
   const { locale, slug } = await params;
+  const query = await searchParams;
   setRequestLocale(locale);
   const logement = getLogement(slug);
   if (!logement) notFound();
@@ -103,6 +107,7 @@ export default async function LogementDetailPage({ params }: Props) {
                   name={name}
                   maxGuests={logement.guests}
                   booking={logement.booking as BookingConfig}
+                  paymentNotice={query.paid === "1" ? "paid" : query.canceled === "1" ? "canceled" : null}
                 />
               </div>
             )}

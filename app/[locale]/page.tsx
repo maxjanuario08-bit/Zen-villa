@@ -44,7 +44,7 @@ export default async function HomePage({ params }: Props) {
             {t("heroPillars")}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
-            <Button href="/packs" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+            <Button href="/formules" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tCommon("discoverPacks")}
             </Button>
             <Button href="/contact" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
@@ -95,7 +95,7 @@ export default async function HomePage({ params }: Props) {
             ))}
           </div>
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/packs" variant="primary">
+            <Button href="/formules" variant="primary">
               {tCommon("seeOwnersOffer")}
             </Button>
             <Button href="/logements" variant="outline">
@@ -118,7 +118,7 @@ export default async function HomePage({ params }: Props) {
             <Button href="/contact" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tCommon("requestQuote")}
             </Button>
-            <Button href="/packs" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
+            <Button href="/formules" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
               {tCommon("seePacks")}
             </Button>
           </div>

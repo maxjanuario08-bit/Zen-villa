@@ -6,11 +6,11 @@ import { useTranslations } from "next-intl";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
-const navKeys = ["home", "packs", "rentals", "trust", "guests", "contact"] as const;
+const navKeys = ["home", "formules", "rentals", "trust", "guests", "contact"] as const;
 
 const PATHS = {
   home: "/",
-  packs: "/packs",
+  formules: "/formules",
   rentals: "/logements",
   trust: "/confiance",
   guests: "/voyageurs",

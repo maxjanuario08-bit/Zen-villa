@@ -47,7 +47,7 @@ export default async function ConciergeriePortoVecchioPage({ params }: Props) {
             <Button href="/contact" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tCommon("contactUs")}
             </Button>
-            <Button href="/packs" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
+            <Button href="/formules" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
               {tCommon("discoverPacks")}
             </Button>
           </div>
@@ -69,7 +69,7 @@ export default async function ConciergeriePortoVecchioPage({ params }: Props) {
       <section className="py-16 sm:py-24 bg-lagoon">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-serif font-semibold text-white mb-6">{t("ctaTitle")}</h2>
-          <Button href="/packs" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+          <Button href="/formules" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
             {tCommon("discoverZenVilla")}
           </Button>
         </div>

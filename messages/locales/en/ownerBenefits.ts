@@ -57,7 +57,7 @@ export const ownerBenefits = {
   "mise-en-valeur-annonces": {
     titre: "Showcase & listings",
     description:
-      "Zen Integral pack: editorial-quality photos & listings synced across Airbnb, Booking and Abritel.",
+      "Zen Integral plan: editorial-quality photos & listings synced across Airbnb, Booking and Abritel.",
     details: [
       "Professional photo shoot",
       "Polished multilingual copywriting",

@@ -3,8 +3,8 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
-import { CONTACT } from "@/lib/constants";
 import type { BookingConfig } from "@/lib/booking";
+import { paypalPayUrl } from "@/lib/paypal";
 import {
   addDays,
   fromISODate,
@@ -21,6 +21,7 @@ type Props = {
   name: string;
   maxGuests: number;
   booking: BookingConfig;
+  paymentNotice?: "paid" | "canceled" | null;
 };
 
 const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_ID
@@ -49,7 +50,7 @@ function inSelectedRange(iso: string, checkIn: string | null, checkOut: string |
   return iso >= checkIn && iso < checkOut;
 }
 
-export default function BookingWidget({ slug, name, maxGuests, booking }: Props) {
+export default function BookingWidget({ slug, name, maxGuests, booking, paymentNotice = null }: Props) {
   const t = useTranslations("Logements");
   const locale = useLocale();
   const today = todayISO();
@@ -133,53 +134,30 @@ export default function BookingWidget({ slug, name, maxGuests, booking }: Props)
     const data = Object.fromEntries(formData) as Record<string, string>;
     if (!validate(data) || !checkIn || !checkOut || !quote) return;
 
-    const summary = [
-      `Logement: ${name} (${slug})`,
-      `Arrivée: ${checkIn}`,
-      `Départ: ${checkOut}`,
-      `Nuits: ${quote.nights}`,
-      `Voyageurs: ${data.guests}`,
-      `Hébergement: ${quote.lodging} €`,
-      quote.cleaningFee > 0 ? `Ménage: ${quote.cleaningFee} €` : "",
-      `Total: ${quote.total} €`,
-      data.message ? `Message: ${data.message}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    if (!FORMSPREE_URL) {
-      window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
-        t("booking.mailSubject", { name })
-      )}&body=${encodeURIComponent(
-        `${t("booking.lblName")}: ${data.nom}\n${t("booking.lblEmail")}: ${data.email}\n${t("booking.lblPhone")}: ${data.telephone}\n\n${summary}`
-      )}`;
-      setStatus("success");
-      return;
-    }
-
     setStatus("loading");
-    formData.set("logement", name);
-    formData.set("slug", slug);
-    formData.set("checkIn", checkIn);
-    formData.set("checkOut", checkOut);
-    formData.set("nights", String(quote.nights));
-    formData.set("total", String(quote.total));
-    formData.set("_subject", t("booking.mailSubject", { name }));
-    try {
-      const res = await fetch(FORMSPREE_URL, {
+    const itemName = `${name} · ${checkIn} → ${checkOut}`;
+    const payUrl = paypalPayUrl(quote.total, itemName, {
+      custom: `${slug}|${checkIn}|${checkOut}|${data.guests}|${data.nom}`,
+      returnUrl: `${window.location.origin}${window.location.pathname}?paid=1`,
+      cancelUrl: `${window.location.origin}${window.location.pathname}?canceled=1`,
+    });
+
+    if (FORMSPREE_URL) {
+      formData.set("logement", name);
+      formData.set("slug", slug);
+      formData.set("checkIn", checkIn);
+      formData.set("checkOut", checkOut);
+      formData.set("nights", String(quote.nights));
+      formData.set("total", String(quote.total));
+      formData.set("_subject", t("booking.mailSubject", { name }));
+      void fetch(FORMSPREE_URL, {
         method: "POST",
         body: formData,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
-        setStatus("success");
-        form.reset();
-        setCheckIn(null);
-        setCheckOut(null);
-      } else setStatus("error");
-    } catch {
-      setStatus("error");
     }
+
+    window.location.assign(payUrl);
   }
 
   const euro = (n: number) =>
@@ -189,6 +167,12 @@ export default function BookingWidget({ slug, name, maxGuests, booking }: Props)
     <div className="rounded-2xl border border-sand/40 bg-white p-5 sm:p-7 shadow-card">
       <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("booking.title")}</h2>
       <p className="mt-1 text-sm text-foreground/70">{t("booking.subtitle")}</p>
+      {paymentNotice === "paid" && (
+        <p className="mt-3 text-sm font-medium text-green-700">{t("booking.paid")}</p>
+      )}
+      {paymentNotice === "canceled" && (
+        <p className="mt-3 text-sm text-lagoon-dark">{t("booking.canceled")}</p>
+      )}
       <p className="mt-3 text-lg font-medium text-lagoon-dark">{t("booking.fromPrice", { price: euro(fromPrice) })}</p>
 
       <div className="mt-6 flex items-center justify-between">
@@ -321,10 +305,18 @@ export default function BookingWidget({ slug, name, maxGuests, booking }: Props)
           </label>
           <textarea id="message" name="message" rows={3} className="w-full resize-none rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon" />
         </div>
-        {status === "success" && <p className="text-sm font-medium text-green-700">{t("booking.success")}</p>}
         {status === "error" && <p className="text-sm text-red-600">{t("booking.error")}</p>}
-        <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
-          {status === "loading" ? t("booking.sending") : t("booking.submit")}
+        <Button
+          type="submit"
+          variant="primary"
+          className="w-full !bg-[#ffc439] !text-[#003087] hover:!bg-[#f5b82e] hover:!text-[#003087]"
+          disabled={status === "loading" || !quote}
+        >
+          {status === "loading"
+            ? t("booking.sending")
+            : quote
+              ? t("booking.submitPay", { price: euro(quote.total) })
+              : t("booking.submit")}
         </Button>
         <p className="text-center text-xs text-muted">{t("booking.confirmNote")}</p>
       </form>

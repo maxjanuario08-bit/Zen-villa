@@ -9,7 +9,7 @@ const site = {
       "Demandez une prestation pour votre séjour en villa : transport, petit-déjeuner, activités nautiques, balades équestres, location équipement. ZenVilla Corse Sud.",
     demanderOg:
       "Transport, petit-déjeuner, activités nautiques, balades à cheval… Demandez votre prestation en Corse Sud.",
-    packsOg: "Packs conciergerie pour propriétaires : essentiel, gestion complète ou à la carte, annonces et réservations.",
+    packsOg: "Formules conciergerie pour propriétaires : essentiel, gestion complète ou à la carte, annonces et réservations.",
     ownersOg:
       "Conciergerie pour villas d'exception : accueil, ménage, annonces et assistance 7j/7.",
     voyageursOg:
@@ -62,17 +62,17 @@ const site = {
       "Demandez un devis : Zen Tranquillité, Zen Intégral ou formule à la carte.",
   },
   Packs: {
-    metaTitlePacks: "Packs – Zen Tranquillité, Zen Intégral & à la carte",
+    metaTitlePacks: "Formules – Zen Tranquillité, Zen Intégral & à la carte",
     metaDescPacks:
-      "Découvrez nos packs conciergerie : Zen Tranquillité, Zen Intégral et formule à la carte pour propriétaires en Corse Sud.",
-    ogTitle: "Nos packs | ZenVilla – Conciergerie Corse Sud",
-    heroTitle: "Nos packs",
+      "Découvrez nos formules conciergerie : Zen Tranquillité, Zen Intégral et à la carte pour propriétaires en Corse Sud.",
+    ogTitle: "Nos formules | ZenVilla – Conciergerie Corse Sud",
+    heroTitle: "Nos formules",
     heroSubtitle:
-      "Choisissez le pack adapté à vos besoins : Zen Tranquillité, Zen Intégral ou à la carte.",
+      "Choisissez la formule adaptée à vos besoins : Zen Tranquillité, Zen Intégral ou à la carte.",
     heroAlt: "Côte corse – plages et eaux turquoise",
     badgePopular: "Populaire",
     zenTTitle: "Zen Tranquillité",
-    zenTSubtitle: "Pack Essentiel",
+    zenTSubtitle: "Formule essentielle",
     zenTEssential: [
       "Check-in / Check-out des voyageurs",
       "Ménage complet et préparation de la villa",
@@ -82,9 +82,9 @@ const site = {
       "Cadeau de bienvenue pour vos voyageurs",
     ],
     zenPTitle: "Zen Intégral",
-    zenPSubtitle: "Pack tout-en-un",
+    zenPSubtitle: "Formule tout-en-un",
     zenPEssential: [
-      "Tout le Pack Essentiel +",
+      "Toute la formule essentielle +",
       "Création et diffusion des annonces Airbnb, Booking, Abritel…",
       "Shooting photos pro & mise en valeur de la villa",
       "Gestion du calendrier et des réservations",

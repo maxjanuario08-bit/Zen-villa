@@ -10,7 +10,7 @@ const site = {
     demanderOg:
       "Transfers, breakfast, nautical fun, horseback rides… Tell us what you need in South Corsica.",
     packsOg:
-      "ZenVilla concierge packages for owners—essentials, full service or à la carte bundles.",
+      "ZenVilla concierge plans for owners—essentials, full service or à la carte.",
     ownersOg:
       "Villa concierge—we handle greetings, housekeeping, listings and travellers’ support.",
     voyageursOg:
@@ -62,17 +62,17 @@ const site = {
       "Ask for a quote: Zen Tranquillité, Zen Integral or an à-la-carte plan.",
   },
   Packs: {
-    metaTitlePacks: "Packages – Zen Tranquillité, Zen Integral & à la carte",
+    metaTitlePacks: "Plans – Zen Tranquillité, Zen Integral & à la carte",
     metaDescPacks:
-      "Discover concierge packages Zen Tranquillité, Zen Integral and à la carte for owners in South Corsica.",
-    ogTitle: "Our packages | ZenVilla",
-    heroTitle: "Our packages",
+      "Discover our concierge plans: Zen Tranquillité, Zen Integral and à la carte for owners in South Corsica.",
+    ogTitle: "Our plans | ZenVilla",
+    heroTitle: "Our plans",
     heroSubtitle:
-      "Pick Zen Tranquillité for essentials, Zen Integral for full service, or tailor your own bundle.",
+      "Choose the plan that fits your villa: Zen Tranquillité, Zen Integral or à la carte.",
     heroAlt: "Corsican coast—turquoise waters",
     badgePopular: "Popular",
     zenTTitle: "Zen Tranquillité",
-    zenTSubtitle: "Essential pack",
+    zenTSubtitle: "Essential plan",
     zenTEssential: [
       "Guest check-in / check-out",
       "Full cleaning & villa prep",
@@ -82,9 +82,9 @@ const site = {
       "Welcome gift for guests",
     ],
     zenPTitle: "Zen Integral",
-    zenPSubtitle: "Full-management pack",
+    zenPSubtitle: "Full-management plan",
     zenPEssential: [
-      "Everything in the Essential pack +",
+      "Everything in the essential plan +",
       "Creation & publication of Airbnb, Booking, Abritel listings…",
       "Pro photo shoot & storytelling",
       "Calendar & booking operations",

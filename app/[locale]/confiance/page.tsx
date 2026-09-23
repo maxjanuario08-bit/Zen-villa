@@ -72,7 +72,7 @@ export default async function BookPage({ params }: Props) {
               {tCommon("requestQuote")}
             </Button>
             <Button
-              href="/packs"
+              href="/formules"
               variant="outline"
               className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark"
             >
