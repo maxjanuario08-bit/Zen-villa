@@ -32,7 +32,7 @@ const livretVillaPinson = {
   santaLead:
     "Vous êtes au cœur de l'une des plus belles baies de Corse. Quelques repères utiles depuis la résidence Bella Vista :",
   santaTips: [
-    "Grande plage de Santa Giulia · env. 3 min à pied",
+    "Grande plage de Santa Giulia · env. 5 min à pied",
     "Petite plage · env. 5 min à pied",
     "Restaurants & commerces de proximité · 3 à 5 min",
     "Point de tri sélectif · indiqué sur place à votre arrivée",

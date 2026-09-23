@@ -32,7 +32,7 @@ const livretVillaPinson = {
   santaLead:
     "You are in one of Corsica's finest bays. Useful landmarks from Bella Vista residence:",
   santaTips: [
-    "Santa Giulia main beach · about 3 min on foot",
+    "Santa Giulia main beach · about 5 min on foot",
     "Small beach · about 5 min on foot",
     "Restaurants & local shops · 3 to 5 min",
     "Recycling point · shown on arrival",

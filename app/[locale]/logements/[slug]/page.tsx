@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import BookingWidget from "@/components/BookingWidget";
+import PhotoCarousel from "@/components/PhotoCarousel";
 import { getLogement, logements } from "@/lib/logements";
 import type { BookingConfig } from "@/lib/booking";
 
@@ -44,14 +45,16 @@ export default async function LogementDetailPage({ params, searchParams }: Props
   const description = t(`${logement.copyKey}.description`);
   const address = t(`${logement.copyKey}.address`);
   const highlights = t.raw(`${logement.copyKey}.highlights`) as readonly string[];
+  const photoAlts = (t.raw(`${logement.copyKey}.photoAlts`) as readonly string[] | undefined) ?? [];
+  const gallery = logement.images?.length ? logement.images : [logement.image];
   const showBooking = Boolean(logement.forRent && logement.booking?.enabled);
 
   return (
     <div>
       <section className="relative min-h-[40vh] flex flex-col justify-end overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image src={logement.image} alt={name} fill className="object-cover" priority sizes="100vw" />
-          <div className="absolute inset-0 bg-lagoon-dark/45" />
+          <Image src={logement.image} alt={photoAlts[0] ?? name} fill className="object-cover" priority sizes="100vw" />
+          <div className="absolute inset-0 bg-lagoon-dark/40" />
         </div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
           <Link
@@ -88,6 +91,16 @@ export default async function LogementDetailPage({ params, searchParams }: Props
                   </>
                 )}
               </p>
+
+              <div className="mt-10">
+                <PhotoCarousel
+                  images={gallery}
+                  alts={photoAlts}
+                  fallbackAlt={name}
+                  prevLabel={t("photoPrev")}
+                  nextLabel={t("photoNext")}
+                />
+              </div>
 
               <h2 className="mt-10 text-2xl font-serif font-semibold text-lagoon-dark">{t("includedTitle")}</h2>
               <ul className="mt-6 space-y-3">

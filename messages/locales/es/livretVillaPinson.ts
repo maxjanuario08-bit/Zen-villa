@@ -32,7 +32,7 @@ const livretVillaPinson = {
   santaLead:
     "Está en una de las bahías más bellas de Córcega. Referencias útiles desde la residencia Bella Vista:",
   santaTips: [
-    "Playa grande de Santa Giulia · unos 3 min a pie",
+    "Playa grande de Santa Giulia · unos 5 min a pie",
     "Playa pequeña · unos 5 min a pie",
     "Restaurantes y comercios · 3 a 5 min",
     "Punto de reciclaje · indicado a su llegada",

@@ -4,6 +4,7 @@ export type Logement = {
   slug: string;
   copyKey: string;
   image: string;
+  images?: readonly string[];
   forRent: boolean;
   managed: boolean;
   guests: number;
@@ -17,7 +18,13 @@ export const logements = [
   {
     slug: "mini-villa-pinson",
     copyKey: "pinson",
-    image: "/hero-baie.png",
+    image: "/logements/pinson/exterieur.jpg",
+    images: [
+      "/logements/pinson/exterieur.jpg",
+      "/logements/pinson/chambre.jpg",
+      "/logements/pinson/sejour.jpg",
+      "/logements/pinson/terrasse.jpg",
+    ],
     forRent: true,
     managed: true,
     guests: 4,

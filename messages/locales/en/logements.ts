@@ -29,6 +29,9 @@ const logements = {
   seeProperty: "View this home",
   enquire: "Book",
   includedTitle: "At a glance",
+  photosTitle: "Photos",
+  photoPrev: "Previous photo",
+  photoNext: "Next photo",
   fromNight: "From {price} / night",
   booking: {
     title: "Book your stay",
@@ -73,15 +76,20 @@ const logements = {
     name: "Mini Villa Pinson",
     tagline: "Bella Vista residence, a short walk from Santa Giulia beach.",
     description:
-      "Mini villa in the Bella Vista residence, Santa Giulia. More than 50 m² in total, including the 2 terraces. Ideal for a couple, a few minutes’ walk from the main beach, restaurants and shops.",
+      "Mini villa in the Bella Vista residence, Santa Giulia. More than 50 m² in total, including the 2 terraces. Ideal for a couple, about a 5-minute walk from Santa Giulia beach, restaurants and shops.",
     address: "Bella Vista residence, 20137 Porto-Vecchio",
+    photoAlts: [
+      "Mini Villa Pinson – exterior with palm trees, Bella Vista",
+      "Bedroom with double bed",
+      "Living area with bed and terrace",
+      "Terrace with sun loungers",
+    ],
     highlights: [
       "31.41 m² indoors + 20 m² of terraces (two terraces)",
-      "Santa Giulia beach about a 3-minute walk",
+      "Santa Giulia beach, about a 5-minute walk",
       "Check-in from 3 pm · checkout by 11 am",
-      "Rentals from 3 March to 1 November",
-      "Kitchen, sun loungers",
-      "Washing machine",
+      "Kitchen, sun loungers, washing machine",
+      "Parking",
     ],
   },
 } as const;
