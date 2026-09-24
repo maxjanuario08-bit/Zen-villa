@@ -19,8 +19,8 @@ export default function MemberNavLinks({ className = "" }: { className?: string 
 
   if (loggedIn) {
     return (
-      <span className={`inline-flex items-center gap-3 ${className}`}>
-        <Link href="/compte" className="text-xs font-medium text-foreground/70 hover:text-lagoon">
+      <span className={`inline-flex shrink-0 items-center gap-2 whitespace-nowrap ${className}`}>
+        <Link href="/compte" className="whitespace-nowrap text-xs font-medium text-foreground/70 hover:text-lagoon">
           {tCompte("accountNav")}
         </Link>
         <LogoutButton />

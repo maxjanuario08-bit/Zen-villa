@@ -17,7 +17,7 @@ export default function LogoutButton({ className = "" }: { className?: string })
     <button
       type="button"
       onClick={() => void logout()}
-      className={`rounded-full border border-lagoon px-4 py-1.5 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white transition-colors ${className}`}
+      className={`whitespace-nowrap rounded-full border border-lagoon px-3 py-1 text-xs font-medium text-lagoon transition-colors hover:bg-lagoon hover:text-white ${className}`}
     >
       {t("logout")}
     </button>

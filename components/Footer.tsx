@@ -142,11 +142,11 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/20">
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap sm:gap-x-8">
-            <p className="text-sm text-white/60 text-center">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-white/60 sm:text-left">
               © {year} Zenvilla – Conciergerie Corse Sud. {tFoot("rights")}
             </p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 sm:justify-center">
             <Link
               href="/mentions-legales"
               className="text-sm text-white/60 hover:text-white transition-colors"
@@ -159,7 +159,13 @@ export default async function Footer() {
             >
               {tFoot("privacy")}
             </Link>
-          </div>
+            </div>
+            <Link
+              href="/equipe"
+              className="text-xs text-white/35 transition-colors hover:text-white/70 sm:ml-auto sm:text-right"
+            >
+              {tFoot("staff")}
+            </Link>
         </div>
       </div>
     </footer>

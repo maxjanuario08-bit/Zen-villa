@@ -25,6 +25,7 @@ const navFooter = {
     linkSantaGiulia: "Conciergerie Santa Giulia",
     copyright: "© {year} Zenvilla – Conciergerie Corse Sud. {rights}",
     faq: "FAQ",
+    staff: "Espace équipe",
   },
   Languages: {
     spoken: "Nous parlons",

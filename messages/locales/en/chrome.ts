@@ -25,6 +25,7 @@ const navFooter = {
     linkSantaGiulia: "Santa Giulia concierge",
     copyright: "© {year} Zenvilla – South Corsica concierge. {rights}",
     faq: "FAQ",
+    staff: "Staff space",
   },
   Languages: {
     spoken: "We speak",

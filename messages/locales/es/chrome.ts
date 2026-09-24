@@ -25,6 +25,7 @@ const navFooter = {
     linkSantaGiulia: "Conserjería Santa Giulia",
     copyright: "© {year} Zenvilla – Conserjería Córcega del Sur. {rights}",
     faq: "FAQ",
+    staff: "Espacio equipo",
   },
   Languages: {
     spoken: "Hablamos",

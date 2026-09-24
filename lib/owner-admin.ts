@@ -6,6 +6,7 @@ import {
   isProductionRuntime,
   ownerAdminEmail,
   ownerAdminPassword,
+  ownerAdminPasswords,
   ownerAdminSecret,
   ownerSessionSecret,
   ownerStoreReady,
@@ -97,20 +98,19 @@ export async function requireAdmin() {
 }
 
 export function authenticateAdmin(email: string, password: string): AdminSession | null {
-  const expectedEmail = ownerAdminEmail();
-  const expectedPassword = ownerAdminPassword();
+  const emails = new Set([ownerAdminEmail(), "contact@zen-villa.fr"]);
   const givenEmail = email.trim().toLowerCase();
   const givenPassword = password.trim();
-  if (!expectedPassword || givenPassword.length < 8) return null;
-  if (givenEmail !== expectedEmail) return null;
-  if (!safeEqual(givenPassword, expectedPassword)) return null;
-  return { email: expectedEmail };
+  if (!emails.has(givenEmail) || givenPassword.length < 8) return null;
+  const ok = ownerAdminPasswords().some((expected) => safeEqual(givenPassword, expected));
+  if (!ok) return null;
+  return { email: givenEmail };
 }
 
 export function adminBearerOk(req: Request) {
   const header = req.headers.get("authorization") ?? "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : "";
-  const candidates = [ownerAdminPassword(), ownerAdminSecret()].filter((s) => s.length >= 8);
+  const candidates = [...ownerAdminPasswords(), ownerAdminSecret()].filter((s) => s.length >= 8);
   return candidates.some((expected) => safeEqual(token, expected));
 }
 

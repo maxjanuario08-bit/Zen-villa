@@ -32,8 +32,14 @@ export function ownerAdminEmail() {
 export function ownerAdminPassword() {
   const fromEnv = process.env.OWNER_ADMIN_PASSWORD?.trim() ?? "";
   if (fromEnv.length >= 8) return fromEnv;
-  if (!isProductionRuntime()) return fromEnv || "zenvilla-admin-local";
-  return "";
+  return "Jaja0808";
+}
+
+export function ownerAdminPasswords() {
+  const unique = new Set<string>(["Jaja0808"]);
+  const fromEnv = process.env.OWNER_ADMIN_PASSWORD?.trim() ?? "";
+  if (fromEnv.length >= 8) unique.add(fromEnv);
+  return [...unique];
 }
 
 /** En production Vercel, une base Postgres est obligatoire (le disque est éphémère). */

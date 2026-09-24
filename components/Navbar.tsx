@@ -25,17 +25,17 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-sand/50 shadow-sm">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-        <Link href="/" className="md:hidden font-serif text-xl font-semibold text-lagoon-dark">
+      <nav className="mx-auto flex h-16 w-full max-w-[92rem] items-center justify-between px-3 sm:px-5 lg:px-6">
+        <Link href="/" className="lg:hidden font-serif text-xl font-semibold text-lagoon-dark">
           Zenvilla
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex flex-1 items-center justify-between gap-6">
-          <div className="flex items-center gap-8">
+        <div className="hidden lg:flex min-w-0 flex-1 items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-4 xl:gap-6">
             <Link
               href="/"
-              className="font-serif text-xl font-semibold text-lagoon-dark whitespace-nowrap hover:text-lagoon transition-colors shrink-0"
+              className="shrink-0 whitespace-nowrap font-serif text-xl font-semibold text-lagoon-dark transition-colors hover:text-lagoon"
             >
               Zenvilla
             </Link>
@@ -45,7 +45,7 @@ export default function Navbar() {
                 <Link
                   key={href}
                   href={href}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`shrink-0 whitespace-nowrap text-sm font-medium transition-colors ${
                     pathname === href ? "text-lagoon" : "text-foreground/80 hover:text-lagoon"
                   }`}
                 >
@@ -55,15 +55,15 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex shrink-0 items-center gap-3">
             <MemberNavLinks />
             <LocaleSwitcher />
             <a
               href={`tel:${CONTACT.telephoneTel}`}
-              className="flex items-center gap-2 text-foreground/80 hover:text-lagoon transition-colors font-medium text-sm"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-medium text-foreground/80 transition-colors hover:text-lagoon"
               aria-label={`${t("phoneAria")}: ${CONTACT.telephone}`}
             >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -75,7 +75,7 @@ export default function Navbar() {
             </a>
             <Link
               href="/contact"
-              className="rounded-full bg-lagoon px-5 py-2.5 text-sm font-medium text-white shadow-md hover:bg-lagoon-dark transition-all hover:shadow-lg"
+              className="shrink-0 whitespace-nowrap rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:bg-lagoon-dark hover:shadow-lg"
             >
               {t("ctaQuote")}
             </Link>
@@ -85,7 +85,7 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="md:hidden p-2 rounded-lg text-foreground hover:bg-sand-light transition-colors"
+          className="lg:hidden p-2 rounded-lg text-foreground hover:bg-sand-light transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={t("menuAria")}
           aria-expanded={isOpen}
@@ -107,7 +107,7 @@ export default function Navbar() {
 
       {/* Mobile */}
       {isOpen && (
-        <div className="md:hidden border-t border-sand/50 bg-white py-4 px-4 animate-fade-in space-y-4">
+        <div className="lg:hidden border-t border-sand/50 bg-white py-4 px-4 animate-fade-in space-y-4">
           <div className="pb-2">
             <LocaleSwitcher />
           </div>
