@@ -4,6 +4,7 @@ const Equipe = {
   lead: "Check-in, check-out and cleaning. Enter the code provided by Zenvilla.",
   deskLead: "Pick a home, then record arrivals, departures and cleaning.",
   code: "Access code",
+  showPassword: "Show code",
   submit: "Sign in",
   sending: "Signing in…",
   loginError: "Incorrect code.",

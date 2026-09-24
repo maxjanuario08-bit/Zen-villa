@@ -5,6 +5,7 @@ const Compte = {
     "Espace réservé aux propriétaires. Créez un compte : votre logement sera associé après validation par Zenvilla.",
   loginEmail: "Email",
   loginPassword: "Mot de passe",
+  showPassword: "Afficher le mot de passe",
   loginSubmit: "Se connecter",
   loginSending: "Connexion…",
   loginError: "Email ou mot de passe incorrect.",

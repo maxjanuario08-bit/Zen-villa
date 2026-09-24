@@ -5,6 +5,7 @@ const Admin = {
   deskLead: "Chaque compte créé apparaît ici. Choisissez la villa, puis associez.",
   email: "Email",
   password: "Mot de passe",
+  showPassword: "Afficher le mot de passe",
   submit: "Entrer",
   sending: "Connexion…",
   loginError: "Email ou mot de passe incorrect.",

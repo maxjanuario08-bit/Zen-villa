@@ -5,6 +5,7 @@ const Admin = {
   deskLead: "New accounts show up here. Pick the villa, then link it.",
   email: "Email",
   password: "Password",
+  showPassword: "Show password",
   submit: "Sign in",
   sending: "Signing in…",
   loginError: "Incorrect email or password.",

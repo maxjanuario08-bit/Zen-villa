@@ -5,6 +5,7 @@ const Compte = {
     "Owner space. Create an account: your home is linked after ZenVilla reviews it.",
   loginEmail: "Email",
   loginPassword: "Password",
+  showPassword: "Show password",
   loginSubmit: "Sign in",
   loginSending: "Signing in…",
   loginError: "Incorrect email or password.",

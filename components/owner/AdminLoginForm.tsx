@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function AdminLoginForm() {
@@ -60,20 +61,15 @@ export default function AdminLoginForm() {
           className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
         />
       </div>
-      <div>
-        <label htmlFor="admin-password" className="mb-1 block text-sm font-medium">
-          {t("password")}
-        </label>
-        <input
-          id="admin-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          minLength={8}
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-      </div>
+      <PasswordField
+        id="admin-password"
+        name="password"
+        autoComplete="current-password"
+        required
+        minLength={8}
+        label={t("password")}
+        revealLabel={t("showPassword")}
+      />
       {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
       {status === "limited" && <p className="text-sm text-red-600">{t("loginLimited")}</p>}
       {status === "unavailable" && <p className="text-sm text-red-600">{t("unavailable")}</p>}

@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function StaffLoginForm() {
@@ -45,21 +46,16 @@ export default function StaffLoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="staff-code" className="mb-1 block text-sm font-medium">
-          {t("code")}
-        </label>
-        <input
-          id="staff-code"
-          name="code"
-          type="password"
-          inputMode="numeric"
-          autoComplete="off"
-          required
-          minLength={8}
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-      </div>
+      <PasswordField
+        id="staff-code"
+        name="code"
+        inputMode="numeric"
+        autoComplete="off"
+        required
+        minLength={8}
+        label={t("code")}
+        revealLabel={t("showPassword")}
+      />
       {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
       {status === "limited" && <p className="text-sm text-red-600">{t("loginLimited")}</p>}
       {status === "unavailable" && <p className="text-sm text-red-600">{t("unavailable")}</p>}

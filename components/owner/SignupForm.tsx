@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
+import PasswordField from "@/components/owner/PasswordField";
 
 export default function SignupForm() {
   const t = useTranslations("Compte");
@@ -11,6 +12,7 @@ export default function SignupForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "exists" | "weak" | "unavailable">(
     "idle",
   );
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -87,35 +89,30 @@ export default function SignupForm() {
           className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
         />
       </div>
-      <div>
-        <label htmlFor="owner-signup-password" className="mb-1 block text-sm font-medium">
-          {t("loginPassword")}
-        </label>
-        <input
-          id="owner-signup-password"
-          name="password"
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-        <p className="mt-1 text-xs text-muted">{t("signupPasswordHint")}</p>
-      </div>
-      <div>
-        <label htmlFor="owner-confirm" className="mb-1 block text-sm font-medium">
-          {t("signupConfirm")}
-        </label>
-        <input
-          id="owner-confirm"
-          name="confirm"
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-      </div>
+      <PasswordField
+        id="owner-signup-password"
+        name="password"
+        autoComplete="new-password"
+        required
+        minLength={8}
+        label={t("loginPassword")}
+        revealLabel={t("showPassword")}
+        visible={showPassword}
+        onVisibleChange={setShowPassword}
+        hint={<p className="mt-1 text-xs text-muted">{t("signupPasswordHint")}</p>}
+      />
+      <PasswordField
+        id="owner-confirm"
+        name="confirm"
+        autoComplete="new-password"
+        required
+        minLength={8}
+        label={t("signupConfirm")}
+        revealLabel={t("showPassword")}
+        visible={showPassword}
+        onVisibleChange={setShowPassword}
+        showToggle={false}
+      />
       <div>
         <label htmlFor="owner-property" className="mb-1 block text-sm font-medium">
           {t("signupProperty")}

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
+import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function LoginForm() {
@@ -67,19 +68,14 @@ export default function LoginForm() {
           className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
         />
       </div>
-      <div>
-        <label htmlFor="owner-password" className="mb-1 block text-sm font-medium">
-          {t("loginPassword")}
-        </label>
-        <input
-          id="owner-password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-      </div>
+      <PasswordField
+        id="owner-password"
+        name="password"
+        autoComplete="current-password"
+        required
+        label={t("loginPassword")}
+        revealLabel={t("showPassword")}
+      />
       {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
       {status === "unavailable" && <p className="text-sm text-red-600">{t("loginUnavailable")}</p>}
       <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
