@@ -56,6 +56,15 @@ export async function ensureOwnerSchema() {
   await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS check_out_time TEXT NOT NULL DEFAULT ''`;
   await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS booked_by TEXT NOT NULL DEFAULT ''`;
   await sql`
+    DELETE FROM owner_stays
+    WHERE slug = 'mini-villa-pinson'
+      AND (
+        (guest_label = 'Jean' AND check_in = DATE '2026-09-26' AND check_out = DATE '2026-09-30')
+        OR (guest_label = 'Ania et Fred' AND check_in = DATE '2026-09-23' AND check_out = DATE '2026-09-26')
+        OR (guest_label = 'test' AND check_in = DATE '2026-09-14' AND check_out = DATE '2026-09-23')
+      )
+  `;
+  await sql`
     CREATE TABLE IF NOT EXISTS owner_cleanings (
       id TEXT PRIMARY KEY,
       slug TEXT NOT NULL,

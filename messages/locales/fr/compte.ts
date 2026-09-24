@@ -41,7 +41,7 @@ const Compte = {
   backToDash: "Retour à l’espace membre",
   calTitle: "Calendrier",
   calLead:
-    "Cliquez l’arrivée puis le départ : toutes les dates entre les deux se sélectionnent. Bloquez, libérez ou réservez ensuite.",
+    "Cliquez l’arrivée puis le départ : toutes les dates entre les deux se sélectionnent. Bloquez ou libérez ensuite.",
   calPrev: "Mois précédent",
   calNext: "Mois suivant",
   calSelected: "{from} → {to} · {count} jours",
@@ -86,7 +86,7 @@ const Compte = {
   bookError: "Impossible d’enregistrer cette réservation.",
   bookOverlap: "Ces dates chevauchent déjà un séjour.",
   staysOwnerTitle: "Locations",
-  staysOwnerLead: "Les séjours de ce logement. Vous ne pouvez retirer que ceux que vous avez ajoutés à la main.",
+  staysOwnerLead: "Les séjours de ce logement. Vous pouvez seulement bloquer des dates, pas créer une réservation.",
   staysTitle: "Arrivées et départs",
   staysLead: "Indiquez qui a fait le check-in ou le check-out, puis l’heure.",
   staysEmpty: "Aucun séjour pour le moment.",

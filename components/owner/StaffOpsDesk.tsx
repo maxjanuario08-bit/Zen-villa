@@ -82,6 +82,7 @@ export default function StaffOpsDesk({ villas }: { villas: readonly Villa[] }) {
           ownerBlocks={calendar.ownerBlocks}
           closedMmdd={calendar.closedMmdd}
           maxGuests={villa.guests}
+          allowBooking
           onUpdated={() => void load()}
           cleanings={cleanings}
         />

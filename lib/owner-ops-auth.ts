@@ -15,3 +15,7 @@ export async function canBookOrBlock(slug: string) {
 export async function canOperateStay(_slug: string) {
   return isOpsSession();
 }
+
+export async function canCreateStay(_slug: string) {
+  return isOpsSession();
+}

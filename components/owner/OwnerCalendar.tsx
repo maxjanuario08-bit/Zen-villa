@@ -56,6 +56,7 @@ type Props = {
   closedMmdd: ClosedMmdd;
   maxGuests: number;
   cleanings?: readonly CleaningRecord[];
+  allowBooking?: boolean;
   onUpdated?: () => void;
 };
 
@@ -66,7 +67,16 @@ function inClosedMmdd(iso: string, closed: ClosedMmdd) {
   return value >= closed.from || value < closed.to;
 }
 
-export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, maxGuests, cleanings = [], onUpdated }: Props) {
+export default function OwnerCalendar({
+  slug,
+  stays,
+  ownerBlocks,
+  closedMmdd,
+  maxGuests,
+  cleanings = [],
+  allowBooking = false,
+  onUpdated,
+}: Props) {
   const t = useTranslations("Compte");
   const locale = useLocale();
   const router = useRouter();
@@ -358,14 +368,16 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
             >
               {t("calUnblock")}
             </button>
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => setShowBook(true)}
-              className="rounded-full bg-sand-dark px-4 py-2 text-sm font-medium text-foreground hover:bg-sand disabled:opacity-60"
-            >
-              {t("calBook")}
-            </button>
+            {allowBooking ? (
+              <button
+                type="button"
+                disabled={saving}
+                onClick={() => setShowBook(true)}
+                className="rounded-full bg-sand-dark px-4 py-2 text-sm font-medium text-foreground hover:bg-sand disabled:opacity-60"
+              >
+                {t("calBook")}
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={() => {
@@ -379,7 +391,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
               {t("calClear")}
             </button>
           </div>
-          {showBook ? (
+          {allowBooking && showBook ? (
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_6rem_auto]">
               <input
                 value={guest}

@@ -41,7 +41,7 @@ const Compte = {
   backToDash: "Volver al espacio miembro",
   calTitle: "Calendario",
   calLead:
-    "Pulsa la fecha de inicio y luego la de fin: se seleccionan todos los días. Después bloquee, libere o reserve.",
+    "Pulsa la fecha de inicio y luego la de fin: se seleccionan todos los días. Después bloquee o libere.",
   calPrev: "Mes anterior",
   calNext: "Mes siguiente",
   legendAvailable: "Libre",
@@ -86,7 +86,7 @@ const Compte = {
   bookError: "No se ha podido guardar esta reserva.",
   bookOverlap: "Estas fechas se solapan con otra estancia.",
   staysOwnerTitle: "Reservas",
-  staysOwnerLead: "Estancias de este alojamiento. Solo puede quitar las que usted añadió a mano.",
+  staysOwnerLead: "Estancias de este alojamiento. Solo puede bloquear fechas, no crear una reserva.",
   staysTitle: "Entradas y salidas",
   staysLead: "Indique quién hizo el check-in o el check-out, y la hora.",
   staysEmpty: "Aún no hay estancias.",

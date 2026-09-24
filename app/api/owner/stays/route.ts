@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
-import { canBookOrBlock, canOperateStay, isOpsSession } from "@/lib/owner-ops-auth";
+import { canBookOrBlock, canCreateStay, canOperateStay, isOpsSession } from "@/lib/owner-ops-auth";
 import { addStayPhotos, createManualStay, deleteStay, getStayById, getStaysForSlug, markStayCheck } from "@/lib/owner-data";
 import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
 import { ownerMayDeleteStay } from "@/lib/owner-types";
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
   }
 
   const slug = String(body.slug ?? "");
-  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
+  if (!slug || !getLogement(slug) || !(await canCreateStay(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     checkIn,
     checkOut,
     guests: Number(body.guests) || 1,
-    bookedBy: (await isOpsSession()) ? "ops" : "owner",
+    bookedBy: "ops",
   });
   if ("error" in created) {
     const status = created.error === "overlap" ? 409 : 400;

@@ -40,7 +40,7 @@ const Compte = {
   backToDash: "Back to member space",
   calTitle: "Calendar",
   calLead:
-    "Click the start date, then the end date: every day in between is selected. Then block, free or book.",
+    "Click the start date, then the end date: every day in between is selected. Then block or free the dates.",
   calPrev: "Previous month",
   calNext: "Next month",
   legendAvailable: "Available",
@@ -85,7 +85,7 @@ const Compte = {
   bookError: "Could not save this booking.",
   bookOverlap: "These dates overlap an existing stay.",
   staysOwnerTitle: "Bookings",
-  staysOwnerLead: "Stays for this home. You can only remove bookings you added yourself.",
+  staysOwnerLead: "Stays for this home. You can only block dates, not create a booking.",
   staysTitle: "Check-in and check-out",
   staysLead: "Say who did the check-in or check-out, then the time.",
   staysEmpty: "No stays yet.",

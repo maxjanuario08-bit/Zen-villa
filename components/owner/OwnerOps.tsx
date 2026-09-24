@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import Button from "@/components/ui/Button";
 import type { PaidStay } from "@/lib/owner-types";
 import { ownerMayDeleteStay } from "@/lib/owner-types";
 
@@ -17,11 +16,10 @@ function stayName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
 
 type Props = {
   slug: string;
-  maxGuests: number;
   stays: readonly PaidStay[];
 };
 
-export default function OwnerOps({ slug, maxGuests, stays }: Props) {
+export default function OwnerOps({ slug, stays }: Props) {
   const t = useTranslations("Compte");
   const locale = useLocale();
   const router = useRouter();
@@ -31,41 +29,6 @@ export default function OwnerOps({ slug, maxGuests, stays }: Props) {
 
   function formatDay(iso: string) {
     return dateFmt.format(new Date(`${iso}T12:00:00`));
-  }
-
-  async function book(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    setBusy("book");
-    setError(null);
-    try {
-      const res = await fetch("/api/owner/stays", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          slug,
-          guestLabel: String(data.get("guestLabel") ?? ""),
-          checkIn: String(data.get("checkIn") ?? ""),
-          checkOut: String(data.get("checkOut") ?? ""),
-          guests: Number(data.get("guests") || 1),
-        }),
-      });
-      if (res.status === 409) {
-        setError(t("bookOverlap"));
-        return;
-      }
-      if (!res.ok) {
-        setError(t("bookError"));
-        return;
-      }
-      form.reset();
-      router.refresh();
-    } catch {
-      setError(t("bookError"));
-    } finally {
-      setBusy(null);
-    }
   }
 
   async function removeStay(stayId: string) {
@@ -97,68 +60,6 @@ export default function OwnerOps({ slug, maxGuests, stays }: Props) {
 
   return (
     <div className="space-y-8">
-      <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("bookTitle")}</h2>
-        <p className="mt-2 text-sm text-foreground/70">{t("bookLead")}</p>
-        <form onSubmit={(e) => void book(e)} className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div className="sm:col-span-2">
-            <label htmlFor="guestLabel" className="mb-1 block text-sm font-medium">
-              {t("bookGuest")}
-            </label>
-            <input
-              id="guestLabel"
-              name="guestLabel"
-              required
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div>
-            <label htmlFor="checkIn" className="mb-1 block text-sm font-medium">
-              {t("bookIn")}
-            </label>
-            <input
-              id="checkIn"
-              name="checkIn"
-              type="date"
-              required
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div>
-            <label htmlFor="checkOut" className="mb-1 block text-sm font-medium">
-              {t("bookOut")}
-            </label>
-            <input
-              id="checkOut"
-              name="checkOut"
-              type="date"
-              required
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div>
-            <label htmlFor="guests" className="mb-1 block text-sm font-medium">
-              {t("bookGuests")}
-            </label>
-            <input
-              id="guests"
-              name="guests"
-              type="number"
-              min={1}
-              max={maxGuests}
-              defaultValue={2}
-              required
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div className="flex items-end">
-            <Button type="submit" variant="primary" className="w-full" disabled={busy === "book"}>
-              {busy === "book" ? t("bookSaving") : t("bookSubmit")}
-            </Button>
-          </div>
-        </form>
-      </section>
-
       <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
         <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("staysOwnerTitle")}</h2>
         <p className="mt-2 text-sm text-foreground/70">{t("staysOwnerLead")}</p>
