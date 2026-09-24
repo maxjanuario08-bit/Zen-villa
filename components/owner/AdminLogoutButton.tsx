@@ -1,15 +1,14 @@
 "use client";
 
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function AdminLogoutButton() {
   const t = useTranslations("Admin");
-  const router = useRouter();
 
   async function logout() {
-    await fetch("/api/owner/admin/logout", { method: "POST" });
-    router.refresh();
+    await fetch("/api/owner/admin/logout", { method: "POST", credentials: "include" });
+    window.location.assign(afterAuthUrl("/admin"));
   }
 
   return (

@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function StaffLoginForm() {
   const t = useTranslations("Equipe");
@@ -36,7 +37,7 @@ export default function StaffLoginForm() {
         setStatus("error");
         return;
       }
-      window.location.assign("https://www.zen-villa.fr/equipe");
+      window.location.assign(afterAuthUrl("/equipe"));
     } catch {
       setStatus("error");
     }

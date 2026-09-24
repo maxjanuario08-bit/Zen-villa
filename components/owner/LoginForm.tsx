@@ -2,12 +2,12 @@
 
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
+import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function LoginForm() {
   const t = useTranslations("Compte");
-  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable">("idle");
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -40,14 +40,13 @@ export default function LoginForm() {
           }),
         });
         if (admin.ok) {
-          window.location.assign("https://www.zen-villa.fr/admin");
+          window.location.assign(afterAuthUrl("/admin"));
           return;
         }
         setStatus("error");
         return;
       }
-      router.push("/compte");
-      router.refresh();
+      window.location.assign(afterAuthUrl("/compte"));
     } catch {
       setStatus("error");
     }

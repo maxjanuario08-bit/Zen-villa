@@ -1,16 +1,14 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function LogoutButton({ className = "" }: { className?: string }) {
   const t = useTranslations("Compte");
-  const router = useRouter();
 
   async function logout() {
-    await fetch("/api/owner/logout", { method: "POST" });
-    router.push("/connexion");
-    router.refresh();
+    await fetch("/api/owner/logout", { method: "POST", credentials: "include" });
+    window.location.assign(afterAuthUrl("/connexion"));
   }
 
   return (

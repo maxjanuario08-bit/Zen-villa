@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function AdminLoginForm() {
   const t = useTranslations("Admin");
@@ -37,7 +38,7 @@ export default function AdminLoginForm() {
         setStatus("error");
         return;
       }
-      window.location.assign("https://www.zen-villa.fr/admin");
+      window.location.assign(afterAuthUrl("/admin"));
     } catch {
       setStatus("error");
     }
