@@ -20,20 +20,25 @@ import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 type ClosedMmdd = { from: string; to: string } | null;
 
 const STAY_COLORS = [
-  { bg: "#1f6f6a", fg: "#ffffff" },
-  { bg: "#3d7ea6", fg: "#ffffff" },
-  { bg: "#c47a3a", fg: "#ffffff" },
-  { bg: "#5c6e3a", fg: "#ffffff" },
-  { bg: "#7a4e6a", fg: "#ffffff" },
-  { bg: "#2f7d62", fg: "#ffffff" },
-  { bg: "#4f5d8a", fg: "#ffffff" },
-  { bg: "#a85a45", fg: "#ffffff" },
+  { bg: "#0f766e", fg: "#ffffff" },
+  { bg: "#c2410c", fg: "#ffffff" },
+  { bg: "#1d4ed8", fg: "#ffffff" },
+  { bg: "#a21caf", fg: "#ffffff" },
+  { bg: "#b45309", fg: "#ffffff" },
+  { bg: "#15803d", fg: "#ffffff" },
+  { bg: "#be185d", fg: "#ffffff" },
+  { bg: "#4338ca", fg: "#ffffff" },
 ] as const;
 
-function stayColor(id: string) {
-  let hash = 0;
-  for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
-  return STAY_COLORS[hash % STAY_COLORS.length];
+function colorsByStay(stays: readonly PaidStay[]) {
+  const ordered = [...stays].sort(
+    (a, b) => a.checkIn.localeCompare(b.checkIn) || a.id.localeCompare(b.id),
+  );
+  const map = new Map<string, (typeof STAY_COLORS)[number]>();
+  ordered.forEach((stay, index) => {
+    map.set(stay.id, STAY_COLORS[index % STAY_COLORS.length]);
+  });
+  return map;
 }
 
 function stayGuestName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
@@ -119,6 +124,11 @@ export default function OwnerCalendar({
     const to = `${y}-${String(m + 1).padStart(2, "0")}-${String(new Date(y, m + 1, 0).getDate()).padStart(2, "0")}`;
     return localStays.filter((stay) => stay.checkIn <= to && stay.checkOut > from);
   }, [month, localStays]);
+  const stayTints = useMemo(() => colorsByStay(localStays), [localStays]);
+
+  function tintFor(stay: PaidStay) {
+    return stayTints.get(stay.id) ?? STAY_COLORS[0];
+  }
 
   function stayOn(iso: string) {
     return localStays.find((stay) => iso >= stay.checkIn && iso < stay.checkOut);
@@ -276,7 +286,7 @@ export default function OwnerCalendar({
           const picked = selectedSet.has(iso);
           const disabled = Boolean(closed || saving);
           const guestName = stay ? stayGuestName(stay, t) : "";
-          const tint = stay ? stayColor(stay.id) : null;
+          const tint = stay ? tintFor(stay) : null;
           return (
             <button
               key={iso}
@@ -315,7 +325,7 @@ export default function OwnerCalendar({
       {monthStays.length > 0 ? (
         <ul className="mt-3 flex flex-wrap gap-2">
           {monthStays.map((stay) => {
-            const tint = stayColor(stay.id);
+            const tint = tintFor(stay);
             return (
               <li key={stay.id}>
                 <button
@@ -339,7 +349,7 @@ export default function OwnerCalendar({
       {recap ? (
         <div
           className="mt-4 rounded-xl bg-lagoon/10 p-4 text-sm text-lagoon-dark"
-          style={{ borderLeft: `6px solid ${stayColor(recap.id).bg}` }}
+          style={{ borderLeft: `6px solid ${tintFor(recap).bg}` }}
         >
           <p className="font-medium">
             {t("stayGuest", {
