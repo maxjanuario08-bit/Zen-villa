@@ -47,9 +47,10 @@ type Props = {
   stays: readonly PaidStay[];
   cleanings: readonly CleaningRecord[];
   onChanged: () => void;
+  showHistory?: boolean;
 };
 
-export default function StaffOps({ slug, stays, cleanings, onChanged }: Props) {
+export default function StaffOps({ slug, stays, cleanings, onChanged, showHistory = true }: Props) {
   const t = useTranslations("Compte");
   const locale = useLocale();
   const [busy, setBusy] = useState<string | null>(null);
@@ -420,51 +421,61 @@ export default function StaffOps({ slug, stays, cleanings, onChanged }: Props) {
         </form>
       </section>
 
-      <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("historyTitle")}</h2>
-        <p className="mt-2 text-sm text-foreground/70">{t("historyLead")}</p>
-        {past.length === 0 ? (
-          <p className="mt-4 text-sm text-muted">{t("historyEmpty")}</p>
-        ) : (
-          <ul className="mt-5 divide-y divide-sand/40">
-            {past.map((stay) => {
-              const related = cleanings.filter((row) => row.stayId === stay.id);
-              return (
-                <li key={stay.id} className="py-4 first:pt-0">
-                  <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
-                  <p className="text-sm text-foreground/70">
-                    {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)}
-                    {stay.checkInTime ? ` · ${stay.checkInTime}` : ""}
-                    {stay.checkOutTime ? ` → ${stay.checkOutTime}` : ""}
-                  </p>
-                  <p className="mt-1 text-xs text-foreground/65">
-                    {stay.checkedInBy
-                      ? t("historyCheckIn", { name: stay.checkedInBy })
-                      : t("checkInPending")}
-                    {" · "}
-                    {stay.checkedOutBy
-                      ? t("historyCheckOut", { name: stay.checkedOutBy })
-                      : t("checkOutPending")}
-                  </p>
-                  {related.map((row) => (
-                    <p key={row.id} className="mt-1 text-xs text-foreground/65">
-                      {t("historyClean", { name: ["marie", "luca"].includes(row.cleanerId) ? t(`cleaners.${row.cleanerId}`) : row.cleanerId, date: row.date, time: row.time })}
+      {showHistory ? (
+        <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
+          <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("historyTitle")}</h2>
+          <p className="mt-2 text-sm text-foreground/70">{t("historyLead")}</p>
+          {past.length === 0 ? (
+            <p className="mt-4 text-sm text-muted">{t("historyEmpty")}</p>
+          ) : (
+            <ul className="mt-5 divide-y divide-sand/40">
+              {past.map((stay) => {
+                const related = cleanings.filter((row) => row.stayId === stay.id);
+                return (
+                  <li key={stay.id} className="py-4 first:pt-0">
+                    <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
+                    <p className="text-sm text-foreground/70">
+                      {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)}
+                      {stay.checkInTime ? ` · ${stay.checkInTime}` : ""}
+                      {stay.checkOutTime ? ` → ${stay.checkOutTime}` : ""}
                     </p>
-                  ))}
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {[...(stay.checkInPhotos ?? []), ...(stay.checkOutPhotos ?? []), ...related.flatMap((row) => row.photos)].map(
-                      (src, i) => (
+                    <p className="mt-1 text-xs text-foreground/65">
+                      {stay.checkedInBy
+                        ? t("historyCheckIn", { name: stay.checkedInBy })
+                        : t("checkInPending")}
+                      {" · "}
+                      {stay.checkedOutBy
+                        ? t("historyCheckOut", { name: stay.checkedOutBy })
+                        : t("checkOutPending")}
+                    </p>
+                    {related.map((row) => (
+                      <p key={row.id} className="mt-1 text-xs text-foreground/65">
+                        {t("historyClean", {
+                          name: ["marie", "luca"].includes(row.cleanerId)
+                            ? t(`cleaners.${row.cleanerId}`)
+                            : row.cleanerId,
+                          date: row.date,
+                          time: row.time,
+                        })}
+                      </p>
+                    ))}
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {[
+                        ...(stay.checkInPhotos ?? []),
+                        ...(stay.checkOutPhotos ?? []),
+                        ...related.flatMap((row) => row.photos),
+                      ].map((src, i) => (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img key={`${stay.id}-h-${i}`} src={src} alt="" className="h-16 w-16 rounded-lg object-cover" />
-                      ),
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
+                      ))}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      ) : null}
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
     </div>

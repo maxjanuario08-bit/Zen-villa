@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Card from "@/components/ui/Card";
-import AdminDesk from "@/components/owner/AdminDesk";
 import AdminLoginForm from "@/components/owner/AdminLoginForm";
 import AdminLogoutButton from "@/components/owner/AdminLogoutButton";
-import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
+import AdminWorkspace from "@/components/owner/AdminWorkspace";
 import { logementsManaged } from "@/lib/logements";
 import { getAdminSession } from "@/lib/owner-admin";
 
@@ -53,16 +52,11 @@ export default async function AdminPage({ params }: Props) {
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
             <h1 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("title")}</h1>
-            <p className="mt-2 text-sm text-foreground/70">{t("deskLead")}</p>
+            <p className="mt-2 text-sm text-foreground/70">{t("workspaceLead")}</p>
           </div>
           <AdminLogoutButton />
         </div>
-        <AdminDesk />
-        <div className="mt-12 space-y-4">
-          <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("opsTitle")}</h2>
-          <p className="text-sm text-foreground/70">{t("opsLead")}</p>
-          <StaffOpsDesk villas={villas} allowBooking allowBlock />
-        </div>
+        <AdminWorkspace villas={villas} />
       </div>
     </section>
   );

@@ -19,10 +19,16 @@ export default function StaffOpsDesk({
   villas,
   allowBooking = false,
   allowBlock = false,
+  showCalendar = true,
+  showOps = true,
+  showHistory = true,
 }: {
   villas: readonly Villa[];
   allowBooking?: boolean;
   allowBlock?: boolean;
+  showCalendar?: boolean;
+  showOps?: boolean;
+  showHistory?: boolean;
 }) {
   const t = useTranslations("Equipe");
   const tLog = useTranslations("Logements");
@@ -83,7 +89,7 @@ export default function StaffOpsDesk({
         </select>
       </div>
       {error ? <p className="text-sm text-red-600">{t("loadError")}</p> : null}
-      {calendar ? (
+      {showCalendar && calendar ? (
         <OwnerCalendar
           slug={slug}
           stays={calendar.stays}
@@ -96,7 +102,15 @@ export default function StaffOpsDesk({
           cleanings={cleanings}
         />
       ) : null}
-      <StaffOps slug={slug} stays={stays} cleanings={cleanings} onChanged={() => void load()} />
+      {showOps ? (
+        <StaffOps
+          slug={slug}
+          stays={stays}
+          cleanings={cleanings}
+          onChanged={() => void load()}
+          showHistory={showHistory}
+        />
+      ) : null}
     </div>
   );
 }

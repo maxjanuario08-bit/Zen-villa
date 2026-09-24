@@ -108,6 +108,21 @@ export async function getStaysForSlug(slug: string): Promise<PaidStay[]> {
   return ownerDemoEnabled() ? seedStaysForSlug(slug) : [];
 }
 
+export async function getAllStays(): Promise<PaidStay[]> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at,
+             checkin_photos_json, checkout_photos_json, checked_in_by, checked_out_by, check_in_time, check_out_time,
+             booked_by
+      FROM owner_stays ORDER BY check_in DESC
+    `;
+    return (rows as Record<string, unknown>[]).map(rowToStay);
+  }
+  const file = await readJsonFile<{ stays: PaidStay[] }>(STAYS_PATH, { stays: [] });
+  return file.stays.map(normalizeFileStay).sort((a, b) => b.checkIn.localeCompare(a.checkIn));
+}
+
 export async function getStayById(id: string): Promise<PaidStay | null> {
   if (usePostgres()) {
     const sql = await pg();
@@ -320,6 +335,19 @@ export async function getCleaningsForSlug(slug: string): Promise<CleaningRecord[
   const local = file.cleanings.filter((row) => row.slug === slug);
   if (local.length) return local;
   return ownerDemoEnabled() ? seedCleaningsForSlug(slug) : [];
+}
+
+export async function getAllCleanings(): Promise<CleaningRecord[]> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json
+      FROM owner_cleanings ORDER BY date DESC, time DESC
+    `;
+    return (rows as Record<string, unknown>[]).map(rowToCleaning);
+  }
+  const file = await readJsonFile<{ cleanings: CleaningRecord[] }>(CLEANINGS_PATH, { cleanings: [] });
+  return [...file.cleanings].sort((a, b) => b.date.localeCompare(a.date) || b.time.localeCompare(a.time));
 }
 
 export async function createCleaning(input: {
