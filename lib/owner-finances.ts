@@ -1,8 +1,7 @@
 import { nightsBetween, quoteStay, type BookingConfig } from "@/lib/booking";
 import type { PaidStay } from "@/lib/owner-types";
 
-/** Commission Zenvilla : 20 % du CA locatif (nuits facturées), hors ménage voyageur. */
-export const ZENVILLA_FEE_RATE = 0.2;
+export const ZENVILLA_FEE_RATE = 0;
 
 export function staysInYear(stays: readonly PaidStay[], year: number) {
   return stays.filter((stay) =>

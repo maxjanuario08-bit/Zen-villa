@@ -48,3 +48,5 @@ next-env.d.ts
 # Mutations locales du calendrier propriétaire et comptes inscrits
 /data/owner-calendar.json
 /data/owner-accounts.json
+/data/owner-stays.json
+/data/owner-cleanings.json

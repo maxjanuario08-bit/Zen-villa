@@ -41,9 +41,13 @@ export async function ensureOwnerSchema() {
       guest_label TEXT NOT NULL DEFAULT '',
       check_in DATE NOT NULL,
       check_out DATE NOT NULL,
-      guests INT NOT NULL DEFAULT 1
+      guests INT NOT NULL DEFAULT 1,
+      checked_in_at TIMESTAMPTZ,
+      checked_out_at TIMESTAMPTZ
     )
   `;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checked_in_at TIMESTAMPTZ`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checked_out_at TIMESTAMPTZ`;
   await sql`
     CREATE TABLE IF NOT EXISTS owner_cleanings (
       id TEXT PRIMARY KEY,

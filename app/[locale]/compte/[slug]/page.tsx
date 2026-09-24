@@ -7,9 +7,9 @@ import { getLogement } from "@/lib/logements";
 import { ownerOwnsSlug, requireOwner } from "@/lib/owner-auth";
 import { getOwnerCalendarPayload } from "@/lib/owner-calendar";
 import { getCleaningsForSlug, getStaysForSlug } from "@/lib/owner-data";
-import CleaningList from "@/components/owner/CleaningList";
 import FinanceSummary from "@/components/owner/FinanceSummary";
 import OwnerCalendar from "@/components/owner/OwnerCalendar";
+import OwnerOps from "@/components/owner/OwnerOps";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -61,7 +61,7 @@ export default async function CompteLogementPage({ params }: Props) {
             ownerBlocks={calendar.ownerBlocks}
             closedMmdd={calendar.closedMmdd}
           />
-          <CleaningList locale={locale} records={cleanings} />
+          <OwnerOps slug={slug} maxGuests={logement.guests} stays={stays} cleanings={cleanings} />
         </div>
       </div>
     </section>

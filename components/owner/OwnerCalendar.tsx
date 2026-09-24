@@ -35,10 +35,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd }: 
   const locale = useLocale();
   const router = useRouter();
   const today = todayISO();
-  const firstStay = stays[0]?.checkIn;
-  const [month, setMonth] = useState(() =>
-    startOfMonth(fromISODate(firstStay && firstStay > today ? firstStay : "2026-04-01")),
-  );
+  const [month, setMonth] = useState(() => startOfMonth(fromISODate(today)));
   const [saving, setSaving] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [localBlocks, setLocalBlocks] = useState<DateRange[]>([...ownerBlocks]);
@@ -135,12 +132,17 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd }: 
           const closed = inClosedMmdd(iso, closedMmdd);
           const past = iso < today;
           const disabled = Boolean(stay || closed || saving);
+          const guest =
+            stay?.guestLabel ||
+            (stay && ["martin", "laurent", "wright", "rossi"].includes(stay.guestKey)
+              ? t(`guests.${stay.guestKey}`)
+              : stay?.guestKey);
           return (
             <button
               key={iso}
               type="button"
               disabled={disabled}
-              title={stay ? t("stayGuest", { guest: t(`guests.${stay.guestKey}`) }) : undefined}
+              title={stay && guest ? t("stayGuest", { guest }) : undefined}
               onClick={() => void toggle(iso)}
               className={`min-h-[3.1rem] rounded-lg border px-0.5 py-1 text-center text-xs transition-colors ${
                 stay

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
+import MemberNavLinks from "@/components/owner/MemberNavLinks";
 
 const navKeys = ["home", "formules", "rentals", "trust", "guests", "contact"] as const;
 
@@ -55,12 +56,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-5">
-            <Link
-              href="/compte"
-              className="text-xs font-medium text-foreground/55 hover:text-lagoon transition-colors whitespace-nowrap"
-            >
-              {t("member")}
-            </Link>
+            <MemberNavLinks />
             <LocaleSwitcher />
             <a
               href={`tel:${CONTACT.telephoneTel}`}
@@ -143,13 +139,7 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link
-              href="/compte"
-              className="py-2 text-sm font-medium text-foreground/70"
-              onClick={() => setIsOpen(false)}
-            >
-              {t("member")}
-            </Link>
+            <MemberNavLinks className="py-2" />
             <Link
               href="/contact"
               className="rounded-full bg-lagoon px-5 py-3 text-center text-sm font-medium text-white mt-2"

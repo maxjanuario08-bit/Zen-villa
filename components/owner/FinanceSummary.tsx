@@ -1,6 +1,6 @@
+import { yearFinance } from "@/lib/owner-finances";
 import { getTranslations } from "next-intl/server";
 import type { BookingConfig } from "@/lib/booking";
-import { yearFinance, ZENVILLA_FEE_RATE } from "@/lib/owner-finances";
 import type { PaidStay } from "@/lib/owner-types";
 
 type Props = {
@@ -10,6 +10,14 @@ type Props = {
   year: number;
 };
 
+function stayLabel(stay: PaidStay, t: Awaited<ReturnType<typeof getTranslations>>) {
+  if (stay.guestLabel) return stay.guestLabel;
+  if (["martin", "laurent", "wright", "rossi"].includes(stay.guestKey)) {
+    return t(`guests.${stay.guestKey}`);
+  }
+  return stay.guestKey;
+}
+
 export default async function FinanceSummary({ locale, stays, booking, year }: Props) {
   const t = await getTranslations({ locale, namespace: "Compte" });
   const finance = yearFinance(stays, booking, year);
@@ -18,27 +26,20 @@ export default async function FinanceSummary({ locale, stays, booking, year }: P
     currency: "EUR",
     maximumFractionDigits: 0,
   });
-  const pct = Math.round(ZENVILLA_FEE_RATE * 100);
 
   return (
-    <section className="rounded-2xl border border-sand/40 bg-white p-5 sm:p-7 shadow-card">
+    <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
       <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("financeTitle")}</h2>
-      <p className="mt-2 text-sm text-foreground/70">{t("financeLead", { pct })}</p>
+      <p className="mt-2 text-sm text-foreground/70">{t("financeLead")}</p>
 
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-xl bg-sand-light/80 px-4 py-3">
           <p className="text-xs uppercase tracking-wide text-muted">{t("financeGross", { year })}</p>
           <p className="mt-1 font-serif text-2xl text-lagoon-dark">{euro.format(finance.lodging)}</p>
-          <p className="text-xs text-muted">{t("financeNights", { count: finance.nights })}</p>
         </div>
         <div className="rounded-xl bg-sand-light/80 px-4 py-3">
-          <p className="text-xs uppercase tracking-wide text-muted">{t("financeFee")}</p>
-          <p className="mt-1 font-serif text-2xl text-lagoon-dark">{euro.format(finance.fee)}</p>
-          <p className="text-xs text-muted">{t("financeFeeLine", { pct })}</p>
-        </div>
-        <div className="rounded-xl bg-lagoon/10 px-4 py-3">
-          <p className="text-xs uppercase tracking-wide text-lagoon-dark/80">{t("financeNet")}</p>
-          <p className="mt-1 font-serif text-2xl text-lagoon-dark">{euro.format(finance.net)}</p>
+          <p className="text-xs uppercase tracking-wide text-muted">{t("financeNights", { count: finance.nights })}</p>
+          <p className="mt-1 font-serif text-2xl text-lagoon-dark">{finance.nights}</p>
         </div>
       </div>
 
@@ -47,19 +48,12 @@ export default async function FinanceSummary({ locale, stays, booking, year }: P
           <li key={row.stay.id} className="flex flex-wrap items-baseline justify-between gap-2 py-3">
             <span className="text-foreground/85">
               {t("financeStay", {
-                guest:
-                  row.stay.guestLabel ||
-                  (["martin", "laurent", "wright", "rossi"].includes(row.stay.guestKey)
-                    ? t(`guests.${row.stay.guestKey}`)
-                    : row.stay.guestKey),
+                guest: stayLabel(row.stay, t),
                 from: row.stay.checkIn,
                 to: row.stay.checkOut,
               })}
             </span>
-            <span className="font-medium text-lagoon-dark">
-              {euro.format(row.lodging)}
-              <span className="ml-2 font-normal text-muted">→ {euro.format(row.fee)}</span>
-            </span>
+            <span className="font-medium text-lagoon-dark">{euro.format(row.lodging)}</span>
           </li>
         ))}
       </ul>

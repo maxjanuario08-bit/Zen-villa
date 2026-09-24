@@ -23,6 +23,8 @@ export type PaidStay = {
   checkOut: string;
   guests: number;
   status: "paid";
+  checkedInAt?: string | null;
+  checkedOutAt?: string | null;
 };
 
 export type CleaningRecord = {
