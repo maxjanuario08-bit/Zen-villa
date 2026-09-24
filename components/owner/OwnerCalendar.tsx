@@ -19,6 +19,36 @@ import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
 type ClosedMmdd = { from: string; to: string } | null;
 
+const STAY_COLORS = [
+  { bg: "#1f6f6a", fg: "#ffffff" },
+  { bg: "#3d7ea6", fg: "#ffffff" },
+  { bg: "#c47a3a", fg: "#ffffff" },
+  { bg: "#5c6e3a", fg: "#ffffff" },
+  { bg: "#7a4e6a", fg: "#ffffff" },
+  { bg: "#2f7d62", fg: "#ffffff" },
+  { bg: "#4f5d8a", fg: "#ffffff" },
+  { bg: "#a85a45", fg: "#ffffff" },
+] as const;
+
+function stayColor(id: string) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i += 1) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return STAY_COLORS[hash % STAY_COLORS.length];
+}
+
+function stayGuestName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
+  if (stay.guestLabel) return stay.guestLabel;
+  if (["martin", "laurent", "wright", "rossi"].includes(stay.guestKey)) {
+    return t(`guests.${stay.guestKey}`);
+  }
+  return stay.guestKey;
+}
+
+function stayShortName(name: string) {
+  const first = name.trim().split(/\s+/)[0] ?? name;
+  return first.length > 8 ? `${first.slice(0, 7)}…` : first;
+}
+
 type Props = {
   slug: string;
   stays: readonly PaidStay[];
@@ -62,6 +92,13 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
   const cells = monthGrid(month);
   const selected = anchor ? daysInclusive(anchor, end ?? hover ?? anchor) : [];
   const selectedSet = new Set(selected);
+  const monthStays = useMemo(() => {
+    const y = month.getFullYear();
+    const m = month.getMonth();
+    const from = `${y}-${String(m + 1).padStart(2, "0")}-01`;
+    const to = `${y}-${String(m + 1).padStart(2, "0")}-${String(new Date(y, m + 1, 0).getDate()).padStart(2, "0")}`;
+    return stays.filter((stay) => stay.checkIn <= to && stay.checkOut > from);
+  }, [month, stays]);
 
   function stayOn(iso: string) {
     return stays.find((stay) => iso >= stay.checkIn && iso < stay.checkOut);
@@ -215,11 +252,8 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
           const closed = inClosedMmdd(iso, closedMmdd);
           const picked = selectedSet.has(iso);
           const disabled = Boolean(closed || saving);
-          const guestName =
-            stay?.guestLabel ||
-            (stay && ["martin", "laurent", "wright", "rossi"].includes(stay.guestKey)
-              ? t(`guests.${stay.guestKey}`)
-              : stay?.guestKey);
+          const guestName = stay ? stayGuestName(stay, t) : "";
+          const tint = stay ? stayColor(stay.id) : null;
           return (
             <button
               key={iso}
@@ -230,9 +264,9 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
               onMouseEnter={() => {
                 if (anchor && !end && !stay && !disabled) setHover(iso);
               }}
-              className={`min-h-[3.1rem] rounded-lg border px-0.5 py-1 text-center text-xs transition-colors ${
+              className={`min-h-[3.35rem] rounded-lg border px-0.5 py-1 text-center text-xs transition-colors ${
                 stay
-                  ? "border-lagoon/30 bg-lagoon text-white hover:bg-lagoon-dark"
+                  ? "border-transparent hover:brightness-110"
                   : picked
                     ? "border-lagoon bg-lagoon/15 text-lagoon-dark"
                     : owner
@@ -241,24 +275,53 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
                         ? "cursor-not-allowed border-transparent bg-sand-light/70 text-muted"
                         : "border-sand/40 bg-white hover:border-lagoon/50"
               }`}
+              style={tint ? { backgroundColor: tint.bg, color: tint.fg } : undefined}
             >
               <span className="block font-medium">{fromISODate(iso).getDate()}</span>
-              {stay && <span className="block text-[0.55rem] leading-tight opacity-90">●</span>}
+              {stay ? (
+                <span className="mt-0.5 block truncate text-[0.58rem] font-medium leading-tight opacity-95">
+                  {stayShortName(guestName)}
+                </span>
+              ) : null}
               {owner && !stay && <span className="block text-[0.55rem] leading-tight">■</span>}
             </button>
           );
         })}
       </div>
 
+      {monthStays.length > 0 ? (
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {monthStays.map((stay) => {
+            const tint = stayColor(stay.id);
+            return (
+              <li key={stay.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRecap(stay);
+                    setAnchor(null);
+                    setEnd(null);
+                    setShowBook(false);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-medium text-white"
+                  style={{ backgroundColor: tint.bg }}
+                >
+                  {stayGuestName(stay, t)}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      ) : null}
+
       {recap ? (
-        <div className="mt-4 rounded-xl bg-lagoon/10 p-4 text-sm text-lagoon-dark">
+        <div
+          className="mt-4 rounded-xl bg-lagoon/10 p-4 text-sm text-lagoon-dark"
+          style={{ borderLeft: `6px solid ${stayColor(recap.id).bg}` }}
+        >
           <p className="font-medium">
             {t("stayGuest", {
-              guest:
-                recap.guestLabel ||
-                (["martin", "laurent", "wright", "rossi"].includes(recap.guestKey)
-                  ? t(`guests.${recap.guestKey}`)
-                  : recap.guestKey),
+              guest: stayGuestName(recap, t),
             })}
           </p>
           <p className="mt-1 text-foreground/80">
