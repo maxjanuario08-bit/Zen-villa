@@ -3,16 +3,13 @@ import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { findAccountByEmail, verifyPassword } from "@/lib/owner-accounts";
+import { sessionCookieOptions } from "@/lib/owner-cookies";
 import { isProductionRuntime, ownerDemoEnabled, ownerSessionSecret, ownerStoreReady } from "@/lib/owner-config";
 import { DEMO_OWNER } from "@/lib/owner-seed";
 import type { OwnerSession } from "@/lib/owner-types";
 
 export const OWNER_COOKIE = "zv_owner";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
-
-function isProd() {
-  return isProductionRuntime() || process.env.VERCEL === "1";
-}
 
 function sessionSecret() {
   return ownerSessionSecret();
@@ -110,13 +107,7 @@ export function readOwnerToken(token: string): OwnerSession | null {
 }
 
 export function ownerCookieOptions() {
-  return {
-    httpOnly: true as const,
-    sameSite: "lax" as const,
-    secure: isProd(),
-    path: "/",
-    maxAge: WEEK_MS / 1000,
-  };
+  return sessionCookieOptions();
 }
 
 export async function getOwnerSession(): Promise<OwnerSession | null> {

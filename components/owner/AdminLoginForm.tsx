@@ -37,7 +37,7 @@ export default function AdminLoginForm() {
         setStatus("error");
         return;
       }
-      window.location.assign("/admin");
+      window.location.assign("https://www.zen-villa.fr/admin");
     } catch {
       setStatus("error");
     }

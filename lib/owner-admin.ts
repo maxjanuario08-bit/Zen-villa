@@ -2,8 +2,8 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
+import { sessionCookieOptions } from "@/lib/owner-cookies";
 import {
-  isProductionRuntime,
   ownerAdminEmail,
   ownerAdminPassword,
   ownerAdminPasswords,
@@ -16,10 +16,6 @@ export const ADMIN_COOKIE = "zv_admin";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type AdminSession = { email: string };
-
-function isProd() {
-  return isProductionRuntime() || process.env.VERCEL === "1";
-}
 
 function sign(payload: string, secret: string) {
   return createHmac("sha256", secret).update(payload).digest("base64url");
@@ -44,13 +40,7 @@ export function localeAdminPath(locale: string) {
 }
 
 export function adminCookieOptions() {
-  return {
-    httpOnly: true as const,
-    sameSite: "lax" as const,
-    secure: isProd(),
-    path: "/",
-    maxAge: WEEK_MS / 1000,
-  };
+  return sessionCookieOptions();
 }
 
 export function createAdminToken(email: string): string {

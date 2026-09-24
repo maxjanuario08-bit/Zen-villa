@@ -18,6 +18,7 @@ export default function LoginForm() {
     try {
       const res = await fetch("/api/owner/login", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: String(data.get("email") ?? ""),
@@ -39,7 +40,7 @@ export default function LoginForm() {
           }),
         });
         if (admin.ok) {
-          window.location.assign("/admin");
+          window.location.assign("https://www.zen-villa.fr/admin");
           return;
         }
         setStatus("error");

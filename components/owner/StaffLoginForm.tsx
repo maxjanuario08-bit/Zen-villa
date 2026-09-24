@@ -36,7 +36,7 @@ export default function StaffLoginForm() {
         setStatus("error");
         return;
       }
-      window.location.assign("/equipe");
+      window.location.assign("https://www.zen-villa.fr/equipe");
     } catch {
       setStatus("error");
     }
