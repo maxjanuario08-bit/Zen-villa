@@ -24,6 +24,18 @@ export function ownerAdminSecret() {
   return process.env.OWNER_ADMIN_SECRET?.trim() ?? "";
 }
 
+export function ownerAdminEmail() {
+  const fromEnv = process.env.OWNER_ADMIN_EMAIL?.trim().toLowerCase();
+  return fromEnv || "contact@zen-villa.fr";
+}
+
+export function ownerAdminPassword() {
+  const fromEnv = process.env.OWNER_ADMIN_PASSWORD?.trim() ?? "";
+  if (fromEnv.length >= 8) return fromEnv;
+  if (!isProductionRuntime()) return fromEnv || "zenvilla-admin-local";
+  return "";
+}
+
 /** En production Vercel, une base Postgres est obligatoire (le disque est éphémère). */
 export function ownerStoreReady() {
   if (!isProductionRuntime()) return true;

@@ -52,18 +52,13 @@ Le disque Vercel est éphémère : comptes et calendriers **doivent** aller dans
 | --- | --- |
 | `DATABASE_URL` | fournie par Neon / Storage |
 | `OWNER_SESSION_SECRET` | `openssl rand -base64 48` (unique, ≥ 32 caractères) |
-| `OWNER_ADMIN_SECRET` | autre secret long, pour lier les logements |
+| `OWNER_ADMIN_SECRET` | autre secret long (API, optionnel) |
+| `OWNER_ADMIN_EMAIL` | `contact@zen-villa.fr` |
+| `OWNER_ADMIN_PASSWORD` | mot de passe de la page `/admin` (toi seul) |
 | `OWNER_SEED_DEMO` | `false` |
 
 3. **Redeploy** après avoir sauvé les variables.
-4. Un propriétaire s’inscrit sur `/inscription`. Il ne voit aucun bien tant que tu ne l’as pas lié :
-
-```bash
-curl -X POST https://www.zen-villa.fr/api/owner/admin/link \
-  -H "Authorization: Bearer TON_OWNER_ADMIN_SECRET" \
-  -H "Content-Type: application/json" \
-  -d '{"email":"email-du-proprio@mail.fr","slug":"mini-villa-pinson"}'
-```
+4. Un propriétaire s’inscrit sur `/inscription`. Tu l’associes sur **https://www.zen-villa.fr/admin** : email admin + mot de passe → villa → **Associer**.
 
 Sans `DATABASE_URL` + secret de session valides, l’inscription et la connexion sont refusées en production (503).
 

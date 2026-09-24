@@ -9,7 +9,9 @@ export function clientIp(req: Request) {
   return forwarded || req.headers.get("x-real-ip") || "unknown";
 }
 
-export async function tooManyAuthAttempts(ip: string, kind: "login" | "register") {
+type AuthKind = "login" | "register" | "admin";
+
+export async function tooManyAuthAttempts(ip: string, kind: AuthKind) {
   const key = `${kind}:${ip}`;
   const now = Date.now();
   if (usePostgres()) {
@@ -27,7 +29,7 @@ export async function tooManyAuthAttempts(ip: string, kind: "login" | "register"
   return hits.length >= MAX_ATTEMPTS;
 }
 
-export async function recordAuthAttempt(ip: string, kind: "login" | "register") {
+export async function recordAuthAttempt(ip: string, kind: AuthKind) {
   const key = `${kind}:${ip}`;
   const now = Date.now();
   if (usePostgres()) {

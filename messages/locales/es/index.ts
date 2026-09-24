@@ -6,6 +6,7 @@ import { ownerBenefits } from "./ownerBenefits";
 import livretVillaPinson from "./livretVillaPinson";
 import Logements from "./logements";
 import Compte from "./compte";
+import Admin from "./admin";
 
 export default {
   ...chrome,
@@ -16,4 +17,5 @@ export default {
   livretVillaPinson,
   Logements,
   Compte,
+  Admin,
 };

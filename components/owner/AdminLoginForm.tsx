@@ -1,0 +1,78 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import Button from "@/components/ui/Button";
+
+export default function AdminLoginForm() {
+  const t = useTranslations("Admin");
+  const router = useRouter();
+  const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable">("idle");
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setStatus("loading");
+    try {
+      const res = await fetch("/api/owner/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: String(data.get("email") ?? ""),
+          password: String(data.get("password") ?? ""),
+        }),
+      });
+      if (res.status === 503) {
+        setStatus("unavailable");
+        return;
+      }
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+      router.refresh();
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="space-y-4">
+      <div>
+        <label htmlFor="admin-email" className="mb-1 block text-sm font-medium">
+          {t("email")}
+        </label>
+        <input
+          id="admin-email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          required
+          defaultValue="contact@zen-villa.fr"
+          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
+        />
+      </div>
+      <div>
+        <label htmlFor="admin-password" className="mb-1 block text-sm font-medium">
+          {t("password")}
+        </label>
+        <input
+          id="admin-password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          required
+          minLength={8}
+          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
+        />
+      </div>
+      {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
+      {status === "unavailable" && <p className="text-sm text-red-600">{t("unavailable")}</p>}
+      <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
+        {status === "loading" ? t("sending") : t("submit")}
+      </Button>
+    </form>
+  );
+}

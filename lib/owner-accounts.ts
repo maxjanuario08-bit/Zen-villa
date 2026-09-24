@@ -155,22 +155,68 @@ export async function createOwnerAccount(input: {
   return account;
 }
 
+export type OwnerPublicAccount = {
+  email: string;
+  name: string;
+  logements: string[];
+  propertyNote: string;
+  createdAt: string;
+};
+
+function toPublic(account: OwnerAccount): OwnerPublicAccount {
+  return {
+    email: account.email,
+    name: account.name,
+    logements: account.logements,
+    propertyNote: account.propertyNote,
+    createdAt: account.createdAt,
+  };
+}
+
+export async function listOwnerAccounts(): Promise<OwnerPublicAccount[]> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, email, name, password_hash, logements_json, property_note, created_at
+      FROM owners
+      ORDER BY created_at DESC
+    `;
+    return (rows as Array<Parameters<typeof rowToAccount>[0]>).map((row) => toPublic(rowToAccount(row)));
+  }
+  const file = await readFile();
+  return [...file.accounts]
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map(toPublic);
+}
+
+async function saveLogements(account: OwnerAccount) {
+  if (usePostgres()) {
+    const sql = await pg();
+    await sql`
+      UPDATE owners SET logements_json = ${JSON.stringify(account.logements)} WHERE email = ${account.email}
+    `;
+    return;
+  }
+  const file = await readFile();
+  const idx = file.accounts.findIndex((a) => a.email === account.email);
+  if (idx >= 0) file.accounts[idx] = account;
+  await writeFile(file);
+}
+
 export async function linkAccountToLogement(email: string, slug: string): Promise<OwnerAccount | null> {
   const account = await findAccountByEmail(email);
   if (!account) return null;
   if (!account.logements.includes(slug)) {
     account.logements = [...account.logements, slug];
   }
-  if (usePostgres()) {
-    const sql = await pg();
-    await sql`
-      UPDATE owners SET logements_json = ${JSON.stringify(account.logements)} WHERE email = ${account.email}
-    `;
-    return account;
-  }
-  const file = await readFile();
-  const idx = file.accounts.findIndex((a) => a.email === account.email);
-  if (idx >= 0) file.accounts[idx] = account;
-  await writeFile(file);
+  await saveLogements(account);
+  return account;
+}
+
+export async function unlinkAccountFromLogement(email: string, slug: string): Promise<OwnerAccount | null> {
+  const account = await findAccountByEmail(email);
+  if (!account) return null;
+  account.logements = account.logements.filter((item) => item !== slug);
+  await saveLogements(account);
   return account;
 }
