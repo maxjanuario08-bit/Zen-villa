@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     checkIn,
     checkOut,
     guests: Number(body.guests) || 1,
-    bookedBy: "ops",
+    bookedBy: (await isOpsSession()) ? "ops" : "owner",
   });
   if ("error" in created) {
     const status = created.error === "overlap" ? 409 : 400;

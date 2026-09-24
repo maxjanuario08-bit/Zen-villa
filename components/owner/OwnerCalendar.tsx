@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -85,13 +85,21 @@ export default function OwnerCalendar({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [localBlocks, setLocalBlocks] = useState<DateRange[]>([...ownerBlocks]);
+  const [localStays, setLocalStays] = useState<PaidStay[]>([...stays]);
   const [anchor, setAnchor] = useState<string | null>(null);
   const [end, setEnd] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [guest, setGuest] = useState("");
   const [guests, setGuests] = useState(2);
-  const [showBook, setShowBook] = useState(false);
   const [recap, setRecap] = useState<PaidStay | null>(null);
+
+  useEffect(() => {
+    setLocalStays([...stays]);
+  }, [stays]);
+
+  useEffect(() => {
+    setLocalBlocks([...ownerBlocks]);
+  }, [ownerBlocks]);
 
   const weekdays = useMemo(() => {
     const fmt = new Intl.DateTimeFormat(locale, { weekday: "short" });
@@ -107,11 +115,11 @@ export default function OwnerCalendar({
     const m = month.getMonth();
     const from = `${y}-${String(m + 1).padStart(2, "0")}-01`;
     const to = `${y}-${String(m + 1).padStart(2, "0")}-${String(new Date(y, m + 1, 0).getDate()).padStart(2, "0")}`;
-    return stays.filter((stay) => stay.checkIn <= to && stay.checkOut > from);
-  }, [month, stays]);
+    return localStays.filter((stay) => stay.checkIn <= to && stay.checkOut > from);
+  }, [month, localStays]);
 
   function stayOn(iso: string) {
-    return stays.find((stay) => iso >= stay.checkIn && iso < stay.checkOut);
+    return localStays.find((stay) => iso >= stay.checkIn && iso < stay.checkOut);
   }
 
   function pick(iso: string) {
@@ -121,7 +129,6 @@ export default function OwnerCalendar({
       setAnchor(null);
       setEnd(null);
       setHover(null);
-      setShowBook(false);
       return;
     }
     if (inClosedMmdd(iso, closedMmdd) || saving) return;
@@ -131,7 +138,6 @@ export default function OwnerCalendar({
       setAnchor(iso);
       setEnd(null);
       setHover(iso);
-      setShowBook(false);
       return;
     }
     setEnd(iso);
@@ -154,6 +160,7 @@ export default function OwnerCalendar({
     try {
       const res = await fetch("/api/owner/calendar", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug, from, to, action }),
       });
@@ -167,7 +174,6 @@ export default function OwnerCalendar({
       setAnchor(null);
       setEnd(null);
       setHover(null);
-      setShowBook(false);
       router.refresh();
       onUpdated?.();
     } catch {
@@ -184,7 +190,6 @@ export default function OwnerCalendar({
     const checkIn = anchor <= last ? anchor : last;
     const checkOut = addDays(anchor <= last ? last : anchor, 1);
     if (!guest.trim()) {
-      setShowBook(true);
       setError(t("bookGuestNeed"));
       return;
     }
@@ -193,6 +198,7 @@ export default function OwnerCalendar({
     try {
       const res = await fetch("/api/owner/stays", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug,
@@ -210,11 +216,15 @@ export default function OwnerCalendar({
         setError(t("bookError"));
         return;
       }
+      const data = (await res.json()) as { stay?: PaidStay };
+      if (data.stay) {
+        setLocalStays((current) => [...current, data.stay!]);
+        setRecap(data.stay);
+      }
       setAnchor(null);
       setEnd(null);
       setHover(null);
       setGuest("");
-      setShowBook(false);
       router.refresh();
       onUpdated?.();
     } catch {
@@ -311,7 +321,6 @@ export default function OwnerCalendar({
                     setRecap(stay);
                     setAnchor(null);
                     setEnd(null);
-                    setShowBook(false);
                   }}
                   className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-medium text-white"
                   style={{ backgroundColor: tint.bg }}
@@ -356,7 +365,7 @@ export default function OwnerCalendar({
               type="button"
               disabled={saving}
               onClick={() => void apply("block")}
-              className="rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white hover:bg-lagoon-dark disabled:opacity-60"
+              className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
             >
               {t("calBlock")}
             </button>
@@ -368,30 +377,19 @@ export default function OwnerCalendar({
             >
               {t("calUnblock")}
             </button>
-            {allowBooking ? (
-              <button
-                type="button"
-                disabled={saving}
-                onClick={() => setShowBook(true)}
-                className="rounded-full bg-sand-dark px-4 py-2 text-sm font-medium text-foreground hover:bg-sand disabled:opacity-60"
-              >
-                {t("calBook")}
-              </button>
-            ) : null}
             <button
               type="button"
               onClick={() => {
                 setAnchor(null);
                 setEnd(null);
                 setHover(null);
-                setShowBook(false);
               }}
               className="rounded-full px-4 py-2 text-sm text-foreground/60 hover:text-lagoon-dark"
             >
               {t("calClear")}
             </button>
           </div>
-          {allowBooking && showBook ? (
+          {allowBooking ? (
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_6rem_auto]">
               <input
                 value={guest}
@@ -413,7 +411,7 @@ export default function OwnerCalendar({
                 onClick={() => void bookRange()}
                 className="rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white hover:bg-lagoon-dark"
               >
-                {t("bookSubmit")}
+                {t("calBook")}
               </button>
             </div>
           ) : null}

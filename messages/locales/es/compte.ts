@@ -88,7 +88,7 @@ const Compte = {
   bookError: "No se ha podido guardar esta reserva.",
   bookOverlap: "Estas fechas se solapan con otra estancia.",
   staysOwnerTitle: "Reservas",
-  staysOwnerLead: "Estancias de este alojamiento. Solo puede bloquear fechas, no crear una reserva.",
+  staysOwnerLead: "Estancias de este alojamiento. Para una reserva, seleccione las fechas e indique el viajero.",
   staysTitle: "Entradas y salidas",
   staysLead: "Indique quién hizo el check-in o el check-out, y la hora.",
   staysEmpty: "Aún no hay estancias.",

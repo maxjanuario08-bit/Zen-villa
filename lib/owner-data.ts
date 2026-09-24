@@ -12,8 +12,16 @@ const STAYS_PATH = path.join(process.cwd(), "data", "owner-stays.json");
 const CLEANINGS_PATH = path.join(process.cwd(), "data", "owner-cleanings.json");
 
 function isoDate(value: unknown) {
-  if (value instanceof Date) return value.toISOString().slice(0, 10);
-  return String(value).slice(0, 10);
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Paris",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(value);
+  }
+  const match = String(value).match(/^(\d{4}-\d{2}-\d{2})/);
+  return match ? match[1] : String(value).slice(0, 10);
 }
 
 function isoStamp(value: unknown): string | null {

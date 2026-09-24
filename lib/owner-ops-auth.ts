@@ -16,6 +16,8 @@ export async function canOperateStay(_slug: string) {
   return isOpsSession();
 }
 
-export async function canCreateStay(_slug: string) {
-  return isOpsSession();
+export async function canCreateStay(slug: string) {
+  if (await isOpsSession()) return true;
+  const owner = await getOwnerSession();
+  return Boolean(owner && ownerOwnsSlug(owner, slug));
 }
