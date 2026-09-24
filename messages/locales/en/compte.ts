@@ -87,7 +87,7 @@ const Compte = {
   bookError: "Could not save this booking.",
   bookOverlap: "These dates overlap an existing stay.",
   staysOwnerTitle: "Bookings",
-  staysOwnerLead: "Stays for this home. To mark a rental, select the dates then enter the guest name.",
+  staysOwnerLead: "Stays for this home. Rentals are created in Zenvilla admin; you can still block dates.",
   staysTitle: "Check-in and check-out",
   staysLead: "Say who did the check-in or check-out, then the time.",
   staysEmpty: "No stays yet.",

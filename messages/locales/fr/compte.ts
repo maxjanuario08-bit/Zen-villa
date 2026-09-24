@@ -88,7 +88,7 @@ const Compte = {
   bookError: "Impossible d’enregistrer cette réservation.",
   bookOverlap: "Ces dates chevauchent déjà un séjour.",
   staysOwnerTitle: "Locations",
-  staysOwnerLead: "Les séjours de ce logement. Pour une location, sélectionnez les dates puis indiquez le voyageur.",
+  staysOwnerLead: "Les séjours de ce logement. Les locations se créent depuis l’admin Zenvilla ; vous pouvez bloquer des dates.",
   staysTitle: "Arrivées et départs",
   staysLead: "Indiquez qui a fait le check-in ou le check-out, puis l’heure.",
   staysEmpty: "Aucun séjour pour le moment.",

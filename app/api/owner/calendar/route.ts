@@ -4,7 +4,7 @@ import { getOwnerCalendarPayload } from "@/lib/owner-calendar";
 import { addOwnerNight, addOwnerRange, removeOwnerNight } from "@/lib/owner-store";
 import { getStaysForSlug } from "@/lib/owner-data";
 import { getLogement } from "@/lib/logements";
-import { canBookOrBlock } from "@/lib/owner-ops-auth";
+import { canBookOrBlock, canViewStayBoard } from "@/lib/owner-ops-auth";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -14,7 +14,7 @@ async function rentedRanges(slug: string) {
 
 export async function GET(req: Request) {
   const slug = new URL(req.url).searchParams.get("slug") ?? "";
-  if (!slug || !(await canBookOrBlock(slug))) {
+  if (!slug || !(await canViewStayBoard(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 

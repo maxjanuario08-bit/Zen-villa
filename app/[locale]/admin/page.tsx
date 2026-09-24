@@ -61,7 +61,7 @@ export default async function AdminPage({ params }: Props) {
         <div className="mt-12 space-y-4">
           <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("opsTitle")}</h2>
           <p className="text-sm text-foreground/70">{t("opsLead")}</p>
-          <StaffOpsDesk villas={villas} />
+          <StaffOpsDesk villas={villas} allowBooking allowBlock />
         </div>
       </div>
     </section>

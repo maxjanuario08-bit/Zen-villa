@@ -57,6 +57,7 @@ type Props = {
   maxGuests: number;
   cleanings?: readonly CleaningRecord[];
   allowBooking?: boolean;
+  allowBlock?: boolean;
   onUpdated?: () => void;
 };
 
@@ -75,6 +76,7 @@ export default function OwnerCalendar({
   maxGuests,
   cleanings = [],
   allowBooking = false,
+  allowBlock = true,
   onUpdated,
 }: Props) {
   const t = useTranslations("Compte");
@@ -132,6 +134,7 @@ export default function OwnerCalendar({
       return;
     }
     if (inClosedMmdd(iso, closedMmdd) || saving) return;
+    if (!allowBooking && !allowBlock) return;
     setRecap(null);
     setError(null);
     if (!anchor || end) {
@@ -355,28 +358,32 @@ export default function OwnerCalendar({
         </div>
       ) : null}
 
-      {selected.length > 0 ? (
+      {selected.length > 0 && (allowBooking || allowBlock) ? (
         <div className="mt-4 space-y-3 rounded-xl bg-sand-light/80 p-4">
           <p className="text-sm font-medium text-lagoon-dark">
             {t("calSelected", { from: selected[0], to: selected[selected.length - 1], count: selected.length })}
           </p>
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => void apply("block")}
-              className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
-            >
-              {t("calBlock")}
-            </button>
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => void apply("unblock")}
-              className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
-            >
-              {t("calUnblock")}
-            </button>
+            {allowBlock ? (
+              <>
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() => void apply("block")}
+                  className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
+                >
+                  {t("calBlock")}
+                </button>
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() => void apply("unblock")}
+                  className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
+                >
+                  {t("calUnblock")}
+                </button>
+              </>
+            ) : null}
             <button
               type="button"
               onClick={() => {

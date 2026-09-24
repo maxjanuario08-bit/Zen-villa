@@ -88,7 +88,7 @@ const Compte = {
   bookError: "No se ha podido guardar esta reserva.",
   bookOverlap: "Estas fechas se solapan con otra estancia.",
   staysOwnerTitle: "Reservas",
-  staysOwnerLead: "Estancias de este alojamiento. Para una reserva, seleccione las fechas e indique el viajero.",
+  staysOwnerLead: "Estancias de este alojamiento. Las reservas se crean en la admin de Zenvilla; puede bloquear fechas.",
   staysTitle: "Entradas y salidas",
   staysLead: "Indique quién hizo el check-in o el check-out, y la hora.",
   staysEmpty: "Aún no hay estancias.",

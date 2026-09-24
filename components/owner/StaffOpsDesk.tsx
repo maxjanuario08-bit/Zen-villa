@@ -15,7 +15,15 @@ type CalendarPayload = {
   closedMmdd: { from: string; to: string } | null;
 };
 
-export default function StaffOpsDesk({ villas }: { villas: readonly Villa[] }) {
+export default function StaffOpsDesk({
+  villas,
+  allowBooking = false,
+  allowBlock = false,
+}: {
+  villas: readonly Villa[];
+  allowBooking?: boolean;
+  allowBlock?: boolean;
+}) {
   const t = useTranslations("Equipe");
   const tLog = useTranslations("Logements");
   const [slug, setSlug] = useState(villas[0]?.slug ?? "");
@@ -30,9 +38,9 @@ export default function StaffOpsDesk({ villas }: { villas: readonly Villa[] }) {
     setError(false);
     try {
       const [stayRes, cleanRes, calRes] = await Promise.all([
-        fetch(`/api/owner/stays?slug=${encodeURIComponent(slug)}`),
-        fetch(`/api/owner/cleanings?slug=${encodeURIComponent(slug)}`),
-        fetch(`/api/owner/calendar?slug=${encodeURIComponent(slug)}`),
+        fetch(`/api/owner/stays?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
+        fetch(`/api/owner/cleanings?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
+        fetch(`/api/owner/calendar?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
       ]);
       if (!stayRes.ok || !cleanRes.ok || !calRes.ok) {
         setError(true);
@@ -82,7 +90,8 @@ export default function StaffOpsDesk({ villas }: { villas: readonly Villa[] }) {
           ownerBlocks={calendar.ownerBlocks}
           closedMmdd={calendar.closedMmdd}
           maxGuests={villa.guests}
-          allowBooking
+          allowBooking={allowBooking}
+          allowBlock={allowBlock}
           onUpdated={() => void load()}
           cleanings={cleanings}
         />

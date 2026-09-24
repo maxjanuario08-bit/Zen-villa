@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
-import { canBookOrBlock, canOperateStay } from "@/lib/owner-ops-auth";
+import { canOperateStay, canViewStayBoard } from "@/lib/owner-ops-auth";
 import { createCleaning, getCleaningsForSlug } from "@/lib/owner-data";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function GET(req: Request) {
   const slug = new URL(req.url).searchParams.get("slug") ?? "";
-  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
+  if (!slug || !getLogement(slug) || !(await canViewStayBoard(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
   return NextResponse.json({ cleanings: await getCleaningsForSlug(slug) });

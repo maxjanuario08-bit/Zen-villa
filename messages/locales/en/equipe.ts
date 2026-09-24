@@ -2,7 +2,7 @@ const Equipe = {
   meta: "Zenvilla staff",
   title: "Staff space",
   lead: "Check-in, check-out and cleaning. Enter the code provided by Zenvilla.",
-  deskLead: "Pick a home, then record arrivals, departures and cleaning.",
+  deskLead: "Pick a home, then record check-in, check-out and cleaning only.",
   code: "Access code",
   showPassword: "Show code",
   submit: "Sign in",

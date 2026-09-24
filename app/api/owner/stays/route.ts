@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
-import { canBookOrBlock, canCreateStay, canOperateStay, isOpsSession } from "@/lib/owner-ops-auth";
+import { canCreateStay, canOperateStay, canViewStayBoard } from "@/lib/owner-ops-auth";
+import { getAdminSession } from "@/lib/owner-admin";
 import { addStayPhotos, createManualStay, deleteStay, getStayById, getStaysForSlug, markStayCheck } from "@/lib/owner-data";
 import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
 import { ownerMayDeleteStay } from "@/lib/owner-types";
@@ -9,7 +10,7 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function GET(req: Request) {
   const slug = new URL(req.url).searchParams.get("slug") ?? "";
-  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
+  if (!slug || !getLogement(slug) || !(await canViewStayBoard(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
   return NextResponse.json({ stays: await getStaysForSlug(slug) });
@@ -46,7 +47,7 @@ export async function POST(req: Request) {
     checkIn,
     checkOut,
     guests: Number(body.guests) || 1,
-    bookedBy: (await isOpsSession()) ? "ops" : "owner",
+    bookedBy: "ops",
   });
   if ("error" in created) {
     const status = created.error === "overlap" ? 409 : 400;
@@ -81,7 +82,7 @@ export async function PATCH(req: Request) {
     if (!stay || stay.slug !== slug) {
       return NextResponse.json({ error: "not_found" }, { status: 404 });
     }
-    const ops = await isOpsSession();
+    const ops = Boolean(await getAdminSession());
     const owner = await getOwnerSession();
     const ownerOk = Boolean(owner && ownerOwnsSlug(owner, slug) && ownerMayDeleteStay(stay));
     if (!ops && !ownerOk) {

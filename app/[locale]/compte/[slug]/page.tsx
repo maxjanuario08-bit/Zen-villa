@@ -62,7 +62,6 @@ export default async function CompteLogementPage({ params }: Props) {
             ownerBlocks={calendar.ownerBlocks}
             closedMmdd={calendar.closedMmdd}
             maxGuests={logement.guests}
-            allowBooking
             cleanings={cleanings}
           />
           <OwnerOps slug={slug} stays={stays} />
