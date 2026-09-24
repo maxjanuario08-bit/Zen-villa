@@ -18,14 +18,14 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
-  let body: { email?: string; password?: string };
+  let body: { code?: string; password?: string };
   try {
-    body = (await req.json()) as { email?: string; password?: string };
+    body = (await req.json()) as { code?: string; password?: string };
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  const session = authenticateStaff(String(body.email ?? ""), String(body.password ?? ""));
+  const session = authenticateStaff(String(body.code ?? body.password ?? ""));
   if (!session) {
     await recordAuthAttempt(ip, "staff_v1");
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });

@@ -21,8 +21,7 @@ export default function StaffLoginForm() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: String(data.get("email") ?? ""),
-          password: String(data.get("password") ?? ""),
+          code: String(data.get("code") ?? ""),
         }),
       });
       if (res.status === 503) {
@@ -46,27 +45,15 @@ export default function StaffLoginForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div>
-        <label htmlFor="staff-email" className="mb-1 block text-sm font-medium">
-          {t("email")}
+        <label htmlFor="staff-code" className="mb-1 block text-sm font-medium">
+          {t("code")}
         </label>
         <input
-          id="staff-email"
-          name="email"
-          type="email"
-          autoComplete="username"
-          required
-          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-        />
-      </div>
-      <div>
-        <label htmlFor="staff-password" className="mb-1 block text-sm font-medium">
-          {t("password")}
-        </label>
-        <input
-          id="staff-password"
-          name="password"
+          id="staff-code"
+          name="code"
           type="password"
-          autoComplete="current-password"
+          inputMode="numeric"
+          autoComplete="off"
           required
           minLength={8}
           className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"

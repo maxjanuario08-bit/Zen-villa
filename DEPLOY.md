@@ -55,8 +55,7 @@ Le disque Vercel est éphémère : comptes et calendriers **doivent** aller dans
 | `OWNER_ADMIN_SECRET` | autre secret long (API, optionnel) |
 | `OWNER_ADMIN_EMAIL` | `contact@zen-villa.fr` |
 | `OWNER_ADMIN_PASSWORD` | mot de passe de la page `/admin` (toi seul) |
-| `STAFF_EMAIL` | email du personnel (check-in / ménage), page `/equipe` |
-| `STAFF_PASSWORD` | mot de passe équipe (8 caractères min.) |
+| `STAFF_PASSWORD` | code d’accès `/equipe` (optionnel, sinon le code équipe déjà en place) |
 | `OWNER_SEED_DEMO` | `false` |
 
 3. **Redeploy** après avoir sauvé les variables.

@@ -9,6 +9,8 @@ const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type StaffSession = { email: string; role: "staff" };
 
+const STAFF_CODE_DEFAULT = "08081993";
+
 function isProd() {
   return isProductionRuntime() || process.env.VERCEL === "1";
 }
@@ -27,20 +29,14 @@ function safeEqual(a: string, b: string) {
   return timingSafeEqual(left, right);
 }
 
-export function staffEmail() {
-  return (process.env.STAFF_EMAIL?.trim() || "").toLowerCase();
-}
-
 export function staffPassword() {
   const fromEnv = process.env.STAFF_PASSWORD?.trim() ?? "";
   if (fromEnv.length >= 8) return fromEnv;
-  if (!isProductionRuntime()) return fromEnv || "zenvilla-staff-local";
-  return "";
+  return STAFF_CODE_DEFAULT;
 }
 
 export function staffAuthConfigured() {
-  const email = staffEmail() || (!isProductionRuntime() ? "personnel@localhost" : "");
-  return Boolean(ownerSessionSecret()) && ownerStoreReady() && staffPassword().length >= 8 && Boolean(email);
+  return Boolean(ownerSessionSecret()) && ownerStoreReady() && staffPassword().length >= 8;
 }
 
 export function localeStaffPath(locale: string) {
@@ -101,13 +97,10 @@ export async function requireStaff() {
   return session;
 }
 
-export function authenticateStaff(email: string, password: string): StaffSession | null {
-  const expectedEmail = staffEmail() || (!isProductionRuntime() ? "personnel@localhost" : "");
-  const expectedPassword = staffPassword();
-  const givenEmail = email.trim().toLowerCase();
-  const givenPassword = password.trim();
-  if (!expectedEmail || !expectedPassword || givenPassword.length < 8) return null;
-  if (givenEmail !== expectedEmail) return null;
-  if (!safeEqual(givenPassword, expectedPassword)) return null;
-  return { email: expectedEmail, role: "staff" };
+export function authenticateStaff(code: string): StaffSession | null {
+  const expected = staffPassword();
+  const given = code.trim();
+  if (!expected || given.length < 8) return null;
+  if (!safeEqual(given, expected)) return null;
+  return { email: "staff", role: "staff" };
 }
