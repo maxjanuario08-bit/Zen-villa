@@ -15,6 +15,8 @@ import {
   type DateRange,
 } from "@/lib/booking";
 import StayVisitRecap from "@/components/owner/StayVisitRecap";
+import StayStatusBadges from "@/components/owner/StayStatusBadges";
+import { CheckInMark, CleanMark, stayHasCheckIn, stayHasCleaning } from "@/components/owner/StayStatusMarks";
 import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
 type ClosedMmdd = { from: string; to: string } | null;
@@ -292,7 +294,11 @@ export default function OwnerCalendar({
               key={iso}
               type="button"
               disabled={disabled}
-              title={stay && guestName ? t("stayGuest", { guest: guestName }) : undefined}
+              title={
+                stay && guestName
+                  ? `${t("stayGuest", { guest: guestName })}${stayHasCheckIn(stay) ? ` · ${t("badgeCheckIn")}` : ""}${stayHasCleaning(stay, cleanings) ? ` · ${t("badgeClean")}` : ""}`
+                  : undefined
+              }
               onClick={() => pick(iso)}
               onMouseEnter={() => {
                 if (anchor && !end && !stay && !disabled) setHover(iso);
@@ -312,9 +318,14 @@ export default function OwnerCalendar({
             >
               <span className="block font-medium">{fromISODate(iso).getDate()}</span>
               {stay ? (
-                <span className="mt-0.5 block truncate text-[0.58rem] font-medium leading-tight opacity-95">
-                  {stayShortName(guestName)}
-                </span>
+                <>
+                  <span className="mt-0.5 block truncate text-[0.58rem] font-medium leading-tight opacity-95">
+                    {stayShortName(guestName)}
+                  </span>
+                  <span className="mt-0.5 flex justify-center">
+                    <StayStatusBadges stay={stay} cleanings={cleanings} size="sm" onColor />
+                  </span>
+                </>
               ) : null}
               {owner && !stay && <span className="block text-[0.55rem] leading-tight">■</span>}
             </button>
@@ -339,6 +350,7 @@ export default function OwnerCalendar({
                   style={{ backgroundColor: tint.bg }}
                 >
                   {stayGuestName(stay, t)}
+                  <StayStatusBadges stay={stay} cleanings={cleanings} size="sm" onColor />
                 </button>
               </li>
             );
@@ -356,6 +368,9 @@ export default function OwnerCalendar({
               guest: stayGuestName(recap, t),
             })}
           </p>
+          <div className="mt-2">
+            <StayStatusBadges stay={recap} cleanings={cleanings} />
+          </div>
           <p className="mt-1 text-foreground/80">
             {t("calRecapDates", { from: recap.checkIn, to: recap.checkOut })}
           </p>
@@ -443,6 +458,14 @@ export default function OwnerCalendar({
         <li className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm bg-lagoon" />
           {t("legendRented")}
+        </li>
+        <li className="flex items-center gap-1.5">
+          <CheckInMark className="h-3.5 w-3.5 text-lagoon-dark" />
+          {t("badgeCheckIn")}
+        </li>
+        <li className="flex items-center gap-1.5">
+          <CleanMark className="h-3.5 w-3.5 text-lagoon-dark" />
+          {t("badgeClean")}
         </li>
         <li className="flex items-center gap-1.5">
           <span className="h-2.5 w-2.5 rounded-sm bg-accent/40" />

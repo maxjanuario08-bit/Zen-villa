@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import type { PaidStay } from "@/lib/owner-types";
+import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
+import StayStatusBadges from "@/components/owner/StayStatusBadges";
 import { ownerMayDeleteStay } from "@/lib/owner-types";
 
 function stayName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
@@ -17,9 +18,10 @@ function stayName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
 type Props = {
   slug: string;
   stays: readonly PaidStay[];
+  cleanings?: readonly CleaningRecord[];
 };
 
-export default function OwnerOps({ slug, stays }: Props) {
+export default function OwnerOps({ slug, stays, cleanings = [] }: Props) {
   const t = useTranslations("Compte");
   const locale = useLocale();
   const router = useRouter();
@@ -70,7 +72,10 @@ export default function OwnerOps({ slug, stays }: Props) {
             {ordered.map((stay) => (
               <li key={stay.id} className="flex flex-wrap items-start justify-between gap-3 py-4 first:pt-0">
                 <div>
-                  <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
+                    <StayStatusBadges stay={stay} cleanings={cleanings} />
+                  </div>
                   <p className="text-sm text-foreground/70">
                     {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)} ·{" "}
                     {t("bookGuestsCount", { count: stay.guests })}

@@ -64,7 +64,7 @@ export default async function CompteLogementPage({ params }: Props) {
             maxGuests={logement.guests}
             cleanings={cleanings}
           />
-          <OwnerOps slug={slug} stays={stays} />
+          <OwnerOps slug={slug} stays={stays} cleanings={cleanings} />
           <StayHistory stays={stays} cleanings={cleanings} />
         </div>
       </div>
