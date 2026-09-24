@@ -1,18 +1,21 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
-import type { BookingConfig } from "@/lib/booking";
+import PhoneField from "@/components/PhoneField";
+import type { BookingConfig, DateRange } from "@/lib/booking";
+import { internationalPhoneFromForm } from "@/lib/country-calling-codes";
 import { paypalPayUrl } from "@/lib/paypal";
 import {
   addDays,
   fromISODate,
   isNightUnavailable,
+  monthGrid,
   nightlyRate,
   quoteStay,
   rangeIsAvailable,
-  toISODate,
+  startOfMonth,
   todayISO,
 } from "@/lib/booking";
 
@@ -28,22 +31,6 @@ const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_ID
   ? `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID}`
   : null;
 
-function startOfMonth(d: Date) {
-  return new Date(d.getFullYear(), d.getMonth(), 1);
-}
-
-function monthCells(cursor: Date): (string | null)[] {
-  const first = startOfMonth(cursor);
-  const startWeekday = (first.getDay() + 6) % 7;
-  const daysInMonth = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
-  const cells: (string | null)[] = Array.from({ length: startWeekday }, () => null);
-  for (let day = 1; day <= daysInMonth; day++) {
-    cells.push(toISODate(new Date(first.getFullYear(), first.getMonth(), day)));
-  }
-  while (cells.length % 7 !== 0) cells.push(null);
-  return cells;
-}
-
 function inSelectedRange(iso: string, checkIn: string | null, checkOut: string | null) {
   if (!checkIn) return false;
   if (!checkOut) return iso === checkIn;
@@ -54,10 +41,26 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
   const t = useTranslations("Logements");
   const locale = useLocale();
   const today = todayISO();
+  const [blocked, setBlocked] = useState<readonly DateRange[]>(booking.blocked);
+  const liveBooking = useMemo(() => ({ ...booking, blocked }), [booking, blocked]);
+
+  useEffect(() => {
+    let live = true;
+    fetch(`/api/availability?slug=${encodeURIComponent(slug)}`)
+      .then((r) => r.json())
+      .then((data: { blocked?: DateRange[] }) => {
+        if (live && Array.isArray(data.blocked)) setBlocked(data.blocked);
+      })
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [slug]);
+
   const [month, setMonth] = useState(() => {
     let cursor = todayISO();
     for (let i = 0; i < 400; i++) {
-      if (!isNightUnavailable(cursor, booking) && cursor >= todayISO()) {
+      if (!isNightUnavailable(cursor, liveBooking) && cursor >= todayISO()) {
         return startOfMonth(fromISODate(cursor));
       }
       cursor = addDays(cursor, 1);
@@ -75,20 +78,20 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
   }, [locale]);
 
   const monthLabel = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(month);
-  const cells = monthCells(month);
-  const fromPrice = Math.min(booking.defaultNightly, ...booking.seasons.map((s) => s.nightly));
+  const cells = monthGrid(month);
+  const fromPrice = Math.min(liveBooking.defaultNightly, ...liveBooking.seasons.map((s) => s.nightly));
 
   const quote =
-    checkIn && checkOut && rangeIsAvailable(checkIn, checkOut, booking)
-      ? quoteStay(checkIn, checkOut, booking)
+    checkIn && checkOut && rangeIsAvailable(checkIn, checkOut, liveBooking)
+      ? quoteStay(checkIn, checkOut, liveBooking)
       : null;
 
   function canCheckIn(iso: string) {
-    return iso >= today && !isNightUnavailable(iso, booking);
+    return iso >= today && !isNightUnavailable(iso, liveBooking);
   }
 
   function canCheckOut(iso: string, start: string) {
-    return iso > start && rangeIsAvailable(start, iso, booking);
+    return iso > start && rangeIsAvailable(start, iso, liveBooking);
   }
 
   function onDayClick(iso: string) {
@@ -131,13 +134,19 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData) as Record<string, string>;
+    const telephone = internationalPhoneFromForm(formData);
+    formData.set("telephone", telephone);
+    formData.delete("telephoneNational");
+    const data: Record<string, string> = {
+      ...(Object.fromEntries(formData) as Record<string, string>),
+      telephone,
+    };
     if (!validate(data) || !checkIn || !checkOut || !quote) return;
 
     setStatus("loading");
     const itemName = `${name} · ${checkIn} → ${checkOut}`;
     const payUrl = paypalPayUrl(quote.total, itemName, {
-      custom: `${slug}|${checkIn}|${checkOut}|${data.guests}|${data.nom}`,
+      custom: `${slug}|${checkIn}|${checkOut}|${data.guests}|${data.nom}|${telephone}`,
       returnUrl: `${window.location.origin}${window.location.pathname}?paid=1`,
       cancelUrl: `${window.location.origin}${window.location.pathname}?canceled=1`,
     });
@@ -194,13 +203,13 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
         {cells.map((iso, i) => {
           if (!iso) return <div key={`e-${i}`} />;
           const past = iso < today;
-          const closed = isNightUnavailable(iso, booking);
+          const closed = isNightUnavailable(iso, liveBooking);
           const selected = inSelectedRange(iso, checkIn, checkOut);
           const isStart = iso === checkIn;
           const isEnd = checkOut === iso;
           const selectable = checkIn && !checkOut ? canCheckOut(iso, checkIn) || iso === checkIn || (iso < checkIn && canCheckIn(iso)) : canCheckIn(iso);
           const disabled = past || !selectable;
-          const rate = nightlyRate(iso, booking);
+          const rate = nightlyRate(iso, liveBooking);
           return (
             <button
               key={iso}
@@ -296,7 +305,7 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
           <label htmlFor="telephone" className="mb-1 block text-sm font-medium">
             {t("booking.lblPhone")}
           </label>
-          <input id="telephone" name="telephone" type="tel" required className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon" />
+          <PhoneField id="telephone" required />
           {errors.telephone && <p className="mt-1 text-sm text-red-600">{errors.telephone}</p>}
         </div>
         <div>

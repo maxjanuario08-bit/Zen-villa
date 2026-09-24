@@ -40,3 +40,30 @@ Chez ton registrar (où tu as acheté zen-villa.fr) :
 ---
 
 **Important :** Zenvilla et astrogochi sont deux repos distincts. Ce projet est dans `/zenvilla` uniquement.
+
+## 5. Espace membre en production (Vercel)
+
+Le disque Vercel est éphémère : comptes et calendriers **doivent** aller dans Postgres.
+
+1. Vercel → projet Zenvilla → **Storage** → **Create Database** (Neon Postgres). Relie-la au projet : `DATABASE_URL` (ou `POSTGRES_URL`) est ajouté tout seul.
+2. Vercel → **Settings** → **Environment Variables** (Production + Preview) :
+
+| Variable | Valeur |
+| --- | --- |
+| `DATABASE_URL` | fournie par Neon / Storage |
+| `OWNER_SESSION_SECRET` | `openssl rand -base64 48` (unique, ≥ 32 caractères) |
+| `OWNER_ADMIN_SECRET` | autre secret long, pour lier les logements |
+| `OWNER_SEED_DEMO` | `false` |
+
+3. **Redeploy** après avoir sauvé les variables.
+4. Un propriétaire s’inscrit sur `/inscription`. Il ne voit aucun bien tant que tu ne l’as pas lié :
+
+```bash
+curl -X POST https://www.zen-villa.fr/api/owner/admin/link \
+  -H "Authorization: Bearer TON_OWNER_ADMIN_SECRET" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"email-du-proprio@mail.fr","slug":"mini-villa-pinson"}'
+```
+
+Sans `DATABASE_URL` + secret de session valides, l’inscription et la connexion sont refusées en production (503).
+

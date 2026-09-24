@@ -4,7 +4,9 @@ import { useState, FormEvent } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import PhoneField from "@/components/PhoneField";
 import { voyageursServices } from "@/lib/voyageurs-services";
+import { internationalPhoneFromForm } from "@/lib/country-calling-codes";
 import { CONTACT } from "@/lib/constants";
 import { useTranslations } from "next-intl";
 
@@ -23,9 +25,15 @@ export default function DemanderPrestationPage() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const telephone = internationalPhoneFromForm(formData);
+    formData.set("telephone", telephone);
+    formData.delete("telephoneNational");
 
     const prestationSlug = String(formData.get("prestation") || "");
-    const data = Object.fromEntries(formData) as Record<string, string>;
+    const data: Record<string, string> = {
+      ...(Object.fromEntries(formData) as Record<string, string>),
+      telephone,
+    };
 
     if (!data.nom?.trim() || !data.email?.trim() || !data.telephone?.trim()) {
       return;
@@ -153,14 +161,7 @@ export default function DemanderPrestationPage() {
                     <label htmlFor="telephone" className="block text-sm font-medium text-foreground mb-1">
                       {t("fieldPhone")}
                     </label>
-                    <input
-                      id="telephone"
-                      name="telephone"
-                      type="tel"
-                      required
-                      className="w-full rounded-xl border border-sand/60 px-4 py-2.5 text-foreground focus:border-lagoon focus:ring-1 focus:ring-lagoon outline-none"
-                      placeholder={t("phonePlaceholder")}
-                    />
+                    <PhoneField id="telephone" required placeholder={t("phonePlaceholder")} />
                   </div>
                   <div>
                     <label htmlFor="lieu" className="block text-sm font-medium text-foreground mb-1">

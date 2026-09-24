@@ -5,6 +5,7 @@ import { guestServices } from "./guestServices";
 import { ownerBenefits } from "./ownerBenefits";
 import livretVillaPinson from "./livretVillaPinson";
 import Logements from "./logements";
+import Compte from "./compte";
 
 export default {
   ...chrome,
@@ -14,4 +15,5 @@ export default {
   ownerBenefits,
   livretVillaPinson,
   Logements,
+  Compte,
 };

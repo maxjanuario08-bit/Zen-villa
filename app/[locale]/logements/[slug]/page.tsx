@@ -7,6 +7,7 @@ import BookingWidget from "@/components/BookingWidget";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import { getLogement, logements } from "@/lib/logements";
 import type { BookingConfig } from "@/lib/booking";
+import { getBookingWithAvailability } from "@/lib/owner-calendar";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -48,6 +49,10 @@ export default async function LogementDetailPage({ params, searchParams }: Props
   const photoAlts = (t.raw(`${logement.copyKey}.photoAlts`) as readonly string[] | undefined) ?? [];
   const gallery = logement.images?.length ? logement.images : [logement.image];
   const showBooking = Boolean(logement.forRent && logement.booking?.enabled);
+  const booking =
+    showBooking && logement.booking
+      ? ((await getBookingWithAvailability(slug)) ?? (logement.booking as BookingConfig))
+      : null;
 
   return (
     <div>
@@ -113,13 +118,13 @@ export default async function LogementDetailPage({ params, searchParams }: Props
               </ul>
             </div>
 
-            {showBooking && logement.booking && (
+            {showBooking && booking && (
               <div className="lg:sticky lg:top-24">
                 <BookingWidget
                   slug={logement.slug}
                   name={name}
                   maxGuests={logement.guests}
-                  booking={logement.booking as BookingConfig}
+                  booking={booking}
                   paymentNotice={query.paid === "1" ? "paid" : query.canceled === "1" ? "canceled" : null}
                 />
               </div>

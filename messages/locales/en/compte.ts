@@ -1,0 +1,96 @@
+const Compte = {
+  loginTitle: "Member space",
+  loginMeta: "Owner sign-in – Zenvilla",
+  loginLead:
+    "Owner space. Create an account: your home is linked after ZenVilla reviews it.",
+  loginEmail: "Email",
+  loginPassword: "Password",
+  loginSubmit: "Sign in",
+  loginSending: "Signing in…",
+  loginError: "Incorrect email or password.",
+  loginUnavailable: "Sign-in is unavailable. Check your local environment variables.",
+  loginNoAccount: "No account yet?",
+  signupTitle: "Create an account",
+  signupMeta: "Owner sign-up – Zenvilla",
+  signupLead:
+    "Sign up to follow your calendar, cleaning and revenue later. The home only appears once our team has linked it.",
+  signupName: "Name",
+  signupConfirm: "Confirm password",
+  signupPasswordHint: "8 characters minimum.",
+  signupProperty: "Your property (optional)",
+  signupPropertyPlaceholder: "e.g. Mini Villa Pinson, Santa Giulia",
+  signupSubmit: "Create my account",
+  signupSending: "Creating…",
+  signupError: "Could not create the account. Check the fields.",
+  signupExists: "An account already exists for this email. Sign in.",
+  signupWeak: "Password must be at least 8 characters.",
+  signupHasAccount: "Already registered?",
+  logout: "Sign out",
+  memberNav: "Member space",
+  accountNav: "My account",
+  dashTitle: "Member space",
+  dashHello: "Hello {name}",
+  dashLead: "Follow the homes you entrusted to Zenvilla: calendar, cleaning, revenue and fees.",
+  dashEmpty:
+    "Your account is ready. No home is linked yet: ZenVilla will attach it after reviewing your property.",
+  seeLogement: "Open dashboard",
+  yearRevenue: "{year} revenue",
+  yearFee: "Zenvilla invoice {year}",
+  nightsRented: "{count} nights booked",
+  backToDash: "Back to member space",
+  calTitle: "Calendar",
+  calLead:
+    "Paid stays are locked. Click a free night to block it, or a night you blocked to free it.",
+  calPrev: "Previous month",
+  calNext: "Next month",
+  legendAvailable: "Available",
+  legendRented: "Rented",
+  legendOwner: "Blocked by you",
+  legendClosed: "Closed",
+  calSaving: "Saving…",
+  calError: "This date could not be updated.",
+  calRented: "This night is already rented.",
+  stayGuest: "Stay · {guest}",
+  cleaningTitle: "Cleaning history",
+  cleaningLead: "After checkout: time, photos and inventory notes.",
+  cleaningEmpty: "No cleaning visit is recorded yet.",
+  cleaningBy: "Done by {name}",
+  cleaningInventory: "Inventory",
+  cleaningPhotos: "Photos",
+  photoOpen: "Open photo",
+  financeTitle: "Revenue and invoicing",
+  financeLead:
+    "Zenvilla fee: {pct}% of lodging revenue (billed nights), excluding guest cleaning.",
+  financeGross: "{year} lodging revenue",
+  financeFee: "Invoiced by Zenvilla",
+  financeNet: "Owner net",
+  financeNights: "{count} nights",
+  financeStay: "{guest} · {from} → {to}",
+  financeFeeLine: "{pct}% commission",
+  guests: {
+    martin: "Martin family",
+    laurent: "Sophie Laurent",
+    wright: "James Wright",
+    rossi: "Rossi family",
+  },
+  cleaners: {
+    marie: "Marie Costa",
+    luca: "Luca Bianchi",
+  },
+  cleanings: {
+    "clean-pinson-2026-04-15": {
+      notes:
+        "All clear after checkout. Full crockery, linen changed, terrace swept. Keys back in the lockbox.",
+    },
+    "clean-pinson-2026-06-25": {
+      notes:
+        "One chipped glass replaced. Living room and terrace reset. Coffee and paper restocked.",
+    },
+    "clean-pinson-2026-07-27": {
+      notes:
+        "All clear. AC dusted, premium bedding reset. Exterior rinsed after the mistral.",
+    },
+  },
+} as const;
+
+export default Compte;

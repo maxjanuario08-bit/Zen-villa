@@ -37,6 +37,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# skills Neon installées par le CLI (pas du site)
+.agents/
+skills-lock.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Mutations locales du calendrier propriétaire et comptes inscrits
+/data/owner-calendar.json
+/data/owner-accounts.json

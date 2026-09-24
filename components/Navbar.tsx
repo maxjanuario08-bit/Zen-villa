@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
@@ -26,9 +25,8 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-sand/50 shadow-sm">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
-        <Link href="/" className="md:hidden flex items-center gap-2">
-          <Image src="/favicon-48.png" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
-          <span className="font-serif text-xl font-semibold text-lagoon-dark">Zenvilla</span>
+        <Link href="/" className="md:hidden font-serif text-xl font-semibold text-lagoon-dark">
+          Zenvilla
         </Link>
 
         {/* Desktop */}
@@ -36,9 +34,8 @@ export default function Navbar() {
           <div className="flex items-center gap-8">
             <Link
               href="/"
-              className="flex items-center gap-2 font-serif text-xl font-semibold text-lagoon-dark whitespace-nowrap hover:text-lagoon transition-colors shrink-0"
+              className="font-serif text-xl font-semibold text-lagoon-dark whitespace-nowrap hover:text-lagoon transition-colors shrink-0"
             >
-              <Image src="/favicon-48.png" alt="" width={36} height={36} className="h-9 w-9 rounded-full object-cover" />
               Zenvilla
             </Link>
             {navKeys.map((key) => {
@@ -58,6 +55,12 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-5">
+            <Link
+              href="/compte"
+              className="text-xs font-medium text-foreground/55 hover:text-lagoon transition-colors whitespace-nowrap"
+            >
+              {t("member")}
+            </Link>
             <LocaleSwitcher />
             <a
               href={`tel:${CONTACT.telephoneTel}`}
@@ -140,6 +143,13 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            <Link
+              href="/compte"
+              className="py-2 text-sm font-medium text-foreground/70"
+              onClick={() => setIsOpen(false)}
+            >
+              {t("member")}
+            </Link>
             <Link
               href="/contact"
               className="rounded-full bg-lagoon px-5 py-3 text-center text-sm font-medium text-white mt-2"

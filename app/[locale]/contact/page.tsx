@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { useState, FormEvent } from "react";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import PhoneField from "@/components/PhoneField";
+import { internationalPhoneFromForm } from "@/lib/country-calling-codes";
 import { CONTACT } from "@/lib/constants";
 
 type FaqRow = { question: string; answer: string };
@@ -80,7 +82,13 @@ export default function ContactPage() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData) as Record<string, string>;
+    const telephone = internationalPhoneFromForm(formData);
+    formData.set("telephone", telephone);
+    formData.delete("telephoneNational");
+    const data: Record<string, string> = {
+      ...(Object.fromEntries(formData) as Record<string, string>),
+      telephone,
+    };
 
     if (!validate(data)) return;
 
@@ -244,14 +252,7 @@ export default function ContactPage() {
                     <label htmlFor="telephone" className="block text-sm font-medium text-foreground mb-1">
                       {t("lblPhone")}
                     </label>
-                    <input
-                      id="telephone"
-                      name="telephone"
-                      type="tel"
-                      required
-                      className="w-full rounded-xl border border-sand/60 px-4 py-2.5 text-foreground focus:border-lagoon focus:ring-1 focus:ring-lagoon outline-none transition-colors"
-                      placeholder={t("phPhone")}
-                    />
+                    <PhoneField id="telephone" required placeholder={t("phPhone")} />
                     {errors.telephone && <p className="mt-1 text-sm text-red-600">{errors.telephone}</p>}
                   </div>
                   <div>

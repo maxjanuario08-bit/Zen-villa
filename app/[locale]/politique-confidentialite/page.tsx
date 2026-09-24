@@ -80,6 +80,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
             <p>Nous pouvons collecter les données personnelles suivantes :</p>
             <ul className="mt-4 list-disc list-inside space-y-2">
               <li><strong>Formulaire de contact :</strong> nom, adresse email, numéro de téléphone, ville/zone, type de bien, message</li>
+              <li><strong>Espace membre propriétaires :</strong> nom, email, mot de passe (stocké de façon chiffrée/hachée), indication du bien, calendrier de blocage, données de séjours et de ménage (horaires, intervenant, photos d’état des lieux, montants locatifs et commission) nécessaires à la gestion du mandat</li>
               <li><strong>Données de navigation :</strong> adresse IP, type de navigateur, pages visitées (via cookies – voir section Cookies)</li>
             </ul>
           </div>
@@ -92,6 +93,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
             <ul className="mt-4 list-disc list-inside space-y-2">
               <li>Répondre à vos demandes de contact et de devis</li>
               <li>Vous contacter dans le cadre de nos services de conciergerie</li>
+              <li>Gérer l’espace membre : accès au logement, disponibilités, suivi du ménage et de la facturation</li>
               <li>Améliorer le fonctionnement et l'expérience utilisateur du site</li>
               <li>Respecter nos obligations légales</li>
             </ul>
@@ -102,7 +104,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
               4. Base légale
             </h2>
             <p>
-              Le traitement de vos données repose sur : votre consentement (formulaire de contact), l'exécution de mesures précontractuelles (réponse à une demande de devis), et notre intérêt légitime (amélioration du site).
+              Le traitement de vos données repose sur : votre consentement (formulaire de contact, création de compte), l'exécution de mesures précontractuelles ou du contrat de gestion (espace membre, calendrier, ménage, facturation), et notre intérêt légitime (amélioration du site et sécurité des accès).
             </p>
           </div>
 
@@ -111,7 +113,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
               5. Durée de conservation
             </h2>
             <p>
-              Les données du formulaire de contact sont conservées pendant 3 ans à compter du dernier contact, puis supprimées. Les données nécessaires à la tenue de notre comptabilité sont conservées 10 ans conformément aux obligations légales.
+              Les données du formulaire de contact sont conservées pendant 3 ans à compter du dernier contact, puis supprimées. Les comptes de l’espace membre et les données de gestion (calendrier, ménages, revenus) sont conservés pendant la durée du mandat puis 3 ans, sauf obligation comptable plus longue (10 ans). Les données nécessaires à la tenue de notre comptabilité sont conservées 10 ans conformément aux obligations légales.
             </p>
           </div>
 
@@ -120,7 +122,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
               6. Destinataires des données
             </h2>
             <p>
-              Vos données ne sont pas vendues ni louées. Elles peuvent être transmises à nos prestataires techniques (hébergeur) dans le cadre strict de la fourniture de leurs services. Nous ne transférons pas vos données en dehors de l'Union européenne sans garanties appropriées.
+              Vos données ne sont pas vendues ni louées. Elles peuvent être transmises à nos prestataires techniques (hébergeur Vercel, base de données Postgres) dans le cadre strict de la fourniture de leurs services. Nous ne transférons pas vos données en dehors de l'Union européenne sans garanties appropriées.
             </p>
           </div>
 

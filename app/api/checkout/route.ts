@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { quoteStay, rangeIsAvailable, type BookingConfig } from "@/lib/booking";
+import { quoteStay, rangeIsAvailable } from "@/lib/booking";
 import { getLogement } from "@/lib/logements";
-import { paidRangesForSlug } from "@/lib/paid-stays";
+import { getBookingWithAvailability } from "@/lib/owner-calendar";
 import { getStripe } from "@/lib/stripe";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -57,12 +57,8 @@ export async function POST(req: Request) {
   if (!Number.isInteger(guests) || guests < 1 || guests > logement.guests) {
     return NextResponse.json({ error: "invalid_guests" }, { status: 400 });
   }
-  const paid = await paidRangesForSlug(slug);
-  const bookingWithPaid = {
-    ...booking,
-    blocked: [...booking.blocked, ...paid],
-  } as BookingConfig;
-  if (!rangeIsAvailable(checkIn, checkOut, bookingWithPaid)) {
+  const bookingWithBlocks = (await getBookingWithAvailability(slug)) ?? booking;
+  if (!rangeIsAvailable(checkIn, checkOut, bookingWithBlocks)) {
     return NextResponse.json({ error: "unavailable" }, { status: 409 });
   }
 

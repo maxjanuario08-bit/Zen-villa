@@ -42,6 +42,39 @@ export function todayISO(): string {
   return toISODate(new Date());
 }
 
+export function startOfMonth(d: Date): Date {
+  return new Date(d.getFullYear(), d.getMonth(), 1);
+}
+
+/** Grille lundi→dimanche d’un mois (cellules vides = null). */
+export function monthGrid(cursor: Date): (string | null)[] {
+  const first = startOfMonth(cursor);
+  const startWeekday = (first.getDay() + 6) % 7;
+  const daysInMonth = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+  const cells: (string | null)[] = Array.from({ length: startWeekday }, () => null);
+  for (let day = 1; day <= daysInMonth; day++) {
+    cells.push(toISODate(new Date(first.getFullYear(), first.getMonth(), day)));
+  }
+  while (cells.length % 7 !== 0) cells.push(null);
+  return cells;
+}
+
+export function mergeDateRanges(ranges: readonly DateRange[]): DateRange[] {
+  const sorted = [...ranges]
+    .filter((r) => r.to > r.from)
+    .sort((a, b) => a.from.localeCompare(b.from) || a.to.localeCompare(b.to));
+  const out: DateRange[] = [];
+  for (const range of sorted) {
+    const last = out.at(-1);
+    if (last && range.from <= last.to) {
+      if (range.to > last.to) last.to = range.to;
+    } else {
+      out.push({ from: range.from, to: range.to });
+    }
+  }
+  return out;
+}
+
 function mmdd(iso: string): string {
   return iso.slice(5);
 }
