@@ -29,6 +29,19 @@ export default function LoginForm() {
         return;
       }
       if (!res.ok) {
+        const admin = await fetch("/api/owner/admin/login", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: String(data.get("email") ?? ""),
+            password: String(data.get("password") ?? ""),
+          }),
+        });
+        if (admin.ok) {
+          window.location.assign("/admin");
+          return;
+        }
         setStatus("error");
         return;
       }
@@ -76,6 +89,11 @@ export default function LoginForm() {
         {t("loginNoAccount")}{" "}
         <Link href="/inscription" className="font-medium text-lagoon hover:text-lagoon-dark">
           {t("signupSubmit")}
+        </Link>
+      </p>
+      <p className="text-center text-sm">
+        <Link href="/admin" className="font-medium text-lagoon hover:text-lagoon-dark">
+          {t("loginTeam")}
         </Link>
       </p>
     </form>

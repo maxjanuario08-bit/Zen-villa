@@ -10,6 +10,7 @@ const Compte = {
   loginError: "Email ou mot de passe incorrect.",
   loginUnavailable: "Connexion indisponible. Vérifiez les variables d’environnement locales.",
   loginNoAccount: "Pas encore de compte ?",
+  loginTeam: "Accès admin Zenvilla",
   signupTitle: "Créer un compte",
   signupMeta: "Inscription propriétaires – Zenvilla",
   signupLead:
