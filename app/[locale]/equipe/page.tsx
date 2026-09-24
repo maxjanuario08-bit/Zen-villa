@@ -1,29 +1,28 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Card from "@/components/ui/Card";
-import AdminDesk from "@/components/owner/AdminDesk";
-import AdminLoginForm from "@/components/owner/AdminLoginForm";
-import AdminLogoutButton from "@/components/owner/AdminLogoutButton";
+import StaffLoginForm from "@/components/owner/StaffLoginForm";
+import StaffLogoutButton from "@/components/owner/StaffLogoutButton";
 import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
 import { logementsManaged } from "@/lib/logements";
-import { getAdminSession } from "@/lib/owner-admin";
+import { getStaffSession } from "@/lib/owner-staff";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Admin" });
+  const t = await getTranslations({ locale, namespace: "Equipe" });
   return {
     title: t("meta"),
     robots: { index: false, follow: false },
   };
 }
 
-export default async function AdminPage({ params }: Props) {
+export default async function EquipePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const session = await getAdminSession();
-  const t = await getTranslations({ locale, namespace: "Admin" });
+  const session = await getStaffSession();
+  const t = await getTranslations({ locale, namespace: "Equipe" });
 
   if (!session) {
     return (
@@ -34,7 +33,7 @@ export default async function AdminPage({ params }: Props) {
           </h1>
           <p className="mt-4 text-center text-sm text-foreground/70">{t("lead")}</p>
           <Card className="mt-8" hover={false}>
-            <AdminLoginForm />
+            <StaffLoginForm />
           </Card>
         </div>
       </section>
@@ -55,14 +54,9 @@ export default async function AdminPage({ params }: Props) {
             <h1 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("title")}</h1>
             <p className="mt-2 text-sm text-foreground/70">{t("deskLead")}</p>
           </div>
-          <AdminLogoutButton />
+          <StaffLogoutButton />
         </div>
-        <AdminDesk />
-        <div className="mt-12 space-y-4">
-          <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("opsTitle")}</h2>
-          <p className="text-sm text-foreground/70">{t("opsLead")}</p>
-          <StaffOpsDesk villas={villas} />
-        </div>
+        <StaffOpsDesk villas={villas} />
       </div>
     </section>
   );

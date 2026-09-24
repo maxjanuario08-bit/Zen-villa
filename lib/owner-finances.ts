@@ -1,7 +1,7 @@
 import { nightsBetween, quoteStay, type BookingConfig } from "@/lib/booking";
 import type { PaidStay } from "@/lib/owner-types";
 
-export const ZENVILLA_FEE_RATE = 0;
+export const ZENVILLA_FEE_RATE = 0.2;
 
 export function staysInYear(stays: readonly PaidStay[], year: number) {
   return stays.filter((stay) =>

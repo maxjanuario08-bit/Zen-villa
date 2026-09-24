@@ -21,6 +21,8 @@ const Admin = {
   linking: "Linking…",
   unlink: "Remove",
   actionError: "Could not save. Try again.",
+  opsTitle: "Check-in, check-out and cleaning",
+  opsLead: "Record who did arrival, departure and cleaning here — not in the owner space.",
 } as const;
 
 export default Admin;

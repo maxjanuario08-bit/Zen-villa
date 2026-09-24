@@ -1,14 +1,21 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
+import { canBookOrBlock, canOperateStay, isOpsSession } from "@/lib/owner-ops-auth";
+import { addStayPhotos, createManualStay, deleteStay, getStayById, getStaysForSlug, markStayCheck } from "@/lib/owner-data";
 import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
-import { createManualStay, deleteStay, markStayCheck, addStayPhotos } from "@/lib/owner-data";
+import { ownerMayDeleteStay } from "@/lib/owner-types";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-export async function POST(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+export async function GET(req: Request) {
+  const slug = new URL(req.url).searchParams.get("slug") ?? "";
+  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  return NextResponse.json({ stays: await getStaysForSlug(slug) });
+}
 
+export async function POST(req: Request) {
   let body: {
     slug?: string;
     guestLabel?: string;
@@ -23,7 +30,7 @@ export async function POST(req: Request) {
   }
 
   const slug = String(body.slug ?? "");
-  if (!slug || !getLogement(slug) || !ownerOwnsSlug(session, slug)) {
+  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -39,6 +46,7 @@ export async function POST(req: Request) {
     checkIn,
     checkOut,
     guests: Number(body.guests) || 1,
+    bookedBy: (await isOpsSession()) ? "ops" : "owner",
   });
   if ("error" in created) {
     const status = created.error === "overlap" ? 409 : 400;
@@ -48,10 +56,14 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-
-  let body: { slug?: string; stayId?: string; action?: string; photos?: string[] };
+  let body: {
+    slug?: string;
+    stayId?: string;
+    action?: string;
+    photos?: string[];
+    by?: string;
+    time?: string;
+  };
   try {
     body = (await req.json()) as typeof body;
   } catch {
@@ -60,14 +72,28 @@ export async function PATCH(req: Request) {
 
   const slug = String(body.slug ?? "");
   const stayId = String(body.stayId ?? "");
-  if (!slug || !stayId || !ownerOwnsSlug(session, slug)) {
+  if (!slug || !stayId) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   if (body.action === "delete") {
+    const stay = await getStayById(stayId);
+    if (!stay || stay.slug !== slug) {
+      return NextResponse.json({ error: "not_found" }, { status: 404 });
+    }
+    const ops = await isOpsSession();
+    const owner = await getOwnerSession();
+    const ownerOk = Boolean(owner && ownerOwnsSlug(owner, slug) && ownerMayDeleteStay(stay));
+    if (!ops && !ownerOk) {
+      return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    }
     const ok = await deleteStay(stayId, slug);
     if (!ok) return NextResponse.json({ error: "not_found" }, { status: 404 });
     return NextResponse.json({ ok: true });
+  }
+
+  if (!(await canOperateStay(slug))) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   if (body.action === "photos-in" || body.action === "photos-out") {
@@ -84,7 +110,12 @@ export async function PATCH(req: Request) {
   if (body.action !== "checkin" && body.action !== "checkout") {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
-  const stay = await markStayCheck(stayId, slug, body.action === "checkin" ? "in" : "out");
+  const by = String(body.by ?? "").trim();
+  if (!by) return NextResponse.json({ error: "need_by" }, { status: 400 });
+  const stay = await markStayCheck(stayId, slug, body.action === "checkin" ? "in" : "out", {
+    by,
+    time: String(body.time ?? ""),
+  });
   if (!stay) return NextResponse.json({ error: "not_found" }, { status: 404 });
   return NextResponse.json({ ok: true, stay });
 }

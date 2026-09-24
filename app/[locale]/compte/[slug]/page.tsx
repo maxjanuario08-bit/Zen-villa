@@ -10,6 +10,7 @@ import { getCleaningsForSlug, getStaysForSlug } from "@/lib/owner-data";
 import FinanceSummary from "@/components/owner/FinanceSummary";
 import OwnerCalendar from "@/components/owner/OwnerCalendar";
 import OwnerOps from "@/components/owner/OwnerOps";
+import StayHistory from "@/components/owner/StayHistory";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -61,8 +62,10 @@ export default async function CompteLogementPage({ params }: Props) {
             ownerBlocks={calendar.ownerBlocks}
             closedMmdd={calendar.closedMmdd}
             maxGuests={logement.guests}
+            cleanings={cleanings}
           />
-          <OwnerOps slug={slug} maxGuests={logement.guests} stays={stays} cleanings={cleanings} />
+          <OwnerOps slug={slug} maxGuests={logement.guests} stays={stays} />
+          <StayHistory stays={stays} cleanings={cleanings} />
         </div>
       </div>
     </section>

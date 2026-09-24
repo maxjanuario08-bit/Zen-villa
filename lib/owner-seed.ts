@@ -17,6 +17,7 @@ export const SEED_PAID_STAYS: readonly PaidStay[] = [
     checkOut: "2026-04-15",
     guests: 2,
     status: "paid",
+    bookedBy: "site",
   },
   {
     id: "stay-pinson-2026-06",
@@ -26,6 +27,7 @@ export const SEED_PAID_STAYS: readonly PaidStay[] = [
     checkOut: "2026-06-25",
     guests: 3,
     status: "paid",
+    bookedBy: "site",
   },
   {
     id: "stay-pinson-2026-07",
@@ -35,6 +37,7 @@ export const SEED_PAID_STAYS: readonly PaidStay[] = [
     checkOut: "2026-07-27",
     guests: 2,
     status: "paid",
+    bookedBy: "site",
   },
   {
     id: "stay-pinson-2026-08",
@@ -44,6 +47,7 @@ export const SEED_PAID_STAYS: readonly PaidStay[] = [
     checkOut: "2026-08-29",
     guests: 4,
     status: "paid",
+    bookedBy: "site",
   },
 ];
 

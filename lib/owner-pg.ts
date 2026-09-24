@@ -50,6 +50,11 @@ export async function ensureOwnerSchema() {
   await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checked_out_at TIMESTAMPTZ`;
   await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checkin_photos_json TEXT NOT NULL DEFAULT '[]'`;
   await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checkout_photos_json TEXT NOT NULL DEFAULT '[]'`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checked_in_by TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS checked_out_by TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS check_in_time TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS check_out_time TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE owner_stays ADD COLUMN IF NOT EXISTS booked_by TEXT NOT NULL DEFAULT ''`;
   await sql`
     CREATE TABLE IF NOT EXISTS owner_cleanings (
       id TEXT PRIMARY KEY,

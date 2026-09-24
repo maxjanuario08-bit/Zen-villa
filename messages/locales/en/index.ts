@@ -7,6 +7,7 @@ import livretVillaPinson from "./livretVillaPinson";
 import Logements from "./logements";
 import Compte from "./compte";
 import Admin from "./admin";
+import Equipe from "./equipe";
 
 export default {
   ...chrome,
@@ -18,4 +19,5 @@ export default {
   Logements,
   Compte,
   Admin,
+  Equipe,
 };

@@ -1,14 +1,19 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
-import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
-import { createCleaning } from "@/lib/owner-data";
+import { canBookOrBlock, canOperateStay } from "@/lib/owner-ops-auth";
+import { createCleaning, getCleaningsForSlug } from "@/lib/owner-data";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-export async function POST(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
+export async function GET(req: Request) {
+  const slug = new URL(req.url).searchParams.get("slug") ?? "";
+  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  return NextResponse.json({ cleanings: await getCleaningsForSlug(slug) });
+}
 
+export async function POST(req: Request) {
   let body: {
     slug?: string;
     stayId?: string;
@@ -16,6 +21,7 @@ export async function POST(req: Request) {
     time?: string;
     cleanerName?: string;
     notes?: string;
+    photos?: string[];
   };
   try {
     body = (await req.json()) as typeof body;
@@ -24,12 +30,13 @@ export async function POST(req: Request) {
   }
 
   const slug = String(body.slug ?? "");
-  if (!slug || !getLogement(slug) || !ownerOwnsSlug(session, slug)) {
+  if (!slug || !getLogement(slug) || !(await canOperateStay(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
   const date = String(body.date ?? "");
-  if (!ISO_DATE.test(date)) {
+  const cleanerName = String(body.cleanerName ?? "").trim();
+  if (!ISO_DATE.test(date) || !cleanerName) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
 
@@ -38,8 +45,9 @@ export async function POST(req: Request) {
     stayId: String(body.stayId ?? ""),
     date,
     time: String(body.time ?? "10:00"),
-    cleanerName: String(body.cleanerName ?? ""),
+    cleanerName,
     notes: String(body.notes ?? ""),
+    photos: Array.isArray(body.photos) ? body.photos : [],
   });
   if ("error" in created) {
     return NextResponse.json({ error: created.error }, { status: 400 });

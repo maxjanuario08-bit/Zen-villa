@@ -45,9 +45,24 @@ function rowToStay(row: Record<string, unknown>): PaidStay {
     status: "paid",
     checkedInAt: isoStamp(row.checked_in_at),
     checkedOutAt: isoStamp(row.checked_out_at),
+    checkedInBy: String(row.checked_in_by || ""),
+    checkedOutBy: String(row.checked_out_by || ""),
+    checkInTime: String(row.check_in_time || ""),
+    checkOutTime: String(row.check_out_time || ""),
     checkInPhotos: parsePhotos(row.checkin_photos_json),
     checkOutPhotos: parsePhotos(row.checkout_photos_json),
+    bookedBy: parseBookedBy(row.booked_by),
   };
+}
+
+function parseBookedBy(raw: unknown): PaidStay["bookedBy"] {
+  const value = String(raw ?? "");
+  if (value === "owner" || value === "ops" || value === "site") return value;
+  return "ops";
+}
+
+function normalizeFileStay(stay: PaidStay): PaidStay {
+  return { ...stay, bookedBy: parseBookedBy(stay.bookedBy) };
 }
 
 function staysOverlap(a: { checkIn: string; checkOut: string }, b: { checkIn: string; checkOut: string }) {
@@ -73,13 +88,14 @@ export async function getStaysForSlug(slug: string): Promise<PaidStay[]> {
     const sql = await pg();
     const rows = await sql`
       SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at,
-             checkin_photos_json, checkout_photos_json
+             checkin_photos_json, checkout_photos_json, checked_in_by, checked_out_by, check_in_time, check_out_time,
+             booked_by
       FROM owner_stays WHERE slug = ${slug} ORDER BY check_in
     `;
     return (rows as Record<string, unknown>[]).map(rowToStay);
   }
   const file = await readJsonFile<{ stays: PaidStay[] }>(STAYS_PATH, { stays: [] });
-  const local = file.stays.filter((stay) => stay.slug === slug);
+  const local = file.stays.filter((stay) => stay.slug === slug).map(normalizeFileStay);
   if (local.length) return local;
   return ownerDemoEnabled() ? seedStaysForSlug(slug) : [];
 }
@@ -89,14 +105,16 @@ export async function getStayById(id: string): Promise<PaidStay | null> {
     const sql = await pg();
     const rows = await sql`
       SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at,
-             checkin_photos_json, checkout_photos_json
+             checkin_photos_json, checkout_photos_json, checked_in_by, checked_out_by, check_in_time, check_out_time,
+             booked_by
       FROM owner_stays WHERE id = ${id} LIMIT 1
     `;
     const row = rows[0] as Record<string, unknown> | undefined;
     return row ? rowToStay(row) : null;
   }
   const file = await readJsonFile<{ stays: PaidStay[] }>(STAYS_PATH, { stays: [] });
-  return file.stays.find((stay) => stay.id === id) ?? null;
+  const found = file.stays.find((stay) => stay.id === id);
+  return found ? normalizeFileStay(found) : null;
 }
 
 export async function createManualStay(input: {
@@ -105,6 +123,7 @@ export async function createManualStay(input: {
   checkIn: string;
   checkOut: string;
   guests: number;
+  bookedBy: "owner" | "ops";
 }): Promise<PaidStay | { error: "overlap" | "invalid" }> {
   const guestLabel = input.guestLabel.trim().slice(0, 80);
   if (!guestLabel || input.checkOut <= input.checkIn || input.guests < 1) {
@@ -122,13 +141,14 @@ export async function createManualStay(input: {
     status: "paid",
     checkedInAt: null,
     checkedOutAt: null,
+    bookedBy: input.bookedBy,
   };
   if (existing.some((stay) => staysOverlap(stay, next))) return { error: "overlap" };
 
   if (usePostgres()) {
     const sql = await pg();
     await sql`
-      INSERT INTO owner_stays (id, slug, guest_key, guest_label, check_in, check_out, guests)
+      INSERT INTO owner_stays (id, slug, guest_key, guest_label, check_in, check_out, guests, booked_by)
       VALUES (
         ${next.id},
         ${next.slug},
@@ -136,7 +156,8 @@ export async function createManualStay(input: {
         ${next.guestLabel},
         ${next.checkIn},
         ${next.checkOut},
-        ${next.guests}
+        ${next.guests},
+        ${next.bookedBy}
       )
     `;
   } else {
@@ -166,19 +187,41 @@ export async function deleteStay(id: string, slug: string): Promise<boolean> {
   return true;
 }
 
-export async function markStayCheck(id: string, slug: string, kind: "in" | "out"): Promise<PaidStay | null> {
+export async function markStayCheck(
+  id: string,
+  slug: string,
+  kind: "in" | "out",
+  extra?: { by?: string; time?: string },
+): Promise<PaidStay | null> {
   const stay = await getStayById(id);
   if (!stay || stay.slug !== slug) return null;
   const now = new Date().toISOString();
-  if (kind === "in") stay.checkedInAt = now;
-  else stay.checkedOutAt = now;
+  const by = (extra?.by ?? "").trim().slice(0, 80);
+  const time = (extra?.time ?? "").trim();
+  if (kind === "in") {
+    stay.checkedInAt = now;
+    stay.checkedInBy = by;
+    stay.checkInTime = time;
+  } else {
+    stay.checkedOutAt = now;
+    stay.checkedOutBy = by;
+    stay.checkOutTime = time;
+  }
 
   if (usePostgres()) {
     const sql = await pg();
     if (kind === "in") {
-      await sql`UPDATE owner_stays SET checked_in_at = NOW() WHERE id = ${id} AND slug = ${slug}`;
+      await sql`
+        UPDATE owner_stays
+        SET checked_in_at = NOW(), checked_in_by = ${by}, check_in_time = ${time}
+        WHERE id = ${id} AND slug = ${slug}
+      `;
     } else {
-      await sql`UPDATE owner_stays SET checked_out_at = NOW() WHERE id = ${id} AND slug = ${slug}`;
+      await sql`
+        UPDATE owner_stays
+        SET checked_out_at = NOW(), checked_out_by = ${by}, check_out_time = ${time}
+        WHERE id = ${id} AND slug = ${slug}
+      `;
     }
     return getStayById(id);
   }
@@ -278,10 +321,14 @@ export async function createCleaning(input: {
   time: string;
   cleanerName: string;
   notes: string;
+  photos?: string[];
 }): Promise<CleaningRecord | { error: "invalid" }> {
   const date = input.date.trim();
   const time = input.time.trim() || "10:00";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "invalid" };
+  const photos = (input.photos ?? [])
+    .filter((item) => item.startsWith("data:image/") && item.length < 450_000)
+    .slice(0, 8);
   const record: CleaningRecord = {
     id: randomBytes(8).toString("hex"),
     slug: input.slug,
@@ -290,7 +337,7 @@ export async function createCleaning(input: {
     time,
     cleanerId: input.cleanerName.trim().slice(0, 80) || "équipe",
     notes: input.notes.trim().slice(0, 500),
-    photos: [],
+    photos,
   };
   if (usePostgres()) {
     const sql = await pg();

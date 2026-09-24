@@ -25,9 +25,19 @@ export type PaidStay = {
   status: "paid";
   checkedInAt?: string | null;
   checkedOutAt?: string | null;
+  checkedInBy?: string;
+  checkedOutBy?: string;
+  checkInTime?: string;
+  checkOutTime?: string;
   checkInPhotos?: string[];
   checkOutPhotos?: string[];
+  /** owner = saisie proprio ; ops = admin / équipe ; site = voyageur / démo */
+  bookedBy?: "owner" | "ops" | "site";
 };
+
+export function ownerMayDeleteStay(stay: PaidStay) {
+  return stay.bookedBy === "owner";
+}
 
 export type CleaningRecord = {
   id: string;

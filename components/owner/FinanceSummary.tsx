@@ -32,10 +32,14 @@ export default async function FinanceSummary({ locale, stays, booking, year }: P
       <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("financeTitle")}</h2>
       <p className="mt-2 text-sm text-foreground/70">{t("financeLead")}</p>
 
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="rounded-xl bg-sand-light/80 px-4 py-3">
           <p className="text-xs uppercase tracking-wide text-muted">{t("financeGross", { year })}</p>
           <p className="mt-1 font-serif text-2xl text-lagoon-dark">{euro.format(finance.lodging)}</p>
+        </div>
+        <div className="rounded-xl bg-sand-light/80 px-4 py-3">
+          <p className="text-xs uppercase tracking-wide text-muted">{t("financeFee")}</p>
+          <p className="mt-1 font-serif text-2xl text-lagoon-dark">{euro.format(finance.fee)}</p>
         </div>
         <div className="rounded-xl bg-sand-light/80 px-4 py-3">
           <p className="text-xs uppercase tracking-wide text-muted">{t("financeNights", { count: finance.nights })}</p>
@@ -53,7 +57,10 @@ export default async function FinanceSummary({ locale, stays, booking, year }: P
                 to: row.stay.checkOut,
               })}
             </span>
-            <span className="font-medium text-lagoon-dark">{euro.format(row.lodging)}</span>
+            <span className="font-medium text-lagoon-dark">
+              {euro.format(row.lodging)}
+              <span className="ml-2 font-normal text-muted">{t("financeFeeOnStay", { amount: euro.format(row.fee) })}</span>
+            </span>
           </li>
         ))}
       </ul>

@@ -21,6 +21,8 @@ const Admin = {
   linking: "Association…",
   unlink: "Retirer",
   actionError: "Impossible d’enregistrer. Réessayez.",
+  opsTitle: "Check-in, check-out et ménage",
+  opsLead: "Saisissez ici qui a fait l’arrivée, le départ et le ménage — pas dans l’espace propriétaire.",
 } as const;
 
 export default Admin;

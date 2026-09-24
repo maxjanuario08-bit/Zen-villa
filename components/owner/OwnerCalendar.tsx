@@ -9,11 +9,13 @@ import {
   fromISODate,
   isNightBlocked,
   monthGrid,
+  nightsBetween,
   startOfMonth,
   todayISO,
   type DateRange,
 } from "@/lib/booking";
-import type { PaidStay } from "@/lib/owner-types";
+import StayVisitRecap from "@/components/owner/StayVisitRecap";
+import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
 type ClosedMmdd = { from: string; to: string } | null;
 
@@ -23,6 +25,8 @@ type Props = {
   ownerBlocks: readonly DateRange[];
   closedMmdd: ClosedMmdd;
   maxGuests: number;
+  cleanings?: readonly CleaningRecord[];
+  onUpdated?: () => void;
 };
 
 function inClosedMmdd(iso: string, closed: ClosedMmdd) {
@@ -32,7 +36,7 @@ function inClosedMmdd(iso: string, closed: ClosedMmdd) {
   return value >= closed.from || value < closed.to;
 }
 
-export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, maxGuests }: Props) {
+export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, maxGuests, cleanings = [], onUpdated }: Props) {
   const t = useTranslations("Compte");
   const locale = useLocale();
   const router = useRouter();
@@ -47,6 +51,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
   const [guest, setGuest] = useState("");
   const [guests, setGuests] = useState(2);
   const [showBook, setShowBook] = useState(false);
+  const [recap, setRecap] = useState<PaidStay | null>(null);
 
   const weekdays = useMemo(() => {
     const fmt = new Intl.DateTimeFormat(locale, { weekday: "short" });
@@ -63,7 +68,17 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
   }
 
   function pick(iso: string) {
-    if (stayOn(iso) || inClosedMmdd(iso, closedMmdd) || saving) return;
+    const rented = stayOn(iso);
+    if (rented) {
+      setRecap(rented);
+      setAnchor(null);
+      setEnd(null);
+      setHover(null);
+      setShowBook(false);
+      return;
+    }
+    if (inClosedMmdd(iso, closedMmdd) || saving) return;
+    setRecap(null);
     setError(null);
     if (!anchor || end) {
       setAnchor(iso);
@@ -107,6 +122,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
       setHover(null);
       setShowBook(false);
       router.refresh();
+      onUpdated?.();
     } catch {
       setLocalBlocks(previous);
       setError(t("calError"));
@@ -153,6 +169,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
       setGuest("");
       setShowBook(false);
       router.refresh();
+      onUpdated?.();
     } catch {
       setError(t("bookError"));
     } finally {
@@ -197,7 +214,7 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
           const owner = isNightBlocked(iso, localBlocks);
           const closed = inClosedMmdd(iso, closedMmdd);
           const picked = selectedSet.has(iso);
-          const disabled = Boolean(stay || closed || saving);
+          const disabled = Boolean(closed || saving);
           const guestName =
             stay?.guestLabel ||
             (stay && ["martin", "laurent", "wright", "rossi"].includes(stay.guestKey)
@@ -211,11 +228,11 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
               title={stay && guestName ? t("stayGuest", { guest: guestName }) : undefined}
               onClick={() => pick(iso)}
               onMouseEnter={() => {
-                if (anchor && !end && !disabled) setHover(iso);
+                if (anchor && !end && !stay && !disabled) setHover(iso);
               }}
               className={`min-h-[3.1rem] rounded-lg border px-0.5 py-1 text-center text-xs transition-colors ${
                 stay
-                  ? "cursor-not-allowed border-lagoon/30 bg-lagoon text-white"
+                  ? "border-lagoon/30 bg-lagoon text-white hover:bg-lagoon-dark"
                   : picked
                     ? "border-lagoon bg-lagoon/15 text-lagoon-dark"
                     : owner
@@ -232,6 +249,29 @@ export default function OwnerCalendar({ slug, stays, ownerBlocks, closedMmdd, ma
           );
         })}
       </div>
+
+      {recap ? (
+        <div className="mt-4 rounded-xl bg-lagoon/10 p-4 text-sm text-lagoon-dark">
+          <p className="font-medium">
+            {t("stayGuest", {
+              guest:
+                recap.guestLabel ||
+                (["martin", "laurent", "wright", "rossi"].includes(recap.guestKey)
+                  ? t(`guests.${recap.guestKey}`)
+                  : recap.guestKey),
+            })}
+          </p>
+          <p className="mt-1 text-foreground/80">
+            {t("calRecapDates", { from: recap.checkIn, to: recap.checkOut })}
+          </p>
+          <p className="mt-1 text-foreground/80">
+            {t("calRecapNights", { count: nightsBetween(recap.checkIn, recap.checkOut).length })}
+            {" · "}
+            {t("bookGuestsCount", { count: recap.guests })}
+          </p>
+          <StayVisitRecap stay={recap} cleanings={cleanings} />
+        </div>
+      ) : null}
 
       {selected.length > 0 ? (
         <div className="mt-4 space-y-3 rounded-xl bg-sand-light/80 p-4">

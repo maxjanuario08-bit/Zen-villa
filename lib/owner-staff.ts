@@ -1,0 +1,113 @@
+import { createHmac, timingSafeEqual } from "crypto";
+import { cookies } from "next/headers";
+import { getLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
+import { isProductionRuntime, ownerSessionSecret, ownerStoreReady } from "@/lib/owner-config";
+
+export const STAFF_COOKIE = "zv_staff";
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+export type StaffSession = { email: string; role: "staff" };
+
+function isProd() {
+  return isProductionRuntime() || process.env.VERCEL === "1";
+}
+
+function sign(payload: string, secret: string) {
+  return createHmac("sha256", secret).update(payload).digest("base64url");
+}
+
+function safeEqual(a: string, b: string) {
+  const left = Buffer.from(a);
+  const right = Buffer.from(b);
+  if (left.length !== right.length) {
+    timingSafeEqual(left, left);
+    return false;
+  }
+  return timingSafeEqual(left, right);
+}
+
+export function staffEmail() {
+  return (process.env.STAFF_EMAIL?.trim() || "").toLowerCase();
+}
+
+export function staffPassword() {
+  const fromEnv = process.env.STAFF_PASSWORD?.trim() ?? "";
+  if (fromEnv.length >= 8) return fromEnv;
+  if (!isProductionRuntime()) return fromEnv || "zenvilla-staff-local";
+  return "";
+}
+
+export function staffAuthConfigured() {
+  const email = staffEmail() || (!isProductionRuntime() ? "personnel@localhost" : "");
+  return Boolean(ownerSessionSecret()) && ownerStoreReady() && staffPassword().length >= 8 && Boolean(email);
+}
+
+export function localeStaffPath(locale: string) {
+  return locale === "fr" ? "/equipe" : `/${locale}/equipe`;
+}
+
+export function staffCookieOptions() {
+  return {
+    httpOnly: true as const,
+    sameSite: "lax" as const,
+    secure: isProd(),
+    path: "/",
+    maxAge: WEEK_MS / 1000,
+  };
+}
+
+export function createStaffToken(email: string): string {
+  const secret = ownerSessionSecret();
+  const body = { email: email.toLowerCase(), role: "staff", exp: Date.now() + WEEK_MS };
+  const json = Buffer.from(JSON.stringify(body)).toString("base64url");
+  return `${json}.${sign(json, secret)}`;
+}
+
+export function readStaffToken(token: string): StaffSession | null {
+  const secret = ownerSessionSecret();
+  if (!secret) return null;
+  const [json, sig] = token.split(".");
+  if (!json || !sig) return null;
+  if (!safeEqual(sig, sign(json, secret))) return null;
+  try {
+    const payload = JSON.parse(Buffer.from(json, "base64url").toString()) as {
+      email?: string;
+      role?: string;
+      exp?: number;
+    };
+    if (payload.role !== "staff" || !payload.email || !payload.exp || payload.exp < Date.now()) {
+      return null;
+    }
+    return { email: payload.email, role: "staff" };
+  } catch {
+    return null;
+  }
+}
+
+export async function getStaffSession(): Promise<StaffSession | null> {
+  const jar = await cookies();
+  const raw = jar.get(STAFF_COOKIE)?.value;
+  if (!raw) return null;
+  return readStaffToken(raw);
+}
+
+export async function requireStaff() {
+  const session = await getStaffSession();
+  if (!session) {
+    const locale = await getLocale();
+    redirect(localeStaffPath(locale));
+  }
+  return session;
+}
+
+export function authenticateStaff(email: string, password: string): StaffSession | null {
+  const expectedEmail = staffEmail() || (!isProductionRuntime() ? "personnel@localhost" : "");
+  const expectedPassword = staffPassword();
+  const givenEmail = email.trim().toLowerCase();
+  const givenPassword = password.trim();
+  if (!expectedEmail || !expectedPassword || givenPassword.length < 8) return null;
+  if (givenEmail !== expectedEmail) return null;
+  if (!safeEqual(givenPassword, expectedPassword)) return null;
+  return { email: expectedEmail, role: "staff" };
+}

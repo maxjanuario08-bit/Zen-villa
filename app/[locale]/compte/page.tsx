@@ -65,9 +65,15 @@ export default async function ComptePage({ params }: Props) {
                     <div className="p-5 sm:p-6">
                       <h2 className="font-serif text-2xl text-lagoon-dark">{name}</h2>
                       <p className="mt-1 text-sm text-muted">{tLog(`${logement.copyKey}.tagline`)}</p>
-                      <dl className="mt-4 text-sm">
-                        <dt className="text-muted">{t("yearRevenue", { year })}</dt>
-                        <dd className="font-medium text-lagoon-dark">{euro.format(finance.lodging)}</dd>
+                      <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <dt className="text-muted">{t("yearRevenue", { year })}</dt>
+                          <dd className="font-medium text-lagoon-dark">{euro.format(finance.lodging)}</dd>
+                        </div>
+                        <div>
+                          <dt className="text-muted">{t("yearFee", { year })}</dt>
+                          <dd className="font-medium text-lagoon-dark">{euro.format(finance.fee)}</dd>
+                        </div>
                       </dl>
                       <p className="mt-3 text-xs text-muted">
                         {t("nightsRented", { count: finance.nights })}

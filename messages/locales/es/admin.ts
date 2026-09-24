@@ -21,6 +21,8 @@ const Admin = {
   linking: "Asociación…",
   unlink: "Quitar",
   actionError: "No se ha podido guardar. Inténtelo de nuevo.",
+  opsTitle: "Check-in, check-out y limpieza",
+  opsLead: "Registre aquí quién hizo la llegada, la salida y la limpieza — no en el espacio del propietario.",
 } as const;
 
 export default Admin;

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { isNightBlocked, nightsBetween } from "@/lib/booking";
-import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
 import { getOwnerCalendarPayload } from "@/lib/owner-calendar";
 import { addOwnerNight, addOwnerRange, removeOwnerNight } from "@/lib/owner-store";
 import { getStaysForSlug } from "@/lib/owner-data";
 import { getLogement } from "@/lib/logements";
+import { canBookOrBlock } from "@/lib/owner-ops-auth";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -13,11 +13,8 @@ async function rentedRanges(slug: string) {
 }
 
 export async function GET(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-
   const slug = new URL(req.url).searchParams.get("slug") ?? "";
-  if (!slug || !ownerOwnsSlug(session, slug)) {
+  if (!slug || !(await canBookOrBlock(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -26,9 +23,6 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-
   let body: { slug?: string; night?: string; from?: string; to?: string; action?: string };
   try {
     body = (await req.json()) as typeof body;
@@ -37,7 +31,7 @@ export async function POST(req: Request) {
   }
 
   const slug = String(body.slug ?? "");
-  if (!slug || !getLogement(slug) || !ownerOwnsSlug(session, slug)) {
+  if (!slug || !getLogement(slug) || !(await canBookOrBlock(slug))) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
@@ -79,13 +73,10 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const session = await getOwnerSession();
-  if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
-
   const url = new URL(req.url);
   const slug = url.searchParams.get("slug") ?? "";
   const night = url.searchParams.get("night") ?? "";
-  if (!slug || !ownerOwnsSlug(session, slug) || !ISO_DATE.test(night)) {
+  if (!slug || !(await canBookOrBlock(slug)) || !ISO_DATE.test(night)) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
   const blocks = await removeOwnerNight(slug, night);
