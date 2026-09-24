@@ -22,6 +22,17 @@ function isoStamp(value: unknown): string | null {
   return String(value);
 }
 
+function parsePhotos(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw.filter((item): item is string => typeof item === "string");
+  if (typeof raw !== "string" || !raw.trim()) return [];
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
 function rowToStay(row: Record<string, unknown>): PaidStay {
   return {
     id: String(row.id),
@@ -34,6 +45,8 @@ function rowToStay(row: Record<string, unknown>): PaidStay {
     status: "paid",
     checkedInAt: isoStamp(row.checked_in_at),
     checkedOutAt: isoStamp(row.checked_out_at),
+    checkInPhotos: parsePhotos(row.checkin_photos_json),
+    checkOutPhotos: parsePhotos(row.checkout_photos_json),
   };
 }
 
@@ -59,7 +72,8 @@ export async function getStaysForSlug(slug: string): Promise<PaidStay[]> {
   if (usePostgres()) {
     const sql = await pg();
     const rows = await sql`
-      SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at
+      SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at,
+             checkin_photos_json, checkout_photos_json
       FROM owner_stays WHERE slug = ${slug} ORDER BY check_in
     `;
     return (rows as Record<string, unknown>[]).map(rowToStay);
@@ -74,7 +88,8 @@ export async function getStayById(id: string): Promise<PaidStay | null> {
   if (usePostgres()) {
     const sql = await pg();
     const rows = await sql`
-      SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at
+      SELECT id, slug, guest_key, guest_label, check_in, check_out, guests, checked_in_at, checked_out_at,
+             checkin_photos_json, checkout_photos_json
       FROM owner_stays WHERE id = ${id} LIMIT 1
     `;
     const row = rows[0] as Record<string, unknown> | undefined;
@@ -164,6 +179,36 @@ export async function markStayCheck(id: string, slug: string, kind: "in" | "out"
       await sql`UPDATE owner_stays SET checked_in_at = NOW() WHERE id = ${id} AND slug = ${slug}`;
     } else {
       await sql`UPDATE owner_stays SET checked_out_at = NOW() WHERE id = ${id} AND slug = ${slug}`;
+    }
+    return getStayById(id);
+  }
+  const file = await readJsonFile<{ stays: PaidStay[] }>(STAYS_PATH, { stays: [] });
+  const idx = file.stays.findIndex((item) => item.id === id);
+  if (idx >= 0) file.stays[idx] = stay;
+  await writeJsonFile(STAYS_PATH, file);
+  return stay;
+}
+
+export async function addStayPhotos(
+  id: string,
+  slug: string,
+  kind: "in" | "out",
+  photos: string[],
+): Promise<PaidStay | null> {
+  const stay = await getStayById(id);
+  if (!stay || stay.slug !== slug) return null;
+  const clean = photos.filter((item) => item.startsWith("data:image/") && item.length < 450_000).slice(0, 8);
+  if (!clean.length) return stay;
+  if (kind === "in") stay.checkInPhotos = [...(stay.checkInPhotos ?? []), ...clean].slice(0, 12);
+  else stay.checkOutPhotos = [...(stay.checkOutPhotos ?? []), ...clean].slice(0, 12);
+
+  if (usePostgres()) {
+    const sql = await pg();
+    const json = JSON.stringify(kind === "in" ? stay.checkInPhotos : stay.checkOutPhotos);
+    if (kind === "in") {
+      await sql`UPDATE owner_stays SET checkin_photos_json = ${json} WHERE id = ${id} AND slug = ${slug}`;
+    } else {
+      await sql`UPDATE owner_stays SET checkout_photos_json = ${json} WHERE id = ${id} AND slug = ${slug}`;
     }
     return getStayById(id);
   }

@@ -25,6 +25,8 @@ export type PaidStay = {
   status: "paid";
   checkedInAt?: string | null;
   checkedOutAt?: string | null;
+  checkInPhotos?: string[];
+  checkOutPhotos?: string[];
 };
 
 export type CleaningRecord = {

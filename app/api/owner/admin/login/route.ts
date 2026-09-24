@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   }
 
   const ip = clientIp(req);
-  if (await tooManyAuthAttempts(ip, "admin")) {
+  if (await tooManyAuthAttempts(ip, "admin_v2")) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
@@ -25,9 +25,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  await recordAuthAttempt(ip, "admin");
   const session = authenticateAdmin(String(body.email ?? ""), String(body.password ?? ""));
   if (!session) {
+    await recordAuthAttempt(ip, "admin_v2");
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
   }
 

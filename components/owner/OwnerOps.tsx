@@ -39,6 +39,64 @@ export default function OwnerOps({ slug, maxGuests, stays, cleanings }: Props) {
     router.refresh();
   }
 
+  async function compressFile(file: File): Promise<string> {
+    const url = URL.createObjectURL(file);
+    try {
+      const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = () => reject(new Error("image"));
+        image.src = url;
+      });
+      const max = 1280;
+      let width = img.width;
+      let height = img.height;
+      if (width > max || height > max) {
+        const ratio = Math.min(max / width, max / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      canvas.getContext("2d")?.drawImage(img, 0, 0, width, height);
+      return canvas.toDataURL("image/jpeg", 0.72);
+    } finally {
+      URL.revokeObjectURL(url);
+    }
+  }
+
+  async function uploadPhotos(stayId: string, kind: "in" | "out", files: FileList | null) {
+    if (!files?.length) return;
+    setBusy(`photos:${stayId}:${kind}`);
+    setError(null);
+    try {
+      const photos: string[] = [];
+      for (const file of Array.from(files).slice(0, 6)) {
+        photos.push(await compressFile(file));
+      }
+      const res = await fetch("/api/owner/stays", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          stayId,
+          action: kind === "in" ? "photos-in" : "photos-out",
+          photos,
+        }),
+      });
+      if (!res.ok) {
+        setError(t("opsError"));
+        return;
+      }
+      await refresh();
+    } catch {
+      setError(t("opsError"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   async function book(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
@@ -286,6 +344,62 @@ export default function OwnerOps({ slug, maxGuests, stays, cleanings }: Props) {
                     >
                       {t("stayDelete")}
                     </button>
+                  </div>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted">{t("photosInTitle")}</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {(stay.checkInPhotos ?? []).map((src, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            key={`in-${stay.id}-${i}`}
+                            src={src}
+                            alt=""
+                            className="h-16 w-16 rounded-lg object-cover"
+                          />
+                        ))}
+                      </div>
+                      <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
+                        {t("addPhotos")}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          className="sr-only"
+                          onChange={(e) => {
+                            void uploadPhotos(stay.id, "in", e.target.files);
+                            e.currentTarget.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-muted">{t("photosOutTitle")}</p>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {(stay.checkOutPhotos ?? []).map((src, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            key={`out-${stay.id}-${i}`}
+                            src={src}
+                            alt=""
+                            className="h-16 w-16 rounded-lg object-cover"
+                          />
+                        ))}
+                      </div>
+                      <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
+                        {t("addPhotos")}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          className="sr-only"
+                          onChange={(e) => {
+                            void uploadPhotos(stay.id, "out", e.target.files);
+                            e.currentTarget.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
                   </div>
                 </li>
               );

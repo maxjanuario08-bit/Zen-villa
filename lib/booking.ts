@@ -122,6 +122,13 @@ export function nightsBetween(checkIn: string, checkOut: string): string[] {
   return nights;
 }
 
+/** Jours inclusifs (ex. 12 → 16 = 12, 13, 14, 15, 16). */
+export function daysInclusive(from: string, to: string): string[] {
+  const start = from <= to ? from : to;
+  const end = from <= to ? to : from;
+  return nightsBetween(start, addDays(end, 1));
+}
+
 export function minNightsForStay(checkIn: string, checkOut: string, config: BookingConfig): number {
   const nights = nightsBetween(checkIn, checkOut);
   let required = config.minNights;

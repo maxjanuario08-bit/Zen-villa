@@ -8,6 +8,7 @@ const Admin = {
   submit: "Entrar",
   sending: "Conexión…",
   loginError: "Email o contraseña incorrectos.",
+  loginLimited: "Demasiados intentos. Espere unos minutos e inténtelo de nuevo.",
   unavailable:
     "La administración aún no está configurada. Añada OWNER_ADMIN_PASSWORD (mín. 8 caracteres) en Vercel y vuelva a desplegar.",
   logout: "Cerrar sesión",

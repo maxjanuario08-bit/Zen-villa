@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
 import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
-import { createManualStay, deleteStay, markStayCheck } from "@/lib/owner-data";
+import { createManualStay, deleteStay, markStayCheck, addStayPhotos } from "@/lib/owner-data";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -51,7 +51,7 @@ export async function PATCH(req: Request) {
   const session = await getOwnerSession();
   if (!session) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
 
-  let body: { slug?: string; stayId?: string; action?: string };
+  let body: { slug?: string; stayId?: string; action?: string; photos?: string[] };
   try {
     body = (await req.json()) as typeof body;
   } catch {
@@ -68,6 +68,17 @@ export async function PATCH(req: Request) {
     const ok = await deleteStay(stayId, slug);
     if (!ok) return NextResponse.json({ error: "not_found" }, { status: 404 });
     return NextResponse.json({ ok: true });
+  }
+
+  if (body.action === "photos-in" || body.action === "photos-out") {
+    const stay = await addStayPhotos(
+      stayId,
+      slug,
+      body.action === "photos-in" ? "in" : "out",
+      Array.isArray(body.photos) ? body.photos : [],
+    );
+    if (!stay) return NextResponse.json({ error: "not_found" }, { status: 404 });
+    return NextResponse.json({ ok: true, stay });
   }
 
   if (body.action !== "checkin" && body.action !== "checkout") {

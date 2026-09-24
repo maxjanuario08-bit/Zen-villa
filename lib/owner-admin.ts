@@ -99,9 +99,11 @@ export async function requireAdmin() {
 export function authenticateAdmin(email: string, password: string): AdminSession | null {
   const expectedEmail = ownerAdminEmail();
   const expectedPassword = ownerAdminPassword();
-  if (!expectedPassword || password.length < 8) return null;
-  if (email.trim().toLowerCase() !== expectedEmail) return null;
-  if (!safeEqual(password, expectedPassword)) return null;
+  const givenEmail = email.trim().toLowerCase();
+  const givenPassword = password.trim();
+  if (!expectedPassword || givenPassword.length < 8) return null;
+  if (givenEmail !== expectedEmail) return null;
+  if (!safeEqual(givenPassword, expectedPassword)) return null;
   return { email: expectedEmail };
 }
 

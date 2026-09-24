@@ -2,13 +2,13 @@
 
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 
 export default function AdminLoginForm() {
   const t = useTranslations("Admin");
-  const router = useRouter();
-  const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable" | "limited">(
+    "idle",
+  );
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -18,6 +18,7 @@ export default function AdminLoginForm() {
     try {
       const res = await fetch("/api/owner/admin/login", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: String(data.get("email") ?? ""),
@@ -28,11 +29,15 @@ export default function AdminLoginForm() {
         setStatus("unavailable");
         return;
       }
+      if (res.status === 429) {
+        setStatus("limited");
+        return;
+      }
       if (!res.ok) {
         setStatus("error");
         return;
       }
-      router.refresh();
+      window.location.assign("/admin");
     } catch {
       setStatus("error");
     }
@@ -69,6 +74,7 @@ export default function AdminLoginForm() {
         />
       </div>
       {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
+      {status === "limited" && <p className="text-sm text-red-600">{t("loginLimited")}</p>}
       {status === "unavailable" && <p className="text-sm text-red-600">{t("unavailable")}</p>}
       <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
         {status === "loading" ? t("sending") : t("submit")}
