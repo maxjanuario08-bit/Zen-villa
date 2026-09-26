@@ -45,6 +45,7 @@ export const logements = [
       currency: "EUR",
       minNights: 2,
       minNightsByMonth: { 3: 5, 4: 5 },
+      paypalEnabled: false,
       cleaningFee: 80,
       defaultNightly: 80,
       seasons: [

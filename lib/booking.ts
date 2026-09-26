@@ -7,6 +7,8 @@ export type BookingConfig = {
   minNights: number;
   /** Minimums par mois civil (1 = janvier … 12 = décembre) */
   minNightsByMonth?: Partial<Record<number, number>>;
+  /** Paiement PayPal (_xclick). false = demande de séjour seulement, sans règlement en ligne. */
+  paypalEnabled?: boolean;
   cleaningFee: number;
   defaultNightly: number;
   /** Saisons : from/to au format MM-DD, nightly en euros */

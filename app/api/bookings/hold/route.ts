@@ -31,6 +31,9 @@ export async function POST(req: Request) {
   if (!logement?.booking || !booking) {
     return NextResponse.json({ error: "unknown" }, { status: 404 });
   }
+  if (logement.booking.paypalEnabled !== true) {
+    return NextResponse.json({ error: "paypal_disabled" }, { status: 503 });
+  }
 
   const checkIn = String(body.checkIn ?? "");
   const checkOut = String(body.checkOut ?? "");

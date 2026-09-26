@@ -143,8 +143,34 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
     };
     if (!validate(data) || !checkIn || !checkOut || !quote) return;
 
+    const paypalOn = liveBooking.paypalEnabled === true;
     setStatus("loading");
     try {
+      if (!paypalOn) {
+        if (!FORMSPREE_URL) {
+          setStatus("error");
+          return;
+        }
+        formData.set("logement", name);
+        formData.set("slug", slug);
+        formData.set("checkIn", checkIn);
+        formData.set("checkOut", checkOut);
+        formData.set("nights", String(quote.nights));
+        formData.set("total", String(quote.total));
+        formData.set("_subject", t("booking.mailSubject", { name }));
+        const sent = await fetch(FORMSPREE_URL, {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        });
+        if (!sent.ok) {
+          setStatus("error");
+          return;
+        }
+        setStatus("success");
+        return;
+      }
+
       const hold = await fetch("/api/bookings/hold", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -336,15 +362,22 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
           <textarea id="message" name="message" rows={3} className="w-full resize-none rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon" />
         </div>
         {status === "error" && <p className="text-sm text-red-600">{t("booking.error")}</p>}
+        {status === "success" && <p className="text-sm font-medium text-lagoon-dark">{t("booking.success")}</p>}
         <Button
           type="submit"
           variant="primary"
-          className="w-full !bg-[#ffc439] !text-[#003087] hover:!bg-[#f5b82e] hover:!text-[#003087]"
-          disabled={status === "loading" || !quote}
+          className={
+            liveBooking.paypalEnabled === true
+              ? "w-full !bg-[#ffc439] !text-[#003087] hover:!bg-[#f5b82e] hover:!text-[#003087]"
+              : "w-full"
+          }
+          disabled={status === "loading" || status === "success" || !quote}
         >
           {status === "loading"
-            ? t("booking.sending")
-            : quote
+            ? liveBooking.paypalEnabled === true
+              ? t("booking.sending")
+              : t("booking.sendingInquiry")
+            : liveBooking.paypalEnabled === true && quote
               ? t("booking.submitPay", { price: euro(quote.total) })
               : t("booking.submit")}
         </Button>
