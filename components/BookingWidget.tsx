@@ -210,7 +210,6 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
         <p className="mt-3 text-sm text-lagoon-dark">{t("booking.canceled")}</p>
       )}
       <p className="mt-3 text-lg font-medium text-lagoon-dark">{t("booking.fromPrice", { price: euro(fromPrice) })}</p>
-      <p className="mt-1 text-sm text-lagoon-dark/80">{t("booking.cleaningAlways", { price: euro(liveBooking.cleaningFee) })}</p>
 
       <div className="mt-6 flex items-center justify-between">
         <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} className="rounded-full px-3 py-1 text-sm text-lagoon hover:bg-sand-light" aria-label={t("booking.prevMonth")}>
@@ -287,12 +286,6 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
             <span>{t("booking.nights", { count: quote.nights })}</span>
             <span>{euro(quote.lodging)}</span>
           </li>
-          {quote.cleaningFee >= 0 && (
-            <li className="flex justify-between">
-              <span>{t("booking.cleaning")}</span>
-              <span>{euro(quote.cleaningFee)}</span>
-            </li>
-          )}
           <li className="flex justify-between pt-1 font-semibold text-lagoon-dark">
             <span>{t("booking.total")}</span>
             <span>{euro(quote.total)}</span>
