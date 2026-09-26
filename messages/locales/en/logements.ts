@@ -97,8 +97,7 @@ const logements = {
         title: "Kitchen",
         items: [
           "Coffee machine",
-          "Cleaning products",
-          "Washing machine",
+          "Juicer",
           "Microwave",
           "Refrigerator",
         ],
@@ -109,7 +108,11 @@ const logements = {
       },
       {
         title: "Bedroom",
-        items: ["Television", "Bedroom amenities", "Heating", "Iron"],
+        items: ["Television"],
+      },
+      {
+        title: "Laundry",
+        items: ["Washing machine", "Iron", "Cleaning products"],
       },
       {
         title: "Terraces",
@@ -117,7 +120,7 @@ const logements = {
       },
       {
         title: "Comfort",
-        items: ["Air conditioning"],
+        items: ["Air conditioning", "Heating"],
       },
     ],
   },

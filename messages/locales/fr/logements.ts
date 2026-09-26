@@ -98,8 +98,7 @@ const logements = {
         title: "Cuisine",
         items: [
           "Machine à café",
-          "Produits d’entretien",
-          "Lave-linge",
+          "Machine à jus de fruit",
           "Micro-ondes",
           "Réfrigérateur",
         ],
@@ -110,7 +109,11 @@ const logements = {
       },
       {
         title: "Chambre",
-        items: ["Télévision", "Équipements en chambre", "Chauffage", "Fer à repasser"],
+        items: ["Télévision"],
+      },
+      {
+        title: "Entretien",
+        items: ["Lave-linge", "Fer à repasser", "Produits d’entretien"],
       },
       {
         title: "Terrasses",
@@ -118,7 +121,7 @@ const logements = {
       },
       {
         title: "Confort",
-        items: ["Climatisation"],
+        items: ["Climatisation", "Chauffage"],
       },
     ],
   },
