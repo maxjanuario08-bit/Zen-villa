@@ -381,7 +381,9 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
               ? t("booking.submitPay", { price: euro(quote.total) })
               : t("booking.submit")}
         </Button>
-        <p className="text-center text-xs text-muted">{t("booking.confirmNote")}</p>
+        <p className="text-center text-xs text-muted">
+          {liveBooking.paypalEnabled === true ? t("booking.confirmNotePay") : t("booking.confirmNote")}
+        </p>
       </form>
     </div>
   );

@@ -63,6 +63,7 @@ const logements = {
     canceled: "PayPal payment not completed. You can try again.",
     error: "Could not send the request. Please retry or call us.",
     confirmNote: "Online payment is not open yet. Send your request and we’ll confirm dates and payment afterwards.",
+    confirmNotePay: "Pay the displayed total immediately with PayPal.",
     mailSubject: "Booking — {name}",
     errDates: "Please select a valid check-in and check-out.",
     errName: "Name is required",

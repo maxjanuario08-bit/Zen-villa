@@ -64,6 +64,7 @@ const logements = {
     canceled: "Paiement PayPal non terminé. Vous pouvez réessayer.",
     error: "Impossible d’envoyer la demande. Réessayez ou appelez-nous.",
     confirmNote: "Le paiement en ligne n’est pas encore ouvert. Envoyez votre demande, nous confirmons ensuite les dates et le règlement.",
+    confirmNotePay: "Paiement immédiat via PayPal du montant affiché.",
     mailSubject: "Réservation — {name}",
     errDates: "Sélectionnez une arrivée et un départ valides.",
     errName: "Le nom est requis",
