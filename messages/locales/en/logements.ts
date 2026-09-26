@@ -7,11 +7,11 @@ const logements = {
   bookMetaDesc:
     "Owners who trust ZenVilla with their rentals in Santa Giulia and Porto-Vecchio.",
   bookOgTitle: "They trust us | ZenVilla",
-  heroTitle: "Our first villa in Santa Giulia",
+  heroTitle: "Mini Villa Pinson in Santa Giulia",
   heroSubtitle:
-    "Mini Villa Pinson, a short walk from the beach. One home to start with — more villas will follow.",
-  rentTitle: "Our first villa in Santa Giulia",
-  rentLead: "We open with Mini Villa Pinson, Bella Vista residence.",
+    "Bella Vista residence, a short walk from the beach.",
+  rentTitle: "For rent in Santa Giulia",
+  rentLead: "Mini Villa Pinson, Bella Vista residence.",
   heroAlt: "Santa Giulia bay – villas and turquoise sea",
   bookHeroAlt: "South Corsica coast – villas managed by ZenVilla",
   bookKicker: "Villas in our care",

@@ -7,11 +7,11 @@ const logements = {
   bookMetaDesc:
     "Los propietarios que confían su alquiler a ZenVilla en Santa Giulia y Porto-Vecchio.",
   bookOgTitle: "Confían en nosotros | ZenVilla",
-  heroTitle: "Nuestra primera villa en Santa Giulia",
+  heroTitle: "Mini Villa Pinson en Santa Giulia",
   heroSubtitle:
-    "Mini Villa Pinson, a pie de la playa. Una sola dirección para empezar — otras villas seguirán.",
-  rentTitle: "Nuestra primera villa en Santa Giulia",
-  rentLead: "Abrimos el alquiler con Mini Villa Pinson, residencia Bella Vista.",
+    "Residencia Bella Vista, a pocos minutos a pie de la playa.",
+  rentTitle: "En alquiler en Santa Giulia",
+  rentLead: "Mini Villa Pinson, residencia Bella Vista.",
   heroAlt: "Bahía de Santa Giulia – villas y mar turquesa",
   bookHeroAlt: "Costa de Córcega del Sur – villas gestionadas por ZenVilla",
   bookKicker: "Villas confiadas",
