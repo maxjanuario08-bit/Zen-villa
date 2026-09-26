@@ -98,12 +98,7 @@ const logements = {
     amenityGroups: [
       {
         title: "Cocina",
-        items: [
-          "Cafetera",
-          "Licuadora",
-          "Microondas",
-          "Frigorífico",
-        ],
+        items: ["Cafetera", "Microondas", "Frigorífico"],
       },
       {
         title: "Baño",
@@ -116,10 +111,6 @@ const logements = {
       {
         title: "Lavandería",
         items: ["Lavadora", "Plancha", "Productos de limpieza"],
-      },
-      {
-        title: "Terrazas",
-        items: ["Tetera / cafetera"],
       },
       {
         title: "Confort",

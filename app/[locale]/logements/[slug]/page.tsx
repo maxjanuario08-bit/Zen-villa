@@ -121,24 +121,32 @@ export default async function LogementDetailPage({ params, searchParams }: Props
               </ul>
 
               {amenityGroups && amenityGroups.length > 0 ? (
-                  <div className="mt-10">
-                    <h2 className="text-2xl font-serif font-semibold text-lagoon-dark">{t("amenitiesTitle")}</h2>
-                    <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                      {amenityGroups.map((group) => (
-                        <div key={group.title}>
-                          <h3 className="font-medium text-lagoon-dark">{group.title}</h3>
-                          <ul className="mt-2 space-y-1.5">
-                            {group.items.map((item) => (
-                              <li key={item} className="flex items-start gap-2 text-sm text-foreground/85">
-                                <span className="text-lagoon mt-0.5">✓</span>
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
+                <div className="mt-10">
+                  <h2 className="text-2xl font-serif font-semibold text-lagoon-dark">{t("amenitiesTitle")}</h2>
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {amenityGroups.map((group) => (
+                      <div
+                        key={group.title}
+                        className="rounded-2xl border border-sand/50 bg-white p-5 shadow-card"
+                      >
+                        <h3 className="font-serif text-lg font-semibold text-lagoon-dark">{group.title}</h3>
+                        <ul className="mt-4 space-y-2.5">
+                          {group.items.map((item) => (
+                            <li key={item} className="flex items-center gap-2.5 text-sm text-foreground/85">
+                              <span
+                                className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-lagoon/10 text-[11px] font-semibold text-lagoon"
+                                aria-hidden
+                              >
+                                ✓
+                              </span>
+                              <span className="leading-snug">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
                   </div>
+                </div>
               ) : null}
             </div>
 

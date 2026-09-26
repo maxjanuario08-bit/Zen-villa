@@ -59,7 +59,6 @@ export const livretActivities: readonly {
 
 export const livretAmenityKeys = [
   "coffee",
-  "juicer",
   "microwave",
   "fridge",
   "towels",
@@ -69,7 +68,6 @@ export const livretAmenityKeys = [
   "washing",
   "iron",
   "cleaningProducts",
-  "terraceCoffee",
   "ac",
   "heating",
   "beach",

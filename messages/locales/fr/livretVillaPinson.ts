@@ -20,7 +20,6 @@ const livretVillaPinson = {
   amenitiesTitle: "À votre disposition",
   amenities: {
     coffee: "Machine à café",
-    juicer: "Machine à jus de fruit",
     microwave: "Micro-ondes",
     fridge: "Réfrigérateur",
     towels: "Serviettes",
@@ -30,7 +29,6 @@ const livretVillaPinson = {
     washing: "Lave-linge",
     iron: "Fer à repasser",
     cleaningProducts: "Produits d’entretien",
-    terraceCoffee: "Théière / machine à café (terrasses)",
     ac: "Climatisation",
     heating: "Chauffage",
     beach: "Transat & parasol",

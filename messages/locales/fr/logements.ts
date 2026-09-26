@@ -99,12 +99,7 @@ const logements = {
     amenityGroups: [
       {
         title: "Cuisine",
-        items: [
-          "Machine à café",
-          "Machine à jus de fruit",
-          "Micro-ondes",
-          "Réfrigérateur",
-        ],
+        items: ["Machine à café", "Micro-ondes", "Réfrigérateur"],
       },
       {
         title: "Salle de bains",
@@ -117,10 +112,6 @@ const logements = {
       {
         title: "Entretien",
         items: ["Lave-linge", "Fer à repasser", "Produits d’entretien"],
-      },
-      {
-        title: "Terrasses",
-        items: ["Théière / machine à café"],
       },
       {
         title: "Confort",
