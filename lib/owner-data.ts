@@ -6,10 +6,15 @@ import { ownerDemoEnabled } from "@/lib/owner-config";
 import { pg, usePostgres } from "@/lib/owner-pg";
 import { seedCleaningsForSlug, seedStaysForSlug } from "@/lib/owner-seed";
 import { getOwnerBlockedRanges, removeOwnerNight } from "@/lib/owner-store";
-import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
+import {
+  isCompleteChecklist,
+  parseChecklist,
+} from "@/lib/cleaning-checklist";
+import type { CleaningRecord, PaidStay, StaffShift } from "@/lib/owner-types";
 
 const STAYS_PATH = path.join(process.cwd(), "data", "owner-stays.json");
 const CLEANINGS_PATH = path.join(process.cwd(), "data", "owner-cleanings.json");
+const SHIFTS_PATH = path.join(process.cwd(), "data", "staff-shifts.json");
 
 function isoDate(value: unknown) {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {
@@ -301,6 +306,7 @@ function rowToCleaning(row: Record<string, unknown>): CleaningRecord {
     cleanerId: String(row.cleaner_id || ""),
     notes: String(row.notes || ""),
     photos,
+    checklist: parseChecklist(row.checklist_json),
   };
 }
 
@@ -308,7 +314,7 @@ export async function getCleaningById(id: string): Promise<CleaningRecord | null
   if (usePostgres()) {
     const sql = await pg();
     const rows = await sql`
-      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json
+      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json, checklist_json
       FROM owner_cleanings WHERE id = ${id} LIMIT 1
     `;
     const row = rows[0] as Record<string, unknown> | undefined;
@@ -326,7 +332,7 @@ export async function getCleaningsForSlug(slug: string): Promise<CleaningRecord[
   if (usePostgres()) {
     const sql = await pg();
     const rows = await sql`
-      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json
+      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json, checklist_json
       FROM owner_cleanings WHERE slug = ${slug} ORDER BY date DESC
     `;
     return (rows as Record<string, unknown>[]).map(rowToCleaning);
@@ -341,7 +347,7 @@ export async function getAllCleanings(): Promise<CleaningRecord[]> {
   if (usePostgres()) {
     const sql = await pg();
     const rows = await sql`
-      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json
+      SELECT id, slug, stay_id, date, time, cleaner_id, notes, photos_json, checklist_json
       FROM owner_cleanings ORDER BY date DESC, time DESC
     `;
     return (rows as Record<string, unknown>[]).map(rowToCleaning);
@@ -358,13 +364,16 @@ export async function createCleaning(input: {
   cleanerName: string;
   notes: string;
   photos?: string[];
-}): Promise<CleaningRecord | { error: "invalid" }> {
+  checklist?: unknown;
+}): Promise<CleaningRecord | { error: "invalid" | "checklist" | "photo" }> {
   const date = input.date.trim();
   const time = input.time.trim() || "10:00";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "invalid" };
+  if (!isCompleteChecklist(input.checklist)) return { error: "checklist" };
   const photos = (input.photos ?? [])
     .filter((item) => item.startsWith("data:image/") && item.length < 450_000)
     .slice(0, 8);
+  if (photos.length < 1) return { error: "photo" };
   const record: CleaningRecord = {
     id: randomBytes(8).toString("hex"),
     slug: input.slug,
@@ -374,11 +383,12 @@ export async function createCleaning(input: {
     cleanerId: input.cleanerName.trim().slice(0, 80) || "équipe",
     notes: input.notes.trim().slice(0, 500),
     photos,
+    checklist: [...input.checklist],
   };
   if (usePostgres()) {
     const sql = await pg();
     await sql`
-      INSERT INTO owner_cleanings (id, slug, stay_id, date, time, cleaner_id, notes, photos_json)
+      INSERT INTO owner_cleanings (id, slug, stay_id, date, time, cleaner_id, notes, photos_json, checklist_json)
       VALUES (
         ${record.id},
         ${record.slug},
@@ -387,7 +397,8 @@ export async function createCleaning(input: {
         ${record.time},
         ${record.cleanerId},
         ${record.notes ?? ""},
-        ${JSON.stringify(record.photos)}
+        ${JSON.stringify(record.photos)},
+        ${JSON.stringify(record.checklist)}
       )
     `;
     return record;
@@ -396,4 +407,120 @@ export async function createCleaning(input: {
   file.cleanings.push(record);
   await writeJsonFile(CLEANINGS_PATH, file);
   return record;
+}
+
+function rowToShift(row: Record<string, unknown>): StaffShift {
+  return {
+    id: String(row.id),
+    slug: String(row.slug),
+    name: String(row.name),
+    clockInAt: isoStamp(row.clock_in_at) ?? new Date().toISOString(),
+    clockOutAt: isoStamp(row.clock_out_at),
+  };
+}
+
+function normalizeShiftName(name: string) {
+  return name.trim().slice(0, 80);
+}
+
+export async function getShiftsForSlug(slug: string): Promise<StaffShift[]> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, slug, name, clock_in_at, clock_out_at
+      FROM staff_shifts WHERE slug = ${slug} ORDER BY clock_in_at DESC
+    `;
+    return (rows as Record<string, unknown>[]).map(rowToShift);
+  }
+  const file = await readJsonFile<{ shifts: StaffShift[] }>(SHIFTS_PATH, { shifts: [] });
+  return file.shifts.filter((row) => row.slug === slug).sort((a, b) => b.clockInAt.localeCompare(a.clockInAt));
+}
+
+export async function getAllShifts(): Promise<StaffShift[]> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, slug, name, clock_in_at, clock_out_at
+      FROM staff_shifts ORDER BY clock_in_at DESC
+    `;
+    return (rows as Record<string, unknown>[]).map(rowToShift);
+  }
+  const file = await readJsonFile<{ shifts: StaffShift[] }>(SHIFTS_PATH, { shifts: [] });
+  return [...file.shifts].sort((a, b) => b.clockInAt.localeCompare(a.clockInAt));
+}
+
+async function closeOpenShiftsForName(name: string, at: string) {
+  const key = name.toLowerCase();
+  if (usePostgres()) {
+    const sql = await pg();
+    await sql`
+      UPDATE staff_shifts
+      SET clock_out_at = NOW()
+      WHERE lower(name) = ${key} AND clock_out_at IS NULL
+    `;
+    return;
+  }
+  const file = await readJsonFile<{ shifts: StaffShift[] }>(SHIFTS_PATH, { shifts: [] });
+  for (const row of file.shifts) {
+    if (row.name.toLowerCase() === key && !row.clockOutAt) row.clockOutAt = at;
+  }
+  await writeJsonFile(SHIFTS_PATH, file);
+}
+
+export async function clockStaffIn(slug: string, rawName: string): Promise<StaffShift | { error: "invalid" }> {
+  const name = normalizeShiftName(rawName);
+  if (!name) return { error: "invalid" };
+  const at = new Date().toISOString();
+  await closeOpenShiftsForName(name, at);
+  const id = randomBytes(8).toString("hex");
+  if (usePostgres()) {
+    const sql = await pg();
+    await sql`
+      INSERT INTO staff_shifts (id, slug, name, clock_in_at)
+      VALUES (${id}, ${slug}, ${name}, NOW())
+    `;
+    const rows = await sql`
+      SELECT id, slug, name, clock_in_at, clock_out_at FROM staff_shifts WHERE id = ${id} LIMIT 1
+    `;
+    return rowToShift(rows[0] as Record<string, unknown>);
+  }
+  const record: StaffShift = { id, slug, name, clockInAt: at, clockOutAt: null };
+  const file = await readJsonFile<{ shifts: StaffShift[] }>(SHIFTS_PATH, { shifts: [] });
+  file.shifts.push(record);
+  await writeJsonFile(SHIFTS_PATH, file);
+  return record;
+}
+
+export async function clockStaffOut(slug: string, rawName: string): Promise<StaffShift | { error: "invalid" | "none" }> {
+  const name = normalizeShiftName(rawName);
+  if (!name) return { error: "invalid" };
+  const at = new Date().toISOString();
+  const key = name.toLowerCase();
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`
+      SELECT id, slug, name, clock_in_at, clock_out_at
+      FROM staff_shifts
+      WHERE lower(name) = ${key} AND clock_out_at IS NULL
+      ORDER BY CASE WHEN slug = ${slug} THEN 0 ELSE 1 END, clock_in_at DESC
+      LIMIT 1
+    `;
+    const row = rows[0] as Record<string, unknown> | undefined;
+    if (!row) return { error: "none" };
+    const id = String(row.id);
+    await sql`UPDATE staff_shifts SET clock_out_at = NOW() WHERE id = ${id}`;
+    const updated = await sql`
+      SELECT id, slug, name, clock_in_at, clock_out_at FROM staff_shifts WHERE id = ${id} LIMIT 1
+    `;
+    return rowToShift(updated[0] as Record<string, unknown>);
+  }
+  const file = await readJsonFile<{ shifts: StaffShift[] }>(SHIFTS_PATH, { shifts: [] });
+  const open = [...file.shifts]
+    .filter((row) => row.name.toLowerCase() === key && !row.clockOutAt)
+    .sort((a, b) => (a.slug === slug ? -1 : 0) - (b.slug === slug ? -1 : 0) || b.clockInAt.localeCompare(a.clockInAt));
+  const current = open[0];
+  if (!current) return { error: "none" };
+  current.clockOutAt = at;
+  await writeJsonFile(SHIFTS_PATH, file);
+  return current;
 }

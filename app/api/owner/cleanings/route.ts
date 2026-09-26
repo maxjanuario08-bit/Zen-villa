@@ -22,6 +22,7 @@ export async function POST(req: Request) {
     cleanerName?: string;
     notes?: string;
     photos?: string[];
+    checklist?: unknown;
   };
   try {
     body = (await req.json()) as typeof body;
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
     cleanerName,
     notes: String(body.notes ?? ""),
     photos: Array.isArray(body.photos) ? body.photos : [],
+    checklist: body.checklist,
   });
   if ("error" in created) {
     return NextResponse.json({ error: created.error }, { status: 400 });

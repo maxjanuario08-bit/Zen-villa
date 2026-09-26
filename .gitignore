@@ -50,3 +50,4 @@ next-env.d.ts
 /data/owner-accounts.json
 /data/owner-stays.json
 /data/owner-cleanings.json
+/data/staff-shifts.json

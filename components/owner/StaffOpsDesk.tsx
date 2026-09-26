@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import OwnerCalendar from "@/components/owner/OwnerCalendar";
+import StaffClock from "@/components/owner/StaffClock";
 import StaffOps from "@/components/owner/StaffOps";
-import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
+import type { CleaningRecord, PaidStay, StaffShift } from "@/lib/owner-types";
 import type { DateRange } from "@/lib/booking";
 
 type Villa = { slug: string; copyKey: string; guests: number };
@@ -35,6 +36,7 @@ export default function StaffOpsDesk({
   const [slug, setSlug] = useState(villas[0]?.slug ?? "");
   const [stays, setStays] = useState<PaidStay[]>([]);
   const [cleanings, setCleanings] = useState<CleaningRecord[]>([]);
+  const [shifts, setShifts] = useState<StaffShift[]>([]);
   const [calendar, setCalendar] = useState<CalendarPayload | null>(null);
   const [error, setError] = useState(false);
   const villa = villas.find((item) => item.slug === slug);
@@ -43,12 +45,18 @@ export default function StaffOpsDesk({
     if (!slug) return;
     setError(false);
     try {
-      const [stayRes, cleanRes, calRes] = await Promise.all([
+      const requests: Promise<Response>[] = [
         fetch(`/api/owner/stays?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
         fetch(`/api/owner/cleanings?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
         fetch(`/api/owner/calendar?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
-      ]);
-      if (!stayRes.ok || !cleanRes.ok || !calRes.ok) {
+      ];
+      if (showOps) {
+        requests.push(
+          fetch(`/api/owner/shifts?slug=${encodeURIComponent(slug)}`, { credentials: "include" }),
+        );
+      }
+      const [stayRes, cleanRes, calRes, shiftRes] = await Promise.all(requests);
+      if (!stayRes.ok || !cleanRes.ok || !calRes.ok || (showOps && shiftRes && !shiftRes.ok)) {
         setError(true);
         return;
       }
@@ -58,10 +66,16 @@ export default function StaffOpsDesk({
       setStays(stayData.stays ?? []);
       setCleanings(cleanData.cleanings ?? []);
       setCalendar(calData);
+      if (shiftRes?.ok) {
+        const shiftData = (await shiftRes.json()) as { shifts: StaffShift[] };
+        setShifts(shiftData.shifts ?? []);
+      } else {
+        setShifts([]);
+      }
     } catch {
       setError(true);
     }
-  }, [slug]);
+  }, [slug, showOps]);
 
   useEffect(() => {
     void load();
@@ -89,6 +103,7 @@ export default function StaffOpsDesk({
         </select>
       </div>
       {error ? <p className="text-sm text-red-600">{t("loadError")}</p> : null}
+      {showOps ? <StaffClock slug={slug} shifts={shifts} onChanged={() => void load()} /> : null}
       {showCalendar && calendar ? (
         <OwnerCalendar
           slug={slug}

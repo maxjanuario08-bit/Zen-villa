@@ -4,6 +4,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import TimeSelect from "@/components/owner/TimeSelect";
+import { CLEANING_CHECKLIST_GROUPS, CLEANING_CHECKLIST_IDS } from "@/lib/cleaning-checklist";
 import { todayISO } from "@/lib/booking";
 import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
@@ -52,6 +53,7 @@ type Props = {
 
 export default function StaffOps({ slug, stays, cleanings, onChanged, showHistory = true }: Props) {
   const t = useTranslations("Compte");
+  const tEq = useTranslations("Equipe");
   const locale = useLocale();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +62,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
   const [timeIn, setTimeIn] = useState<Record<string, string>>({});
   const [timeOut, setTimeOut] = useState<Record<string, string>>({});
   const [cleanPhotos, setCleanPhotos] = useState<string[]>([]);
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   const dateFmt = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
   const stampFmt = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" });
@@ -150,6 +153,15 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
       setError(t("needBy"));
       return;
     }
+    const checklist = CLEANING_CHECKLIST_IDS.filter((id) => checked[id]);
+    if (checklist.length < CLEANING_CHECKLIST_IDS.length) {
+      setError(tEq("checklistNeedAll"));
+      return;
+    }
+    if (!cleanPhotos.length) {
+      setError(tEq("checklistNeedPhoto"));
+      return;
+    }
     setBusy("clean");
     setError(null);
     try {
@@ -164,14 +176,23 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
           cleanerName,
           notes: String(data.get("notes") ?? ""),
           photos: cleanPhotos,
+          checklist,
         }),
       });
       if (!res.ok) {
-        setError(t("cleanError"));
+        const payload = (await res.json().catch(() => ({}))) as { error?: string };
+        setError(
+          payload.error === "checklist"
+            ? tEq("checklistNeedAll")
+            : payload.error === "photo"
+              ? tEq("checklistNeedPhoto")
+              : t("cleanError"),
+        );
         return;
       }
       form.reset();
       setCleanPhotos([]);
+      setChecked({});
       onChanged();
     } catch {
       setError(t("cleanError"));
@@ -330,8 +351,8 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
       </section>
 
       <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("cleaningTitle")}</h2>
-        <p className="mt-2 text-sm text-foreground/70">{t("cleaningLead")}</p>
+        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{tEq("checklistTitle")}</h2>
+        <p className="mt-2 text-sm text-foreground/70">{tEq("checklistLead")}</p>
         <form onSubmit={(e) => void addCleaning(e)} className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label htmlFor="clean-date" className="mb-1 block text-sm font-medium">
@@ -342,6 +363,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
               name="date"
               type="date"
               required
+              defaultValue={today}
               className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
             />
           </div>
@@ -379,6 +401,32 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
               ))}
             </select>
           </div>
+          <div className="sm:col-span-2 space-y-6">
+            {CLEANING_CHECKLIST_GROUPS.map((group) => (
+              <fieldset key={group.id} className="rounded-xl border border-sand/40 p-4">
+                <legend className="px-1 font-medium text-lagoon-dark">
+                  {tEq(`checklistGroups.${group.id}`)}
+                </legend>
+                <ul className="mt-2 space-y-2">
+                  {group.items.map((id) => (
+                    <li key={id}>
+                      <label className="flex items-start gap-2 text-sm text-foreground/85">
+                        <input
+                          type="checkbox"
+                          checked={Boolean(checked[id])}
+                          onChange={(e) =>
+                            setChecked((prev) => ({ ...prev, [id]: e.target.checked }))
+                          }
+                          className="mt-0.5 h-4 w-4 rounded border-sand/60 text-lagoon focus:ring-lagoon"
+                        />
+                        <span>{tEq(`checklistItems.${id}`)}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </fieldset>
+            ))}
+          </div>
           <div className="sm:col-span-2">
             <label htmlFor="clean-notes" className="mb-1 block text-sm font-medium">
               {t("cleanNotes")}
@@ -390,12 +438,15 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
               className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
             />
           </div>
-          <div>
-            <label className="inline-block cursor-pointer text-sm font-medium text-lagoon">
-              {t("addPhotos")}
+          <div className="sm:col-span-2">
+            <p className="text-sm font-medium">{tEq("checklistPhoto")}</p>
+            <p className="mt-1 text-xs text-foreground/60">{tEq("checklistPhotoHint")}</p>
+            <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
+              {cleanPhotos.length ? tEq("checklistPhotoDone", { count: cleanPhotos.length }) : tEq("checklistAddPhoto")}
               <input
                 type="file"
                 accept="image/*"
+                capture="environment"
                 multiple
                 className="sr-only"
                 onChange={(e) => {

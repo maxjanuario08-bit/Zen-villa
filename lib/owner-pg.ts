@@ -67,6 +67,16 @@ export async function ensureOwnerSchema() {
       photos_json TEXT NOT NULL DEFAULT '[]'
     )
   `;
+  await sql`ALTER TABLE owner_cleanings ADD COLUMN IF NOT EXISTS checklist_json TEXT NOT NULL DEFAULT '[]'`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS staff_shifts (
+      id TEXT PRIMARY KEY,
+      slug TEXT NOT NULL,
+      name TEXT NOT NULL,
+      clock_in_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      clock_out_at TIMESTAMPTZ
+    )
+  `;
   await sql`
     CREATE TABLE IF NOT EXISTS auth_attempts (
       ip TEXT NOT NULL,

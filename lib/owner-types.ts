@@ -48,6 +48,15 @@ export type CleaningRecord = {
   cleanerId: "marie" | "luca" | string;
   photos: readonly string[];
   notes?: string;
+  checklist?: readonly string[];
+};
+
+export type StaffShift = {
+  id: string;
+  slug: string;
+  name: string;
+  clockInAt: string;
+  clockOutAt: string | null;
 };
 
 export type OwnerCalendarFile = {

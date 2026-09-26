@@ -4,10 +4,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import StayStatusBadges from "@/components/owner/StayStatusBadges";
 import { CheckInMark, CleanMark } from "@/components/owner/StayStatusMarks";
-import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
+import type { CleaningRecord, PaidStay, StaffShift } from "@/lib/owner-types";
 
 type Villa = { slug: string; copyKey: string };
-type Kind = "all" | "checkin" | "checkout" | "clean";
+type Kind = "all" | "checkin" | "checkout" | "clean" | "shift";
 
 type EventRow = {
   id: string;
@@ -18,6 +18,7 @@ type EventRow = {
   who: string;
   photos: string[];
   stay: PaidStay | null;
+  extra?: string;
 };
 
 function stayName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
@@ -45,6 +46,7 @@ export default function AdminHistory({ villas }: { villas: readonly Villa[] }) {
   const locale = useLocale();
   const [stays, setStays] = useState<PaidStay[]>([]);
   const [cleanings, setCleanings] = useState<CleaningRecord[]>([]);
+  const [shifts, setShifts] = useState<StaffShift[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [kind, setKind] = useState<Kind>("all");
@@ -69,9 +71,10 @@ export default function AdminHistory({ villas }: { villas: readonly Villa[] }) {
         setError(true);
         return;
       }
-      const data = (await res.json()) as { stays: PaidStay[]; cleanings: CleaningRecord[] };
+      const data = (await res.json()) as { stays: PaidStay[]; cleanings: CleaningRecord[]; shifts: StaffShift[] };
       setStays(data.stays ?? []);
       setCleanings(data.cleanings ?? []);
+      setShifts(data.shifts ?? []);
     } catch {
       setError(true);
     } finally {
@@ -123,10 +126,25 @@ export default function AdminHistory({ villas }: { villas: readonly Villa[] }) {
         who: cleanerLabel(row.cleanerId, tCompte),
         photos: [...row.photos],
         stay,
+        extra: (row.checklist?.length ?? 0) > 0 ? t("historyChecklistDone") : undefined,
+      });
+    }
+    for (const row of shifts) {
+      rows.push({
+        id: `shift-${row.id}`,
+        kind: "shift",
+        at: row.clockInAt,
+        slug: row.slug,
+        guest: row.clockOutAt
+          ? t("historyShiftClosed", { out: stampFmt.format(new Date(row.clockOutAt)) })
+          : t("historyShiftOpen"),
+        who: row.name,
+        photos: [],
+        stay: null,
       });
     }
     return rows.sort((a, b) => b.at.localeCompare(a.at));
-  }, [cleanings, stays, t, tCompte]);
+  }, [cleanings, shifts, stays, t, tCompte, stampFmt]);
 
   const filtered = events.filter((row) => {
     if (kind !== "all" && row.kind !== kind) return false;
@@ -139,6 +157,7 @@ export default function AdminHistory({ villas }: { villas: readonly Villa[] }) {
     { id: "checkin", label: t("historyFilterIn") },
     { id: "checkout", label: t("historyFilterOut") },
     { id: "clean", label: t("historyFilterClean") },
+    { id: "shift", label: t("historyFilterShift") },
   ];
 
   if (loading) return <p className="text-sm text-foreground/70">{t("historyLoading")}</p>;
@@ -186,13 +205,16 @@ export default function AdminHistory({ villas }: { villas: readonly Villa[] }) {
                     ? t("historyKindIn")
                     : row.kind === "checkout"
                       ? t("historyKindOut")
-                      : t("historyKindClean")}
+                      : row.kind === "shift"
+                        ? t("historyKindShift")
+                        : t("historyKindClean")}
                   <span className="font-normal text-foreground/55">· {villaName(row.slug)}</span>
                 </p>
                 <p className="mt-1 text-sm text-foreground/80">
                   {row.guest} · {t("historyBy", { name: row.who })}
                 </p>
                 {row.stay ? <div className="mt-2"><StayStatusBadges stay={row.stay} cleanings={cleanings} /></div> : null}
+                {row.extra ? <p className="mt-1 text-xs text-foreground/60">{row.extra}</p> : null}
                 {row.photos.length ? (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {row.photos.slice(0, 6).map((src, i) => (
