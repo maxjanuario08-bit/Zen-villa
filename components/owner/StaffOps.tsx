@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import Button from "@/components/ui/Button";
 import TimeSelect from "@/components/owner/TimeSelect";
 import { CLEANING_CHECKLIST_GROUPS, CLEANING_CHECKLIST_IDS } from "@/lib/cleaning-checklist";
 import { todayISO } from "@/lib/booking";
+import { readStaffName } from "@/lib/staff-name";
+import { pipelineIndex, sortStaysForStaff, stayStep, type StayStep } from "@/lib/staff-next-step";
+import { nearestTimeSlot } from "@/lib/time-slots";
 import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
 function stayName(stay: PaidStay, t: ReturnType<typeof useTranslations>) {
@@ -57,29 +59,46 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
   const locale = useLocale();
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [byIn, setByIn] = useState<Record<string, string>>({});
-  const [byOut, setByOut] = useState<Record<string, string>>({});
-  const [timeIn, setTimeIn] = useState<Record<string, string>>({});
-  const [timeOut, setTimeOut] = useState<Record<string, string>>({});
-  const [cleanPhotos, setCleanPhotos] = useState<string[]>([]);
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const [by, setBy] = useState("");
+  const [times, setTimes] = useState<Record<string, string>>({});
+  const [cleanPhotos, setCleanPhotos] = useState<Record<string, string[]>>({});
+  const [checked, setChecked] = useState<Record<string, Record<string, boolean>>>({});
+  const [notes, setNotes] = useState<Record<string, string>>({});
+  const [openDone, setOpenDone] = useState(false);
 
-  const dateFmt = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
-  const stampFmt = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short" });
+  const dateFmt = new Intl.DateTimeFormat(locale, { weekday: "short", day: "numeric", month: "short" });
   const today = todayISO();
+  const nowSlot = nearestTimeSlot();
+
+  useEffect(() => {
+    setBy((prev) => prev || readStaffName());
+  }, []);
 
   function formatDay(iso: string) {
     return dateFmt.format(new Date(`${iso}T12:00:00`));
   }
 
-  const ordered = useMemo(
-    () => [...stays].sort((a, b) => b.checkIn.localeCompare(a.checkIn)),
-    [stays],
+  const ranked = useMemo(
+    () => sortStaysForStaff(stays, cleanings, today),
+    [stays, cleanings, today],
   );
-  const past = useMemo(
-    () => ordered.filter((stay) => stay.checkOut <= today),
-    [ordered, today],
-  );
+
+  const groups = useMemo(() => {
+    const now: PaidStay[] = [];
+    const later: PaidStay[] = [];
+    const done: PaidStay[] = [];
+    for (const stay of ranked) {
+      const step = stayStep(stay, cleanings, today);
+      if (step === "done") done.push(stay);
+      else if (step === "wait" || step === "inhouse") later.push(stay);
+      else now.push(stay);
+    }
+    return { now, later, done };
+  }, [ranked, cleanings, today]);
+
+  function slotFor(stayId: string) {
+    return times[stayId] ?? nowSlot;
+  }
 
   async function uploadStayPhotos(stayId: string, kind: "in" | "out", files: FileList | null) {
     if (!files?.length) return;
@@ -113,8 +132,8 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
   }
 
   async function patchStay(stayId: string, action: "checkin" | "checkout") {
-    const by = (action === "checkin" ? byIn[stayId] : byOut[stayId])?.trim() ?? "";
-    if (!by) {
+    const who = by.trim() || readStaffName();
+    if (!who) {
       setError(t("needBy"));
       return;
     }
@@ -128,8 +147,8 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
           slug,
           stayId,
           action,
-          by,
-          time: action === "checkin" ? (timeIn[stayId] ?? "16:00") : (timeOut[stayId] ?? "10:00"),
+          by: who,
+          time: slotFor(stayId),
         }),
       });
       if (!res.ok) {
@@ -144,25 +163,24 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
     }
   }
 
-  async function addCleaning(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const cleanerName = String(data.get("cleanerName") ?? "").trim();
-    if (!cleanerName) {
+  async function saveCleaning(stay: PaidStay) {
+    const who = by.trim() || readStaffName();
+    if (!who) {
       setError(t("needBy"));
       return;
     }
-    const checklist = CLEANING_CHECKLIST_IDS.filter((id) => checked[id]);
+    const marks = checked[stay.id] ?? {};
+    const checklist = CLEANING_CHECKLIST_IDS.filter((id) => marks[id]);
     if (checklist.length < CLEANING_CHECKLIST_IDS.length) {
       setError(tEq("checklistNeedAll"));
       return;
     }
-    if (!cleanPhotos.length) {
+    const photos = cleanPhotos[stay.id] ?? [];
+    if (!photos.length) {
       setError(tEq("checklistNeedPhoto"));
       return;
     }
-    setBusy("clean");
+    setBusy(`clean:${stay.id}`);
     setError(null);
     try {
       const res = await fetch("/api/owner/cleanings", {
@@ -170,12 +188,12 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug,
-          stayId: String(data.get("stayId") ?? ""),
-          date: String(data.get("date") ?? ""),
-          time: String(data.get("time") ?? "10:00"),
-          cleanerName,
-          notes: String(data.get("notes") ?? ""),
-          photos: cleanPhotos,
+          stayId: stay.id,
+          date: today,
+          time: slotFor(stay.id),
+          cleanerName: who,
+          notes: notes[stay.id] ?? "",
+          photos,
           checklist,
         }),
       });
@@ -190,9 +208,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
         );
         return;
       }
-      form.reset();
-      setCleanPhotos([]);
-      setChecked({});
+      setCleanPhotos((prev) => ({ ...prev, [stay.id]: [] }));
       onChanged();
     } catch {
       setError(t("cleanError"));
@@ -201,223 +217,146 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
     }
   }
 
-  async function pickCleanPhotos(files: FileList | null) {
+  async function pickCleanPhotos(stayId: string, files: FileList | null) {
     if (!files?.length) return;
     const next: string[] = [];
     for (const file of Array.from(files).slice(0, 6)) {
       next.push(await compressFile(file));
     }
-    setCleanPhotos(next);
+    setCleanPhotos((prev) => ({ ...prev, [stayId]: next }));
   }
 
-  return (
-    <div className="space-y-8">
-      <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("staysTitle")}</h2>
-        <p className="mt-2 text-sm text-foreground/70">{t("staysLead")}</p>
-        {ordered.length === 0 ? (
-          <p className="mt-4 text-sm text-muted">{t("staysEmpty")}</p>
-        ) : (
-          <ul className="mt-5 divide-y divide-sand/40">
-            {ordered.map((stay) => {
-              const cleaned = cleanings.filter((row) => row.stayId === stay.id);
-              return (
-                <li key={stay.id} className="py-4 first:pt-0">
-                  <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
-                  <p className="text-sm text-foreground/70">
-                    {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)} ·{" "}
-                    {t("bookGuestsCount", { count: stay.guests })}
-                  </p>
-                  <p className="mt-1 text-xs text-foreground/60">
-                    {stay.checkedInAt
-                      ? t("checkedInByWhen", {
-                          name: stay.checkedInBy || "—",
-                          when: stay.checkInTime
-                            ? `${stampFmt.format(new Date(stay.checkedInAt))} · ${stay.checkInTime}`
-                            : stampFmt.format(new Date(stay.checkedInAt)),
-                        })
-                      : t("checkInPending")}
-                    {" · "}
-                    {stay.checkedOutAt
-                      ? t("checkedOutByWhen", {
-                          name: stay.checkedOutBy || "—",
-                          when: stay.checkOutTime
-                            ? `${stampFmt.format(new Date(stay.checkedOutAt))} · ${stay.checkOutTime}`
-                            : stampFmt.format(new Date(stay.checkedOutAt)),
-                        })
-                      : t("checkOutPending")}
-                    {" · "}
-                    {cleaned.length ? t("cleanedYes") : t("cleanedNo")}
-                  </p>
+  function nextCopy(step: StayStep, stay: PaidStay) {
+    if (step === "checkin") return tEq("nextCheckin");
+    if (step === "checkout") return tEq("nextCheckout");
+    if (step === "clean") return tEq("nextClean");
+    if (step === "inhouse") return tEq("nextInhouse", { date: formatDay(stay.checkOut) });
+    if (step === "wait") return tEq("nextWait", { date: formatDay(stay.checkIn) });
+    return tEq("nextDone");
+  }
 
-                  {!stay.checkedInAt ? (
-                    <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-[1fr_8rem_auto]">
-                      <input
-                        value={byIn[stay.id] ?? ""}
-                        onChange={(e) => setByIn((prev) => ({ ...prev, [stay.id]: e.target.value }))}
-                        placeholder={t("checkBy")}
-                        required
-                        className="rounded-xl border border-sand/60 px-3 py-2 text-sm outline-none focus:border-lagoon"
-                      />
-                      <TimeSelect
-                        value={timeIn[stay.id] ?? "16:00"}
-                        onChange={(value) => setTimeIn((prev) => ({ ...prev, [stay.id]: value }))}
-                      />
-                      <button
-                        type="button"
-                        disabled={busy === `checkin:${stay.id}`}
-                        onClick={() => void patchStay(stay.id, "checkin")}
-                        className="rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white hover:bg-lagoon-dark disabled:opacity-60"
-                      >
-                        {t("markCheckIn")}
-                      </button>
-                    </div>
-                  ) : null}
+  function StayCard({ stay }: { stay: PaidStay }) {
+    const step = stayStep(stay, cleanings, today);
+    const pipe = pipelineIndex(step);
+    const photos = cleanPhotos[stay.id] ?? [];
+    const marks = checked[stay.id] ?? {};
+    const checkedCount = CLEANING_CHECKLIST_IDS.filter((id) => marks[id]).length;
 
-                  {stay.checkedInAt && !stay.checkedOutAt ? (
-                    <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-[1fr_8rem_auto]">
-                      <input
-                        value={byOut[stay.id] ?? ""}
-                        onChange={(e) => setByOut((prev) => ({ ...prev, [stay.id]: e.target.value }))}
-                        placeholder={t("checkBy")}
-                        className="rounded-xl border border-sand/60 px-3 py-2 text-sm outline-none focus:border-lagoon"
-                      />
-                      <TimeSelect
-                        value={timeOut[stay.id] ?? "10:00"}
-                        onChange={(value) => setTimeOut((prev) => ({ ...prev, [stay.id]: value }))}
-                      />
-                      <button
-                        type="button"
-                        disabled={busy === `checkout:${stay.id}`}
-                        onClick={() => void patchStay(stay.id, "checkout")}
-                        className="rounded-full border border-lagoon px-4 py-2 text-sm font-medium text-lagoon hover:bg-lagoon hover:text-white disabled:opacity-60"
-                      >
-                        {t("markCheckOut")}
-                      </button>
-                    </div>
-                  ) : null}
-
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-muted">{t("photosInTitle")}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {(stay.checkInPhotos ?? []).map((src, i) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={`in-${stay.id}-${i}`} src={src} alt="" className="h-16 w-16 rounded-lg object-cover" />
-                        ))}
-                      </div>
-                      <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
-                        {t("addPhotos")}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          className="sr-only"
-                          onChange={(e) => {
-                            void uploadStayPhotos(stay.id, "in", e.target.files);
-                            e.currentTarget.value = "";
-                          }}
-                        />
-                      </label>
-                    </div>
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-muted">{t("photosOutTitle")}</p>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        {(stay.checkOutPhotos ?? []).map((src, i) => (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img key={`out-${stay.id}-${i}`} src={src} alt="" className="h-16 w-16 rounded-lg object-cover" />
-                        ))}
-                      </div>
-                      <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
-                        {t("addPhotos")}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          multiple
-                          className="sr-only"
-                          onChange={(e) => {
-                            void uploadStayPhotos(stay.id, "out", e.target.files);
-                            e.currentTarget.value = "";
-                          }}
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </section>
-
-      <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-        <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{tEq("checklistTitle")}</h2>
-        <p className="mt-2 text-sm text-foreground/70">{tEq("checklistLead")}</p>
-        <form onSubmit={(e) => void addCleaning(e)} className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <label htmlFor="clean-date" className="mb-1 block text-sm font-medium">
-              {t("cleanDate")}
-            </label>
-            <input
-              id="clean-date"
-              name="date"
-              type="date"
-              required
-              defaultValue={today}
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div>
-            <label htmlFor="clean-time" className="mb-1 block text-sm font-medium">
-              {t("cleanTime")}
-            </label>
-            <TimeSelect id="clean-time" name="time" defaultValue="10:00" />
-          </div>
-          <div>
-            <label htmlFor="cleanerName" className="mb-1 block text-sm font-medium">
-              {t("cleanBy")}
-            </label>
-            <input
-              id="cleanerName"
-              name="cleanerName"
-              required
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
-            />
-          </div>
-          <div>
-            <label htmlFor="clean-stay" className="mb-1 block text-sm font-medium">
-              {t("cleanStay")}
-            </label>
-            <select
-              id="clean-stay"
-              name="stayId"
-              className="w-full rounded-xl border border-sand/60 bg-white px-4 py-2.5 outline-none focus:border-lagoon"
+    return (
+      <article className="rounded-2xl border border-sand/40 bg-white p-4 shadow-card sm:p-5">
+        <p className="font-serif text-xl font-semibold text-lagoon-dark">{stayName(stay, t)}</p>
+        <p className="mt-1 text-sm text-foreground/70">
+          {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)} · {t("bookGuestsCount", { count: stay.guests })}
+        </p>
+        <ol className="mt-3 flex gap-1 text-[11px] font-medium uppercase tracking-wide sm:text-xs">
+          {[tEq("pipeIn"), tEq("pipeOut"), tEq("pipeClean")].map((label, i) => (
+            <li
+              key={label}
+              className={`flex-1 rounded-full px-2 py-1 text-center ${
+                i < pipe
+                  ? "bg-lagoon text-white"
+                  : i === pipe && (step === "checkin" || step === "checkout" || step === "clean" || step === "inhouse")
+                    ? "bg-sand-dark text-lagoon-dark"
+                    : "bg-sand-light text-foreground/50"
+              }`}
             >
-              <option value="">{t("cleanStayNone")}</option>
-              {ordered.map((stay) => (
-                <option key={stay.id} value={stay.id}>
-                  {stayName(stay, t)} · {formatDay(stay.checkOut)}
-                </option>
-              ))}
-            </select>
+              {i < pipe ? `✓ ${label}` : label}
+            </li>
+          ))}
+        </ol>
+        <p className="mt-3 text-base font-medium text-lagoon-dark">{nextCopy(step, stay)}</p>
+
+        {step === "checkin" || step === "checkout" || step === "wait" || step === "inhouse" ? (
+          <div className="mt-4 space-y-3">
+            <div className="grid grid-cols-[1fr_7.5rem] gap-2">
+              <input
+                value={by}
+                onChange={(e) => setBy(e.target.value)}
+                placeholder={t("checkBy")}
+                className="rounded-xl border border-sand/60 px-3 py-3 text-base outline-none focus:border-lagoon"
+              />
+              <TimeSelect
+                value={slotFor(stay.id)}
+                onChange={(value) => setTimes((prev) => ({ ...prev, [stay.id]: value }))}
+              />
+            </div>
+            {step === "checkin" || step === "wait" ? (
+              <button
+                type="button"
+                disabled={busy === `checkin:${stay.id}`}
+                onClick={() => void patchStay(stay.id, "checkin")}
+                className={`w-full rounded-full py-3.5 text-base font-semibold disabled:opacity-60 ${
+                  step === "checkin"
+                    ? "bg-lagoon text-white hover:bg-lagoon-dark"
+                    : "border-2 border-lagoon text-lagoon hover:bg-lagoon hover:text-white"
+                }`}
+              >
+                {step === "wait" ? tEq("doCheckinEarly") : tEq("doCheckin")}
+              </button>
+            ) : null}
+            {step === "checkout" || step === "inhouse" ? (
+              <button
+                type="button"
+                disabled={busy === `checkout:${stay.id}`}
+                onClick={() => void patchStay(stay.id, "checkout")}
+                className={`w-full rounded-full py-3.5 text-base font-semibold disabled:opacity-60 ${
+                  step === "checkout"
+                    ? "bg-lagoon text-white hover:bg-lagoon-dark"
+                    : "border-2 border-lagoon text-lagoon hover:bg-lagoon hover:text-white"
+                }`}
+              >
+                {step === "inhouse" ? tEq("doCheckoutEarly") : tEq("doCheckout")}
+              </button>
+            ) : null}
+            <label className="block cursor-pointer text-sm font-medium text-lagoon">
+              {step === "checkout" || step === "inhouse" ? tEq("photosOutOptional") : tEq("photosInOptional")}
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                multiple
+                className="sr-only"
+                onChange={(e) => {
+                  void uploadStayPhotos(
+                    stay.id,
+                    step === "checkout" || step === "inhouse" ? "out" : "in",
+                    e.target.files,
+                  );
+                  e.currentTarget.value = "";
+                }}
+              />
+            </label>
           </div>
-          <div className="sm:col-span-2 space-y-6">
+        ) : null}
+
+        {step === "clean" ? (
+          <div className="mt-4 space-y-4">
+            <p className="text-sm text-foreground/70">{tEq("checklistLeadShort")}</p>
+            <p className="text-xs font-medium text-foreground/55">
+              {tEq("checklistProgress", {
+                done: checkedCount,
+                total: CLEANING_CHECKLIST_IDS.length,
+              })}
+            </p>
             {CLEANING_CHECKLIST_GROUPS.map((group) => (
-              <fieldset key={group.id} className="rounded-xl border border-sand/40 p-4">
-                <legend className="px-1 font-medium text-lagoon-dark">
+              <fieldset key={group.id} className="rounded-xl bg-sand-light/80 p-3">
+                <legend className="px-1 text-sm font-semibold text-lagoon-dark">
                   {tEq(`checklistGroups.${group.id}`)}
                 </legend>
-                <ul className="mt-2 space-y-2">
+                <ul className="mt-1 space-y-2">
                   {group.items.map((id) => (
                     <li key={id}>
-                      <label className="flex items-start gap-2 text-sm text-foreground/85">
+                      <label className="flex items-start gap-3 text-sm leading-snug text-foreground/90">
                         <input
                           type="checkbox"
-                          checked={Boolean(checked[id])}
+                          checked={Boolean(marks[id])}
                           onChange={(e) =>
-                            setChecked((prev) => ({ ...prev, [id]: e.target.checked }))
+                            setChecked((prev) => ({
+                              ...prev,
+                              [stay.id]: { ...prev[stay.id], [id]: e.target.checked },
+                            }))
                           }
-                          className="mt-0.5 h-4 w-4 rounded border-sand/60 text-lagoon focus:ring-lagoon"
+                          className="mt-0.5 h-5 w-5 shrink-0 rounded border-sand/60 text-lagoon focus:ring-lagoon"
                         />
                         <span>{tEq(`checklistItems.${id}`)}</span>
                       </label>
@@ -426,108 +365,108 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
                 </ul>
               </fieldset>
             ))}
-          </div>
-          <div className="sm:col-span-2">
-            <label htmlFor="clean-notes" className="mb-1 block text-sm font-medium">
-              {t("cleanNotes")}
-            </label>
             <textarea
-              id="clean-notes"
-              name="notes"
-              rows={3}
-              className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
+              value={notes[stay.id] ?? ""}
+              onChange={(e) => setNotes((prev) => ({ ...prev, [stay.id]: e.target.value }))}
+              rows={2}
+              placeholder={t("cleanNotes")}
+              className="w-full rounded-xl border border-sand/60 px-3 py-2.5 text-sm outline-none focus:border-lagoon"
             />
+            <div>
+              <label className="inline-block cursor-pointer rounded-full bg-sand-dark px-4 py-2 text-sm font-medium text-lagoon-dark">
+                {photos.length
+                  ? tEq("checklistPhotoDone", { count: photos.length })
+                  : tEq("checklistAddPhoto")}
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  multiple
+                  className="sr-only"
+                  onChange={(e) => {
+                    void pickCleanPhotos(stay.id, e.target.files);
+                    e.currentTarget.value = "";
+                  }}
+                />
+              </label>
+              {photos.length ? (
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {photos.map((src, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img key={`${stay.id}-p-${i}`} src={src} alt="" className="h-14 w-14 rounded-lg object-cover" />
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <button
+              type="button"
+              disabled={busy === `clean:${stay.id}`}
+              onClick={() => void saveCleaning(stay)}
+              className="w-full rounded-full bg-lagoon py-3.5 text-base font-semibold text-white hover:bg-lagoon-dark disabled:opacity-60"
+            >
+              {busy === `clean:${stay.id}` ? t("cleanSaving") : tEq("doClean")}
+            </button>
           </div>
-          <div className="sm:col-span-2">
-            <p className="text-sm font-medium">{tEq("checklistPhoto")}</p>
-            <p className="mt-1 text-xs text-foreground/60">{tEq("checklistPhotoHint")}</p>
-            <label className="mt-2 inline-block cursor-pointer text-sm font-medium text-lagoon">
-              {cleanPhotos.length ? tEq("checklistPhotoDone", { count: cleanPhotos.length }) : tEq("checklistAddPhoto")}
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                multiple
-                className="sr-only"
-                onChange={(e) => {
-                  void pickCleanPhotos(e.target.files);
-                  e.currentTarget.value = "";
-                }}
-              />
-            </label>
-            {cleanPhotos.length ? (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {cleanPhotos.map((src, i) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={`prep-${i}`} src={src} alt="" className="h-16 w-16 rounded-lg object-cover" />
+        ) : null}
+
+        {step === "done" ? (
+          <p className="mt-2 text-sm text-foreground/60">{tEq("stayComplete")}</p>
+        ) : null}
+      </article>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      {stays.length === 0 ? (
+        <p className="rounded-2xl border border-sand/40 bg-white p-5 text-sm text-muted shadow-card">{t("staysEmpty")}</p>
+      ) : (
+        <>
+          <section>
+            <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{tEq("nowTitle")}</h2>
+            <p className="mt-1 text-sm text-foreground/70">{tEq("nowLead")}</p>
+            {groups.now.length === 0 ? (
+              <p className="mt-3 text-sm text-foreground/60">{tEq("nowEmpty")}</p>
+            ) : (
+              <div className="mt-4 space-y-4">
+                {groups.now.map((stay) => (
+                  <StayCard key={stay.id} stay={stay} />
                 ))}
               </div>
-            ) : null}
-          </div>
-          <div className="sm:col-span-2">
-            <Button type="submit" variant="primary" disabled={busy === "clean"}>
-              {busy === "clean" ? t("cleanSaving") : t("cleanSubmit")}
-            </Button>
-          </div>
-        </form>
-      </section>
+            )}
+          </section>
 
-      {showHistory ? (
-        <section className="rounded-2xl border border-sand/40 bg-white p-5 shadow-card sm:p-7">
-          <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("historyTitle")}</h2>
-          <p className="mt-2 text-sm text-foreground/70">{t("historyLead")}</p>
-          {past.length === 0 ? (
-            <p className="mt-4 text-sm text-muted">{t("historyEmpty")}</p>
-          ) : (
-            <ul className="mt-5 divide-y divide-sand/40">
-              {past.map((stay) => {
-                const related = cleanings.filter((row) => row.stayId === stay.id);
-                return (
-                  <li key={stay.id} className="py-4 first:pt-0">
-                    <p className="font-medium text-lagoon-dark">{stayName(stay, t)}</p>
-                    <p className="text-sm text-foreground/70">
-                      {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)}
-                      {stay.checkInTime ? ` · ${stay.checkInTime}` : ""}
-                      {stay.checkOutTime ? ` → ${stay.checkOutTime}` : ""}
-                    </p>
-                    <p className="mt-1 text-xs text-foreground/65">
-                      {stay.checkedInBy
-                        ? t("historyCheckIn", { name: stay.checkedInBy })
-                        : t("checkInPending")}
-                      {" · "}
-                      {stay.checkedOutBy
-                        ? t("historyCheckOut", { name: stay.checkedOutBy })
-                        : t("checkOutPending")}
-                    </p>
-                    {related.map((row) => (
-                      <p key={row.id} className="mt-1 text-xs text-foreground/65">
-                        {t("historyClean", {
-                          name: ["marie", "luca"].includes(row.cleanerId)
-                            ? t(`cleaners.${row.cleanerId}`)
-                            : row.cleanerId,
-                          date: row.date,
-                          time: row.time,
-                        })}
-                      </p>
-                    ))}
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {[
-                        ...(stay.checkInPhotos ?? []),
-                        ...(stay.checkOutPhotos ?? []),
-                        ...related.flatMap((row) => row.photos),
-                      ].map((src, i) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img key={`${stay.id}-h-${i}`} src={src} alt="" className="h-16 w-16 rounded-lg object-cover" />
-                      ))}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
-      ) : null}
+          {groups.later.length ? (
+            <section>
+              <h2 className="font-serif text-xl font-semibold text-lagoon-dark">{tEq("laterTitle")}</h2>
+              <div className="mt-3 space-y-4">
+                {groups.later.map((stay) => (
+                  <StayCard key={stay.id} stay={stay} />
+                ))}
+              </div>
+            </section>
+          ) : null}
 
+          {showHistory && groups.done.length ? (
+            <section>
+              <button
+                type="button"
+                onClick={() => setOpenDone((prev) => !prev)}
+                className="text-left font-serif text-xl font-semibold text-lagoon-dark"
+              >
+                {tEq("doneTitle")} ({groups.done.length}) {openDone ? "▴" : "▾"}
+              </button>
+              {openDone ? (
+                <div className="mt-3 space-y-4">
+                  {groups.done.map((stay) => (
+                    <StayCard key={stay.id} stay={stay} />
+                  ))}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+        </>
+      )}
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
     </div>
   );

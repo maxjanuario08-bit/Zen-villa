@@ -48,7 +48,7 @@ export default async function EquipePage({ params }: Props) {
 
   return (
     <section className="bg-sand-light py-12 sm:py-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="mx-auto max-w-xl px-4 sm:px-6">
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
             <h1 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("title")}</h1>
@@ -56,7 +56,7 @@ export default async function EquipePage({ params }: Props) {
           </div>
           <StaffLogoutButton />
         </div>
-        <StaffOpsDesk villas={villas} />
+        <StaffOpsDesk villas={villas} showCalendar={false} />
       </div>
     </section>
   );

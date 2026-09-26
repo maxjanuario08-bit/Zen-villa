@@ -93,7 +93,7 @@ export default function StaffOpsDesk({
           id="ops-villa"
           value={slug}
           onChange={(e) => setSlug(e.target.value)}
-          className="w-full max-w-md rounded-xl border border-sand/60 bg-white px-4 py-2.5 outline-none focus:border-lagoon"
+          className="w-full rounded-xl border border-sand/60 bg-white px-4 py-3 text-base outline-none focus:border-lagoon"
         >
           {villas.map((item) => (
             <option key={item.slug} value={item.slug}>
