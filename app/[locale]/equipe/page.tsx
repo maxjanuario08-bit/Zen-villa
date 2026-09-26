@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Card from "@/components/ui/Card";
+import Button from "@/components/ui/Button";
 import StaffLoginForm from "@/components/owner/StaffLoginForm";
 import StaffLogoutButton from "@/components/owner/StaffLogoutButton";
 import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
@@ -35,6 +36,11 @@ export default async function EquipePage({ params }: Props) {
           <Card className="mt-8" hover={false}>
             <StaffLoginForm />
           </Card>
+          <p className="mt-6 text-center">
+            <Button href="/equipe/inscription" variant="outline" className="w-full">
+              {t("signupLink")}
+            </Button>
+          </p>
         </div>
       </section>
     );

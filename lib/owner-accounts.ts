@@ -189,6 +189,11 @@ export async function listOwnerAccounts(): Promise<OwnerPublicAccount[]> {
     .map(toPublic);
 }
 
+export async function listOwnerAccountsForSlug(slug: string): Promise<OwnerPublicAccount[]> {
+  const all = await listOwnerAccounts();
+  return all.filter((account) => account.logements.includes(slug));
+}
+
 async function saveLogements(account: OwnerAccount) {
   if (usePostgres()) {
     const sql = await pg();

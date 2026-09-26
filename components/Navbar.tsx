@@ -57,6 +57,9 @@ export default function Navbar() {
 
           <div className="flex shrink-0 items-center gap-3">
             <MemberNavLinks />
+            <Link href="/equipe" className="whitespace-nowrap text-xs font-medium text-foreground/70 hover:text-lagoon">
+              {t("staff")}
+            </Link>
             <LocaleSwitcher />
             <a
               href={`tel:${CONTACT.telephoneTel}`}
@@ -140,6 +143,20 @@ export default function Navbar() {
               );
             })}
             <MemberNavLinks className="py-2" />
+            <Link
+              href="/equipe"
+              className="py-2 text-base font-medium text-foreground"
+              onClick={() => setIsOpen(false)}
+            >
+              {t("staff")}
+            </Link>
+            <Link
+              href="/equipe/inscription"
+              className="py-2 text-base font-medium text-foreground"
+              onClick={() => setIsOpen(false)}
+            >
+              {t("staffSignup")}
+            </Link>
             <Link
               href="/contact"
               className="rounded-full bg-lagoon px-5 py-3 text-center text-sm font-medium text-white mt-2"

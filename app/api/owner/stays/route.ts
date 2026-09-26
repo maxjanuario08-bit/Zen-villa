@@ -3,6 +3,7 @@ import { getLogement } from "@/lib/logements";
 import { canCreateStay, canOperateStay, canViewStayBoard } from "@/lib/owner-ops-auth";
 import { getAdminSession } from "@/lib/owner-admin";
 import { addStayPhotos, createManualStay, deleteStay, getStayById, getStaysForSlug, markStayCheck } from "@/lib/owner-data";
+import { notifyOwnersCheckIn } from "@/lib/owner-notify";
 import { getOwnerSession, ownerOwnsSlug } from "@/lib/owner-auth";
 import { ownerMayDeleteStay } from "@/lib/owner-types";
 
@@ -118,5 +119,8 @@ export async function PATCH(req: Request) {
     time: String(body.time ?? ""),
   });
   if (!stay) return NextResponse.json({ error: "not_found" }, { status: 404 });
+  if (body.action === "checkin") {
+    void notifyOwnersCheckIn(stay);
+  }
   return NextResponse.json({ ok: true, stay });
 }

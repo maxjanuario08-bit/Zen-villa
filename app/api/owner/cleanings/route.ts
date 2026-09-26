@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getLogement } from "@/lib/logements";
 import { canOperateStay, canViewStayBoard } from "@/lib/owner-ops-auth";
-import { createCleaning, getCleaningsForSlug } from "@/lib/owner-data";
+import { createCleaning, getCleaningsForSlug, getStayById } from "@/lib/owner-data";
+import { notifyOwnersCleaning } from "@/lib/owner-notify";
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -54,5 +55,7 @@ export async function POST(req: Request) {
   if ("error" in created) {
     return NextResponse.json({ error: created.error }, { status: 400 });
   }
+  const stay = created.stayId ? await getStayById(created.stayId) : null;
+  void notifyOwnersCleaning(stay, created);
   return NextResponse.json({ ok: true, cleaning: created });
 }

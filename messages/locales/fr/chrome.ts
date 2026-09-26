@@ -10,6 +10,8 @@ const navFooter = {
     menuAria: "Menu",
     ctaQuote: "Demander un devis",
     member: "Espace membre",
+    staff: "Espace équipe",
+    staffSignup: "Créer un compte équipe",
   },
   Footer: {
     tagline:
@@ -26,6 +28,7 @@ const navFooter = {
     copyright: "© {year} Zenvilla – Conciergerie Corse Sud. {rights}",
     faq: "FAQ",
     staff: "Espace équipe",
+    staffSignup: "Créer un compte équipe",
   },
   Languages: {
     spoken: "Nous parlons",

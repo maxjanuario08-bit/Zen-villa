@@ -10,6 +10,8 @@ const navFooter = {
     menuAria: "Menu",
     ctaQuote: "Request a quote",
     member: "Member space",
+    staff: "Staff space",
+    staffSignup: "Create a staff account",
   },
   Footer: {
     tagline:
@@ -26,6 +28,7 @@ const navFooter = {
     copyright: "© {year} Zenvilla – South Corsica concierge. {rights}",
     faq: "FAQ",
     staff: "Staff space",
+    staffSignup: "Create a staff account",
   },
   Languages: {
     spoken: "We speak",

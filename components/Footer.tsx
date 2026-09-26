@@ -95,6 +95,16 @@ export default async function Footer() {
                   {tFoot("faq")}
                 </Link>
               </li>
+              <li>
+                <Link href="/equipe" className="text-sm text-white/80 hover:text-white transition-colors">
+                  {tFoot("staff")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/equipe/inscription" className="text-sm text-white/80 hover:text-white transition-colors">
+                  {tFoot("staffSignup")}
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -159,13 +169,13 @@ export default async function Footer() {
             >
               {tFoot("privacy")}
             </Link>
-            </div>
-            <Link
-              href="/equipe"
-              className="text-xs text-white/35 transition-colors hover:text-white/70 sm:ml-auto sm:text-right"
-            >
+            <Link href="/equipe" className="text-sm text-white/60 hover:text-white transition-colors">
               {tFoot("staff")}
             </Link>
+            <Link href="/equipe/inscription" className="text-sm text-white/60 hover:text-white transition-colors">
+              {tFoot("staffSignup")}
+            </Link>
+            </div>
         </div>
       </div>
     </footer>

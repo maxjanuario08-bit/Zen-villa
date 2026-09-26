@@ -10,6 +10,8 @@ const navFooter = {
     menuAria: "Menú",
     ctaQuote: "Pedir presupuesto",
     member: "Espacio miembro",
+    staff: "Espacio equipo",
+    staffSignup: "Crear una cuenta de equipo",
   },
   Footer: {
     tagline:
@@ -26,6 +28,7 @@ const navFooter = {
     copyright: "© {year} Zenvilla – Conserjería Córcega del Sur. {rights}",
     faq: "FAQ",
     staff: "Espacio equipo",
+    staffSignup: "Crear una cuenta de equipo",
   },
   Languages: {
     spoken: "Hablamos",
