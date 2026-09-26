@@ -14,6 +14,8 @@ type CalendarPayload = {
   stays: PaidStay[];
   ownerBlocks: DateRange[];
   closedMmdd: { from: string; to: string } | null;
+  icalImportUrl?: string;
+  icalExportPath?: string;
 };
 
 export default function StaffOpsDesk({
@@ -23,6 +25,7 @@ export default function StaffOpsDesk({
   showCalendar = true,
   showOps = true,
   showHistory = true,
+  staffName = "",
 }: {
   villas: readonly Villa[];
   allowBooking?: boolean;
@@ -30,6 +33,7 @@ export default function StaffOpsDesk({
   showCalendar?: boolean;
   showOps?: boolean;
   showHistory?: boolean;
+  staffName?: string;
 }) {
   const t = useTranslations("Equipe");
   const tLog = useTranslations("Logements");
@@ -103,7 +107,7 @@ export default function StaffOpsDesk({
         </select>
       </div>
       {error ? <p className="text-sm text-red-600">{t("loadError")}</p> : null}
-      {showOps ? <StaffClock slug={slug} shifts={shifts} onChanged={() => void load()} /> : null}
+      {showOps ? <StaffClock slug={slug} shifts={shifts} defaultName={staffName} onChanged={() => void load()} /> : null}
       {showCalendar && calendar ? (
         <OwnerCalendar
           slug={slug}
@@ -113,6 +117,8 @@ export default function StaffOpsDesk({
           maxGuests={villa.guests}
           allowBooking={allowBooking}
           allowBlock={allowBlock}
+          icalImportUrl={calendar.icalImportUrl}
+          icalExportPath={calendar.icalExportPath}
           onUpdated={() => void load()}
           cleanings={cleanings}
         />

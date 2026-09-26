@@ -4,7 +4,8 @@ import { mergeDateRanges } from "@/lib/booking";
 import { getLogement } from "@/lib/logements";
 import { paidRangesForSlug } from "@/lib/paid-stays";
 import { getStaysForSlug } from "@/lib/owner-data";
-import { getOwnerBlockedRanges } from "@/lib/owner-store";
+import { getOwnerBlockedRanges, getIcalImportUrl } from "@/lib/owner-store";
+import { importedIcalRanges } from "@/lib/ical-import";
 import type { PaidStay } from "@/lib/owner-types";
 
 /**
@@ -16,6 +17,7 @@ export async function getEffectiveBlockedRanges(slug: string): Promise<DateRange
   const logement = getLogement(slug);
   const staticBlocked = logement?.booking?.blocked ?? [];
   const owner = await getOwnerBlockedRanges(slug);
+  const icalImport = await importedIcalRanges(slug);
   const seedPaid = (await getStaysForSlug(slug)).map((stay) => ({ from: stay.checkIn, to: stay.checkOut }));
   let stripePaid: DateRange[] = [];
   try {
@@ -23,7 +25,7 @@ export async function getEffectiveBlockedRanges(slug: string): Promise<DateRange
   } catch {
     stripePaid = [];
   }
-  return mergeDateRanges([...staticBlocked, ...owner, ...seedPaid, ...stripePaid]);
+  return mergeDateRanges([...staticBlocked, ...owner, ...icalImport, ...seedPaid, ...stripePaid]);
 }
 
 export async function getBookingWithAvailability(slug: string): Promise<BookingConfig | null> {
@@ -36,7 +38,8 @@ export async function getBookingWithAvailability(slug: string): Promise<BookingC
 export async function getOwnerCalendarPayload(slug: string) {
   await connection();
   const logement = getLogement(slug);
-  const ownerBlocks = await getOwnerBlockedRanges(slug);
+  const owner = await getOwnerBlockedRanges(slug);
+  const icalImport = await importedIcalRanges(slug);
   const stays = await getStaysForSlug(slug);
   let stripePaid: DateRange[] = [];
   try {
@@ -44,10 +47,13 @@ export async function getOwnerCalendarPayload(slug: string) {
   } catch {
     stripePaid = [];
   }
+  const icalImportUrl = await getIcalImportUrl(slug);
   return {
     stays,
-    ownerBlocks,
+    ownerBlocks: mergeDateRanges([...owner, ...icalImport]),
     stripePaid,
+    icalImportUrl,
+    icalExportPath: `/api/ical/${slug}`,
     closedMmdd: logement?.booking?.closedMmdd ?? null,
     staticBlocked: [...(logement?.booking?.blocked ?? [])],
   };

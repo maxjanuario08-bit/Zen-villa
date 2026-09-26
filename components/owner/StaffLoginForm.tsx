@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
@@ -11,6 +12,7 @@ export default function StaffLoginForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable" | "limited">(
     "idle",
   );
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -23,7 +25,8 @@ export default function StaffLoginForm() {
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          code: String(data.get("code") ?? ""),
+          email: String(data.get("email") ?? ""),
+          password: String(data.get("password") ?? ""),
         }),
       });
       if (res.status === 503) {
@@ -46,15 +49,29 @@ export default function StaffLoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-4">
+      <div>
+        <label htmlFor="staff-email" className="mb-1 block text-sm font-medium">
+          {t("email")}
+        </label>
+        <input
+          id="staff-email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          required
+          className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
+        />
+      </div>
       <PasswordField
-        id="staff-code"
-        name="code"
-        inputMode="numeric"
-        autoComplete="off"
+        id="staff-password"
+        name="password"
+        autoComplete="current-password"
         required
         minLength={8}
-        label={t("code")}
+        label={t("password")}
         revealLabel={t("showPassword")}
+        visible={showPassword}
+        onVisibleChange={setShowPassword}
       />
       {status === "error" && <p className="text-sm text-red-600">{t("loginError")}</p>}
       {status === "limited" && <p className="text-sm text-red-600">{t("loginLimited")}</p>}
@@ -62,6 +79,12 @@ export default function StaffLoginForm() {
       <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
         {status === "loading" ? t("sending") : t("submit")}
       </Button>
+      <p className="text-center text-sm text-foreground/70">
+        {t("noAccount")}{" "}
+        <Link href="/equipe/inscription" className="font-medium text-lagoon hover:text-lagoon-dark">
+          {t("signupLink")}
+        </Link>
+      </p>
     </form>
   );
 }

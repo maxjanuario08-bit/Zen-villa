@@ -51,3 +51,6 @@ next-env.d.ts
 /data/owner-stays.json
 /data/owner-cleanings.json
 /data/staff-shifts.json
+/data/pending-bookings.json
+/data/staff-accounts.json
+/data/uploads/

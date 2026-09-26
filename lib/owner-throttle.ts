@@ -9,7 +9,7 @@ export function clientIp(req: Request) {
   return forwarded || req.headers.get("x-real-ip") || "unknown";
 }
 
-type AuthKind = "login" | "register" | "admin" | "admin_v2" | "staff_v1";
+type AuthKind = "login" | "register" | "admin" | "admin_v2" | "staff_v1" | "staff_register";
 
 export async function tooManyAuthAttempts(ip: string, kind: AuthKind) {
   const key = `${kind}:${ip}`;

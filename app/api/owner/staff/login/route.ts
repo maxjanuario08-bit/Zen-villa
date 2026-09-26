@@ -4,8 +4,8 @@ import {
   createStaffToken,
   staffAuthConfigured,
   staffCookieOptions,
-  authenticateStaff,
 } from "@/lib/owner-staff";
+import { authenticateStaffAccount } from "@/lib/staff-accounts";
 import { clientIp, recordAuthAttempt, tooManyAuthAttempts } from "@/lib/owner-throttle";
 
 export async function POST(req: Request) {
@@ -18,20 +18,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429 });
   }
 
-  let body: { code?: string; password?: string };
+  let body: { email?: string; password?: string; code?: string };
   try {
-    body = (await req.json()) as { code?: string; password?: string };
+    body = (await req.json()) as typeof body;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  const session = authenticateStaff(String(body.code ?? body.password ?? ""));
-  if (!session) {
+  const account = await authenticateStaffAccount(String(body.email ?? ""), String(body.password ?? body.code ?? ""));
+  if (!account) {
     await recordAuthAttempt(ip, "staff_v1");
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });
   }
 
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(STAFF_COOKIE, createStaffToken(session.email), staffCookieOptions());
+  res.cookies.set(STAFF_COOKIE, createStaffToken(account.email, account.name), staffCookieOptions());
   return res;
 }

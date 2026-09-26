@@ -60,6 +60,36 @@ const site = {
     ownersCtaTitle: "Ready to hand us your villa?",
     ownersCtaBody:
       "Ask for a quote: Zen Tranquillité, Zen Integral or an à-la-carte plan.",
+    reviewsTitle: "Guest reviews",
+    reviewsLead: "A few notes on Mini Villa Pinson and the Zenvilla welcome in Santa Giulia.",
+    reviewsSource: "Google-style reviews · placeholder quotes for layout",
+    reviews: [
+      {
+        name: "Claire M.",
+        place: "Lyon",
+        text: "Immaculate villa, five minutes from the beach. Check-in was calm and clear.",
+      },
+      {
+        name: "Marco R.",
+        place: "Milan",
+        text: "Quiet, clean, great terrace. The team booked our kayak in minutes.",
+      },
+      {
+        name: "Sophie & Julien",
+        place: "Paris",
+        text: "Perfect for a couple. Smooth arrival, the guest booklet really helps.",
+      },
+      {
+        name: "Elena G.",
+        place: "Barcelona",
+        text: "Santa Giulia looks like the photos. Local team, we felt looked after.",
+      },
+      {
+        name: "Thomas B.",
+        place: "Brussels",
+        text: "Spotless on arrival and departure. WhatsApp follow-up the whole stay.",
+      },
+    ],
   },
   Packs: {
     metaTitlePacks: "Plans – Zen Tranquillité, Zen Integral & à la carte",

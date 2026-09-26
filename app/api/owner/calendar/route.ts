@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { isNightBlocked, nightsBetween } from "@/lib/booking";
 import { getOwnerCalendarPayload } from "@/lib/owner-calendar";
-import { addOwnerNight, addOwnerRange, removeOwnerNight } from "@/lib/owner-store";
+import { addOwnerNight, addOwnerRange, removeOwnerNight, setIcalImportUrl } from "@/lib/owner-store";
 import { getStaysForSlug } from "@/lib/owner-data";
 import { getLogement } from "@/lib/logements";
 import { canBookOrBlock, canViewStayBoard } from "@/lib/owner-ops-auth";
@@ -23,7 +23,7 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  let body: { slug?: string; night?: string; from?: string; to?: string; action?: string };
+  let body: { slug?: string; night?: string; from?: string; to?: string; action?: string; url?: string };
   try {
     body = (await req.json()) as typeof body;
   } catch {
@@ -35,8 +35,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "forbidden" }, { status: 403 });
   }
 
-  const action = body.action === "unblock" ? "unblock" : "block";
+  const action = body.action === "unblock" ? "unblock" : body.action === "ical" ? "ical" : "block";
   const rented = await rentedRanges(slug);
+
+  if (action === "ical") {
+    const icalImportUrl = await setIcalImportUrl(slug, String(body.url ?? ""));
+    return NextResponse.json({ ok: true, icalImportUrl });
+  }
 
   if (body.night && ISO_DATE.test(body.night)) {
     const night = body.night;

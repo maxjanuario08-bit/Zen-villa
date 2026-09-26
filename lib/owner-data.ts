@@ -10,6 +10,7 @@ import {
   isCompleteChecklist,
   parseChecklist,
 } from "@/lib/cleaning-checklist";
+import { persistPhotoList } from "@/lib/photo-store";
 import type { CleaningRecord, PaidStay, StaffShift } from "@/lib/owner-types";
 
 const STAYS_PATH = path.join(process.cwd(), "data", "owner-stays.json");
@@ -151,7 +152,7 @@ export async function createManualStay(input: {
   checkIn: string;
   checkOut: string;
   guests: number;
-  bookedBy: "owner" | "ops";
+  bookedBy: "owner" | "ops" | "site";
 }): Promise<PaidStay | { error: "overlap" | "invalid" }> {
   const guestLabel = input.guestLabel.trim().slice(0, 80);
   if (!guestLabel || input.checkOut <= input.checkIn || input.guests < 1) {
@@ -268,7 +269,7 @@ export async function addStayPhotos(
 ): Promise<PaidStay | null> {
   const stay = await getStayById(id);
   if (!stay || stay.slug !== slug) return null;
-  const clean = photos.filter((item) => item.startsWith("data:image/") && item.length < 450_000).slice(0, 8);
+  const clean = await persistPhotoList(photos);
   if (!clean.length) return stay;
   if (kind === "in") stay.checkInPhotos = [...(stay.checkInPhotos ?? []), ...clean].slice(0, 12);
   else stay.checkOutPhotos = [...(stay.checkOutPhotos ?? []), ...clean].slice(0, 12);
@@ -370,9 +371,7 @@ export async function createCleaning(input: {
   const time = input.time.trim() || "10:00";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "invalid" };
   if (!isCompleteChecklist(input.checklist)) return { error: "checklist" };
-  const photos = (input.photos ?? [])
-    .filter((item) => item.startsWith("data:image/") && item.length < 450_000)
-    .slice(0, 8);
+  const photos = await persistPhotoList(input.photos ?? []);
   if (photos.length < 1) return { error: "photo" };
   const record: CleaningRecord = {
     id: randomBytes(8).toString("hex"),

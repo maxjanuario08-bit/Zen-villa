@@ -9,10 +9,12 @@ export default function StaffClock({
   slug,
   shifts,
   onChanged,
+  defaultName = "",
 }: {
   slug: string;
   shifts: readonly StaffShift[];
   onChanged: () => void;
+  defaultName?: string;
 }) {
   const t = useTranslations("Equipe");
   const locale = useLocale();
@@ -21,8 +23,8 @@ export default function StaffClock({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setName(readStaffName());
-  }, []);
+    setName(readStaffName() || defaultName);
+  }, [defaultName]);
 
   const stampFmt = useMemo(
     () => new Intl.DateTimeFormat(locale, { timeStyle: "short" }),

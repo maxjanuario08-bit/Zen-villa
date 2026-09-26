@@ -8,9 +8,7 @@ import { ownerSessionSecret, ownerStoreReady } from "@/lib/owner-config";
 export const STAFF_COOKIE = "zv_staff";
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
 
-export type StaffSession = { email: string; role: "staff" };
-
-const STAFF_CODE_DEFAULT = "08081993";
+export type StaffSession = { email: string; name: string; role: "staff" };
 
 function sign(payload: string, secret: string) {
   return createHmac("sha256", secret).update(payload).digest("base64url");
@@ -26,14 +24,16 @@ function safeEqual(a: string, b: string) {
   return timingSafeEqual(left, right);
 }
 
-export function staffPassword() {
-  const fromEnv = process.env.STAFF_PASSWORD?.trim() ?? "";
-  if (fromEnv.length >= 8) return fromEnv;
-  return STAFF_CODE_DEFAULT;
+export function staffSignupCode() {
+  return process.env.STAFF_SIGNUP_CODE?.trim() ?? "";
 }
 
 export function staffAuthConfigured() {
-  return Boolean(ownerSessionSecret()) && ownerStoreReady() && staffPassword().length >= 8;
+  return Boolean(ownerSessionSecret()) && ownerStoreReady();
+}
+
+export function staffSignupConfigured() {
+  return staffAuthConfigured() && staffSignupCode().length >= 8;
 }
 
 export function localeStaffPath(locale: string) {
@@ -44,9 +44,9 @@ export function staffCookieOptions() {
   return sessionCookieOptions();
 }
 
-export function createStaffToken(email: string): string {
+export function createStaffToken(email: string, name: string): string {
   const secret = ownerSessionSecret();
-  const body = { email: email.toLowerCase(), role: "staff", exp: Date.now() + WEEK_MS };
+  const body = { email: email.toLowerCase(), name, role: "staff", exp: Date.now() + WEEK_MS };
   const json = Buffer.from(JSON.stringify(body)).toString("base64url");
   return `${json}.${sign(json, secret)}`;
 }
@@ -60,13 +60,14 @@ export function readStaffToken(token: string): StaffSession | null {
   try {
     const payload = JSON.parse(Buffer.from(json, "base64url").toString()) as {
       email?: string;
+      name?: string;
       role?: string;
       exp?: number;
     };
     if (payload.role !== "staff" || !payload.email || !payload.exp || payload.exp < Date.now()) {
       return null;
     }
-    return { email: payload.email, role: "staff" };
+    return { email: payload.email, name: payload.name?.trim() || payload.email, role: "staff" };
   } catch {
     return null;
   }
@@ -86,12 +87,4 @@ export async function requireStaff() {
     redirect(localeStaffPath(locale));
   }
   return session;
-}
-
-export function authenticateStaff(code: string): StaffSession | null {
-  const expected = staffPassword();
-  const given = code.trim();
-  if (!expected || given.length < 8) return null;
-  if (!safeEqual(given, expected)) return null;
-  return { email: "staff", role: "staff" };
 }

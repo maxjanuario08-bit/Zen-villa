@@ -50,7 +50,10 @@ export default async function LogementsPage({ params }: Props) {
 
       <section className="py-16 sm:py-24 bg-sand-light">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="mx-auto max-w-2xl text-center text-foreground/80">{t("rentLead")}</p>
+          <p className="mx-auto max-w-2xl text-center font-serif text-2xl font-semibold text-lagoon-dark">
+            {t("rentTitle")}
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-center text-foreground/80">{t("rentLead")}</p>
           {logementsForRent.length === 0 ? (
             <p className="mt-10 text-center text-muted">{t("emptyRent")}</p>
           ) : (

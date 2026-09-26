@@ -63,6 +63,8 @@ export default async function CompteLogementPage({ params }: Props) {
             closedMmdd={calendar.closedMmdd}
             maxGuests={logement.guests}
             cleanings={cleanings}
+            icalImportUrl={calendar.icalImportUrl}
+            icalExportPath={calendar.icalExportPath}
           />
           <OwnerOps slug={slug} stays={stays} cleanings={cleanings} />
           <StayHistory stays={stays} cleanings={cleanings} />

@@ -56,7 +56,7 @@ export default async function EquipePage({ params }: Props) {
           </div>
           <StaffLogoutButton />
         </div>
-        <StaffOpsDesk villas={villas} showCalendar={false} />
+        <StaffOpsDesk villas={villas} showCalendar={false} staffName={session.name} />
       </div>
     </section>
   );

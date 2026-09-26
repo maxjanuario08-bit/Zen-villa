@@ -2,9 +2,9 @@
 export const VILLA_PINSON = {
   slug: "mini-villa-pinson",
   onSiteContact: {
-    name: "Michel",
-    phone: "06 84 26 44 84",
-    tel: "+33684264484",
+    name: "Zenvilla",
+    phone: "06 86 40 13 16",
+    tel: "+33686401316",
   },
 } as const;
 

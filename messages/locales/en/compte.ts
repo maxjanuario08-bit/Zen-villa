@@ -43,6 +43,12 @@ const Compte = {
   calTitle: "Calendar",
   calLead:
     "Click the start date, then the end date: every day in between is selected. Then block or free the dates.",
+  icalTitle: "Airbnb calendar (iCal)",
+  icalLead:
+    "Paste the export link into Airbnb (Import calendar) and paste Airbnb’s iCal URL here to block nights already taken.",
+  icalExport: "Link to paste in Airbnb:",
+  icalImport: "Airbnb iCal link (import)",
+  icalSave: "Save",
   calPrev: "Previous month",
   calNext: "Next month",
   legendAvailable: "Available",

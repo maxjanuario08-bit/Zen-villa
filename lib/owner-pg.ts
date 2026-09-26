@@ -33,6 +33,32 @@ export async function ensureOwnerSchema() {
       blocks_json TEXT NOT NULL DEFAULT '[]'
     )
   `;
+  await sql`ALTER TABLE owner_calendar ADD COLUMN IF NOT EXISTS ical_import_url TEXT NOT NULL DEFAULT ''`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS pending_bookings (
+      id TEXT PRIMARY KEY,
+      slug TEXT NOT NULL,
+      guest_label TEXT NOT NULL DEFAULT '',
+      guest_email TEXT NOT NULL DEFAULT '',
+      guest_phone TEXT NOT NULL DEFAULT '',
+      check_in DATE NOT NULL,
+      check_out DATE NOT NULL,
+      guests INT NOT NULL DEFAULT 1,
+      amount NUMERIC(10,2) NOT NULL,
+      status TEXT NOT NULL DEFAULT 'pending',
+      stay_id TEXT NOT NULL DEFAULT '',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS staff_accounts (
+      id TEXT PRIMARY KEY,
+      email TEXT UNIQUE NOT NULL,
+      name TEXT NOT NULL,
+      password_hash TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
   await sql`
     CREATE TABLE IF NOT EXISTS owner_stays (
       id TEXT PRIMARY KEY,

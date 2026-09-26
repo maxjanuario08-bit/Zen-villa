@@ -6,7 +6,6 @@ import { sessionCookieOptions } from "@/lib/owner-cookies";
 import {
   ownerAdminEmail,
   ownerAdminPassword,
-  ownerAdminPasswords,
   ownerAdminSecret,
   ownerSessionSecret,
   ownerStoreReady,
@@ -88,19 +87,18 @@ export async function requireAdmin() {
 }
 
 export function authenticateAdmin(email: string, password: string): AdminSession | null {
-  const emails = new Set([ownerAdminEmail(), "contact@zen-villa.fr"]);
   const givenEmail = email.trim().toLowerCase();
   const givenPassword = password.trim();
-  if (!emails.has(givenEmail) || givenPassword.length < 8) return null;
-  const ok = ownerAdminPasswords().some((expected) => safeEqual(givenPassword, expected));
-  if (!ok) return null;
+  if (givenEmail !== ownerAdminEmail() || givenPassword.length < 8) return null;
+  const expected = ownerAdminPassword();
+  if (expected.length < 8 || !safeEqual(givenPassword, expected)) return null;
   return { email: givenEmail };
 }
 
 export function adminBearerOk(req: Request) {
   const header = req.headers.get("authorization") ?? "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : "";
-  const candidates = [...ownerAdminPasswords(), ownerAdminSecret()].filter((s) => s.length >= 8);
+  const candidates = [ownerAdminPassword(), ownerAdminSecret()].filter((s) => s.length >= 8);
   return candidates.some((expected) => safeEqual(token, expected));
 }
 

@@ -93,7 +93,8 @@ async function persistSlug(slug: string, ranges: DateRange[]) {
   }
   const all = await getAllOwnerBlocks();
   all[slug] = merged;
-  await writeFile({ blocks: all });
+  const file = (await readFile()) ?? { blocks: all };
+  await writeFile({ blocks: all, icalImport: file.icalImport ?? {} });
   return all[slug];
 }
 
@@ -121,4 +122,33 @@ export async function removeOwnerNight(slug: string, night: string): Promise<Dat
     if (after < range.to) next.push({ from: after, to: range.to });
   }
   return persistSlug(slug, next);
+}
+
+export async function getIcalImportUrl(slug: string): Promise<string> {
+  if (usePostgres()) {
+    const sql = await pg();
+    const rows = await sql`SELECT ical_import_url FROM owner_calendar WHERE slug = ${slug} LIMIT 1`;
+    return String((rows[0] as { ical_import_url?: string } | undefined)?.ical_import_url ?? "");
+  }
+  const file = await readFile();
+  return file?.icalImport?.[slug]?.trim() ?? "";
+}
+
+export async function setIcalImportUrl(slug: string, url: string): Promise<string> {
+  const trimmed = url.trim().slice(0, 500);
+  if (trimmed && !/^https:\/\//i.test(trimmed)) return "";
+  if (usePostgres()) {
+    const sql = await pg();
+    const blocks = JSON.stringify(await getOwnerBlockedRanges(slug));
+    await sql`
+      INSERT INTO owner_calendar (slug, blocks_json, ical_import_url)
+      VALUES (${slug}, ${blocks}, ${trimmed})
+      ON CONFLICT (slug) DO UPDATE SET ical_import_url = ${trimmed}
+    `;
+    return trimmed;
+  }
+  const file = (await readFile()) ?? { blocks: {}, icalImport: {} };
+  const next = { ...file.icalImport, [slug]: trimmed };
+  await writeFile({ blocks: file.blocks ?? {}, icalImport: next });
+  return trimmed;
 }

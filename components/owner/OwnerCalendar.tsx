@@ -65,6 +65,8 @@ type Props = {
   cleanings?: readonly CleaningRecord[];
   allowBooking?: boolean;
   allowBlock?: boolean;
+  icalImportUrl?: string;
+  icalExportPath?: string;
   onUpdated?: () => void;
 };
 
@@ -84,6 +86,8 @@ export default function OwnerCalendar({
   cleanings = [],
   allowBooking = false,
   allowBlock = true,
+  icalImportUrl = "",
+  icalExportPath = "",
   onUpdated,
 }: Props) {
   const t = useTranslations("Compte");
@@ -101,6 +105,11 @@ export default function OwnerCalendar({
   const [guest, setGuest] = useState("");
   const [guests, setGuests] = useState(2);
   const [recap, setRecap] = useState<PaidStay | null>(null);
+  const [icalUrl, setIcalUrl] = useState(icalImportUrl);
+
+  useEffect(() => {
+    setIcalUrl(icalImportUrl);
+  }, [icalImportUrl]);
 
   useEffect(() => {
     setLocalStays([...stays]);
@@ -249,10 +258,69 @@ export default function OwnerCalendar({
     }
   }
 
+  async function saveIcal() {
+    setSaving(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/owner/calendar", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug, action: "ical", url: icalUrl }),
+      });
+      if (!res.ok) {
+        setError(t("calError"));
+        return;
+      }
+      const data = (await res.json()) as { icalImportUrl?: string };
+      if (data.icalImportUrl !== undefined) setIcalUrl(data.icalImportUrl);
+      router.refresh();
+      onUpdated?.();
+    } catch {
+      setError(t("calError"));
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
     <div className="rounded-2xl border border-sand/40 bg-white p-5 sm:p-7 shadow-card">
       <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("calTitle")}</h2>
       <p className="mt-2 text-sm text-foreground/70">{t("calLead")}</p>
+      {allowBlock ? (
+        <div className="mt-4 space-y-2 rounded-xl bg-sand-light/80 p-4 text-sm">
+          <p className="font-medium text-lagoon-dark">{t("icalTitle")}</p>
+          <p className="text-foreground/70">{t("icalLead")}</p>
+          {icalExportPath || slug ? (
+            <p className="break-all text-xs">
+              {t("icalExport")}{" "}
+          <a className="font-medium text-lagoon" href={icalExportPath || `/api/ical/${slug}`}>
+            {`https://www.zen-villa.fr${icalExportPath || `/api/ical/${slug}`}`}
+          </a>
+            </p>
+          ) : null}
+          <label htmlFor={`ical-${slug}`} className="block text-xs font-medium">
+            {t("icalImport")}
+          </label>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <input
+              id={`ical-${slug}`}
+              value={icalUrl}
+              onChange={(e) => setIcalUrl(e.target.value)}
+              placeholder="https://…"
+              className="w-full rounded-xl border border-sand/60 px-3 py-2 text-sm outline-none focus:border-lagoon"
+            />
+            <button
+              type="button"
+              disabled={saving}
+              onClick={() => void saveIcal()}
+              className="rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white hover:bg-lagoon-dark disabled:opacity-60"
+            >
+              {t("icalSave")}
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       <div className="mt-6 flex items-center justify-between">
         <button

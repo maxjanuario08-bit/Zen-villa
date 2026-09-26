@@ -19,9 +19,9 @@ export const COMPANY = {
 
 export const CONTACT = {
   /** Affichage (flyer / site) */
-  telephone: "+33 6 37 48 12 58",
+  telephone: "+33 6 86 40 13 16",
   /** Lien tel: (E.164) */
-  telephoneTel: "+33637481258",
+  telephoneTel: "+33686401316",
   email: "contact@zen-villa.fr",
   instagram: "https://www.instagram.com/zen_villa_corse/",
   whatsapp: "https://wa.me/33686401316",

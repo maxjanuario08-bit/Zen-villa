@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
 import PhoneField from "@/components/PhoneField";
+import { Link } from "@/i18n/navigation";
 import type { BookingConfig, DateRange } from "@/lib/booking";
 import { internationalPhoneFromForm } from "@/lib/country-calling-codes";
-import { paypalPayUrl } from "@/lib/paypal";
 import {
   addDays,
   fromISODate,
@@ -144,29 +144,47 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
     if (!validate(data) || !checkIn || !checkOut || !quote) return;
 
     setStatus("loading");
-    const itemName = `${name} · ${checkIn} → ${checkOut}`;
-    const payUrl = paypalPayUrl(quote.total, itemName, {
-      custom: `${slug}|${checkIn}|${checkOut}|${data.guests}|${data.nom}|${telephone}`,
-      returnUrl: `${window.location.origin}${window.location.pathname}?paid=1`,
-      cancelUrl: `${window.location.origin}${window.location.pathname}?canceled=1`,
-    });
-
-    if (FORMSPREE_URL) {
-      formData.set("logement", name);
-      formData.set("slug", slug);
-      formData.set("checkIn", checkIn);
-      formData.set("checkOut", checkOut);
-      formData.set("nights", String(quote.nights));
-      formData.set("total", String(quote.total));
-      formData.set("_subject", t("booking.mailSubject", { name }));
-      void fetch(FORMSPREE_URL, {
+    try {
+      const hold = await fetch("/api/bookings/hold", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          checkIn,
+          checkOut,
+          guests: Number(data.guests),
+          nom: data.nom,
+          email: data.email,
+          telephone: data.telephone,
+          returnUrl: `${window.location.origin}${window.location.pathname}?paid=1`,
+          cancelUrl: `${window.location.origin}${window.location.pathname}?canceled=1`,
+        }),
       });
-    }
+      const payload = (await hold.json()) as { payUrl?: string };
+      if (!hold.ok || !payload.payUrl) {
+        setStatus("error");
+        return;
+      }
 
-    window.location.assign(payUrl);
+      if (FORMSPREE_URL) {
+        formData.set("logement", name);
+        formData.set("slug", slug);
+        formData.set("checkIn", checkIn);
+        formData.set("checkOut", checkOut);
+        formData.set("nights", String(quote.nights));
+        formData.set("total", String(quote.total));
+        formData.set("_subject", t("booking.mailSubject", { name }));
+        void fetch(FORMSPREE_URL, {
+          method: "POST",
+          body: formData,
+          headers: { Accept: "application/json" },
+        });
+      }
+
+      window.location.assign(payload.payUrl);
+    } catch {
+      setStatus("error");
+    }
   }
 
   const euro = (n: number) =>
@@ -177,12 +195,22 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
       <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("booking.title")}</h2>
       <p className="mt-1 text-sm text-foreground/70">{t("booking.subtitle")}</p>
       {paymentNotice === "paid" && (
-        <p className="mt-3 text-sm font-medium text-green-700">{t("booking.paid")}</p>
+        <div className="mt-4 rounded-2xl border-2 border-lagoon bg-lagoon/10 p-4 text-center">
+          <p className="text-base font-semibold text-lagoon-dark">{t("booking.paid")}</p>
+          <Link
+            href={`/livret/${slug}`}
+            className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-lagoon px-5 py-3 text-sm font-semibold text-white hover:bg-lagoon-dark"
+          >
+            {t("booking.livretCta")}
+          </Link>
+          <p className="mt-2 text-xs text-foreground/70">{t("booking.livretHint")}</p>
+        </div>
       )}
       {paymentNotice === "canceled" && (
         <p className="mt-3 text-sm text-lagoon-dark">{t("booking.canceled")}</p>
       )}
       <p className="mt-3 text-lg font-medium text-lagoon-dark">{t("booking.fromPrice", { price: euro(fromPrice) })}</p>
+      <p className="mt-1 text-sm text-lagoon-dark/80">{t("booking.cleaningAlways", { price: euro(liveBooking.cleaningFee) })}</p>
 
       <div className="mt-6 flex items-center justify-between">
         <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} className="rounded-full px-3 py-1 text-sm text-lagoon hover:bg-sand-light" aria-label={t("booking.prevMonth")}>
@@ -259,7 +287,7 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
             <span>{t("booking.nights", { count: quote.nights })}</span>
             <span>{euro(quote.lodging)}</span>
           </li>
-          {quote.cleaningFee > 0 && (
+          {quote.cleaningFee >= 0 && (
             <li className="flex justify-between">
               <span>{t("booking.cleaning")}</span>
               <span>{euro(quote.cleaningFee)}</span>

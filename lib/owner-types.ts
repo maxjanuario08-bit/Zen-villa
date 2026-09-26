@@ -61,4 +61,28 @@ export type StaffShift = {
 
 export type OwnerCalendarFile = {
   blocks: Record<string, { from: string; to: string }[]>;
+  icalImport?: Record<string, string>;
+};
+
+export type PendingBooking = {
+  id: string;
+  slug: string;
+  guestLabel: string;
+  guestEmail: string;
+  guestPhone: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  amount: number;
+  status: "pending" | "paid" | "canceled";
+  stayId: string;
+  createdAt: string;
+};
+
+export type StaffAccount = {
+  id: string;
+  email: string;
+  name: string;
+  passwordHash: string;
+  createdAt: string;
 };
