@@ -32,6 +32,7 @@ export const logements = [
       "/logements/pinson/terrasse-bbq.jpg",
       "/logements/pinson/terrasse-vue.jpg",
       "/logements/pinson/toilettes.jpg",
+      "/logements/pinson/sdb.jpg",
     ],
     forRent: true,
     managed: true,

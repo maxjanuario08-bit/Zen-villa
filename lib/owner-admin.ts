@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from "crypto";
+import { createHmac, createHash, timingSafeEqual } from "crypto";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -42,16 +42,27 @@ export function adminCookieOptions() {
   return sessionCookieOptions();
 }
 
+function adminPasswordStamp() {
+  const password = ownerAdminPassword();
+  if (password.length < 8) return "";
+  return createHash("sha256").update(password).digest("base64url").slice(0, 16);
+}
+
 export function createAdminToken(email: string): string {
   const secret = ownerSessionSecret();
-  const body = { email: email.toLowerCase(), role: "admin", exp: Date.now() + WEEK_MS };
+  const body = {
+    email: email.toLowerCase(),
+    role: "admin",
+    stamp: adminPasswordStamp(),
+    exp: Date.now() + WEEK_MS,
+  };
   const json = Buffer.from(JSON.stringify(body)).toString("base64url");
   return `${json}.${sign(json, secret)}`;
 }
 
 export function readAdminToken(token: string): AdminSession | null {
   const secret = ownerSessionSecret();
-  if (!secret) return null;
+  if (!secret || !adminAuthConfigured()) return null;
   const [json, sig] = token.split(".");
   if (!json || !sig) return null;
   if (!safeEqual(sig, sign(json, secret))) return null;
@@ -59,11 +70,14 @@ export function readAdminToken(token: string): AdminSession | null {
     const payload = JSON.parse(Buffer.from(json, "base64url").toString()) as {
       email?: string;
       role?: string;
+      stamp?: string;
       exp?: number;
     };
     if (payload.role !== "admin" || !payload.email || !payload.exp || payload.exp < Date.now()) {
       return null;
     }
+    const stamp = adminPasswordStamp();
+    if (!stamp || payload.stamp !== stamp) return null;
     return { email: payload.email };
   } catch {
     return null;
@@ -89,6 +103,7 @@ export async function requireAdmin() {
 export function authenticateAdmin(email: string, password: string): AdminSession | null {
   const givenEmail = email.trim().toLowerCase();
   const givenPassword = password.trim();
+  if (!givenEmail || !givenPassword) return null;
   if (givenEmail !== ownerAdminEmail() || givenPassword.length < 8) return null;
   const expected = ownerAdminPassword();
   if (expected.length < 8 || !safeEqual(givenPassword, expected)) return null;

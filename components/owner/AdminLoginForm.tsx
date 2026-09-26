@@ -16,16 +16,19 @@ export default function AdminLoginForm() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
+    const email = String(data.get("email") ?? "").trim();
+    const password = String(data.get("password") ?? "");
+    if (!email || password.length < 8) {
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     try {
       const res = await fetch("/api/owner/admin/login", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: String(data.get("email") ?? ""),
-          password: String(data.get("password") ?? ""),
-        }),
+        body: JSON.stringify({ email, password }),
       });
       if (res.status === 503) {
         setStatus("unavailable");
@@ -57,7 +60,6 @@ export default function AdminLoginForm() {
           type="email"
           autoComplete="username"
           required
-          defaultValue="contact@zen-villa.fr"
           className="w-full rounded-xl border border-sand/60 px-4 py-2.5 outline-none focus:border-lagoon"
         />
       </div>

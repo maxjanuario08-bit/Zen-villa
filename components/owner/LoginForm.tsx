@@ -15,30 +15,34 @@ export default function LoginForm() {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
+    const email = String(data.get("email") ?? "").trim();
+    const password = String(data.get("password") ?? "");
+    if (!email || !password) {
+      setStatus("error");
+      return;
+    }
     setStatus("loading");
     try {
       const res = await fetch("/api/owner/login", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: String(data.get("email") ?? ""),
-          password: String(data.get("password") ?? ""),
-        }),
+        body: JSON.stringify({ email, password }),
       });
       if (res.status === 503) {
         setStatus("unavailable");
         return;
       }
       if (!res.ok) {
+        if (password.length < 8) {
+          setStatus("error");
+          return;
+        }
         const admin = await fetch("/api/owner/admin/login", {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: String(data.get("email") ?? ""),
-            password: String(data.get("password") ?? ""),
-          }),
+          body: JSON.stringify({ email, password }),
         });
         if (admin.ok) {
           window.location.assign(afterAuthUrl("/admin"));
