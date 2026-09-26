@@ -108,31 +108,6 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="bg-white py-16 sm:py-24">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center font-serif text-3xl font-semibold text-lagoon-dark sm:text-4xl">
-            {t("reviewsTitle")}
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-foreground/80">{t("reviewsLead")}</p>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {(t.raw("reviews") as readonly { name: string; place: string; text: string }[]).map((review) => (
-              <blockquote
-                key={review.name}
-                className="rounded-2xl border border-sand/50 bg-sand-light/40 p-5 shadow-card"
-              >
-                <p className="text-sm leading-relaxed text-foreground/90">“{review.text}”</p>
-                <footer className="mt-4 text-sm font-medium text-lagoon-dark">
-                  {review.name}
-                  <span className="font-normal text-muted"> · {review.place}</span>
-                </footer>
-                <p className="mt-2 text-[0.65rem] uppercase tracking-wide text-muted">Google</p>
-              </blockquote>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-xs text-muted">{t("reviewsSource")}</p>
-        </div>
-      </section>
-
       <section className="py-16 sm:py-24 bg-lagoon">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-white mb-6">

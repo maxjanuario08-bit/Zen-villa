@@ -64,36 +64,6 @@ const site = {
     ownersCtaTitle: "¿Confía su villa?",
     ownersCtaBody:
       "Pida presupuesto: Zen Tranquillité, Zen Integral o fórmula a la carte.",
-    reviewsTitle: "Opiniones de huéspedes",
-    reviewsLead: "Algunas notas sobre Mini Villa Pinson y la acogida Zenvilla en Santa Giulia.",
-    reviewsSource: "Estilo Google · citas ficticias para la maquetación",
-    reviews: [
-      {
-        name: "Claire M.",
-        place: "Lyon",
-        text: "Villa impecable, a 5 minutos de la playa. Check-in tranquilo y claro.",
-      },
-      {
-        name: "Marco R.",
-        place: "Milán",
-        text: "Tranquila, limpia, terraza genial. El equipo reservó el kayak al momento.",
-      },
-      {
-        name: "Sophie y Julien",
-        place: "París",
-        text: "Perfecta en pareja. Llegada fluida, el librito ayuda de verdad.",
-      },
-      {
-        name: "Elena G.",
-        place: "Barcelona",
-        text: "Santa Giulia como en las fotos. Equipo local, nos sentimos acompañados.",
-      },
-      {
-        name: "Thomas B.",
-        place: "Bruselas",
-        text: "Limpia a la llegada y a la salida. WhatsApp de principio a fin.",
-      },
-    ],
   },
   Packs: {
     metaTitlePacks: "Fórmulas – Zen Tranquillité, Zen Integral y a la carte",
