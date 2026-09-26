@@ -46,6 +46,9 @@ export default async function LogementDetailPage({ params, searchParams }: Props
   const description = t(`${logement.copyKey}.description`);
   const address = t(`${logement.copyKey}.address`);
   const highlights = t.raw(`${logement.copyKey}.highlights`) as readonly string[];
+  const amenityGroups = t.raw(`${logement.copyKey}.amenityGroups`) as
+    | readonly { title: string; items: readonly string[] }[]
+    | undefined;
   const photoAlts = (t.raw(`${logement.copyKey}.photoAlts`) as readonly string[] | undefined) ?? [];
   const gallery = logement.images?.length ? logement.images : [logement.image];
   const showBooking = Boolean(logement.forRent && logement.booking?.enabled);
@@ -116,6 +119,27 @@ export default async function LogementDetailPage({ params, searchParams }: Props
                   </li>
                 ))}
               </ul>
+
+              {amenityGroups && amenityGroups.length > 0 ? (
+                  <div className="mt-10">
+                    <h2 className="text-2xl font-serif font-semibold text-lagoon-dark">{t("amenitiesTitle")}</h2>
+                    <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      {amenityGroups.map((group) => (
+                        <div key={group.title}>
+                          <h3 className="font-medium text-lagoon-dark">{group.title}</h3>
+                          <ul className="mt-2 space-y-1.5">
+                            {group.items.map((item) => (
+                              <li key={item} className="flex items-start gap-2 text-sm text-foreground/85">
+                                <span className="text-lagoon mt-0.5">✓</span>
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+              ) : null}
             </div>
 
             {showBooking && booking && (

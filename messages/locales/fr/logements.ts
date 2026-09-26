@@ -29,6 +29,7 @@ const logements = {
   seeProperty: "Voir le logement",
   enquire: "Réserver",
   includedTitle: "À retenir",
+  amenitiesTitle: "Équipements",
   photosTitle: "Photos",
   photoPrev: "Photo précédente",
   photoNext: "Photo suivante",
@@ -90,7 +91,35 @@ const logements = {
       "Plage de Santa Giulia, environ 5 min à pied",
       "Check-in à partir de 15h · départ au plus tard 11h",
       "Cuisine, transats, machine à laver",
-      "Parking",
+      "Climatisation, parking",
+    ],
+    amenityGroups: [
+      {
+        title: "Cuisine",
+        items: [
+          "Machine à café",
+          "Produits d’entretien",
+          "Lave-linge",
+          "Micro-ondes",
+          "Réfrigérateur",
+        ],
+      },
+      {
+        title: "Salle de bains",
+        items: ["Serviettes", "Douche", "Sèche-cheveux"],
+      },
+      {
+        title: "Chambre",
+        items: ["Télévision", "Équipements en chambre", "Chauffage", "Fer à repasser"],
+      },
+      {
+        title: "Terrasses",
+        items: ["Théière / machine à café"],
+      },
+      {
+        title: "Confort",
+        items: ["Climatisation"],
+      },
     ],
   },
 } as const;

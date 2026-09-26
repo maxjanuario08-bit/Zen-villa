@@ -29,6 +29,7 @@ const logements = {
   seeProperty: "View this home",
   enquire: "Book",
   includedTitle: "At a glance",
+  amenitiesTitle: "Amenities",
   photosTitle: "Photos",
   photoPrev: "Previous photo",
   photoNext: "Next photo",
@@ -89,7 +90,35 @@ const logements = {
       "Santa Giulia beach, about a 5-minute walk",
       "Check-in from 3 pm · checkout by 11 am",
       "Kitchen, sun loungers, washing machine",
-      "Parking",
+      "Air conditioning, parking",
+    ],
+    amenityGroups: [
+      {
+        title: "Kitchen",
+        items: [
+          "Coffee machine",
+          "Cleaning products",
+          "Washing machine",
+          "Microwave",
+          "Refrigerator",
+        ],
+      },
+      {
+        title: "Bathroom",
+        items: ["Towels", "Shower", "Hairdryer"],
+      },
+      {
+        title: "Bedroom",
+        items: ["Television", "Bedroom amenities", "Heating", "Iron"],
+      },
+      {
+        title: "Terraces",
+        items: ["Kettle / coffee machine"],
+      },
+      {
+        title: "Comfort",
+        items: ["Air conditioning"],
+      },
     ],
   },
 } as const;
