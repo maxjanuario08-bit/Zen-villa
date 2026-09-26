@@ -57,7 +57,7 @@ export default function Navbar() {
 
           <div className="flex shrink-0 items-center gap-3">
             <MemberNavLinks />
-            <Link href="/equipe" className="whitespace-nowrap text-xs font-medium text-foreground/70 hover:text-lagoon">
+            <Link href="/equipe" prefetch={false} className="whitespace-nowrap text-xs font-medium text-foreground/70 hover:text-lagoon">
               {t("staff")}
             </Link>
             <LocaleSwitcher />
@@ -145,6 +145,7 @@ export default function Navbar() {
             <MemberNavLinks className="py-2" />
             <Link
               href="/equipe"
+              prefetch={false}
               className="py-2 text-base font-medium text-foreground"
               onClick={() => setIsOpen(false)}
             >
@@ -152,6 +153,7 @@ export default function Navbar() {
             </Link>
             <Link
               href="/equipe/inscription"
+              prefetch={false}
               className="py-2 text-base font-medium text-foreground"
               onClick={() => setIsOpen(false)}
             >

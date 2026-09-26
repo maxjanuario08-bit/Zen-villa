@@ -15,3 +15,11 @@ export function writeStaffName(name: string) {
     /* ignore */
   }
 }
+
+export function clearStaffName() {
+  try {
+    localStorage.removeItem(STAFF_NAME_KEY);
+  } catch {
+    /* ignore */
+  }
+}

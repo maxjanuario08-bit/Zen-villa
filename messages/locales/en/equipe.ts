@@ -30,6 +30,7 @@ const Equipe = {
   loginLimited: "Too many attempts. Wait a few minutes, then try again.",
   unavailable: "Staff access is unavailable right now.",
   logout: "Sign out",
+  signedInAs: "Signed in as {name}",
   chooseVilla: "Home",
   loadError: "Could not load this home.",
   clockTitle: "Clock in / clock out",

@@ -31,6 +31,7 @@ const Equipe = {
   loginLimited: "Trop d’essais. Attendez quelques minutes, puis réessayez.",
   unavailable: "L’accès équipe n’est pas disponible pour le moment.",
   logout: "Déconnexion",
+  signedInAs: "Connecté : {name}",
   chooseVilla: "Logement",
   loadError: "Impossible de charger ce logement.",
   clockTitle: "Pointage",

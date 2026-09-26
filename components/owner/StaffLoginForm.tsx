@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
+import { clearStaffName } from "@/lib/staff-name";
 
 export default function StaffLoginForm() {
   const t = useTranslations("Equipe");
@@ -13,6 +14,10 @@ export default function StaffLoginForm() {
     "idle",
   );
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    clearStaffName();
+  }, []);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

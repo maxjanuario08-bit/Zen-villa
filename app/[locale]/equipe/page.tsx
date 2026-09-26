@@ -8,6 +8,8 @@ import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
 import { logementsManaged } from "@/lib/logements";
 import { getStaffSession } from "@/lib/owner-staff";
 
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -59,6 +61,7 @@ export default async function EquipePage({ params }: Props) {
           <div>
             <h1 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("title")}</h1>
             <p className="mt-2 text-sm text-foreground/70">{t("deskLead")}</p>
+            <p className="mt-1 text-sm font-medium text-lagoon-dark">{t("signedInAs", { name: session.name })}</p>
           </div>
           <StaffLogoutButton />
         </div>

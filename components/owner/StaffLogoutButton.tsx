@@ -1,23 +1,25 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { afterAuthUrl } from "@/lib/site-origin";
+import { clearStaffName } from "@/lib/staff-name";
 
 export default function StaffLogoutButton() {
   const t = useTranslations("Equipe");
 
-  async function logout() {
-    await fetch("/api/owner/staff/logout", { method: "POST", credentials: "include" });
-    window.location.assign(afterAuthUrl("/equipe"));
-  }
-
   return (
-    <button
-      type="button"
-      onClick={() => void logout()}
-      className="text-sm font-medium text-foreground/70 transition-colors hover:text-lagoon"
+    <form
+      action="/api/owner/staff/logout"
+      method="post"
+      onSubmit={() => {
+        clearStaffName();
+      }}
     >
-      {t("logout")}
-    </button>
+      <button
+        type="submit"
+        className="text-sm font-medium text-foreground/70 transition-colors hover:text-lagoon"
+      >
+        {t("logout")}
+      </button>
+    </form>
   );
 }

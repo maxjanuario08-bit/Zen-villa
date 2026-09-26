@@ -30,6 +30,7 @@ const Equipe = {
   loginLimited: "Demasiados intentos. Espere unos minutos e inténtelo de nuevo.",
   unavailable: "El acceso del equipo no está disponible por el momento.",
   logout: "Cerrar sesión",
+  signedInAs: "Conectado: {name}",
   chooseVilla: "Alojamiento",
   loadError: "No se ha podido cargar este alojamiento.",
   clockTitle: "Fichaje",

@@ -5,6 +5,8 @@ import Card from "@/components/ui/Card";
 import StaffSignupForm from "@/components/owner/StaffSignupForm";
 import { getStaffSession, localeStaffPath } from "@/lib/owner-staff";
 
+export const dynamic = "force-dynamic";
+
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

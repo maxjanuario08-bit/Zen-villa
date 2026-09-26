@@ -23,7 +23,9 @@ export default function StaffClock({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setName(readStaffName() || defaultName);
+    const fromSession = defaultName.trim();
+    setName(fromSession || readStaffName());
+    if (fromSession) writeStaffName(fromSession);
   }, [defaultName]);
 
   const stampFmt = useMemo(

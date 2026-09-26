@@ -96,12 +96,12 @@ export default async function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/equipe" className="text-sm text-white/80 hover:text-white transition-colors">
+                <Link href="/equipe" prefetch={false} className="text-sm text-white/80 hover:text-white transition-colors">
                   {tFoot("staff")}
                 </Link>
               </li>
               <li>
-                <Link href="/equipe/inscription" className="text-sm text-white/80 hover:text-white transition-colors">
+                <Link href="/equipe/inscription" prefetch={false} className="text-sm text-white/80 hover:text-white transition-colors">
                   {tFoot("staffSignup")}
                 </Link>
               </li>
@@ -169,10 +169,10 @@ export default async function Footer() {
             >
               {tFoot("privacy")}
             </Link>
-            <Link href="/equipe" className="text-sm text-white/60 hover:text-white transition-colors">
+            <Link href="/equipe" prefetch={false} className="text-sm text-white/60 hover:text-white transition-colors">
               {tFoot("staff")}
             </Link>
-            <Link href="/equipe/inscription" className="text-sm text-white/60 hover:text-white transition-colors">
+            <Link href="/equipe/inscription" prefetch={false} className="text-sm text-white/60 hover:text-white transition-colors">
               {tFoot("staffSignup")}
             </Link>
             </div>
