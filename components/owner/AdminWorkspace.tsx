@@ -2,20 +2,22 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import AdminCrmDesk from "@/components/owner/AdminCrmDesk";
 import AdminDesk from "@/components/owner/AdminDesk";
 import AdminHistory from "@/components/owner/AdminHistory";
 import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
 
 type Villa = { slug: string; copyKey: string; guests: number };
-type Tab = "owners" | "planning" | "ops" | "history";
+type Tab = "owners" | "planning" | "ops" | "history" | "crm";
 
 export default function AdminWorkspace({ villas }: { villas: readonly Villa[] }) {
   const t = useTranslations("Admin");
-  const [tab, setTab] = useState<Tab>("planning");
+  const [tab, setTab] = useState<Tab>("crm");
 
   const tabs = useMemo(
     () =>
       [
+        { id: "crm" as const, label: t("tabCrm") },
         { id: "owners" as const, label: t("tabOwners") },
         { id: "planning" as const, label: t("tabPlanning") },
         { id: "ops" as const, label: t("tabOps") },
@@ -45,6 +47,12 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
       </div>
 
       <div className="mt-8">
+        {tab === "crm" ? (
+          <div>
+            <p className="mb-4 text-sm text-foreground/70">{t("crmLead")}</p>
+            <AdminCrmDesk />
+          </div>
+        ) : null}
         {tab === "owners" ? (
           <div>
             <p className="mb-4 text-sm text-foreground/70">{t("deskLead")}</p>
