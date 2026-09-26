@@ -46,7 +46,7 @@ export const logements = [
       minNights: 2,
       minNightsByMonth: { 3: 5, 4: 5 },
       paypalEnabled: false,
-      cleaningFee: 80,
+      cleaningFee: 0,
       defaultNightly: 80,
       seasons: [
         { from: "03-01", to: "03-31", nightly: 80 },
