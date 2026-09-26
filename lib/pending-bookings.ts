@@ -96,10 +96,12 @@ export async function getPendingBooking(id: string): Promise<PendingBooking | nu
   return (await readFile()).find((item) => item.id === id) ?? null;
 }
 
-export async function fulfillPaidBooking(id: string): Promise<PendingBooking | { error: string }> {
+export async function fulfillPaidBooking(
+  id: string,
+): Promise<{ booking: PendingBooking; fresh: boolean } | { error: string }> {
   const pending = await getPendingBooking(id);
   if (!pending) return { error: "missing" };
-  if (pending.status === "paid" && pending.stayId) return pending;
+  if (pending.status === "paid" && pending.stayId) return { booking: pending, fresh: false };
 
   const stay = await createManualStay({
     slug: pending.slug,
@@ -110,7 +112,7 @@ export async function fulfillPaidBooking(id: string): Promise<PendingBooking | {
     bookedBy: "site",
   });
   if ("error" in stay) {
-    if (pending.status === "paid") return pending;
+    if (pending.status === "paid") return { booking: pending, fresh: false };
     return { error: stay.error };
   }
 
@@ -129,5 +131,5 @@ export async function fulfillPaidBooking(id: string): Promise<PendingBooking | {
       await writeFile(file);
     }
   }
-  return { ...pending, status: "paid", stayId: stay.id };
+  return { booking: { ...pending, status: "paid", stayId: stay.id }, fresh: true };
 }

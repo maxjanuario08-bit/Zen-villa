@@ -1,5 +1,5 @@
-import { CONTACT } from "@/lib/constants";
 import { getLogement } from "@/lib/logements";
+import { sendMail } from "@/lib/mail";
 import { listOwnerAccountsForSlug } from "@/lib/owner-accounts";
 import type { CleaningRecord, PaidStay } from "@/lib/owner-types";
 
@@ -9,33 +9,8 @@ function villaLabel(slug: string) {
   return slug;
 }
 
-function fromAddress() {
-  return process.env.RESEND_FROM?.trim() || `Zenvilla <${CONTACT.email}>`;
-}
-
-async function sendEmail(to: string, subject: string, text: string) {
-  const key = process.env.RESEND_API_KEY?.trim();
-  if (!key) {
-    console.warn("owner-notify: RESEND_API_KEY manquant, e-mail non envoyé");
-    return;
-  }
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${key}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: fromAddress(),
-      to: [to],
-      subject,
-      text,
-    }),
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    console.error("owner-notify: Resend", res.status, detail);
-  }
+function sendEmail(to: string, subject: string, text: string) {
+  return sendMail({ to, subject, text });
 }
 
 async function recipients(slug: string) {

@@ -41,38 +41,37 @@ export default function DemanderPrestationPage() {
 
     const prestationLabel = prestationSlug ? labelForSlug(prestationSlug) : "";
 
-    if (!FORMSPREE_URL) {
-      const subjectLabel = prestationLabel || t("guestLabel");
-      const mailto = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
-        `${t("heroTitle")} – ${subjectLabel}`,
-      )}&body=${encodeURIComponent(
-        [
-          `${t("fieldService")} ${prestationLabel || "-"}`,
-          "",
-          `${t("fieldName")} ${data.nom}`,
-          `${t("fieldEmail")} ${data.email}`,
-          `${t("fieldPhone")} ${data.telephone}`,
-          `${t("fieldPlace")}: ${data.lieu || "-"}`,
-          `${t("fieldDates")}: ${data.dates || "-"}`,
-          "",
-          `${t("fieldMsg")}:`,
-          data.message || "-",
-        ].join("\n"),
-      )}`;
-      window.location.href = mailto;
-      setStatus("success");
-      return;
-    }
-
-    formData.append("_subject", `${t("heroTitle")} – ${prestationLabel || t("guestLabel")}`);
     setStatus("loading");
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch("/api/site-mail/prestation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nom: data.nom,
+          email: data.email,
+          telephone: data.telephone,
+          prestation: prestationLabel,
+          lieu: data.lieu,
+          dates: data.dates,
+          message: data.message,
+        }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+        return;
+      }
+      if (!FORMSPREE_URL) {
+        setStatus("error");
+        return;
+      }
+      formData.append("_subject", `${t("heroTitle")} – ${prestationLabel || t("guestLabel")}`);
+      const fallback = await fetch(FORMSPREE_URL, {
         method: "POST",
         body: formData,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
+      if (fallback.ok) {
         setStatus("success");
         form.reset();
       } else {

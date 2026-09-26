@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { fulfillPaidBooking, getPendingBooking } from "@/lib/pending-bookings";
+import { notifyBookingConfirmed } from "@/lib/site-mail";
 
 export const runtime = "nodejs";
 
@@ -45,5 +46,6 @@ export async function POST(req: Request) {
   if ("error" in result) {
     return new NextResponse("ok", { status: 200 });
   }
+  if (result.fresh) void notifyBookingConfirmed(result.booking);
   return new NextResponse("ok", { status: 200 });
 }

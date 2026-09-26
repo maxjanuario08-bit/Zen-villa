@@ -52,10 +52,6 @@ const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_ID
   ? `https://formspree.io/f/${process.env.NEXT_PUBLIC_FORMSPREE_ID}`
   : null;
 
-function stripReqMark(label: string) {
-  return label.replace(/\s*\*$/u, "").trim();
-}
-
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -92,34 +88,35 @@ export default function ContactPage() {
 
     if (!validate(data)) return;
 
-    if (!FORMSPREE_URL) {
-      const subject = t("mailtoSubject", { name: data.nom });
-      const bodyLines = [
-        `${stripReqMark(t("lblName"))}: ${data.nom}`,
-        `${stripReqMark(t("lblEmail"))}: ${data.email}`,
-        `${stripReqMark(t("lblPhone"))}: ${data.telephone}`,
-        `${t("lblCity")}: ${data.ville || "—"}`,
-        `${t("lblType")}: ${data.type || "—"}`,
-        "",
-        `${stripReqMark(t("lblMsg"))}:`,
-        data.message,
-      ];
-      const mailto = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(
-        bodyLines.join("\n")
-      )}`;
-      window.location.href = mailto;
-      setStatus("success");
-      return;
-    }
-
     setStatus("loading");
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch("/api/site-mail/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nom: data.nom,
+          email: data.email,
+          telephone: data.telephone,
+          ville: data.ville,
+          type: data.type,
+          message: data.message,
+        }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        form.reset();
+        return;
+      }
+      if (!FORMSPREE_URL) {
+        setStatus("error");
+        return;
+      }
+      const fallback = await fetch(FORMSPREE_URL, {
         method: "POST",
         body: formData,
         headers: { Accept: "application/json" },
       });
-      if (res.ok) {
+      if (fallback.ok) {
         setStatus("success");
         form.reset();
       } else {
