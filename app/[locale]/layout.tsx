@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CookieBanner from "@/components/CookieBanner";
+import SiteAnalytics from "@/components/SiteAnalytics";
 import { SITE } from "@/lib/constants";
 import { routing } from "@/i18n/routing";
 
@@ -117,6 +118,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <main className="min-h-screen">{children}</main>
           <Footer />
           <CookieBanner />
+          <SiteAnalytics />
         </NextIntlClientProvider>
       </body>
     </html>

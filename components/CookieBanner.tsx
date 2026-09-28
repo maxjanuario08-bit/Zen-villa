@@ -19,6 +19,7 @@ export default function CookieBanner() {
 
   const acceptCookies = () => {
     localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
+    window.dispatchEvent(new Event("zenvilla-consent"));
     setIsVisible(false);
   };
 
