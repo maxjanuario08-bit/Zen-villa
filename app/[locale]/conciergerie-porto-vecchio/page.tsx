@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Button from "@/components/ui/Button";
+import { languageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -15,6 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: t("pvOgTitle"),
       description: t("pvOgDesc"),
     },
+    alternates: languageAlternates(locale, "/conciergerie-porto-vecchio"),
   };
 }
 

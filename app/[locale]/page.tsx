@@ -1,12 +1,21 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import JsonLd from "@/components/JsonLd";
 import ServiceIcon from "@/components/icons/ServiceIcon";
+import { CONTACT, SITE } from "@/lib/constants";
 import { homeServices } from "@/lib/services";
+import { languageAlternates } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: languageAlternates(locale, "/") };
+}
 
 type WhyPillar = { title: string; body: string };
 
@@ -20,6 +29,26 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <div>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: SITE.name,
+          url: SITE.url,
+          image: SITE.ogImage,
+          telephone: CONTACT.telephoneTel,
+          email: CONTACT.email,
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Résidence Bella Vista",
+            postalCode: "20137",
+            addressLocality: "Porto-Vecchio",
+            addressRegion: "Corse",
+            addressCountry: "FR",
+          },
+          areaServed: ["Santa Giulia", "Porto-Vecchio"],
+        }}
+      />
       <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image

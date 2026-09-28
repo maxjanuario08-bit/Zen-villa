@@ -7,8 +7,8 @@ export const SITE = {
   title: "Zenvilla – Conciergerie Corse Sud | Gestion de villas",
   description:
     "Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés.",
-  url: "https://zen-villa.fr",
-  ogImage: "https://zen-villa.fr/hero-baie.png",
+  url: "https://www.zen-villa.fr",
+  ogImage: "https://www.zen-villa.fr/hero-baie.png",
 } as const;
 
 export const COMPANY = {

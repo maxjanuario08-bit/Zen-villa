@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { languageAlternates } from "@/lib/seo";
 
 type Props = Readonly<{ children: ReactNode; params: Promise<{ locale: string }> }>;
 
@@ -18,6 +19,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
       description,
     },
     robots: { index: true, follow: true },
+    alternates: languageAlternates(locale, "/logements"),
   };
 }
 

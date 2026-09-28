@@ -8,6 +8,9 @@ import PhotoCarousel from "@/components/PhotoCarousel";
 import { getLogement, logements } from "@/lib/logements";
 import type { BookingConfig } from "@/lib/booking";
 import { getBookingWithAvailability } from "@/lib/owner-calendar";
+import { languageAlternates } from "@/lib/seo";
+import JsonLd from "@/components/JsonLd";
+import { CONTACT, SITE } from "@/lib/constants";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -30,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${t(`${logement.copyKey}.name`)} | ZenVilla`,
     description: t(`${logement.copyKey}.description`),
+    alternates: languageAlternates(locale, `/logements/${slug}`),
   };
 }
 
@@ -57,8 +61,41 @@ export default async function LogementDetailPage({ params, searchParams }: Props
       ? ((await getBookingWithAvailability(slug)) ?? (logement.booking as BookingConfig))
       : null;
 
+  const images = (logement.images ?? [logement.image]).map((src) =>
+    src.startsWith("http") ? src : `${SITE.url}${src}`,
+  );
+
   return (
     <div>
+      {logement.slug === "mini-villa-pinson" ? (
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "VacationRental",
+            name,
+            description,
+            url:
+              locale === "fr"
+                ? `${SITE.url}/logements/${logement.slug}`
+                : `${SITE.url}/${locale}/logements/${logement.slug}`,
+            image: images,
+            telephone: CONTACT.telephoneTel,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: "Résidence Bella Vista",
+              postalCode: "20137",
+              addressLocality: "Porto-Vecchio",
+              addressRegion: "Corse",
+              addressCountry: "FR",
+            },
+            containsPlace: {
+              "@type": "Accommodation",
+              occupancy: { "@type": "QuantitativeValue", "maxValue": logement.guests },
+              numberOfBedrooms: logement.bedrooms,
+            },
+          }}
+        />
+      ) : null}
       <section className="relative min-h-[40vh] flex flex-col justify-end overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image src={logement.image} alt={photoAlts[0] ?? name} fill className="object-cover" priority sizes="100vw" />

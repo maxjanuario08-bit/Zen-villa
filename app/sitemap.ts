@@ -4,6 +4,7 @@ import { voyageursServices } from "@/lib/voyageurs-services";
 import { homeServices } from "@/lib/services";
 import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
 import { logements } from "@/lib/logements";
+import { routing } from "@/i18n/routing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE.url;
@@ -36,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [
+  const frPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 1 },
     {
       url: `${baseUrl}/proprietaires`,
@@ -109,4 +110,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...voyageursPages,
     ...logementsPages,
   ];
+
+  return frPages.flatMap((page) => {
+    const path = page.url.slice(baseUrl.length);
+    return routing.locales.map((locale) => ({
+      ...page,
+      url: locale === "fr" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`,
+    }));
+  });
 }
