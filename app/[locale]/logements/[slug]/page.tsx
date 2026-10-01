@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${t(`${logement.copyKey}.name`)} | ZenVilla`,
     description: t(`${logement.copyKey}.description`),
+    robots: { index: false, follow: false },
     alternates: languageAlternates(locale, `/logements/${slug}`),
   };
 }
@@ -103,10 +104,10 @@ export default async function LogementDetailPage({ params, searchParams }: Props
         </div>
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
           <Link
-            href={logement.forRent ? "/logements" : "/confiance"}
+            href="/"
             className="inline-flex items-center gap-2 text-white/90 hover:text-white text-sm font-medium mb-6"
           >
-            ← {logement.forRent ? t("backToList") : t("backToBook")}
+            ← {t("backHome")}
           </Link>
           <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg">{name}</h1>
           <p className="mt-4 text-lg text-white/95 max-w-2xl">{tagline}</p>

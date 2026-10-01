@@ -7,13 +7,11 @@ import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 import MemberNavLinks from "@/components/owner/MemberNavLinks";
 
-const navKeys = ["home", "formules", "rentals", "trust", "guests", "contact"] as const;
+const navKeys = ["home", "formules", "guests", "contact"] as const;
 
 const PATHS = {
   home: "/",
   formules: "/formules",
-  rentals: "/logements",
-  trust: "/confiance",
   guests: "/voyageurs",
   contact: "/contact",
 } satisfies Record<(typeof navKeys)[number], string>;

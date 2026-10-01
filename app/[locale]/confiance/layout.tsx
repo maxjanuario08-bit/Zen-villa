@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
       title: t("bookOgTitle"),
       description,
     },
-    robots: { index: true, follow: true },
+    robots: { index: false, follow: false },
   };
 }
 

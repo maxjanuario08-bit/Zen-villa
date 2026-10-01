@@ -3,7 +3,6 @@ import { SITE } from "@/lib/constants";
 import { voyageursServices } from "@/lib/voyageurs-services";
 import { homeServices } from "@/lib/services";
 import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
-import { logements } from "@/lib/logements";
 import { routing } from "@/i18n/routing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -30,13 +29,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const logementsPages = logements.map((s) => ({
-    url: `${baseUrl}/logements/${s.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
-
   const frPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 1 },
     {
@@ -56,18 +48,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/logements`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/confiance`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.85,
     },
     {
       url: `${baseUrl}/contact`,
@@ -108,7 +88,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...servicesPages,
     ...proprietairesPages,
     ...voyageursPages,
-    ...logementsPages,
   ];
 
   return frPages.flatMap((page) => {

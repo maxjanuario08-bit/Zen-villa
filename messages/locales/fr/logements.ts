@@ -74,6 +74,7 @@ const logements = {
     errGuests: "Indiquez un nombre de voyageurs entre 1 et {max}.",
   },
   backToList: "Retour aux logements",
+  backHome: "Retour à l'accueil",
   backToBook: "Retour aux villas confiées",
   notFound: "Logement introuvable",
   ownerCtaTitle: "Vous êtes propriétaire ?",

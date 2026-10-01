@@ -127,12 +127,6 @@ export default async function HomePage({ params }: Props) {
             <Button href="/formules" variant="primary">
               {tCommon("seeOwnersOffer")}
             </Button>
-            <Button href="/logements" variant="outline">
-              {tCommon("seeRentals")}
-            </Button>
-            <Button href="/confiance" variant="outline">
-              {tCommon("seeTrust")}
-            </Button>
           </div>
         </div>
       </section>

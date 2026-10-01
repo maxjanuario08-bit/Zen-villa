@@ -73,6 +73,7 @@ const logements = {
     errGuests: "Indique entre 1 y {max} huéspedes.",
   },
   backToList: "Volver a alojamientos",
+  backHome: "Volver al inicio",
   backToBook: "Volver a las villas confiadas",
   notFound: "Alojamiento no encontrado",
   ownerCtaTitle: "¿Es propietario?",

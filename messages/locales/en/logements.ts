@@ -73,6 +73,7 @@ const logements = {
     errGuests: "Choose between 1 and {max} guests.",
   },
   backToList: "Back to homes",
+  backHome: "Back to home",
   backToBook: "Back to villas in our care",
   notFound: "Home not found",
   ownerCtaTitle: "Are you a homeowner?",
