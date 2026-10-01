@@ -13,6 +13,7 @@ const Admin = {
   unavailable:
     "Admin is not configured yet. Add OWNER_ADMIN_PASSWORD (min. 8 characters) in Vercel, then redeploy.",
   logout: "Sign out",
+  openRental: "Open {name}",
   loading: "Loading accounts…",
   empty: "No owners have signed up yet.",
   note: "Property note",

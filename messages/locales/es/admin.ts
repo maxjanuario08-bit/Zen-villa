@@ -13,6 +13,7 @@ const Admin = {
   unavailable:
     "La administración aún no está configurada. Añada OWNER_ADMIN_PASSWORD (mín. 8 caracteres) en Vercel y vuelva a desplegar.",
   logout: "Cerrar sesión",
+  openRental: "Abrir {name}",
   loading: "Carga de las cuentas…",
   empty: "Todavía no hay propietarios inscritos.",
   note: "Vivienda indicada",

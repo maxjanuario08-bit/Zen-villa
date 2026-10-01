@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import Card from "@/components/ui/Card";
 import AdminLoginForm from "@/components/owner/AdminLoginForm";
 import AdminLogoutButton from "@/components/owner/AdminLogoutButton";
 import AdminWorkspace from "@/components/owner/AdminWorkspace";
-import { logementsManaged } from "@/lib/logements";
+import { logementsForRent, logementsManaged } from "@/lib/logements";
 import { getAdminSession } from "@/lib/owner-admin";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -23,6 +24,7 @@ export default async function AdminPage({ params }: Props) {
   setRequestLocale(locale);
   const session = await getAdminSession();
   const t = await getTranslations({ locale, namespace: "Admin" });
+  const tLog = await getTranslations({ locale, namespace: "Logements" });
 
   if (!session) {
     return (
@@ -49,12 +51,23 @@ export default async function AdminPage({ params }: Props) {
   return (
     <section className="bg-sand-light py-12 sm:py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mb-8 flex items-start justify-between gap-4">
+        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
             <h1 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("title")}</h1>
             <p className="mt-2 text-sm text-foreground/70">{t("workspaceLead")}</p>
           </div>
-          <AdminLogoutButton />
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            {logementsForRent.map((item) => (
+              <Link
+                key={item.slug}
+                href={`/logements/${item.slug}`}
+                className="rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white shadow-md transition-colors hover:bg-lagoon-dark"
+              >
+                {t("openRental", { name: tLog(`${item.copyKey}.name`) })}
+              </Link>
+            ))}
+            <AdminLogoutButton />
+          </div>
         </div>
         <AdminWorkspace villas={villas} />
       </div>
