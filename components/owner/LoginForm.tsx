@@ -8,6 +8,7 @@ import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function LoginForm() {
+  const tRecovery = useTranslations("PasswordRecovery");
   const t = useTranslations("Compte");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable">("idle");
 
@@ -96,6 +97,7 @@ export default function LoginForm() {
           {t("loginTeam")}
         </Link>
       </p>
+      <Link href="/mot-de-passe-oublie?role=owner" className="block text-center text-sm text-lagoon underline">{tRecovery("forgot")}</Link>
     </form>
   );
 }

@@ -1,4 +1,6 @@
 import { createHmac, createHash, timingSafeEqual } from "crypto";
+import { passwordOverride, sessionPasswordValid } from "@/lib/password-credentials";
+import { verifyPassword } from "@/lib/owner-accounts";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -53,6 +55,7 @@ export function createAdminToken(email: string): string {
   const body = {
     email: email.toLowerCase(),
     role: "admin",
+    iat: Date.now(),
     stamp: adminPasswordStamp(),
     exp: Date.now() + WEEK_MS,
   };
@@ -88,7 +91,9 @@ export async function getAdminSession(): Promise<AdminSession | null> {
   const jar = await cookies();
   const raw = jar.get(ADMIN_COOKIE)?.value;
   if (!raw) return null;
-  return readAdminToken(raw);
+  const session = readAdminToken(raw);
+  if (!session || !(await sessionPasswordValid("admin", session.email, raw))) return null;
+  return session;
 }
 
 export async function requireAdmin() {
@@ -100,24 +105,28 @@ export async function requireAdmin() {
   return session;
 }
 
-export function authenticateAdmin(email: string, password: string): AdminSession | null {
+export async function authenticateAdmin(email: string, password: string): Promise<AdminSession | null> {
   const givenEmail = email.trim().toLowerCase();
-  const givenPassword = password.trim();
+  const givenPassword = password;
   if (!givenEmail || !givenPassword) return null;
   if (givenEmail !== ownerAdminEmail() || givenPassword.length < 8) return null;
+  const override = await passwordOverride("admin", givenEmail);
+  if (override) return await verifyPassword(givenPassword, override.password_hash) ? { email: givenEmail } : null;
   const expected = ownerAdminPassword();
   if (expected.length < 8 || !safeEqual(givenPassword, expected)) return null;
   return { email: givenEmail };
 }
 
-export function adminBearerOk(req: Request) {
+export async function adminBearerOk(req: Request) {
   const header = req.headers.get("authorization") ?? "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : "";
-  const candidates = [ownerAdminPassword(), ownerAdminSecret()].filter((s) => s.length >= 8);
+  if (!token) return false;
+  if (await authenticateAdmin(ownerAdminEmail(), token)) return true;
+  const candidates = [ownerAdminSecret()].filter((s) => s.length >= 8);
   return candidates.some((expected) => safeEqual(token, expected));
 }
 
 export async function adminRequestOk(req: Request) {
-  if (adminBearerOk(req)) return true;
+  if (await adminBearerOk(req)) return true;
   return Boolean(await getAdminSession());
 }

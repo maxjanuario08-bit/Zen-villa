@@ -1,3 +1,4 @@
+import { passwordOverride } from "@/lib/password-credentials";
 import { randomBytes } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
@@ -77,6 +78,7 @@ export async function createStaffAccount(input: {
 export async function authenticateStaffAccount(email: string, password: string): Promise<StaffAccount | null> {
   const account = await getStaffAccountByEmail(email);
   if (!account) return null;
-  if (!(await verifyPassword(password, account.passwordHash))) return null;
+  const override = await passwordOverride("staff", account.email);
+  if (!(await verifyPassword(password, override?.password_hash ?? account.passwordHash))) return null;
   return account;
 }

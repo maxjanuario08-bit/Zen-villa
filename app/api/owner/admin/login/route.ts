@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
 
-  const session = authenticateAdmin(String(body.email ?? ""), String(body.password ?? ""));
+  const session = await authenticateAdmin(String(body.email ?? ""), String(body.password ?? ""));
   if (!session || !String(body.password ?? "").trim()) {
     await recordAuthAttempt(ip, "admin_v2");
     return NextResponse.json({ error: "invalid_credentials" }, { status: 401 });

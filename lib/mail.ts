@@ -34,5 +34,7 @@ export async function sendMail(input: {
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
     console.error("mail: Resend", res.status, detail);
+    return false;
   }
+  return true;
 }

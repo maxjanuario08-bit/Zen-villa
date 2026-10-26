@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/constants";
+import CookiePreferencesButton from "@/components/CookiePreferencesButton";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
 type NavKey = "formules" | "guests" | "rentals";
@@ -168,6 +169,7 @@ export default async function Footer() {
             >
               {tFoot("privacy")}
             </Link>
+            <CookiePreferencesButton />
             <Link href="/equipe" prefetch={false} className="text-sm text-white/60 hover:text-white transition-colors">
               {tFoot("staff")}
             </Link>

@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "crypto";
+import { sessionPasswordValid } from "@/lib/password-credentials";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -46,7 +47,7 @@ export function staffCookieOptions() {
 
 export function createStaffToken(email: string, name: string): string {
   const secret = ownerSessionSecret();
-  const body = { email: email.toLowerCase(), name, role: "staff", exp: Date.now() + WEEK_MS };
+  const body = { email: email.toLowerCase(), name, role: "staff", iat: Date.now(), exp: Date.now() + WEEK_MS };
   const json = Buffer.from(JSON.stringify(body)).toString("base64url");
   return `${json}.${sign(json, secret)}`;
 }
@@ -77,7 +78,9 @@ export async function getStaffSession(): Promise<StaffSession | null> {
   const jar = await cookies();
   const raw = jar.get(STAFF_COOKIE)?.value;
   if (!raw) return null;
-  return readStaffToken(raw);
+  const session = readStaffToken(raw);
+  if (!session || !(await sessionPasswordValid("staff", session.email, raw))) return null;
+  return session;
 }
 
 export async function requireStaff() {

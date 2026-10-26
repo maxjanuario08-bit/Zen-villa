@@ -162,6 +162,19 @@ export async function ensureOwnerSchema() {
       at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS account_passwords (
+      role TEXT NOT NULL, email TEXT NOT NULL, password_hash TEXT NOT NULL,
+      changed_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), PRIMARY KEY (role, email)
+    )
+  `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      token_hash TEXT PRIMARY KEY, role TEXT NOT NULL, email TEXT NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), expires_at TIMESTAMPTZ NOT NULL
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS password_reset_expiry ON password_reset_tokens (expires_at)`;
   ready = true;
 }
 

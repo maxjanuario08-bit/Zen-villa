@@ -9,6 +9,7 @@ import { afterAuthUrl } from "@/lib/site-origin";
 import { clearStaffName } from "@/lib/staff-name";
 
 export default function StaffLoginForm() {
+  const tRecovery = useTranslations("PasswordRecovery");
   const t = useTranslations("Equipe");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable" | "limited">(
     "idle",
@@ -90,6 +91,7 @@ export default function StaffLoginForm() {
           {t("signupLink")}
         </Link>
       </p>
+      <Link href="/mot-de-passe-oublie?role=staff" className="block text-center text-sm text-lagoon underline">{tRecovery("forgot")}</Link>
     </form>
   );
 }

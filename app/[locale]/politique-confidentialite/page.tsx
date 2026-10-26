@@ -181,7 +181,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
                 <strong>Cookies de préférences :</strong> permettent de mémoriser vos choix (langue, affichage). Ils ne sont déposés qu'avec votre consentement.
               </li>
               <li>
-                <strong>Cookies analytiques :</strong> nous aident à comprendre comment les visiteurs utilisent le site (pages les plus consultées, temps passé). Ils ne sont déposés qu'avec votre consentement.
+                <strong>Mesure d’audience :</strong> Google Analytics 4 (Google) et Vercel Analytics mesurent la fréquentation des pages publiques après votre accord. Google Analytics peut utiliser les cookies _ga et _ga_* (durée maximale configurée par le site : 13 mois). Les espaces privés et les pages de récupération de mot de passe sont exclus de notre suivi. Les paramètres d’URL et les valeurs des formulaires ne sont pas envoyés par notre balise.
               </li>
             </ul>
 
@@ -189,7 +189,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
               Gestion des cookies
             </h3>
             <p>
-              Vous pouvez à tout moment modifier vos préférences en matière de cookies via le bandeau affiché lors de votre première visite, ou en supprimant les cookies via les paramètres de votre navigateur.
+              Vous pouvez à tout moment modifier vos préférences en matière de cookies via « Gérer les cookies » en bas du site. Votre refus désactive la mesure d’audience.
             </p>
             <p className="mt-4">
               La désactivation de certains cookies peut affecter le bon fonctionnement de certaines fonctionnalités du site.

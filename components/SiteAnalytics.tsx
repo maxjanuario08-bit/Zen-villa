@@ -1,9 +1,10 @@
 "use client";
 
 import { Analytics } from "@vercel/analytics/next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { analyticsPublicPath, COOKIE_CONSENT_KEY } from "@/lib/analytics";
 import { useEffect, useState } from "react";
 
-const COOKIE_CONSENT_KEY = "zenvilla-cookie-consent";
 
 export default function SiteAnalytics() {
   const [enabled, setEnabled] = useState(false);
@@ -15,6 +16,8 @@ export default function SiteAnalytics() {
     return () => window.removeEventListener("zenvilla-consent", sync);
   }, []);
 
-  if (!enabled) return null;
-  return <Analytics />;
+  return <>
+    <GoogleAnalytics consent={enabled} />
+    {enabled ? <Analytics beforeSend={(event) => analyticsPublicPath(new URL(event.url).pathname) ? { ...event, url: event.url.split(/[?#]/)[0] } : null} /> : null}
+  </>;
 }

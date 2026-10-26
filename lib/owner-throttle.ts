@@ -9,9 +9,9 @@ export function clientIp(req: Request) {
   return forwarded || req.headers.get("x-real-ip") || "unknown";
 }
 
-type AuthKind = "login" | "register" | "admin" | "admin_v2" | "staff_v1" | "staff_register";
+type AuthKind = "reset" | "reset_email" | "reset_confirm" | "login" | "register" | "admin" | "admin_v2" | "staff_v1" | "staff_register";
 
-export async function tooManyAuthAttempts(ip: string, kind: AuthKind) {
+export async function tooManyAuthAttempts(ip: string, kind: AuthKind, limit = MAX_ATTEMPTS) {
   const key = `${kind}:${ip}`;
   const now = Date.now();
   if (usePostgres()) {
@@ -22,11 +22,11 @@ export async function tooManyAuthAttempts(ip: string, kind: AuthKind) {
       WHERE ip = ${ip} AND kind = ${kind} AND at > ${since}
     `;
     const n = Number((rows[0] as { n?: number } | undefined)?.n ?? 0);
-    return n >= MAX_ATTEMPTS;
+    return n >= limit;
   }
   const hits = (memory.get(key) ?? []).filter((t) => now - t < WINDOW_MS);
   memory.set(key, hits);
-  return hits.length >= MAX_ATTEMPTS;
+  return hits.length >= limit;
 }
 
 export async function recordAuthAttempt(ip: string, kind: AuthKind) {

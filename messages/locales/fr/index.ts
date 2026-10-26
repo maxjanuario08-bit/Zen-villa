@@ -1,3 +1,4 @@
+import PasswordRecovery from "./passwordRecovery";
 import chrome from "./chrome";
 import site from "./site";
 import { ownerServices } from "./ownerServices";
@@ -10,6 +11,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  PasswordRecovery,
   ...chrome,
   ...site,
   ownerServices,

@@ -42,9 +42,10 @@ const navFooter = {
     esLong: "Español",
   },
   CookieBanner: {
+    manage: "Gérer les cookies",
     title: "Utilisation des cookies",
     description:
-      "Ce site utilise des cookies pour améliorer votre expérience. En cliquant sur « Accepter », vous consentez à leur utilisation.",
+      "Avec votre accord, Google Analytics et Vercel Analytics nous aident à mesurer la fréquentation du site. Vous pouvez accepter ou refuser cette mesure.",
     learnMore: "En savoir plus",
     refuse: "Refuser",
     accept: "Accepter",

@@ -1,20 +1,31 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
 const COOKIE_CONSENT_KEY = "zenvilla-cookie-consent";
 
+function subscribeConsent(callback: () => void) {
+  window.addEventListener("zenvilla-consent", callback);
+  window.addEventListener("storage", callback);
+  return () => {
+    window.removeEventListener("zenvilla-consent", callback);
+    window.removeEventListener("storage", callback);
+  };
+}
+const readConsent = () => localStorage.getItem(COOKIE_CONSENT_KEY);
+const serverConsent = () => "loading";
+
 export default function CookieBanner() {
   const t = useTranslations("CookieBanner");
   const [isVisible, setIsVisible] = useState(false);
+  const consent = useSyncExternalStore(subscribeConsent, readConsent, serverConsent);
 
   useEffect(() => {
-    const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-    if (!consent) {
-      setIsVisible(true);
-    }
+    const open = () => setIsVisible(true);
+    window.addEventListener("zenvilla-open-consent", open);
+    return () => window.removeEventListener("zenvilla-open-consent", open);
   }, []);
 
   const acceptCookies = () => {
@@ -25,10 +36,11 @@ export default function CookieBanner() {
 
   const refuseCookies = () => {
     localStorage.setItem(COOKIE_CONSENT_KEY, "refused");
+    window.dispatchEvent(new Event("zenvilla-consent"));
     setIsVisible(false);
   };
 
-  if (!isVisible) return null;
+  if (!isVisible && consent !== null) return null;
 
   return (
     <div

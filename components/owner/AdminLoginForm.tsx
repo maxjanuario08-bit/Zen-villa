@@ -2,11 +2,13 @@
 
 import { useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import PasswordField from "@/components/owner/PasswordField";
 import { afterAuthUrl } from "@/lib/site-origin";
 
 export default function AdminLoginForm() {
+  const tRecovery = useTranslations("PasswordRecovery");
   const t = useTranslations("Admin");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "unavailable" | "limited">(
     "idle",
@@ -78,6 +80,7 @@ export default function AdminLoginForm() {
       <Button type="submit" variant="primary" className="w-full" disabled={status === "loading"}>
         {status === "loading" ? t("sending") : t("submit")}
       </Button>
+      <Link href="/mot-de-passe-oublie?role=admin" className="block text-center text-sm text-lagoon underline">{tRecovery("forgot")}</Link>
     </form>
   );
 }

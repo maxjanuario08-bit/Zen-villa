@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from "crypto";
+import { passwordOverride, sessionPasswordValid } from "@/lib/password-credentials";
 import { cookies } from "next/headers";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
@@ -62,7 +63,8 @@ export async function authenticateOwner(email: string, password: string): Promis
 
   const account = await findAccountByEmail(key);
   if (!account) return null;
-  const ok = await verifyPassword(password, account.passwordHash);
+  const override = await passwordOverride("owner", key);
+  const ok = await verifyPassword(password, override?.password_hash ?? account.passwordHash);
   if (!ok) return null;
   return {
     email: account.email,
@@ -75,6 +77,7 @@ export function createOwnerToken(session: OwnerSession): string {
   const secret = sessionSecret();
   const body = {
     email: session.email.toLowerCase(),
+    iat: Date.now(),
     name: session.name,
     logements: [...session.logements],
     exp: Date.now() + WEEK_MS,
@@ -115,7 +118,7 @@ export async function getOwnerSession(): Promise<OwnerSession | null> {
   const raw = jar.get(OWNER_COOKIE)?.value;
   if (!raw) return null;
   const token = readOwnerToken(raw);
-  if (!token) return null;
+  if (!token || !(await sessionPasswordValid("owner", token.email, raw))) return null;
   const account = await findAccountByEmail(token.email);
   if (account) {
     return { email: account.email, name: account.name, logements: account.logements };
