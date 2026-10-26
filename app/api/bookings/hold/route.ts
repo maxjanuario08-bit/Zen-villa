@@ -61,12 +61,8 @@ export async function POST(req: Request) {
   });
 
   const origin = publicSiteOrigin(req);
-  const returnUrl = String(body.returnUrl ?? "").startsWith("http")
-    ? String(body.returnUrl)
-    : `${origin}/logements/${slug}?paid=1&booking=${pending.id}`;
-  const cancelUrl = String(body.cancelUrl ?? "").startsWith("http")
-    ? String(body.cancelUrl)
-    : `${origin}/logements/${slug}?canceled=1`;
+  const returnUrl = `${origin}/logements/${slug}?paid=1&booking=${pending.id}`;
+  const cancelUrl = `${origin}/logements/${slug}?canceled=1`;
   const itemName = `${nom} · ${checkIn} → ${checkOut}`;
   const payUrl = paypalPayUrl(quote.total, itemName, {
     custom: pending.id,

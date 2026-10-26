@@ -175,6 +175,18 @@ export async function ensureOwnerSchema() {
     )
   `;
   await sql`CREATE INDEX IF NOT EXISTS password_reset_expiry ON password_reset_tokens (expires_at)`;
+  await sql`ALTER TABLE pending_bookings ADD COLUMN IF NOT EXISTS paypal_txn_id TEXT NOT NULL DEFAULT ''`;
+  await sql`ALTER TABLE pending_bookings ADD COLUMN IF NOT EXISTS paid_at TIMESTAMPTZ`;
+  await sql`CREATE UNIQUE INDEX IF NOT EXISTS booking_paypal_transaction ON pending_bookings(paypal_txn_id) WHERE paypal_txn_id<>''`;
+  await sql`CREATE TABLE IF NOT EXISTS booking_mail_deliveries (id TEXT PRIMARY KEY, sent_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
+  await sql`ALTER TABLE crm_prospects ADD COLUMN IF NOT EXISTS profile_json TEXT NOT NULL DEFAULT '{}'`;
+  await sql`ALTER TABLE crm_prospects ADD COLUMN IF NOT EXISTS client_id TEXT NOT NULL DEFAULT ''`;
+  await sql`CREATE TABLE IF NOT EXISTS crm_contact_records (id TEXT PRIMARY KEY, data_json TEXT NOT NULL, updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
+  await sql`CREATE TABLE IF NOT EXISTS crm_property_records (id TEXT PRIMARY KEY, data_json TEXT NOT NULL, updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
+  await sql`CREATE TABLE IF NOT EXISTS crm_oppositions (fingerprint TEXT PRIMARY KEY, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
+  await sql`CREATE TABLE IF NOT EXISTS crm_tasks (id TEXT PRIMARY KEY, prospect_id TEXT NOT NULL, title TEXT NOT NULL, due TEXT NOT NULL DEFAULT '', done BOOLEAN NOT NULL DEFAULT FALSE, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
+  await sql`CREATE INDEX IF NOT EXISTS crm_tasks_prospect ON crm_tasks (prospect_id)`;
+  await sql`CREATE UNIQUE INDEX IF NOT EXISTS crm_source_identity ON crm_prospects ((profile_json::jsonb->>'sourceId')) WHERE (profile_json::jsonb->>'sourceId') IS NOT NULL AND (profile_json::jsonb->>'sourceId') <> ''`;
   ready = true;
 }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { canLeaveAdminSection } from "@/lib/admin-navigation";
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import AdminCrmDesk from "@/components/owner/AdminCrmDesk";
@@ -37,7 +38,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
             <button
               key={item.id}
               type="button"
-              onClick={() => setTab(item.id)}
+              onClick={() => { if (canLeaveAdminSection()) setTab(item.id); }}
               className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
                 active ? "bg-lagoon text-white" : "text-foreground/70 hover:bg-sand-light hover:text-lagoon-dark"
               }`}
@@ -53,7 +54,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
         {tab === "crm" ? (
           <div>
             <p className="mb-4 text-sm text-foreground/70">{t("crmLead")}</p>
-            <AdminCrmDesk />
+            <AdminCrmDesk onOpenOwners={() => setTab("owners")} />
           </div>
         ) : null}
         {tab === "owners" ? (

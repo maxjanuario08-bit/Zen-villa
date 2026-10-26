@@ -87,12 +87,15 @@ const Admin = {
   crmAddLog: "Noter",
   crmConvert: "Passer en client",
   crmZone: {
+    "bocca-piccovaggia": "Bocca dell’Oro / Piccovaggia",
+    "lecci-cala-rossa": "Cala Rossa / Lecci / Saint-Cyprien",
     "porto-vecchio": "Porto-Vecchio",
     "santa-giulia": "Santa Giulia",
     palombaggia: "Palombaggia",
     other: "Autre",
   },
   crmSource: {
+    datatourisme: "DATAtourisme",
     door: "Porte-à-porte",
     airbnb: "Airbnb",
     instagram: "Instagram",
@@ -102,6 +105,9 @@ const Admin = {
     other: "Autre",
   },
   crmStatus: {
+    interested: "Échange engagé",
+    "opted-out": "Ne plus contacter",
+    followup: "À recontacter",
     new: "Nouveau",
     contacted: "Contacté",
     qualified: "Qualifié",

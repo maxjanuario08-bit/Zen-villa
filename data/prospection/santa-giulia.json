@@ -1,0 +1,199 @@
+{
+  "checkedAt": "2026-10-26",
+  "datasetUrl": "https://www.data.gouv.fr/datasets/datatourisme-la-plateforme-nationale-des-donnees-touristiques",
+  "resourceUrl": "https://static.data.gouv.fr/resources/datatourisme-la-plateforme-nationale-des-donnees-touristiques/20261026-035006/datatourisme-place.csv",
+  "license": "Licence Ouverte Etalab 2.0",
+  "scannedPortoVecchio": 126,
+  "limitation": "3 établissements collectifs identifiés dans le secteur. Aucune villa individuelle suffisamment identifiable dans cet extrait ; identité des propriétaires non établie. Objectif de 30–50 fiches non atteint avec cette source.",
+  "records": [
+    {
+      "name": "Exploitant à identifier",
+      "property": "Les Pins de Santa Giulia",
+      "zone": "santa-giulia",
+      "source": "datatourisme",
+      "email": "",
+      "phone": "",
+      "notes": "Au sein d’une résidence calme classée ***, 16 villas climatisées et entièrement équipées avec piscine chauffée près de Santa Giulia dont 6 avec jardin privatif, petit-déjeuner livrés en villa.\nÉtablissement collectif : à examiner séparément des villas individuelles. Identité de l’exploitant et besoin de délégation non établis.",
+      "profile": {
+        "propertyType": "residence",
+        "operatorType": "unknown",
+        "website": "http://www.lespinsdesantagiulia.com/",
+        "address": "Route de Bonifacio, 20137 Porto-Vecchio",
+        "sourceId": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+        "sourceUrl": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+        "sourcePublisher": "Porto Vecchio Tourisme",
+        "sourceLicense": "Licence Ouverte Etalab 2.0",
+        "collectedAt": "2026-10-26",
+        "sourceUpdatedAt": "2026-07-22",
+        "evidence": [
+          {
+            "field": "property",
+            "value": "Les Pins de Santa Giulia",
+            "url": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-07-22",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "website",
+            "value": "http://www.lespinsdesantagiulia.com/",
+            "url": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-07-22",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "address",
+            "value": "Route de Bonifacio",
+            "url": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-07-22",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "propertyType",
+            "value": "HolidayResort",
+            "url": "https://data.datatourisme.fr/13/3f59c4d8-e0e5-39fa-b41d-c828c4e29e7e",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-07-22",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "Exploitant à identifier",
+      "property": "Les Toits de Santa Giulia",
+      "zone": "santa-giulia",
+      "source": "datatourisme",
+      "email": "",
+      "phone": "",
+      "notes": "À quelques pas des plages les plus emblématiques de Corse-du-Sud, notre résidence vous accueille dans 14 villas élégantes, harmonieusement nichées au cœur d’un jardin luxuriant aux couleurs et senteurs envoûtantes.\nÉtablissement collectif : à examiner séparément des villas individuelles. Identité de l’exploitant et besoin de délégation non établis.",
+      "profile": {
+        "propertyType": "residence",
+        "operatorType": "unknown",
+        "website": "http://www.asantagiulia.com/",
+        "address": "Chemin Bella Vista, 20137 Porto-Vecchio",
+        "sourceId": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+        "sourceUrl": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+        "sourcePublisher": "Porto Vecchio Tourisme",
+        "sourceLicense": "Licence Ouverte Etalab 2.0",
+        "collectedAt": "2026-10-26",
+        "sourceUpdatedAt": "2026-04-27",
+        "evidence": [
+          {
+            "field": "property",
+            "value": "Les Toits de Santa Giulia",
+            "url": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-04-27",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "website",
+            "value": "http://www.asantagiulia.com/",
+            "url": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-04-27",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "address",
+            "value": "Chemin Bella Vista",
+            "url": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-04-27",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "propertyType",
+            "value": "HolidayResort",
+            "url": "https://data.datatourisme.fr/13/42a2d795-15c1-37ad-aa72-da9837f0455d",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-04-27",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          }
+        ]
+      }
+    },
+    {
+      "name": "Exploitant à identifier",
+      "property": "Domaine Santa Giulia Palace",
+      "zone": "santa-giulia",
+      "source": "datatourisme",
+      "email": "",
+      "phone": "",
+      "notes": "Un cadre privilégié entre ciel, mer et maquis, idéal pour se ressourcer.\nLe Domaine SANTA GIULIA PALACE est un Domaine hôtelier de luxe composé de 64 logements avec vue mer (villas, appartements, suites et chambres haut de gamme) située à Porto-Vecchio.\nÉtablissement collectif : à examiner séparément des villas individuelles. Identité de l’exploitant et besoin de délégation non établis.",
+      "profile": {
+        "propertyType": "residence",
+        "operatorType": "large-manager",
+        "website": "https://www.santa-giulia.net/",
+        "address": "Baie de Santa Giulia, 20137 Porto-Vecchio",
+        "sourceId": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+        "sourceUrl": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+        "sourcePublisher": "Porto Vecchio Tourisme",
+        "sourceLicense": "Licence Ouverte Etalab 2.0",
+        "collectedAt": "2026-10-26",
+        "sourceUpdatedAt": "2026-08-06",
+        "evidence": [
+          {
+            "field": "property",
+            "value": "Domaine Santa Giulia Palace",
+            "url": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-08-06",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "website",
+            "value": "https://www.santa-giulia.net/",
+            "url": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-08-06",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "address",
+            "value": "Baie de Santa Giulia",
+            "url": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-08-06",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          },
+          {
+            "field": "propertyType",
+            "value": "HolidayResort",
+            "url": "https://data.datatourisme.fr/13/e208affb-bcbc-3041-b66a-c0c2acbc0ed9",
+            "publisher": "Porto Vecchio Tourisme",
+            "license": "Licence Ouverte Etalab 2.0",
+            "sourceUpdatedAt": "2026-08-06",
+            "collectedAt": "2026-10-26",
+            "checkedAt": ""
+          }
+        ]
+      }
+    }
+  ]
+}

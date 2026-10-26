@@ -56,6 +56,7 @@ const logements = {
     sending: "Opening PayPal…",
     sendingInquiry: "Sending…",
     success: "Request sent. We’ll get back to you to confirm the dates.",
+    paymentPending: "You have returned from PayPal. We are waiting for payment confirmation to secure your dates. If this persists, contact us with your booking reference.",
     paid: "Payment received. Your stay is confirmed. The guest booklet is below.",
     livretCta: "Open the guest booklet",
     livretHint: "Wi-Fi, hours, beaches and contacts — keep this link for the whole stay.",

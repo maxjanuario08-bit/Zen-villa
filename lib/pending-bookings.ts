@@ -2,12 +2,13 @@ import { randomBytes } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
 import { createManualStay } from "@/lib/owner-data";
-import { pg, usePostgres } from "@/lib/owner-pg";
+import { pg, usePostgres as bookingUsesPostgres } from "@/lib/owner-pg";
 import type { PendingBooking } from "@/lib/owner-types";
 
 const STORE_PATH = path.join(process.cwd(), "data", "pending-bookings.json");
 
 function isoDate(value: unknown) {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) return new Intl.DateTimeFormat("en-CA", {timeZone:"Europe/Paris",year:"numeric",month:"2-digit",day:"2-digit"}).format(value);
   const match = String(value).match(/^(\d{4}-\d{2}-\d{2})/);
   return match ? match[1] : String(value).slice(0, 10);
 }
@@ -68,7 +69,7 @@ export async function createPendingBooking(input: {
     stayId: "",
     createdAt: new Date().toISOString(),
   };
-  if (usePostgres()) {
+  if (bookingUsesPostgres()) {
     const sql = await pg();
     await sql`
       INSERT INTO pending_bookings (
@@ -87,7 +88,7 @@ export async function createPendingBooking(input: {
 }
 
 export async function getPendingBooking(id: string): Promise<PendingBooking | null> {
-  if (usePostgres()) {
+  if (bookingUsesPostgres()) {
     const sql = await pg();
     const rows = await sql`SELECT * FROM pending_bookings WHERE id = ${id} LIMIT 1`;
     const row = rows[0] as Record<string, unknown> | undefined;
@@ -97,11 +98,40 @@ export async function getPendingBooking(id: string): Promise<PendingBooking | nu
 }
 
 export async function fulfillPaidBooking(
-  id: string,
+  id: string, transactionId = "",
 ): Promise<{ booking: PendingBooking; fresh: boolean } | { error: string }> {
   const pending = await getPendingBooking(id);
   if (!pending) return { error: "missing" };
   if (pending.status === "paid" && pending.stayId) return { booking: pending, fresh: false };
+
+  if (bookingUsesPostgres()) {
+    const sql = await pg();
+    const stayId = `paypal-${id}`;
+    // One transaction creates the stay and settles the booking. Repeated IPNs use
+    // the same stay ID; the unique transaction index prevents payment reuse.
+    const [rows] = await sql.transaction([sql`
+      WITH villa_lock AS MATERIALIZED (
+        SELECT pg_advisory_xact_lock(hashtext(${pending.slug}))
+      ), target AS MATERIALIZED (
+        SELECT p.* FROM pending_bookings p CROSS JOIN villa_lock
+        WHERE p.id=${id} AND p.status='pending' FOR UPDATE OF p
+      ), inserted AS (
+        INSERT INTO owner_stays(id,slug,guest_key,guest_label,check_in,check_out,guests,booked_by)
+        SELECT ${stayId},p.slug,'guest',p.guest_label,p.check_in,p.check_out,p.guests,'site'
+        FROM target p WHERE NOT EXISTS (
+          SELECT 1 FROM owner_stays s WHERE s.slug=p.slug
+          AND s.check_in<p.check_out AND s.check_out>p.check_in
+        ) ON CONFLICT(id) DO NOTHING RETURNING id
+      )
+      UPDATE pending_bookings p SET status='paid',stay_id=${stayId},paypal_txn_id=${transactionId},paid_at=NOW()
+      WHERE p.id=${id} AND EXISTS(SELECT 1 FROM inserted)
+      RETURNING p.*
+    `], {isolationLevel:"Serializable"});
+    if(rows[0])return {booking:rowToPending(rows[0] as Record<string,unknown>),fresh:true};
+    const retry=await getPendingBooking(id);
+    if(retry?.status==='paid' && retry.stayId)return {booking:retry,fresh:false};
+    return {error:'overlap'};
+  }
 
   const stay = await createManualStay({
     slug: pending.slug,
@@ -116,20 +146,11 @@ export async function fulfillPaidBooking(
     return { error: stay.error };
   }
 
-  if (usePostgres()) {
-    const sql = await pg();
-    await sql`
-      UPDATE pending_bookings
-      SET status = 'paid', stay_id = ${stay.id}
-      WHERE id = ${id}
-    `;
-  } else {
-    const file = await readFile();
-    const idx = file.findIndex((item) => item.id === id);
-    if (idx >= 0) {
-      file[idx] = { ...file[idx], status: "paid", stayId: stay.id };
-      await writeFile(file);
-    }
+  const file = await readFile();
+  const idx = file.findIndex((item) => item.id === id);
+  if (idx >= 0) {
+    file[idx] = { ...file[idx], status: "paid", stayId: stay.id };
+    await writeFile(file);
   }
   return { booking: { ...pending, status: "paid", stayId: stay.id }, fresh: true };
 }

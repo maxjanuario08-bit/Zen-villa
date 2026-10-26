@@ -1,3 +1,5 @@
+import { createHash } from "crypto";
+import { pg, usePostgres as bookingUsesPostgres } from "@/lib/owner-pg";
 import { CONTACT } from "@/lib/constants";
 import { getLogement } from "@/lib/logements";
 import { sendMail } from "@/lib/mail";
@@ -31,81 +33,30 @@ async function ownerEmails(slug: string) {
     .filter((email) => email.includes("@") && email !== CONTACT.email);
 }
 
-export async function notifyBookingConfirmed(booking: PendingBooking) {
+/** Each recipient is durably acknowledged; a retried PayPal IPN retries only failed emails. */
+export async function notifyBookingConfirmed(booking: PendingBooking): Promise<boolean> {
+  const villa=villaLabel(booking.slug), stay=`${booking.checkIn} → ${booking.checkOut}`;
+  const common=[`Villa : ${villa}`,`Voyageur : ${booking.guestLabel}`,`Dates : ${stay}`,`Voyageurs : ${booking.guests}`,`Montant réglé : ${euro(booking.amount)}`];
   try {
-    const villa = villaLabel(booking.slug);
-    const livret = livretUrl(booking.slug);
-    const stay = `${booking.checkIn} → ${booking.checkOut}`;
-    const amount = euro(booking.amount);
-
-    if (booking.guestEmail.includes("@")) {
-      await sendMail({
-        to: booking.guestEmail,
-        subject: `Réservation confirmée – ${villa}`,
-        text: [
-          `Bonjour ${booking.guestLabel},`,
-          ``,
-          `Votre séjour à ${villa} est confirmé et payé.`,
-          `Dates : ${stay}`,
-          `Voyageurs : ${booking.guests}`,
-          `Montant réglé : ${amount}`,
-          ``,
-          `Arrivée à partir de 15h. Départ au plus tard à 11h.`,
-          `Livret d’accueil (wifi, accès, infos) : ${livret}`,
-          ``,
-          `Une question : ${CONTACT.telephone} ou ${CONTACT.email}`,
-          `WhatsApp : https://wa.me/33686401316`,
-          ``,
-          `À bientôt,`,
-          `Zenvilla`,
-        ].join("\n"),
-      });
-    }
-
-    const admin = [
-      `Nouvelle réservation payée.`,
-      ``,
-      `Villa : ${villa}`,
-      `Voyageur : ${booking.guestLabel}`,
-      `Email : ${booking.guestEmail}`,
-      `Téléphone : ${booking.guestPhone}`,
-      `Dates : ${stay}`,
-      `Voyageurs : ${booking.guests}`,
-      `Montant : ${amount}`,
-      `Livret : ${livret}`,
-    ].join("\n");
-
-    await sendMail({
-      to: CONTACT.email,
-      replyTo: booking.guestEmail,
-      subject: `Réservation payée – ${villa} – ${booking.guestLabel}`,
-      text: admin,
-    });
-
-    const owners = await ownerEmails(booking.slug);
-    await Promise.all(
-      owners.map((email) =>
-        sendMail({
-          to: email,
-          subject: `Nouvelle réservation – ${villa}`,
-          text: [
-            `Bonjour,`,
-            ``,
-            `Une réservation a été payée pour ${villa}.`,
-            `Voyageur : ${booking.guestLabel}`,
-            `Dates : ${stay}`,
-            `Voyageurs : ${booking.guests}`,
-            `Montant : ${amount}`,
-            ``,
-            `Espace membre : ${SITE}/compte`,
-            ``,
-            `Zenvilla`,
-          ].join("\n"),
-        }),
-      ),
-    );
-  } catch (err) {
-    console.error("site-mail réservation", err);
+    const owners=await ownerEmails(booking.slug);
+    const messages=[
+      ...(booking.guestEmail.includes("@")?[{to:booking.guestEmail,subject:`Réservation confirmée – ${villa}`,text:[`Bonjour ${booking.guestLabel},`,`Votre séjour est confirmé et payé.`,...common,`Arrivée à partir de 15h. Départ au plus tard à 11h.`,`Livret d’accueil : ${livretUrl(booking.slug)}`,`Une question : ${CONTACT.telephone} ou ${CONTACT.email}`,`Zenvilla`].join("\n\n")}]:[]),
+      {to:CONTACT.email,subject:`Réservation payée – ${villa} – ${booking.guestLabel}`,text:[`Nouvelle réservation payée.`,...common,`Email : ${booking.guestEmail}`,`Téléphone : ${booking.guestPhone}`,`Planning : ${SITE}/admin`].join("\n")},
+      ...owners.map(to=>({to,subject:`Nouvelle réservation – ${villa}`,text:[`Bonjour,`,`Une réservation a été payée pour votre logement. Les dates sont bloquées dans votre agenda.`,...common,`Espace membre : ${SITE}/compte`,`Zenvilla`].join("\n\n")}))
+    ];
+    const results=await Promise.allSettled(messages.map(async(message)=>{
+      const id=createHash("sha256").update(`${booking.id}:${message.to.toLowerCase()}:${message.subject}`).digest("hex");
+      const sql=bookingUsesPostgres()?await pg():null;
+      if(sql && (await sql`SELECT id FROM booking_mail_deliveries WHERE id=${id}`).length)return true;
+      const sent=await sendMail({...message,idempotencyKey:`booking-${id}`});
+      if(sent!==true)return false;
+      if(sql)await sql`INSERT INTO booking_mail_deliveries(id) VALUES(${id}) ON CONFLICT DO NOTHING`;
+      return true;
+    }));
+    return results.every(r=>r.status==='fulfilled' && r.value===true);
+  } catch {
+    console.error("site-mail: booking notification failed",{bookingId:booking.id});
+    return false;
   }
 }
 

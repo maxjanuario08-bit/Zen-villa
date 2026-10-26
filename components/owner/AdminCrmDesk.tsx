@@ -1,29 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useTranslations } from "next-intl";
+import { canLeaveAdminSection } from "@/lib/admin-navigation";
+import ProspectBoard from "@/components/owner/ProspectBoard";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
-import type { CrmClient, CrmEmployee, CrmProspect, CrmStatus } from "@/lib/admin-crm-types";
-import { CRM_ROLES, CRM_SOURCES, CRM_STATUSES, CRM_ZONES } from "@/lib/admin-crm-types";
+import type { CrmClient, CrmEmployee, CrmProspect } from "@/lib/admin-crm-types";
+import { CRM_ROLES, CRM_ZONES } from "@/lib/admin-crm-types";
 
 type Sub = "clients" | "employees" | "prospects";
 const field = "w-full rounded-xl border border-sand/60 bg-white px-3 py-2 text-sm outline-none focus:border-lagoon";
 
-const STATUS_TONE: Record<string, string> = {
-  new: "bg-sand-light text-foreground/80",
-  contacted: "bg-sky-100 text-sky-900",
-  qualified: "bg-indigo-100 text-indigo-900",
-  visit: "bg-amber-100 text-amber-900",
-  quote: "bg-orange-100 text-orange-900",
-  negotiation: "bg-violet-100 text-violet-900",
-  won: "bg-emerald-100 text-emerald-900",
-  lost: "bg-red-100 text-red-800",
-};
-
-export default function AdminCrmDesk() {
+export default function AdminCrmDesk({ onOpenOwners }: { onOpenOwners?: () => void }) {
   const t = useTranslations("Admin");
-  const locale = useLocale();
   const [sub, setSub] = useState<Sub>("prospects");
   const [clients, setClients] = useState<CrmClient[]>([]);
   const [employees, setEmployees] = useState<CrmEmployee[]>([]);
@@ -31,12 +21,6 @@ export default function AdminCrmDesk() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<CrmStatus | "all">("all");
-  const [openId, setOpenId] = useState<string | null>(null);
-  const [logText, setLogText] = useState("");
-
-  const dateFmt = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
-
   const load = useCallback(async () => {
     setError(false);
     try {
@@ -127,29 +111,17 @@ export default function AdminCrmDesk() {
   function onCreate(kind: "client" | "employee" | "prospect") {
     return async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const data = new FormData(e.currentTarget);
+      const form = e.currentTarget;
+      const data = new FormData(form);
       const payload: Record<string, unknown> = { kind };
       data.forEach((value, key) => {
         payload[key] = String(value);
       });
       if (kind === "employee") payload.active = data.get("active") === "on";
       const ok = await post(payload);
-      if (ok) e.currentTarget.reset();
+      if (ok) form.reset();
     };
   }
-
-  const filteredProspects = useMemo(() => {
-    const list = statusFilter === "all" ? prospects : prospects.filter((row) => row.status === statusFilter);
-    return [...list].sort((a, b) => {
-      const af = a.nextFollowUp || "9999";
-      const bf = b.nextFollowUp || "9999";
-      return af.localeCompare(bf) || b.updatedAt.localeCompare(a.updatedAt);
-    });
-  }, [prospects, statusFilter]);
-
-  const overdue = prospects.filter(
-    (row) => row.nextFollowUp && row.nextFollowUp < new Date().toISOString().slice(0, 10) && row.status !== "won" && row.status !== "lost",
-  ).length;
 
   const tabs: { id: Sub; label: string; count: number }[] = [
     { id: "prospects", label: t("tabCrm"), count: prospects.filter((p) => p.status !== "won" && p.status !== "lost").length },
@@ -166,12 +138,12 @@ export default function AdminCrmDesk() {
           <button
             key={item.id}
             type="button"
-            onClick={() => setSub(item.id)}
+            onClick={() => { if (canLeaveAdminSection()) setSub(item.id); }}
             className={`rounded-full px-3 py-1.5 text-sm font-medium ${
               sub === item.id ? "bg-lagoon text-white" : "border border-sand/60 bg-white text-foreground/70 hover:border-lagoon"
             }`}
           >
-            {item.label} ({item.count})
+            {item.label}{item.id !== "prospects" ? ` (${item.count})` : ""}
           </button>
         ))}
       </div>
@@ -295,184 +267,7 @@ export default function AdminCrmDesk() {
         </>
       ) : null}
 
-      {sub === "prospects" ? (
-        <>
-          <p className="text-sm text-foreground/70">{t("crmProspectsLead")}</p>
-          {overdue > 0 ? (
-            <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-900">
-              {t("crmOverdue", { count: overdue })}
-            </p>
-          ) : null}
-          <Card hover={false}>
-            <form onSubmit={onCreate("prospect")} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <input name="name" required minLength={2} placeholder={t("crmName")} className={field} />
-              <input name="phone" placeholder={t("crmPhone")} className={field} />
-              <input name="email" type="email" placeholder={t("email")} className={field} />
-              <input name="property" placeholder={t("crmProperty")} className={field} />
-              <select name="zone" className={field} defaultValue="porto-vecchio">
-                {CRM_ZONES.map((zone) => (
-                  <option key={zone} value={zone}>
-                    {t(`crmZone.${zone}`)}
-                  </option>
-                ))}
-              </select>
-              <select name="source" className={field} defaultValue="door">
-                {CRM_SOURCES.map((source) => (
-                  <option key={source} value={source}>
-                    {t(`crmSource.${source}`)}
-                  </option>
-                ))}
-              </select>
-              <select name="status" className={field} defaultValue="new">
-                {CRM_STATUSES.map((status) => (
-                  <option key={status} value={status}>
-                    {t(`crmStatus.${status}`)}
-                  </option>
-                ))}
-              </select>
-              <input name="nextFollowUp" type="date" className={field} />
-              <textarea name="notes" placeholder={t("crmNotes")} rows={2} className={`sm:col-span-2 ${field}`} />
-              <Button type="submit" variant="primary" disabled={busy} className="sm:col-span-2">
-                {t("crmAddProspect")}
-              </Button>
-            </form>
-          </Card>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => setStatusFilter("all")}
-              className={`rounded-full px-3 py-1 text-xs font-medium ${statusFilter === "all" ? "bg-lagoon text-white" : "border border-sand/60"}`}
-            >
-              {t("historyFilterAll")}
-            </button>
-            {CRM_STATUSES.map((status) => (
-              <button
-                key={status}
-                type="button"
-                onClick={() => setStatusFilter(status)}
-                className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  statusFilter === status ? "bg-lagoon text-white" : `border border-sand/50 ${STATUS_TONE[status]}`
-                }`}
-              >
-                {t(`crmStatus.${status}`)} ({prospects.filter((p) => p.status === status).length})
-              </button>
-            ))}
-          </div>
-          {filteredProspects.length === 0 ? (
-            <p className="text-sm text-muted">{t("crmProspectsEmpty")}</p>
-          ) : (
-            <ul className="space-y-3">
-              {filteredProspects.map((row) => {
-                const late = Boolean(
-                  row.nextFollowUp &&
-                    row.nextFollowUp < new Date().toISOString().slice(0, 10) &&
-                    row.status !== "won" &&
-                    row.status !== "lost",
-                );
-                return (
-                  <li key={row.id}>
-                    <Card hover={false}>
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <p className="flex flex-wrap items-center gap-2 font-medium text-lagoon-dark">
-                            {row.name}
-                            <span className={`rounded-full px-2 py-0.5 text-[0.7rem] font-medium ${STATUS_TONE[row.status] ?? ""}`}>
-                              {t(`crmStatus.${row.status}` as "crmStatus.new")}
-                            </span>
-                          </p>
-                          <p className="text-sm text-foreground/70">
-                            {[row.phone, row.email, t(`crmZone.${row.zone}` as "crmZone.other"), t(`crmSource.${row.source}` as "crmSource.other")]
-                              .filter(Boolean)
-                              .join(" · ")}
-                          </p>
-                          {row.property ? <p className="text-sm">{row.property}</p> : null}
-                          {row.nextFollowUp ? (
-                            <p className={`mt-1 text-sm ${late ? "font-medium text-amber-800" : "text-foreground/65"}`}>
-                              {t("crmFollowUp")}: {dateFmt.format(new Date(`${row.nextFollowUp}T12:00:00`))}
-                              {late ? ` · ${t("crmLate")}` : ""}
-                            </p>
-                          ) : null}
-                          {row.notes ? <p className="mt-2 text-sm text-foreground/75">{row.notes}</p> : null}
-                        </div>
-                        <div className="flex min-w-[11rem] flex-col gap-2">
-                          <select
-                            className={field}
-                            value={row.status}
-                            disabled={busy}
-                            onChange={(e) => void patch({ kind: "prospect", id: row.id, status: e.target.value })}
-                          >
-                            {CRM_STATUSES.map((status) => (
-                              <option key={status} value={status}>
-                                {t(`crmStatus.${status}`)}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="date"
-                            className={field}
-                            value={row.nextFollowUp}
-                            onChange={(e) => void patch({ kind: "prospect", id: row.id, nextFollowUp: e.target.value })}
-                          />
-                        </div>
-                      </div>
-                      <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                        <button type="button" className="text-lagoon hover:text-lagoon-dark" onClick={() => setOpenId(openId === row.id ? null : row.id)}>
-                          {openId === row.id ? t("crmHideLog") : t("crmShowLog")}
-                        </button>
-                        {row.status !== "won" ? (
-                          <button type="button" className="text-lagoon hover:text-lagoon-dark" onClick={() => void post({ kind: "convert", id: row.id })}>
-                            {t("crmConvert")}
-                          </button>
-                        ) : null}
-                        <button type="button" className="text-foreground/50 hover:text-red-700" onClick={() => void remove("prospect", row.id)}>
-                          {t("crmDelete")}
-                        </button>
-                      </div>
-                      {openId === row.id ? (
-                        <div className="mt-3 border-t border-sand/40 pt-3">
-                          <form
-                            className="flex flex-col gap-2 sm:flex-row"
-                            onSubmit={(e) => {
-                              e.preventDefault();
-                              const message = logText.trim();
-                              if (!message) return;
-                              void post({ kind: "log", id: row.id, status: row.status, message }).then((ok) => {
-                                if (ok) setLogText("");
-                              });
-                            }}
-                          >
-                            <input
-                              value={logText}
-                              onChange={(e) => setLogText(e.target.value)}
-                              placeholder={t("crmLogPlaceholder")}
-                              className={`flex-1 ${field}`}
-                            />
-                            <Button type="submit" variant="outline" disabled={busy}>
-                              {t("crmAddLog")}
-                            </Button>
-                          </form>
-                          <ul className="mt-3 space-y-2 text-sm text-foreground/70">
-                            {row.log.map((item) => (
-                              <li key={item.id}>
-                                <span className="text-foreground/50">
-                                  {dateFmt.format(new Date(item.at))}
-                                  {item.status ? ` · ${t(`crmStatus.${item.status}` as "crmStatus.new")}` : ""}
-                                  {" — "}
-                                </span>
-                                {item.message}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ) : null}
-                    </Card>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </>
-      ) : null}
+      {sub === "prospects" ? <ProspectBoard onOpenOwners={onOpenOwners} /> : null}
     </div>
   );
 }

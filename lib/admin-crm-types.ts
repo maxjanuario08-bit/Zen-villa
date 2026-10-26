@@ -1,14 +1,17 @@
-export const CRM_ZONES = ["porto-vecchio", "santa-giulia", "palombaggia", "other"] as const;
-export const CRM_SOURCES = ["door", "airbnb", "instagram", "partner", "market", "web", "other"] as const;
+export const CRM_ZONES = ["porto-vecchio", "santa-giulia", "palombaggia", "bocca-piccovaggia", "lecci-cala-rossa", "other"] as const;
+export const CRM_SOURCES = ["door", "airbnb", "instagram", "partner", "market", "web", "datatourisme", "other"] as const;
 export const CRM_STATUSES = [
   "new",
   "contacted",
+  "interested",
+  "followup",
   "qualified",
   "visit",
   "quote",
   "negotiation",
   "won",
   "lost",
+  "opted-out",
 ] as const;
 export const CRM_ROLES = ["checkin", "cleaning", "both", "field", "office", "other"] as const;
 

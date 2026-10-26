@@ -12,7 +12,7 @@ type PayPalPayOptions = {
 export function paypalPayUrl(amountEur: number, itemName: string, extras: PayPalPayOptions = {}) {
   const q = new URLSearchParams({
     cmd: "_xclick",
-    business: CONTACT.email,
+    business: process.env.PAYPAL_BUSINESS_EMAIL?.trim() || CONTACT.email,
     item_name: itemName.slice(0, 127),
     amount: amountEur.toFixed(2),
     currency_code: "EUR",

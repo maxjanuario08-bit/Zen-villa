@@ -54,3 +54,11 @@ next-env.d.ts
 /data/pending-bookings.json
 /data/staff-accounts.json
 /data/uploads/
+
+# CRM local de développement
+/data/admin-crm.json
+/data/prospection.json
+
+.data/
+
+/data/pipeline.json

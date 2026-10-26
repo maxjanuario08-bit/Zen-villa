@@ -42,6 +42,28 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
   const locale = useLocale();
   const today = todayISO();
   const [blocked, setBlocked] = useState<readonly DateRange[]>(booking.blocked);
+  const [paymentConfirmed,setPaymentConfirmed]=useState(false);
+  useEffect(()=>{
+    if(paymentNotice!=="paid")return;
+    const bookingId=new URLSearchParams(window.location.search).get("booking");
+    if(!bookingId)return;
+    let active=true, attempts=0;
+    let timer:ReturnType<typeof setTimeout>;
+    async function poll(){
+      try {
+        const response=await fetch(`/api/bookings/status?id=${encodeURIComponent(bookingId!)}`,{cache:"no-store"});
+        const result=await response.json();
+        if(active && result.status==="paid"){
+          setPaymentConfirmed(true);
+          const availability=await fetch(`/api/availability?slug=${encodeURIComponent(slug)}`,{cache:"no-store"}).then(r=>r.json());
+          if(active && Array.isArray(availability.blocked))setBlocked(availability.blocked);
+          return;
+        }
+      }catch{}
+      if(active && ++attempts<40)timer=setTimeout(poll,3000);
+    }
+    void poll();return()=>{active=false;clearTimeout(timer);};
+  },[slug,paymentNotice]);
   const liveBooking = useMemo(() => ({ ...booking, blocked }), [booking, blocked]);
 
   useEffect(() => {
@@ -222,7 +244,7 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
       <p className="mt-1 text-sm text-foreground/70">{t("booking.subtitle")}</p>
       {paymentNotice === "paid" && (
         <div className="mt-4 rounded-2xl border-2 border-lagoon bg-lagoon/10 p-4 text-center">
-          <p className="text-base font-semibold text-lagoon-dark">{t("booking.paid")}</p>
+          <p className="text-base font-semibold text-lagoon-dark">{paymentConfirmed?t("booking.paid"):t("booking.paymentPending")}</p>
           <Link
             href={`/livret/${slug}`}
             className="mt-3 inline-flex w-full items-center justify-center rounded-full bg-lagoon px-5 py-3 text-sm font-semibold text-white hover:bg-lagoon-dark"

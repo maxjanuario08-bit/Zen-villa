@@ -1,3 +1,5 @@
+import { updateProspect } from "@/lib/prospect-store";
+import { ownerAdminEmail } from "@/lib/owner-config";
 import { NextResponse } from "next/server";
 import { adminRequestOk } from "@/lib/owner-admin";
 import {
@@ -6,7 +8,6 @@ import {
   deleteCrmProspect,
   updateCrmClient,
   updateCrmEmployee,
-  updateCrmProspect,
 } from "@/lib/admin-crm";
 import type { CrmEmployee } from "@/lib/admin-crm-types";
 
@@ -40,7 +41,7 @@ export async function PATCH(req: Request) {
   if (kind === "prospect") {
     const nextFollowUp =
       body.nextFollowUp === undefined ? undefined : String(body.nextFollowUp);
-    const item = await updateCrmProspect(id, { ...body, nextFollowUp });
+    const item = await updateProspect(id, { ...body, nextFollowUp }, ownerAdminEmail()).catch(() => null);
     if (!item) return NextResponse.json({ error: "not_found" }, { status: 404 });
     return NextResponse.json({ ok: true, prospect: item });
   }

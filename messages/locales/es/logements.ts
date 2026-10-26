@@ -56,6 +56,7 @@ const logements = {
     sending: "Abriendo PayPal…",
     sendingInquiry: "Envío…",
     success: "Solicitud enviada. Le contactaremos para confirmar las fechas.",
+    paymentPending: "Has regresado de PayPal. Estamos esperando la confirmación del pago para bloquear tus fechas. Si el mensaje persiste, contáctanos con tu referencia de reserva.",
     paid: "Pago recibido. Su estancia está confirmada. El librito del huésped está abajo.",
     livretCta: "Abrir el librito del huésped",
     livretHint: "Wifi, horarios, playas y contactos — conserve este enlace durante la estancia.",

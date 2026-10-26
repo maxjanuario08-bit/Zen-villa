@@ -9,6 +9,7 @@ export async function sendMail(input: {
   subject: string;
   text: string;
   replyTo?: string;
+  idempotencyKey?: string;
 }) {
   const to = input.to.trim().toLowerCase();
   if (!to.includes("@") || to.endsWith("@localhost")) return;
@@ -22,6 +23,7 @@ export async function sendMail(input: {
     headers: {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
+      ...(input.idempotencyKey ? {"Idempotency-Key":input.idempotencyKey} : {}),
     },
     body: JSON.stringify({
       from: fromAddress(),

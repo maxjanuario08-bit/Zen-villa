@@ -1,8 +1,8 @@
+import { convertLead } from "@/lib/prospect-store";
 import { NextResponse } from "next/server";
 import { adminRequestOk } from "@/lib/owner-admin";
 import {
   addCrmProspectLog,
-  convertProspectToClient,
   createCrmClient,
   createCrmEmployee,
   createCrmProspect,
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, log });
   }
   if (kind === "convert") {
-    const client = await convertProspectToClient(String(body.id ?? ""));
+    const client = await convertLead(String(body.id ?? "")).catch(() => null);
     if (!client) return NextResponse.json({ error: "not_found" }, { status: 404 });
     return NextResponse.json({ ok: true, client });
   }

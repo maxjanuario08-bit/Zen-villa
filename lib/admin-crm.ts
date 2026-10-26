@@ -1,7 +1,8 @@
+import { localCrmPath } from "@/lib/local-crm-path";
 import { randomBytes } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
-import { pg, usePostgres } from "@/lib/owner-pg";
+import { pg, usePostgres as crmUsesPostgres } from "@/lib/owner-pg";
 import {
   CRM_ROLES,
   CRM_SOURCES,
@@ -20,7 +21,7 @@ import {
 export type { CrmClient, CrmEmployee, CrmProspect, CrmProspectLog };
 export { CRM_ROLES, CRM_SOURCES, CRM_STATUSES, CRM_ZONES };
 
-const STORE_PATH = path.join(process.cwd(), "data", "admin-crm.json");
+const STORE_PATH = localCrmPath("admin-crm.json");
 
 type StoreFile = {
   clients: CrmClient[];
@@ -44,7 +45,7 @@ function asSource(value: string) {
   return CRM_SOURCES.includes(value as CrmSource) ? value : "other";
 }
 function asStatus(value: string) {
-  return CRM_STATUSES.includes(value as CrmStatus) ? value : "new";
+  return CRM_STATUSES.includes(value as CrmStatus) || /^stage-[a-f0-9-]+$/.test(value) ? value : "new";
 }
 function asRole(value: string) {
   return CRM_ROLES.includes(value as CrmRole) ? value : "other";
@@ -131,7 +132,7 @@ function rowLog(row: Record<string, unknown>): CrmProspectLog {
 }
 
 export async function listCrmClients(): Promise<CrmClient[]> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     const rows = await sql`SELECT * FROM crm_clients ORDER BY updated_at DESC`;
     return (rows as Record<string, unknown>[]).map(rowClient);
@@ -140,7 +141,7 @@ export async function listCrmClients(): Promise<CrmClient[]> {
 }
 
 export async function listCrmEmployees(): Promise<CrmEmployee[]> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     const rows = await sql`SELECT * FROM crm_employees ORDER BY name`;
     return (rows as Record<string, unknown>[]).map(rowEmployee);
@@ -149,7 +150,7 @@ export async function listCrmEmployees(): Promise<CrmEmployee[]> {
 }
 
 export async function listCrmProspects(): Promise<CrmProspect[]> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     const rows = await sql`SELECT * FROM crm_prospects ORDER BY updated_at DESC`;
     const logs = await sql`SELECT * FROM crm_prospect_log ORDER BY at DESC`;
@@ -180,7 +181,7 @@ export async function createCrmClient(input: Partial<CrmClient>): Promise<CrmCli
     createdAt: nowIso(),
     updatedAt: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       INSERT INTO crm_clients (id, name, email, phone, zone, property, address, notes, created_at, updated_at)
@@ -208,7 +209,7 @@ export async function updateCrmClient(id: string, input: Partial<CrmClient>): Pr
     notes: trim(input.notes ?? current.notes, 1000),
     updatedAt: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       UPDATE crm_clients SET name=${next.name}, email=${next.email}, phone=${next.phone}, zone=${next.zone},
@@ -224,7 +225,7 @@ export async function updateCrmClient(id: string, input: Partial<CrmClient>): Pr
 }
 
 export async function deleteCrmClient(id: string): Promise<boolean> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`DELETE FROM crm_clients WHERE id=${id}`;
     return true;
@@ -250,7 +251,7 @@ export async function createCrmEmployee(input: Partial<CrmEmployee>): Promise<Cr
     createdAt: nowIso(),
     updatedAt: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       INSERT INTO crm_employees (id, name, role, email, phone, notes, active, created_at, updated_at)
@@ -277,7 +278,7 @@ export async function updateCrmEmployee(id: string, input: Partial<CrmEmployee>)
     active: typeof input.active === "boolean" ? input.active : current.active,
     updatedAt: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       UPDATE crm_employees SET name=${next.name}, role=${next.role}, email=${next.email}, phone=${next.phone},
@@ -293,7 +294,7 @@ export async function updateCrmEmployee(id: string, input: Partial<CrmEmployee>)
 }
 
 export async function deleteCrmEmployee(id: string): Promise<boolean> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`DELETE FROM crm_employees WHERE id=${id}`;
     return true;
@@ -330,7 +331,7 @@ export async function createCrmProspect(input: Partial<CrmProspect>): Promise<Cr
     at: nowIso(),
   };
   item.log = [firstLog];
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       INSERT INTO crm_prospects (id, name, email, phone, zone, property, source, status, next_follow_up, notes, created_at, updated_at)
@@ -365,7 +366,7 @@ export async function updateCrmProspect(id: string, input: Partial<CrmProspect>)
     notes: trim(input.notes ?? current.notes, 1000),
     updatedAt: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       UPDATE crm_prospects SET name=${next.name}, email=${next.email}, phone=${next.phone}, zone=${next.zone},
@@ -395,10 +396,10 @@ export async function addCrmProspectLog(
     id: randomBytes(8).toString("hex"),
     prospectId,
     status: asStatus(status || current.status),
-    message: trim(message, 500) || "Note",
+    message: trim(message, 20000) || "Note",
     at: nowIso(),
   };
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`
       INSERT INTO crm_prospect_log (id, prospect_id, status, message, at)
@@ -416,7 +417,7 @@ export async function addCrmProspectLog(
 }
 
 export async function deleteCrmProspect(id: string): Promise<boolean> {
-  if (usePostgres()) {
+  if (crmUsesPostgres()) {
     const sql = await pg();
     await sql`DELETE FROM crm_prospect_log WHERE prospect_id=${id}`;
     await sql`DELETE FROM crm_prospects WHERE id=${id}`;
@@ -430,17 +431,38 @@ export async function deleteCrmProspect(id: string): Promise<boolean> {
 
 export async function convertProspectToClient(id: string): Promise<CrmClient | null> {
   const prospect = (await listCrmProspects()).find((row) => row.id === id);
-  if (!prospect) return null;
-  const created = await createCrmClient({
-    name: prospect.name,
-    email: prospect.email,
-    phone: prospect.phone,
-    zone: prospect.zone,
-    property: prospect.property,
-    notes: prospect.notes,
-  });
-  if ("error" in created) return null;
-  await updateCrmProspect(id, { status: "won" });
-  await addCrmProspectLog(id, "won", "Converti en client");
-  return created;
+  if (!prospect || prospect.status === "opted-out") return null;
+  if (crmUsesPostgres()) {
+    const sql = await pg();
+    const existing = await sql`SELECT c.* FROM crm_clients c JOIN crm_prospects p ON p.client_id=c.id WHERE p.id=${id}`;
+    if (existing[0]) return rowClient(existing[0] as Record<string,unknown>);
+    const clientId = randomBytes(8).toString("hex");
+    const logId = randomBytes(8).toString("hex");
+    const result = await sql`
+      WITH claimed AS (
+        UPDATE crm_prospects SET client_id=${clientId}, status='won', updated_at=NOW()
+        WHERE id=${id} AND client_id='' AND status<>'opted-out'
+        RETURNING *
+      ), created AS (
+        INSERT INTO crm_clients (id,name,email,phone,zone,property,address,notes)
+        SELECT ${clientId},name,email,phone,zone,property,'',notes FROM claimed WHERE TRUE
+        RETURNING *
+      ), logged AS (
+        INSERT INTO crm_prospect_log (id,prospect_id,status,message)
+        SELECT ${logId},id,'won','Converti en client' FROM claimed RETURNING id
+      ) SELECT * FROM created
+    `;
+    if (result[0]) return rowClient(result[0] as Record<string,unknown>);
+    const retry = await sql`SELECT c.* FROM crm_clients c JOIN crm_prospects p ON p.client_id=c.id WHERE p.id=${id}`;
+    return retry[0] ? rowClient(retry[0] as Record<string,unknown>) : null;
+  }
+  const file = await readFile();
+  const existing = file.clients.find(row=>row.id===`client-${id}`);
+  if(existing)return existing;
+  const client:CrmClient={id:`client-${id}`,name:prospect.name,email:prospect.email,phone:prospect.phone,zone:prospect.zone,property:prospect.property,address:"",notes:prospect.notes,createdAt:nowIso(),updatedAt:nowIso()};
+  file.clients.push(client);
+  file.prospects=file.prospects.map(row=>row.id===id?{...row,status:"won",updatedAt:nowIso()}:row);
+  await writeFile(file);
+  await addCrmProspectLog(id,"won","Converti en client");
+  return client;
 }
