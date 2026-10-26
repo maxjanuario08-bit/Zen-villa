@@ -54,7 +54,7 @@ export async function completePasswordReset(role: AccountRole, token: string, pa
       RETURNING t.role, t.email, t.created_at
     )
     INSERT INTO account_passwords (role, email, password_hash, changed_at)
-    SELECT role, email, ${passwordHash}, NOW() FROM consumed
+    SELECT role, email, ${passwordHash}, NOW() FROM consumed WHERE TRUE
     ON CONFLICT (role, email) DO UPDATE SET password_hash = EXCLUDED.password_hash, changed_at = EXCLUDED.changed_at
     WHERE account_passwords.changed_at < (SELECT created_at FROM consumed LIMIT 1)
     RETURNING email
