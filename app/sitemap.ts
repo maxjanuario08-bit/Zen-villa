@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { logementsForRent } from "@/lib/logements";
 import { SITE } from "@/lib/constants";
 import { voyageursServices } from "@/lib/voyageurs-services";
 import { homeServices } from "@/lib/services";
@@ -85,6 +86,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.3,
     },
+    { url: `${baseUrl}/logements`, changeFrequency: "monthly", priority: 0.8 },
+    ...logementsForRent.map((home) => ({
+      url: `${baseUrl}/logements/${home.slug}`, changeFrequency: "monthly" as const, priority: 0.8,
+    })),
     ...servicesPages,
     ...proprietairesPages,
     ...voyageursPages,

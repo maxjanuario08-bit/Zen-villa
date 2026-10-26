@@ -176,10 +176,6 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
       return;
     }
     const photos = cleanPhotos[stay.id] ?? [];
-    if (!photos.length) {
-      setError(tEq("checklistNeedPhoto"));
-      return;
-    }
     setBusy(`clean:${stay.id}`);
     setError(null);
     try {
@@ -202,9 +198,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
         setError(
           payload.error === "checklist"
             ? tEq("checklistNeedAll")
-            : payload.error === "photo"
-              ? tEq("checklistNeedPhoto")
-              : t("cleanError"),
+            : t("cleanError"),
         );
         return;
       }
@@ -235,7 +229,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
     return tEq("nextDone");
   }
 
-  function StayCard({ stay }: { stay: PaidStay }) {
+  function renderStayCard(stay: PaidStay) {
     const step = stayStep(stay, cleanings, today);
     const pipe = pipelineIndex(step);
     const photos = cleanPhotos[stay.id] ?? [];
@@ -243,7 +237,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
     const checkedCount = CLEANING_CHECKLIST_IDS.filter((id) => marks[id]).length;
 
     return (
-      <article className="rounded-2xl border border-sand/40 bg-white p-4 shadow-card sm:p-5">
+      <article key={stay.id} className="rounded-2xl border border-sand/40 bg-white p-4 shadow-card sm:p-5">
         <p className="font-serif text-xl font-semibold text-lagoon-dark">{stayName(stay, t)}</p>
         <p className="mt-1 text-sm text-foreground/70">
           {formatDay(stay.checkIn)} → {formatDay(stay.checkOut)} · {t("bookGuestsCount", { count: stay.guests })}
@@ -429,9 +423,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
               <p className="mt-3 text-sm text-foreground/60">{tEq("nowEmpty")}</p>
             ) : (
               <div className="mt-4 space-y-4">
-                {groups.now.map((stay) => (
-                  <StayCard key={stay.id} stay={stay} />
-                ))}
+                {groups.now.map(renderStayCard)}
               </div>
             )}
           </section>
@@ -440,9 +432,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
             <section>
               <h2 className="font-serif text-xl font-semibold text-lagoon-dark">{tEq("laterTitle")}</h2>
               <div className="mt-3 space-y-4">
-                {groups.later.map((stay) => (
-                  <StayCard key={stay.id} stay={stay} />
-                ))}
+                {groups.later.map(renderStayCard)}
               </div>
             </section>
           ) : null}
@@ -458,9 +448,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
               </button>
               {openDone ? (
                 <div className="mt-3 space-y-4">
-                  {groups.done.map((stay) => (
-                    <StayCard key={stay.id} stay={stay} />
-                  ))}
+                  {groups.done.map(renderStayCard)}
                 </div>
               ) : null}
             </section>

@@ -366,13 +366,12 @@ export async function createCleaning(input: {
   notes: string;
   photos?: string[];
   checklist?: unknown;
-}): Promise<CleaningRecord | { error: "invalid" | "checklist" | "photo" }> {
+}): Promise<CleaningRecord | { error: "invalid" | "checklist" }> {
   const date = input.date.trim();
   const time = input.time.trim() || "10:00";
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { error: "invalid" };
   if (!isCompleteChecklist(input.checklist)) return { error: "checklist" };
   const photos = await persistPhotoList(input.photos ?? []);
-  if (photos.length < 1) return { error: "photo" };
   const record: CleaningRecord = {
     id: randomBytes(8).toString("hex"),
     slug: input.slug,

@@ -10,7 +10,6 @@ export default async function LogementsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Logements" });
-  const tCommon = await getTranslations({ locale, namespace: "Common" });
 
   return (
     <div>
@@ -36,13 +35,6 @@ export default async function LogementsPage({ params }: Props) {
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-200">
             <Button href="/contact" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {t("enquire")}
-            </Button>
-            <Button
-              href="/confiance"
-              variant="outline"
-              className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark"
-            >
-              {tCommon("seeTrust")}
             </Button>
           </div>
         </div>

@@ -49,12 +49,12 @@ const Equipe = {
   clockStillOpen: "encore sur place",
   checklistTitle: "Checklist ménage & mise en place",
   checklistLead:
-    "Standard Zenvilla après check-out. Cochez chaque point, puis prenez une photo une fois le logement prêt.",
+    "Standard Zenvilla après check-out. Cochez chaque point. Vous pouvez ajouter une photo du logement prêt.",
   checklistNeedAll: "Cochez toute la checklist avant d’enregistrer.",
   checklistNeedPhoto: "Ajoutez au moins une photo de fin.",
-  checklistPhoto: "Photo de fin (obligatoire)",
+  checklistPhoto: "Photo de fin (facultative)",
   checklistPhotoHint: "Une photo du logement une fois le ménage et la mise en place terminés.",
-  checklistAddPhoto: "Prendre / ajouter une photo",
+  checklistAddPhoto: "Prendre / ajouter une photo (facultatif)",
   checklistPhotoDone: "{count, plural, one {# photo prête} other {# photos prêtes}}",
   checklistGroups: {
     kitchen: "Cuisine",
@@ -105,7 +105,7 @@ const Equipe = {
   doClean: "Valider le ménage",
   photosInOptional: "Photo d’arrivée (facultatif)",
   photosOutOptional: "Photo de départ (facultatif)",
-  checklistLeadShort: "Cochez tout, puis prenez une photo une fois le logement prêt.",
+  checklistLeadShort: "Cochez chaque point. La photo du logement prêt est facultative.",
   checklistProgress: "{done} / {total} points",
   stayComplete: "Check-in, check-out et ménage sont faits.",
 } as const;

@@ -18,7 +18,6 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
       title: t("ogTitle"),
       description,
     },
-    robots: { index: false, follow: false },
     alternates: languageAlternates(locale, "/logements"),
   };
 }

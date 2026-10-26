@@ -4,13 +4,14 @@ import { Link } from "@/i18n/navigation";
 import { CONTACT } from "@/lib/constants";
 import LocaleSwitcher from "@/components/LocaleSwitcher";
 
-type NavKey = "formules" | "guests";
+type NavKey = "formules" | "guests" | "rentals";
 type ServiceLink =
   | { href: string; navKey: NavKey }
   | { href: string; footKey: "linkRequestService" | "linkPorto" | "linkSantaGiulia" };
 
 const serviceLinks: ServiceLink[] = [
   { href: "/formules", navKey: "formules" },
+  { href: "/logements", navKey: "rentals" },
   { href: "/demander-prestation", footKey: "linkRequestService" },
   { href: "/conciergerie-porto-vecchio", footKey: "linkPorto" },
   { href: "/conciergerie-santa-giulia", footKey: "linkSantaGiulia" },

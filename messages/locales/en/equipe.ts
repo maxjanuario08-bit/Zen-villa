@@ -48,12 +48,12 @@ const Equipe = {
   clockStillOpen: "still on site",
   checklistTitle: "Cleaning & setup checklist",
   checklistLead:
-    "Zenvilla checkout standard. Tick every item, then take a photo once the home is ready.",
+    "Zenvilla standard after check-out. Tick each item. You can add a photo once the home is ready.",
   checklistNeedAll: "Tick the full checklist before saving.",
   checklistNeedPhoto: "Add at least one photo when you are done.",
-  checklistPhoto: "Final photo (required)",
+  checklistPhoto: "Final photo (optional)",
   checklistPhotoHint: "A photo of the home after cleaning and setup.",
-  checklistAddPhoto: "Take / add a photo",
+  checklistAddPhoto: "Take / add a photo (optional)",
   checklistPhotoDone: "{count, plural, one {# photo ready} other {# photos ready}}",
   checklistGroups: {
     kitchen: "Kitchen",
@@ -103,7 +103,7 @@ const Equipe = {
   doClean: "Confirm cleaning",
   photosInOptional: "Arrival photo (optional)",
   photosOutOptional: "Departure photo (optional)",
-  checklistLeadShort: "Tick everything, then take a photo once the home is ready.",
+  checklistLeadShort: "Tick each item. A photo of the ready home is optional.",
   checklistProgress: "{done} / {total} items",
   stayComplete: "Check-in, check-out and cleaning are done.",
 } as const;

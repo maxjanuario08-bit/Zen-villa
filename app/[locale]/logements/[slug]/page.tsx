@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${t(`${logement.copyKey}.name`)} | ZenVilla`,
     description: t(`${logement.copyKey}.description`),
-    robots: { index: false, follow: false },
     alternates: languageAlternates(locale, `/logements/${slug}`),
   };
 }
