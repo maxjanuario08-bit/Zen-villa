@@ -13,6 +13,8 @@ export type BookingConfig = {
   defaultNightly: number;
   /** Saisons : from/to au format MM-DD, nightly en euros */
   seasons: readonly { from: string; to: string; nightly: number }[];
+  /** Exceptions datées : tarif et ouverture, fin exclusive. */
+  dateOverrides?: readonly (DateRange & { nightly: number })[];
   /** Séjours déjà pris (to = jour de départ, non facturé) */
   blocked: readonly DateRange[];
   /**
@@ -87,6 +89,8 @@ function inSeason(mmddValue: string, from: string, to: string): boolean {
 }
 
 export function nightlyRate(iso: string, config: BookingConfig): number {
+  const override = config.dateOverrides?.find((range) => iso >= range.from && iso < range.to);
+  if (override) return override.nightly;
   for (const season of config.seasons) {
     if (inSeason(mmdd(iso), season.from, season.to)) return season.nightly;
   }
@@ -109,6 +113,7 @@ function inClosedMmdd(mmddValue: string, from: string, to: string): boolean {
 
 export function isNightUnavailable(iso: string, config: BookingConfig): boolean {
   if (isNightBlocked(iso, config.blocked)) return true;
+  if (config.dateOverrides?.some((range) => iso >= range.from && iso < range.to)) return false;
   if (!config.closedMmdd) return false;
   return inClosedMmdd(mmdd(iso), config.closedMmdd.from, config.closedMmdd.to);
 }

@@ -61,6 +61,8 @@ export const logements = [
         { from: "09-16", to: "09-30", nightly: 110 },
         { from: "10-01", to: "10-31", nightly: 100 },
       ],
+      // Test PayPal temporaire, limité à novembre 2026.
+      dateOverrides: [{ from: "2026-11-01", to: "2026-12-01", nightly: 1 }],
       blocked: [],
       closedMmdd: { from: "11-02", to: "03-03" },
     },

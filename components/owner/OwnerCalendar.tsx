@@ -61,6 +61,7 @@ type Props = {
   stays: readonly PaidStay[];
   ownerBlocks: readonly DateRange[];
   closedMmdd: ClosedMmdd;
+  openRanges?: readonly DateRange[];
   maxGuests: number;
   cleanings?: readonly CleaningRecord[];
   allowBooking?: boolean;
@@ -82,6 +83,7 @@ export default function OwnerCalendar({
   stays,
   ownerBlocks,
   closedMmdd,
+  openRanges = [],
   maxGuests,
   cleanings = [],
   allowBooking = false,
@@ -154,7 +156,7 @@ export default function OwnerCalendar({
       setHover(null);
       return;
     }
-    if (inClosedMmdd(iso, closedMmdd) || saving) return;
+    if ((inClosedMmdd(iso, closedMmdd) && !openRanges.some((range) => iso >= range.from && iso < range.to)) || saving) return;
     if (!allowBooking && !allowBlock) return;
     setRecap(null);
     setError(null);
@@ -352,7 +354,7 @@ export default function OwnerCalendar({
           if (!iso) return <div key={`e-${i}`} />;
           const stay = stayOn(iso);
           const owner = isNightBlocked(iso, localBlocks);
-          const closed = inClosedMmdd(iso, closedMmdd);
+          const closed = (inClosedMmdd(iso, closedMmdd) && !openRanges.some((range) => iso >= range.from && iso < range.to));
           const picked = selectedSet.has(iso);
           const disabled = Boolean(closed || saving);
           const guestName = stay ? stayGuestName(stay, t) : "";

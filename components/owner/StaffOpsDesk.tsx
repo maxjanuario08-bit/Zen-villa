@@ -14,6 +14,7 @@ type CalendarPayload = {
   stays: PaidStay[];
   ownerBlocks: DateRange[];
   closedMmdd: { from: string; to: string } | null;
+  openRanges?: { from: string; to: string }[];
   icalImportUrl?: string;
   icalExportPath?: string;
 };
@@ -114,6 +115,7 @@ export default function StaffOpsDesk({
           stays={calendar.stays}
           ownerBlocks={calendar.ownerBlocks}
           closedMmdd={calendar.closedMmdd}
+          openRanges={calendar.openRanges}
           maxGuests={villa.guests}
           allowBooking={allowBooking}
           allowBlock={allowBlock}

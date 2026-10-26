@@ -61,6 +61,7 @@ export default async function CompteLogementPage({ params }: Props) {
             stays={calendar.stays}
             ownerBlocks={calendar.ownerBlocks}
             closedMmdd={calendar.closedMmdd}
+            openRanges={calendar.openRanges}
             maxGuests={logement.guests}
             cleanings={cleanings}
             icalImportUrl={calendar.icalImportUrl}

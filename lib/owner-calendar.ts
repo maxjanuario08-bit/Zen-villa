@@ -55,6 +55,7 @@ export async function getOwnerCalendarPayload(slug: string) {
     icalImportUrl,
     icalExportPath: `/api/ical/${slug}`,
     closedMmdd: logement?.booking?.closedMmdd ?? null,
+    openRanges: [...(logement?.booking?.dateOverrides ?? [])],
     staticBlocked: [...(logement?.booking?.blocked ?? [])],
   };
 }
