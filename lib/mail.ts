@@ -8,6 +8,7 @@ export async function sendMail(input: {
   to: string;
   subject: string;
   text: string;
+  html?: string;
   replyTo?: string;
   idempotencyKey?: string;
 }) {
@@ -30,6 +31,7 @@ export async function sendMail(input: {
       to: [to],
       subject: input.subject,
       text: input.text,
+      ...(input.html ? { html: input.html } : {}),
       ...(input.replyTo ? { reply_to: input.replyTo } : {}),
     }),
   });

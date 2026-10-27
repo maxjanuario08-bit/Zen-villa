@@ -44,6 +44,7 @@ test('owner email is retried independently; accepted guest/admin mails remain du
  const sent=new Set();const calls=[];let ownerFails=true;
  const sql=async(parts,...values)=>{if(parts.join('').includes('SELECT id'))return sent.has(values[0])?[{id:values[0]}]:[];sent.add(values[0]);return[];};
  const api=load('lib/site-mail.ts',{
+  '@/lib/booking-confirmation-email':{bookingConfirmationEmail:()=>({subject:'Réservation confirmée – Mini Villa Pinson',text:'Confirmation',html:'<h1>Réservation confirmée</h1>'})},
   '@/lib/constants':{CONTACT:{email:'contact@zen-villa.fr',telephone:'+33686401316'}},'@/lib/logements':{getLogement:()=>({copyKey:'pinson'})},
   '@/lib/owner-accounts':{listOwnerAccountsForSlug:async()=>[{email:'owner@example.invalid'}]},
   '@/lib/owner-pg':{usePostgres:()=>true,pg:async()=>sql},

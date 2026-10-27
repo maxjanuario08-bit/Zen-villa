@@ -11,6 +11,13 @@ export type Logement = {
   bedrooms: number;
   interiorM2?: number;
   terraceM2?: number;
+  confirmation?: {
+    name: string;
+    stayPrefix?: string;
+    location: string;
+    arrivalTime: string;
+    departureTime: string;
+  };
   booking?: BookingConfig;
 };
 
@@ -34,6 +41,13 @@ export const logements = [
       "/logements/pinson/toilettes.jpg",
       "/logements/pinson/sdb.jpg",
     ],
+    confirmation: {
+      name: "Mini Villa Pinson",
+      stayPrefix: "à la",
+      location: "Porto-Vecchio, Corse-du-Sud",
+      arrivalTime: "15h",
+      departureTime: "11h",
+    },
     forRent: true,
     managed: true,
     guests: 4,

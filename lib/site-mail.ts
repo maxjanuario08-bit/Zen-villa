@@ -1,3 +1,4 @@
+import { bookingConfirmationEmail } from "@/lib/booking-confirmation-email";
 import { createHash } from "crypto";
 import { pg, usePostgres as bookingUsesPostgres } from "@/lib/owner-pg";
 import { CONTACT } from "@/lib/constants";
@@ -22,10 +23,6 @@ function euro(amount: number) {
   }).format(amount);
 }
 
-function livretUrl(slug: string) {
-  return `${SITE}/livret/${slug}`;
-}
-
 async function ownerEmails(slug: string) {
   const owners = await listOwnerAccountsForSlug(slug);
   return owners
@@ -40,7 +37,7 @@ export async function notifyBookingConfirmed(booking: PendingBooking): Promise<b
   try {
     const owners=await ownerEmails(booking.slug);
     const messages=[
-      ...(booking.guestEmail.includes("@")?[{to:booking.guestEmail,subject:`Réservation confirmée – ${villa}`,text:[`Bonjour ${booking.guestLabel},`,`Votre séjour est confirmé et payé.`,...common,`Arrivée à partir de 15h. Départ au plus tard à 11h.`,`Livret d’accueil : ${livretUrl(booking.slug)}`,`Une question : ${CONTACT.telephone} ou ${CONTACT.email}`,`Zenvilla`].join("\n\n")}]:[]),
+      ...(booking.guestEmail.includes("@")?[{to:booking.guestEmail,...bookingConfirmationEmail(booking,getLogement(booking.slug))}]:[]),
       {to:CONTACT.email,subject:`Réservation payée – ${villa} – ${booking.guestLabel}`,text:[`Nouvelle réservation payée.`,...common,`Email : ${booking.guestEmail}`,`Téléphone : ${booking.guestPhone}`,`Planning : ${SITE}/admin`].join("\n")},
       ...owners.map(to=>({to,subject:`Nouvelle réservation – ${villa}`,text:[`Bonjour,`,`Une réservation a été payée pour votre logement. Les dates sont bloquées dans votre agenda.`,...common,`Espace membre : ${SITE}/compte`,`Zenvilla`].join("\n\n")}))
     ];
