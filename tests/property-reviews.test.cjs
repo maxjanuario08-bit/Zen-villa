@@ -21,3 +21,27 @@ test('unknown identity/date stay unknown and blank Booking comment is never inve
 test('French English Spanish interface labels have matching keys',()=>{
  const keys=lang=>[...fs.readFileSync(`messages/locales/${lang}/propertyReviews.ts`,'utf8').matchAll(/^  "([^"]+)":/gm)].map(m=>m[1]);assert.deepEqual(keys('fr'),keys('en'));assert.deepEqual(keys('fr'),keys('es'));
 });
+test('translations cover every supplied review without inventing blank comments',()=>{
+ for(const lang of ['fr','en','es']){
+ const translations=JSON.parse(fs.readFileSync(`data/pinson-review-translations-${lang}.json`,'utf8'));
+ assert.deepEqual(Object.keys(translations).sort(),data.reviews.map(r=>r.id).sort());
+ for(const review of data.reviews){for(const field of ['title','text','negative']){assert.equal(typeof translations[review.id][field],'string');assert.equal(Boolean(translations[review.id][field]),Boolean(review[field]),`${lang} ${review.id} ${field}`);if(review.language===lang)assert.equal(translations[review.id][field],review[field]);}}
+ }
+});
+test('country metadata uses supplied countries and does not infer nationality from language',()=>{
+ assert.equal(data.reviews.find(r=>r.author==='Alex').countryCode,'DE');
+ assert.equal(data.reviews.filter(r=>r.countryCode).length,8);
+ assert.ok(data.reviews.filter(r=>r.platform!=='booking').every(r=>r.countryCode===null));
+});
+test('sort prioritises written comments and normalises rating scales',()=>{
+ const ts=require('typescript');const vm=require('node:vm');
+ const source=fs.readFileSync('lib/property-reviews.ts','utf8');const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+ const exports={};vm.runInNewContext(js,{exports,require:()=>data,Map});
+ const sorted=exports.sortedPropertyReviews(data.reviews,data.platforms);
+ assert.equal(sorted.at(-1).author,'Audrey');
+ const commented=sorted.filter(r=>r.text||r.negative);
+ const score=r=>r.rating/data.platforms.find(p=>p.id===r.platform).scale;
+ for(let i=1;i<commented.length;i++)assert.ok(score(commented[i-1])>=score(commented[i]));
+ assert.ok(sorted.findIndex(r=>r.platform==='airbnb'&&r.rating===5)<sorted.findIndex(r=>r.rating===9));
+ assert.notEqual(sorted,data.reviews);
+});

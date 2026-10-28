@@ -41,7 +41,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "FR"
     },
     {
       "id": "booking-2",
@@ -55,7 +56,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "FR"
     },
     {
       "id": "booking-3",
@@ -69,7 +71,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "FR"
     },
     {
       "id": "booking-4",
@@ -83,7 +86,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "de",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "DE"
     },
     {
       "id": "booking-5",
@@ -97,7 +101,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "it",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "IT"
     },
     {
       "id": "booking-6",
@@ -111,7 +116,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "lt",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "LT"
     },
     {
       "id": "booking-7",
@@ -125,7 +131,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "ru",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "DE"
     },
     {
       "id": "booking-8",
@@ -139,7 +146,8 @@
       "dateKind": "published",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": "FR"
     },
     {
       "id": "abritel-1",
@@ -153,7 +161,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-2",
@@ -167,7 +176,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-3",
@@ -181,7 +191,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "en",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-4",
@@ -195,7 +206,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "en",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-5",
@@ -209,7 +221,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-6",
@@ -223,7 +236,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-7",
@@ -237,7 +251,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-8",
@@ -251,7 +266,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-9",
@@ -265,7 +281,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-10",
@@ -279,7 +296,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-11",
@@ -293,7 +311,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-12",
@@ -307,7 +326,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-13",
@@ -321,7 +341,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-14",
@@ -335,7 +356,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-15",
@@ -349,7 +371,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-16",
@@ -363,7 +386,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "fr",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "abritel-17",
@@ -377,7 +401,8 @@
       "dateKind": "stay",
       "archived": true,
       "language": "it",
-      "platformTranslated": false
+      "platformTranslated": false,
+      "countryCode": null
     },
     {
       "id": "airbnb-1",
@@ -391,7 +416,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-2",
@@ -405,7 +431,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-3",
@@ -419,7 +446,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-4",
@@ -433,7 +461,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-5",
@@ -447,7 +476,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-6",
@@ -461,7 +491,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-7",
@@ -475,7 +506,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-8",
@@ -489,7 +521,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-9",
@@ -503,7 +536,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     },
     {
       "id": "airbnb-10",
@@ -517,7 +551,8 @@
       "dateKind": "stay",
       "archived": false,
       "language": "es",
-      "platformTranslated": true
+      "platformTranslated": true,
+      "countryCode": null
     }
   ]
 }

@@ -1,4 +1,9 @@
 const propertyReviews = {
+  "country": "Pays indiqué : {country}",
+  "translated": "Traduit en français",
+  "showProvided": "Voir le texte fourni",
+  "showTranslation": "Afficher la traduction",
+  "sortNote": "Commentaires écrits en premier, puis meilleures notes. À note égale, les plus récents apparaissent en premier.",
   "jump": "Voir les {count} avis voyageurs",
   "eyebrow": "Les mots des voyageurs",
   "title": "Ils ont séjourné à Mini Villa Pinson",
@@ -24,6 +29,6 @@ const propertyReviews = {
   "more": "Lire la suite",
   "less": "Réduire",
   "context": "Ces avis concernent Mini Villa Pinson et l’accueil de ses hôtes, notamment Michel. Ils ne constituent pas des avis sur les prestations de conciergerie Zenvilla. Les textes et les notes sont reproduits tels que transmis par le propriétaire, sans vérification indépendante de notre part.",
-  "languages": "Les commentaires restent dans la langue des textes fournis. Les avis Airbnb ont été transmis dans la traduction espagnole affichée par la plateforme. Les dates absentes ne sont pas reconstituées ; les commentaires anciens ou archivés sont signalés."
+  "languages": "Les commentaires sont traduits dans la langue du site ; le texte fourni reste consultable. Les avis Airbnb ont été transmis dans la traduction espagnole de la plateforme. Seuls les pays renseignés dans les avis sont affichés, sans déduire la nationalité. Les dates absentes ne sont pas reconstituées ; les avis anciens ou archivés sont signalés."
 };
 export default propertyReviews;

@@ -3,6 +3,9 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import reviewsFr from "@/data/pinson-review-translations-fr.json";
+import reviewsEn from "@/data/pinson-review-translations-en.json";
+import reviewsEs from "@/data/pinson-review-translations-es.json";
 import PropertyReviews from "@/components/PropertyReviews";
 import { getPropertyReviews } from "@/lib/property-reviews";
 import BookingWidget from "@/components/BookingWidget";
@@ -207,7 +210,7 @@ export default async function LogementDetailPage({ params, searchParams }: Props
           </div>
         </div>
       </section>
-      {reviews ? <PropertyReviews data={reviews} /> : null}
+      {reviews ? <PropertyReviews data={reviews} translations={locale === "en" ? reviewsEn : locale === "es" ? reviewsEs : reviewsFr} /> : null}
     </div>
   );
 }
