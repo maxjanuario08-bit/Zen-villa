@@ -3,6 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import PropertyReviews from "@/components/PropertyReviews";
+import { getPropertyReviews } from "@/lib/property-reviews";
 import BookingWidget from "@/components/BookingWidget";
 import PhotoCarousel from "@/components/PhotoCarousel";
 import { getLogement, logements } from "@/lib/logements";
@@ -45,6 +47,8 @@ export default async function LogementDetailPage({ params, searchParams }: Props
   if (!logement) notFound();
 
   const t = await getTranslations({ locale, namespace: "Logements" });
+  const reviews = getPropertyReviews(slug);
+  const reviewsT = await getTranslations({ locale, namespace: "PropertyReviews" });
   const name = t(`${logement.copyKey}.name`);
   const tagline = t(`${logement.copyKey}.tagline`);
   const description = t(`${logement.copyKey}.description`);
@@ -137,6 +141,8 @@ export default async function LogementDetailPage({ params, searchParams }: Props
                 )}
               </p>
 
+              {reviews ? <a href="#avis-voyageurs" className="mt-4 inline-flex items-center gap-2 rounded-full border border-lagoon/25 bg-white px-4 py-2 text-sm font-semibold text-lagoon hover:bg-lagoon/5">{reviewsT("jump", {count:reviews.reviews.length})}<span aria-hidden="true">↓</span></a> : null}
+
               <div className="mt-10">
                 <PhotoCarousel
                   images={gallery}
@@ -201,6 +207,7 @@ export default async function LogementDetailPage({ params, searchParams }: Props
           </div>
         </div>
       </section>
+      {reviews ? <PropertyReviews data={reviews} /> : null}
     </div>
   );
 }

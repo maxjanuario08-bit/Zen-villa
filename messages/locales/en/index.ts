@@ -1,3 +1,4 @@
+import PropertyReviews from "./propertyReviews";
 import PasswordRecovery from "./passwordRecovery";
 import chrome from "./chrome";
 import site from "./site";
@@ -12,6 +13,7 @@ import Equipe from "./equipe";
 
 export default {
   PasswordRecovery,
+  PropertyReviews,
   ...chrome,
   ...site,
   ownerServices,
