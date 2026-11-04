@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import {CalendarDays, ShieldCheck, Laptop, Sparkles, KeyRound, BrushCleaning, Wrench, Camera, Headset, Leaf, MessageCircle, House, FileText, CircleCheck, Check, ArrowRight, Layers} from "lucide-react";
+import {CalendarDays, ShieldCheck, Laptop, Sparkles, KeyRound, BrushCleaning, Wrench, Camera, Headset, Leaf, MessageCircle, House, FileText, CircleCheck, Check, ArrowRight} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import JsonLd from "@/components/JsonLd";
@@ -25,7 +25,7 @@ const services=[
 ];
 export default async function HomePage({params}:Props){
  const {locale}=await params;setRequestLocale(locale);
- const t=await getTranslations("Home");const tCommon=await getTranslations("Common");const presentation=await getTranslations("HomePresentation");
+ const t=await getTranslations("Home");const presentation=await getTranslations("HomePresentation");
  const benefits=presentation.raw("benefits") as [string,string][];
  const steps=presentation.raw("steps") as [string,string][];
  const labels=presentation.raw("services") as string[];
@@ -88,19 +88,5 @@ export default async function HomePage({params}:Props){
    </div>
   </div>
  </section>
- <section className="bg-lagoon-dark py-7 text-white"><div className="mx-auto flex max-w-7xl flex-col items-start gap-5 px-6 md:flex-row md:items-center md:gap-8"><h2 className="flex shrink-0 items-center gap-3 font-serif text-3xl font-semibold"><Layers size={32} strokeWidth={1.5} aria-hidden="true"/>{presentation("plansTitle")}</h2><p className="max-w-xl text-sm leading-relaxed text-white/90 md:border-l md:border-white/30 md:pl-8">{presentation("plansBody")}</p><Button href="/formules" className="!bg-white !text-lagoon-dark md:ml-auto">{presentation("discover")}<ArrowRight size={16} className="ml-2" aria-hidden="true"/></Button></div></section>
-      <section className="py-16 sm:py-24 bg-lagoon">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-white mb-6">
-            {t("ownersCtaTitle")}
-          </h2>
-          <p className="text-white/90 text-lg mb-8">{t("ownersCtaBody")}</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="/contact" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
-              {tCommon("requestQuote")}
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>;
 }
