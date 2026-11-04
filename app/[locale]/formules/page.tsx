@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 const plans=[
  {key:"zenT",image:"/hero-eau.png",featured:false},
  {key:"zenP",image:"/hero-packs.png",featured:true},
- {key:"carte",image:"/logements/pinson/terrasse.jpg",featured:false},
+ {key:"carte",image:"/hero-baie.png",featured:false},
 ] as const;
 const features=[
  {icon:CalendarDays,tranquillite:true},
