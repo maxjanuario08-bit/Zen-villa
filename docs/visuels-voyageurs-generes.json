@@ -1,0 +1,62 @@
+{
+  "date": "2026-11-04",
+  "method": "Built-in image_gen",
+  "reference": "Prestations nautiques Zen Villa.png",
+  "sharedPrompt": "Photorealistic natural Mediterranean travel photography, landscape 3:2, warm sunlight, turquoise water, creamy neutrals and greens. Match the service photo style in the reference screenshot, not the UI. Standalone photograph, centered subject with crop room. No text, logos, borders or collage.",
+  "assets": [
+    {
+      "slug": "transport",
+      "scene": "A silver compact passenger SUV parked on a quiet coastal road in southern Corsica, turquoise Mediterranean bay and green rocky hills behind, three-quarter front view. No people.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-9f258d49-9d3b-4f42-8aad-e23d88c391bf.png",
+      "target": "public/voyageurs/generated/transport.jpg"
+    },
+    {
+      "slug": "petit-dejeuner",
+      "scene": "A welcoming breakfast on a sunny Mediterranean villa terrace: white cups of coffee, golden croissants, small bread rolls, a glass of orange juice and jam on a natural table, leafy garden background.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-5b83d3a8-2c54-41dd-8e74-27163fc4d79d.png",
+      "target": "public/voyageurs/generated/petit-dejeuner.jpg"
+    },
+    {
+      "slug": "linge",
+      "scene": "A neat stack of fluffy folded white bath towels resting on a cream bed in an elegant simple holiday villa bedroom, warm soft daylight, clean beige linen and a softly blurred neutral background.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-bcf4f390-d192-4d50-ba38-d0edebc3d533.png",
+      "target": "public/voyageurs/generated/linge.jpg"
+    },
+    {
+      "slug": "courses",
+      "scene": "A wicker basket filled with fresh tomatoes, red peppers, apples, lemons, leafy greens and a baguette on a table on a sunny Mediterranean villa terrace, warm garden background.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-95bcc661-5e65-47da-997a-ccee946188c3.png",
+      "target": "public/voyageurs/generated/courses.jpg"
+    },
+    {
+      "slug": "activites-nautiques",
+      "scene": "An adult wearing a life vest standing on a yellow paddleboard in a quiet crystal-clear shallow turquoise Mediterranean cove, pine-lined rocky shoreline and blue sky, inviting summer leisure.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-0a4a33ce-5edf-4694-85bf-5de230ae9cb8.png",
+      "target": "public/voyageurs/generated/activites-nautiques.jpg"
+    },
+    {
+      "slug": "balades-equestres",
+      "scene": "Two adult riders wearing helmets on calm brown horses on a scenic sandy coastal path through Corsican maquis, turquoise sea behind, Mediterranean pine trees, sunny blue sky.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-ad826a2a-d6d9-4bb1-91fb-778ef7188461.png",
+      "target": "public/voyageurs/generated/balades-equestres.jpg"
+    },
+    {
+      "slug": "randonnee",
+      "scene": "Two adult hikers with small backpacks on a gentle coastal footpath in southern Corsica, turquoise bay and rounded granite rocks, pine trees and green maquis, bright summer daylight. No snowy mountains.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-c9eb6ef6-ff40-4460-867c-9cf7015b7afa.png",
+      "target": "public/voyageurs/generated/randonnee.jpg"
+    },
+    {
+      "slug": "equipement-nautique",
+      "scene": "A diving mask and snorkel and a pair of fins arranged neatly beside a small yellow sit-on-top kayak on a pale sandy beach next to crystal-clear shallow turquoise sea, Mediterranean granite rocks and pine trees in background. The equipment is prominent.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-d9d664fa-2e23-40ef-a653-abbf67d3b0fe.png",
+      "target": "public/voyageurs/generated/equipement-nautique.jpg"
+    },
+    {
+      "slug": "location-voiture-scooter",
+      "scene": "A tasteful dark sand-colored unbranded modern scooter parked on a sunny coastal overlook in southern Corsica, turquoise Mediterranean bay, pale granite rocks and green pine trees in the background, clear three-quarter view. No people.",
+      "source": "/Users/maximejanuario/.codex/generated_images/01a11a97-2e57-7fb0-a6e5-3865362cc51f/exec-e01370a6-9ec0-4231-8428-2a5a919acd65.png",
+      "target": "public/voyageurs/generated/location-voiture-scooter.jpg"
+    }
+  ]
+}

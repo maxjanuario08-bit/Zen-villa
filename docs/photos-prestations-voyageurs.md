@@ -1,5 +1,7 @@
 # Photos d’illustration — prestations voyageurs
 
+Mise à jour : ces photos sont conservées en historique. Les visuels actifs utilisent désormais public/voyageurs/generated/ ; voir visuels-voyageurs-generes.json pour les prompts et les fichiers.
+
 Ajout du 4 novembre 2026. Photos hébergées localement dans public/voyageurs et optimisées à l’affichage par Next.js. Ces illustrations ne sont pas présentées comme des photos de partenaires ou de matériel Zenvilla. Les pages précisent leur nature illustrative et les modalités à confirmer. Licence de référence : https://unsplash.com/license.
 
 Sources CDN Unsplash (identifiants conservés pour retrouver les originaux) :
