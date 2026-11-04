@@ -99,9 +99,6 @@ export default async function HomePage({params}:Props){
             <Button href="/contact" variant="secondary" className="!bg-white !text-lagoon hover:!bg-sand-light">
               {tCommon("requestQuote")}
             </Button>
-            <Button href="/formules" variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark">
-              {tCommon("seePacks")}
-            </Button>
           </div>
         </div>
       </section>
