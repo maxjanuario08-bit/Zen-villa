@@ -1,4 +1,4 @@
-import {CalendarDays,Coins,MapPin,Users,Info,Check,ArrowRight} from "lucide-react";
+import {CalendarDays,Coins,MapPin,Users,Check,ArrowRight} from "lucide-react";
 import {languageAlternates} from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -88,7 +88,7 @@ export default async function VoyageurServicePage({ params }: Props) {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl"><Image src={service.image} alt={label} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover"/></div>
           </div>
           <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{infoFields.map(({key,icon:Icon})=><div key={key} className="rounded-2xl border border-sand/60 bg-white p-5"><dt className="font-semibold text-lagoon-dark"><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="mb-3 text-lagoon"/>{presentation(`metaLabels.${key}`)}</dt><dd className="mt-2 text-sm leading-relaxed text-muted">{logistics[key]}</dd></div>)}</dl>
-          <aside className="mt-7 flex items-start gap-3 rounded-2xl bg-sand-light p-5"><Info size={22} aria-hidden="true" className="mt-1 shrink-0 text-lagoon"/><div><h2 className="font-serif text-xl font-semibold text-lagoon-dark">{presentation("infoTitle")}</h2><p className="mt-1 text-sm leading-relaxed text-muted">{presentation("infoBody")}</p></div></aside>
+
           <div className="mt-10 rounded-2xl border border-sand/50 bg-white p-6 text-center sm:p-9"><h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{presentation("requestTitle")}</h2><p className="mx-auto mb-6 mt-3 max-w-2xl text-muted">{presentation("requestBody")}</p><Button href={`/demander-prestation?prestation=${service.slug}`}><span>{presentation("requestButton")}</span><ArrowRight size={17} aria-hidden="true" className="ml-2"/></Button><div className="mt-5"><Link href="/voyageurs" className="text-sm font-semibold text-lagoon underline underline-offset-4">{tCommon("viewAllGuestServices")}</Link></div></div>
         </div>
       </section>

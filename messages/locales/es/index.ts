@@ -1,3 +1,4 @@
+import ContactPresentation from "./contactPresentation";
 import GuestPresentation from "./guestPresentation";
 import FormulaComparison from "./formulaComparison";
 import HomePresentation from "./homePresentation";
@@ -16,6 +17,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  ContactPresentation,
   GuestPresentation,
   FormulaComparison,
   HomePresentation,

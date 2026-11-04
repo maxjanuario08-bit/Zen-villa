@@ -13,13 +13,13 @@ const assistant = {
   "noResults": "Esta pregunta merece una conversación con Maxime. Escríbenos mediante el formulario, por email o por WhatsApp.",
   "human": "¿Prefieres hablar directamente?",
   "appointmentEyebrow": "Hablemos de tu propiedad",
-  "appointmentTitle": "Una cita con Maxime",
-  "appointmentDescription": "Cuéntanos cómo es tu alojamiento, cómo lo gestionas y qué servicios necesitas para estudiar el acompañamiento adecuado.",
+  "appointmentTitle": "Reservar una conversación",
+  "appointmentDescription": "Hablemos de tu propiedad y de lo que necesitas.",
   "googleInfo": "Elige un horario disponible en Google Calendar. La cita se añadirá a la agenda de Maxime; los detalles de su agenda siguen siendo privados.",
-  "appointmentFallback": "Para acordar un horario, escríbenos por email o por WhatsApp.",
+  "appointmentFallback": "Acordemos un horario por email o WhatsApp.",
   "chooseSlot": "Ver horarios disponibles",
   "newTab": "Se abre en una pestaña nueva",
-  "requestAppointment": "Solicitar una cita",
+  "requestAppointment": "Acordar un horario",
   "appointmentSubject": "Cita con propietario — Zenvilla",
   "formLink": "Enviar una consulta por escrito"
 };
