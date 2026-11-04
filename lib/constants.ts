@@ -23,6 +23,7 @@ export const CONTACT = {
   /** Lien tel: (E.164) */
   telephoneTel: "+33686401316",
   email: "contact@zen-villa.fr",
+  facebook: "https://www.facebook.com/profile.php?id=61595808617654",
   instagram: "https://www.instagram.com/zen_villa_corse/",
   whatsapp: "https://wa.me/33686401316",
 } as const;
