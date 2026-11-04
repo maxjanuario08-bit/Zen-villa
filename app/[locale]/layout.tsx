@@ -1,3 +1,4 @@
+import FaqAssistant from "@/components/FaqAssistant";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
@@ -119,6 +120,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Footer />
           <CookieBanner />
           <SiteAnalytics />
+          <FaqAssistant />
         </NextIntlClientProvider>
       </body>
     </html>

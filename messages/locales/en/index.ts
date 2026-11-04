@@ -1,3 +1,4 @@
+import Assistant from "./assistant";
 import PropertyReviews from "./propertyReviews";
 import PasswordRecovery from "./passwordRecovery";
 import chrome from "./chrome";
@@ -12,6 +13,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  Assistant,
   PasswordRecovery,
   PropertyReviews,
   ...chrome,

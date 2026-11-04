@@ -276,7 +276,7 @@ const site = {
       "ZenVilla covers the entire villa lifecycle: guest greetings, housekeeping, maintenance and optionally channel distribution. Owners follow everything via our digital app.",
     faqZonesTitle: "Where do you operate in South Corsica?",
     faqZonesBody:
-      "We cover Bonifacio, Porto-Vecchio, Propriano, Sartène and surrounding areas—ask us to confirm your exact location.",
+      "We mainly work in Santa Giulia and Porto-Vecchio. For another area, contact us to confirm whether we can provide the services you need.",
     faqPriceTitle: "How does pricing work?",
     faqPriceBody:
       "We offer Zen Tranquillité (essentials), Zen Integral (full listing & guest management) and an à-la-carte bundle for only the services you need. Ask for a tailored quote.",

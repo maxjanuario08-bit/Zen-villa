@@ -1,0 +1,26 @@
+const assistant = {
+  "launcher": "A question?",
+  "title": "Zenvilla assistant",
+  "subtitle": "Frequently asked questions and contact with Maxime.",
+  "close": "Close assistant",
+  "appointment": "Book an appointment",
+  "whatsapp": "WhatsApp",
+  "message": "Send a message",
+  "searchLabel": "How can we help?",
+  "placeholder": "E.g. cleaning, fees, property updates…",
+  "privacy": "FAQ assistant: local search, no AI. Your search is neither sent nor saved.",
+  "results": "{count} suggested answers",
+  "noResults": "This question deserves a conversation with Maxime. Contact us using the form, by email or on WhatsApp.",
+  "human": "Prefer to speak directly?",
+  "appointmentEyebrow": "Let’s discuss your property",
+  "appointmentTitle": "An appointment with Maxime",
+  "appointmentDescription": "Tell us about your property, your current arrangements and the services you need so we can discuss suitable support.",
+  "googleInfo": "Choose an available time on Google Calendar. Your appointment will be added to Maxime’s calendar; his calendar details remain private.",
+  "appointmentFallback": "To agree a time, contact us by email or on WhatsApp.",
+  "chooseSlot": "See available times",
+  "newTab": "Opens in a new tab",
+  "requestAppointment": "Request an appointment",
+  "appointmentSubject": "Owner appointment — Zenvilla",
+  "formLink": "Send a written enquiry"
+};
+export default assistant;

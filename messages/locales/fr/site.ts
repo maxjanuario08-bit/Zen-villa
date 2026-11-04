@@ -283,7 +283,7 @@ const site = {
     faqZonesTitle:
       "Quelles zones couvre Zenvilla en Corse Sud ?",
     faqZonesBody:
-      "Nous intervenons sur l'ensemble du Corse Sud : Bonifacio, Porto-Vecchio, Propriano, Sartène, et les alentours. N'hésitez pas à nous contacter pour vérifier la couverture de votre zone.",
+      "Nous intervenons principalement à Santa Giulia et Porto-Vecchio. Pour un autre secteur, contactez-nous afin de confirmer les possibilités d’intervention.",
     faqPriceTitle:
       "Comment fonctionne la tarification ?",
     faqPriceBody:

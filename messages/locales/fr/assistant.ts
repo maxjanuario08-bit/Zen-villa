@@ -1,0 +1,26 @@
+const assistant = {
+  "launcher": "Une question ?",
+  "title": "Assistant Zenvilla",
+  "subtitle": "Questions fréquentes et contact avec Maxime.",
+  "close": "Fermer l’assistant",
+  "appointment": "Prendre rendez-vous",
+  "whatsapp": "WhatsApp",
+  "message": "Envoyer un message",
+  "searchLabel": "Comment pouvons-nous vous aider ?",
+  "placeholder": "Ex. : ménage, tarifs, suivi de ma villa…",
+  "privacy": "Assistant FAQ : recherche locale, sans IA. Votre recherche n’est ni envoyée ni enregistrée.",
+  "results": "{count} réponses proposées",
+  "noResults": "Cette question mérite un échange avec Maxime. Contactez-nous par le formulaire, par email ou sur WhatsApp.",
+  "human": "Vous préférez échanger directement ?",
+  "appointmentEyebrow": "Parlons de votre propriété",
+  "appointmentTitle": "Un rendez-vous avec Maxime",
+  "appointmentDescription": "Présentez votre logement, votre organisation et les prestations recherchées pour préparer un accompagnement adapté.",
+  "googleInfo": "Choisissez un créneau disponible sur Google Agenda. Le rendez-vous sera ajouté à l’agenda de Maxime ; les détails de son agenda restent privés.",
+  "appointmentFallback": "Pour convenir d’un créneau, écrivez-nous par email ou sur WhatsApp.",
+  "chooseSlot": "Voir les créneaux disponibles",
+  "newTab": "S’ouvre dans un nouvel onglet",
+  "requestAppointment": "Demander un rendez-vous",
+  "appointmentSubject": "Rendez-vous propriétaire — Zenvilla",
+  "formLink": "Envoyer une demande écrite"
+};
+export default assistant;

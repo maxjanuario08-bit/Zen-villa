@@ -1,0 +1,368 @@
+{
+  "fr": [
+    {
+      "id": "zones",
+      "question": "Mon logement se situe-t-il dans votre secteur ?",
+      "answer": "ZenVilla accompagne les propriétaires à Santa Giulia et Porto-Vecchio. Pour un logement dans un autre secteur, communiquez son adresse à Maxime afin de confirmer la possibilité d’intervention.",
+      "keywords": "zone secteur localisation couverture Santa Giulia Porto-Vecchio alentours adresse",
+      "href": "/contact",
+      "linkLabel": "Vérifier mon secteur"
+    },
+    {
+      "id": "services",
+      "question": "Quelles tâches puis-je vous confier ?",
+      "answer": "Vous pouvez nous confier l’accueil, le ménage, le linge et la coordination de la maintenance selon vos besoins. La gestion des annonces et des réservations dépend de la formule retenue.",
+      "keywords": "services prestations conciergerie propriétaire gestion villa déléguer",
+      "href": "/formules",
+      "linkLabel": "Découvrir les formules"
+    },
+    {
+      "id": "formules",
+      "question": "Comment choisir entre Zen Tranquillité et Zen Intégral ?",
+      "answer": "Zen Tranquillité comprend notamment l’accueil et le départ, le ménage, le linge et le suivi digital. Zen Intégral y ajoute la création et la diffusion des annonces, les photos et la gestion du calendrier et des réservations ; à la carte permet de choisir des prestations ciblées.",
+      "keywords": "formules forfaits Zen Tranquillité Zen Intégral à la carte comparer inclus",
+      "href": "/formules",
+      "linkLabel": "Comparer les formules"
+    },
+    {
+      "id": "alacarte",
+      "question": "Puis-je demander une seule prestation ?",
+      "answer": "L’offre à la carte permet de demander un ménage, du linge, un accueil ou une intervention de maintenance sans choisir une formule complète. Indiquez le logement, les dates et le besoin pour faire confirmer la faisabilité et le devis.",
+      "keywords": "à la carte ponctuel prestation seule ménage linge accueil demande",
+      "href": "/demander-prestation",
+      "linkLabel": "Demander une prestation"
+    },
+    {
+      "id": "tarifs",
+      "question": "Comment obtenir un tarif pour mon logement ?",
+      "answer": "Le devis dépend des caractéristiques du logement, des prestations souhaitées et de leur fréquence. Décrivez votre bien et votre organisation pour recevoir une proposition adaptée.",
+      "keywords": "tarifs prix coût devis budget honoraires combien",
+      "href": "/contact",
+      "linkLabel": "Demander un devis"
+    },
+    {
+      "id": "annonces",
+      "question": "Pouvez-vous préparer mes annonces de location ?",
+      "answer": "Zen Intégral prévoit la création et la diffusion des annonces ainsi que des photos pour présenter votre logement. Échangez avec Maxime sur vos annonces existantes et les plateformes concernées afin de définir le travail à prévoir.",
+      "keywords": "annonces Airbnb Booking Abritel photos diffusion création location",
+      "href": "/services/reservations",
+      "linkLabel": "Voir la gestion des réservations"
+    },
+    {
+      "id": "menage",
+      "question": "Comment organiser le ménage entre deux séjours ?",
+      "answer": "Communiquez les dates de départ et d’arrivée ainsi que les particularités du logement pour organiser le ménage et sa préparation. Le changement des draps et serviettes fait partie des prestations présentées, avec un périmètre à préciser dans votre demande.",
+      "keywords": "ménage nettoyage rotation entretien préparation départ arrivée",
+      "href": "/services/menage",
+      "linkLabel": "Voir le service ménage"
+    },
+    {
+      "id": "linge",
+      "question": "Comment prévoir le linge de maison ?",
+      "answer": "La gestion du linge est prévue dans Zen Tranquillité et Zen Intégral et peut aussi être demandée à la carte. Précisez le nombre de couchages et vos besoins en draps et serviettes pour convenir de l’organisation.",
+      "keywords": "linge draps serviettes literie blanchisserie couchages",
+      "href": "/demander-prestation",
+      "linkLabel": "Préciser mes besoins en linge"
+    },
+    {
+      "id": "accueil",
+      "question": "Que comprend l’accueil de mes voyageurs ?",
+      "answer": "L’accueil comprend la remise des clés, la présentation du logement et les consignes sur les équipements. Le départ et l’état des lieux de sortie permettent de transmettre les informations utiles au propriétaire.",
+      "keywords": "accueil clés arrivée départ check-in check-out état des lieux",
+      "href": "/services/check-in",
+      "linkLabel": "Voir le service accueil"
+    },
+    {
+      "id": "suivi",
+      "question": "Comment consulter le suivi de mon logement ?",
+      "answer": "L’espace propriétaire permet de consulter le suivi et les comptes rendus de votre logement. Les interventions sont saisies par l’équipe ou l’administration, puis consultables par le propriétaire.",
+      "keywords": "suivi espace propriétaire compte rapports comptes rendus interventions équipe",
+      "href": "/compte",
+      "linkLabel": "Accéder à mon espace"
+    },
+    {
+      "id": "dates",
+      "question": "Puis-je réserver des dates pour mon usage personnel ?",
+      "answer": "Vous pouvez bloquer vos propres dates dans l’espace propriétaire pour prévoir vos séjours personnels. Les locations enregistrées par Zenvilla ou confirmées après paiement sur le site figurent également dans le planning ; contactez Maxime pour modifier un séjour déjà réservé.",
+      "keywords": "dates bloquer calendrier disponibilité séjour personnel propriétaire planning",
+      "href": "/compte",
+      "linkLabel": "Consulter mon calendrier"
+    },
+    {
+      "id": "maintenance",
+      "question": "Comment signaler un besoin de maintenance ?",
+      "answer": "Décrivez le problème, les équipements concernés et les possibilités d’accès au logement. ZenVilla peut coordonner une intervention préventive ou un dépannage avec les intervenants concernés, selon le besoin et leurs disponibilités.",
+      "keywords": "maintenance panne réparation dépannage entretien artisan problème",
+      "href": "/services/maintenance",
+      "linkLabel": "Voir le service maintenance"
+    },
+    {
+      "id": "demarrage",
+      "question": "Que préparer pour commencer avec ZenVilla ?",
+      "answer": "Présentez la localisation de votre logement, sa capacité, votre calendrier et les tâches que vous souhaitez déléguer. Un échange avec Maxime permettra de préciser vos besoins et de définir la formule et le devis avant d’organiser les prestations.",
+      "keywords": "démarrage commencer confier logement première demande documents besoins",
+      "href": "/contact",
+      "linkLabel": "Présenter mon projet"
+    },
+    {
+      "id": "voyageurs",
+      "question": "Mes voyageurs peuvent-ils demander des services supplémentaires ?",
+      "answer": "ZenVilla présente des services voyageurs et des activités, notamment des demandes de courses ou de location de matériel. Le contenu, les disponibilités et les conditions sont à confirmer pour chaque demande.",
+      "keywords": "voyageurs services supplémentaires activités courses équipement séjour",
+      "href": "/voyageurs",
+      "linkLabel": "Voir les services voyageurs"
+    },
+    {
+      "id": "rdv",
+      "question": "Comment prendre rendez-vous avec Maxime ?",
+      "answer": "Si la prise de rendez-vous en ligne est activée, choisissez un créneau disponible dans la rubrique dédiée de la page contact. Sinon, contactez Maxime pour convenir d’un échange sur votre logement.",
+      "keywords": "rendez-vous rdv créneau appel rencontre Maxime contact réservation",
+      "href": "/contact#rendez-vous",
+      "linkLabel": "Organiser un rendez-vous"
+    }
+  ],
+  "en": [
+    {
+      "id": "zones",
+      "question": "Is my property within your service area?",
+      "answer": "ZenVilla supports owners in Santa Giulia and Porto-Vecchio. For a property elsewhere, send Maxime the address so he can confirm whether service is possible.",
+      "keywords": "area location coverage Santa Giulia Porto-Vecchio nearby address",
+      "href": "/contact",
+      "linkLabel": "Check my location"
+    },
+    {
+      "id": "services",
+      "question": "Which tasks can I delegate to you?",
+      "answer": "You can request guest reception, cleaning, linen management and maintenance coordination according to your needs. Listing and booking management depend on your chosen package.",
+      "keywords": "services owner property management concierge delegate tasks villa",
+      "href": "/formules",
+      "linkLabel": "Explore the packages"
+    },
+    {
+      "id": "formules",
+      "question": "How do I choose between Zen Tranquillité and Zen Intégral?",
+      "answer": "Zen Tranquillité includes guest arrivals and departures, cleaning, linen management and digital updates. Zen Intégral adds listing creation and publication, photography, calendar and booking management; à la carte lets you select individual services.",
+      "keywords": "packages plans Zen Tranquillité Zen Intégral à la carte compare included",
+      "href": "/formules",
+      "linkLabel": "Compare the packages"
+    },
+    {
+      "id": "alacarte",
+      "question": "Can I request just one service?",
+      "answer": "The à la carte option lets you request cleaning, linen, guest reception or maintenance without selecting a full package. Provide the property details, dates and requirements so feasibility and a quote can be confirmed.",
+      "keywords": "à la carte one-off individual service cleaning linen reception request",
+      "href": "/demander-prestation",
+      "linkLabel": "Request a service"
+    },
+    {
+      "id": "tarifs",
+      "question": "How can I get a price for my property?",
+      "answer": "Your quote depends on the property, the services required and their frequency. Describe your home and current arrangements to receive a tailored proposal.",
+      "keywords": "prices pricing cost quote budget fees how much",
+      "href": "/contact",
+      "linkLabel": "Request a quote"
+    },
+    {
+      "id": "annonces",
+      "question": "Can you prepare my rental listings?",
+      "answer": "Zen Intégral includes listing creation and publication as well as photography to present your property. Discuss your existing listings and the platforms involved with Maxime to define the work needed.",
+      "keywords": "listings Airbnb Booking Abritel photography publication rental creation",
+      "href": "/services/reservations",
+      "linkLabel": "View booking management"
+    },
+    {
+      "id": "menage",
+      "question": "How can I arrange cleaning between stays?",
+      "answer": "Share departure and arrival dates and any specific property requirements to arrange cleaning and preparation. Changing sheets and towels is among the services described, with the scope to be agreed in your request.",
+      "keywords": "cleaning turnover housekeeping preparation departure arrival",
+      "href": "/services/menage",
+      "linkLabel": "View the cleaning service"
+    },
+    {
+      "id": "linge",
+      "question": "How can I arrange household linen?",
+      "answer": "Linen management is included in Zen Tranquillité and Zen Intégral and can also be requested à la carte. Specify the number of beds and your sheet and towel requirements to agree on arrangements.",
+      "keywords": "linen sheets towels bedding laundry beds",
+      "href": "/demander-prestation",
+      "linkLabel": "Describe my linen needs"
+    },
+    {
+      "id": "accueil",
+      "question": "What does guest reception include?",
+      "answer": "Reception includes handing over keys, showing guests around the property and explaining the equipment. Departure arrangements and the checkout inspection allow useful information to be passed to the owner.",
+      "keywords": "reception keys arrival departure check-in check-out inspection",
+      "href": "/services/check-in",
+      "linkLabel": "View guest reception"
+    },
+    {
+      "id": "suivi",
+      "question": "How can I view updates about my property?",
+      "answer": "The owner area lets you view property updates and reports. Staff or administrators enter interventions, which the owner can then consult.",
+      "keywords": "updates owner area account reports interventions staff tracking",
+      "href": "/compte",
+      "linkLabel": "Open my owner area"
+    },
+    {
+      "id": "dates",
+      "question": "Can I reserve dates for my own stays?",
+      "answer": "You can block dates in the owner space for your personal stays. Rentals entered by Zenvilla or confirmed after payment on the website also appear in the calendar; contact Maxime to change an existing booking.",
+      "keywords": "dates block calendar availability personal stay owner schedule",
+      "href": "/compte",
+      "linkLabel": "View my calendar"
+    },
+    {
+      "id": "maintenance",
+      "question": "How do I report a maintenance need?",
+      "answer": "Describe the issue, the equipment involved and how the property can be accessed. ZenVilla can coordinate preventive maintenance or repairs with the relevant providers, depending on the need and their availability.",
+      "keywords": "maintenance fault repair breakdown upkeep contractor issue",
+      "href": "/services/maintenance",
+      "linkLabel": "View maintenance services"
+    },
+    {
+      "id": "demarrage",
+      "question": "What should I prepare to get started with ZenVilla?",
+      "answer": "Share your property’s location, capacity, calendar and the tasks you want to delegate. A discussion with Maxime will help clarify your needs and define the package and quote before services are arranged.",
+      "keywords": "start getting started property first request requirements onboarding",
+      "href": "/contact",
+      "linkLabel": "Tell us about my property"
+    },
+    {
+      "id": "voyageurs",
+      "question": "Can my guests request additional services?",
+      "answer": "ZenVilla presents guest services and activities, including grocery requests and equipment rental. The details, availability and conditions must be confirmed for each request.",
+      "keywords": "guests additional services activities groceries equipment stay",
+      "href": "/voyageurs",
+      "linkLabel": "Explore guest services"
+    },
+    {
+      "id": "rdv",
+      "question": "How can I book an appointment with Maxime?",
+      "answer": "If online appointment booking is enabled, select an available slot in the dedicated section of the contact page. Otherwise, contact Maxime to arrange a conversation about your property.",
+      "keywords": "appointment meeting slot call Maxime contact booking",
+      "href": "/contact#rendez-vous",
+      "linkLabel": "Arrange an appointment"
+    }
+  ],
+  "es": [
+    {
+      "id": "zones",
+      "question": "¿Mi alojamiento está dentro de vuestra zona de servicio?",
+      "answer": "ZenVilla acompaña a propietarios en Santa Giulia y Porto-Vecchio. Para un alojamiento en otra zona, envía la dirección a Maxime para confirmar si es posible prestar el servicio.",
+      "keywords": "zona ubicación cobertura Santa Giulia Porto-Vecchio alrededores dirección",
+      "href": "/contact",
+      "linkLabel": "Consultar mi zona"
+    },
+    {
+      "id": "services",
+      "question": "¿Qué tareas puedo delegaros?",
+      "answer": "Puedes solicitar la recepción de huéspedes, la limpieza, la gestión de ropa de casa y la coordinación del mantenimiento según tus necesidades. La gestión de anuncios y reservas depende de la fórmula elegida.",
+      "keywords": "servicios prestaciones propietario gestión vivienda conserjería delegar villa",
+      "href": "/formules",
+      "linkLabel": "Ver las fórmulas"
+    },
+    {
+      "id": "formules",
+      "question": "¿Cómo elegir entre Zen Tranquillité y Zen Intégral?",
+      "answer": "Zen Tranquillité incluye la llegada y salida de huéspedes, la limpieza, la gestión de ropa de casa y el seguimiento digital. Zen Intégral añade la creación y publicación de anuncios, las fotos y la gestión del calendario y las reservas; la opción à la carte permite elegir servicios concretos.",
+      "keywords": "fórmulas planes Zen Tranquillité Zen Intégral à la carte comparar incluidos",
+      "href": "/formules",
+      "linkLabel": "Comparar las fórmulas"
+    },
+    {
+      "id": "alacarte",
+      "question": "¿Puedo solicitar un único servicio?",
+      "answer": "La opción à la carte permite solicitar limpieza, ropa de casa, recepción o mantenimiento sin elegir una fórmula completa. Indica el alojamiento, las fechas y lo que necesitas para confirmar la viabilidad y el presupuesto.",
+      "keywords": "à la carte a la carta puntual servicio individual limpieza ropa recepción",
+      "href": "/demander-prestation",
+      "linkLabel": "Solicitar un servicio"
+    },
+    {
+      "id": "tarifs",
+      "question": "¿Cómo puedo obtener un precio para mi alojamiento?",
+      "answer": "El presupuesto depende de las características del alojamiento, los servicios solicitados y su frecuencia. Describe tu vivienda y cómo la organizas para recibir una propuesta adaptada.",
+      "keywords": "tarifas precios coste presupuesto honorarios cuánto",
+      "href": "/contact",
+      "linkLabel": "Pedir un presupuesto"
+    },
+    {
+      "id": "annonces",
+      "question": "¿Podéis preparar mis anuncios de alquiler?",
+      "answer": "Zen Intégral contempla la creación y publicación de anuncios, además de fotos para presentar el alojamiento. Comenta con Maxime los anuncios existentes y las plataformas utilizadas para definir el trabajo necesario.",
+      "keywords": "anuncios Airbnb Booking Abritel fotos publicación alquiler creación",
+      "href": "/services/reservations",
+      "linkLabel": "Ver la gestión de reservas"
+    },
+    {
+      "id": "menage",
+      "question": "¿Cómo organizo la limpieza entre estancias?",
+      "answer": "Comunica las fechas de salida y llegada y las particularidades del alojamiento para organizar la limpieza y su preparación. El cambio de sábanas y toallas figura entre los servicios presentados, con un alcance que se concretará en tu solicitud.",
+      "keywords": "limpieza cambio huéspedes preparación salida llegada mantenimiento doméstico",
+      "href": "/services/menage",
+      "linkLabel": "Ver el servicio de limpieza"
+    },
+    {
+      "id": "linge",
+      "question": "¿Cómo puedo organizar la ropa de casa?",
+      "answer": "La gestión de ropa de casa está prevista en Zen Tranquillité y Zen Intégral y también puede solicitarse à la carte. Indica el número de camas y tus necesidades de sábanas y toallas para acordar la organización.",
+      "keywords": "ropa de casa sábanas toallas ropa de cama lavandería camas",
+      "href": "/demander-prestation",
+      "linkLabel": "Indicar mis necesidades de ropa"
+    },
+    {
+      "id": "accueil",
+      "question": "¿Qué incluye la recepción de mis huéspedes?",
+      "answer": "La recepción incluye la entrega de llaves, la presentación del alojamiento y las indicaciones sobre los equipos. La salida y la revisión del estado del alojamiento permiten transmitir información útil al propietario.",
+      "keywords": "recepción llaves llegada salida check-in check-out revisión",
+      "href": "/services/check-in",
+      "linkLabel": "Ver el servicio de recepción"
+    },
+    {
+      "id": "suivi",
+      "question": "¿Cómo consulto el seguimiento de mi alojamiento?",
+      "answer": "El área de propietarios permite consultar el seguimiento y los informes del alojamiento. El personal o la administración registra las intervenciones, que después puede consultar el propietario.",
+      "keywords": "seguimiento área propietarios cuenta informes intervenciones personal",
+      "href": "/compte",
+      "linkLabel": "Acceder a mi área"
+    },
+    {
+      "id": "dates",
+      "question": "¿Puedo reservar fechas para mi uso personal?",
+      "answer": "Puedes bloquear fechas en el espacio del propietario para tus estancias personales. Las reservas registradas por Zenvilla o confirmadas tras el pago en el sitio también aparecen en el calendario; contacta con Maxime para modificar una reserva existente.",
+      "keywords": "fechas bloquear calendario disponibilidad estancia personal propietario",
+      "href": "/compte",
+      "linkLabel": "Consultar mi calendario"
+    },
+    {
+      "id": "maintenance",
+      "question": "¿Cómo comunico una necesidad de mantenimiento?",
+      "answer": "Describe el problema, los equipos afectados y las posibilidades de acceso al alojamiento. ZenVilla puede coordinar mantenimiento preventivo o reparaciones con los profesionales correspondientes, según la necesidad y su disponibilidad.",
+      "keywords": "mantenimiento avería reparación asistencia técnico problema",
+      "href": "/services/maintenance",
+      "linkLabel": "Ver el servicio de mantenimiento"
+    },
+    {
+      "id": "demarrage",
+      "question": "¿Qué debo preparar para empezar con ZenVilla?",
+      "answer": "Presenta la ubicación del alojamiento, su capacidad, tu calendario y las tareas que quieres delegar. Una conversación con Maxime permitirá concretar tus necesidades y definir la fórmula y el presupuesto antes de organizar los servicios.",
+      "keywords": "empezar inicio alojamiento primera solicitud necesidades incorporación",
+      "href": "/contact",
+      "linkLabel": "Presentar mi proyecto"
+    },
+    {
+      "id": "voyageurs",
+      "question": "¿Mis huéspedes pueden solicitar servicios adicionales?",
+      "answer": "ZenVilla presenta servicios para huéspedes y actividades, como solicitudes de compra y alquiler de equipamiento. Los detalles, la disponibilidad y las condiciones deben confirmarse para cada solicitud.",
+      "keywords": "huéspedes servicios adicionales actividades compra equipamiento estancia",
+      "href": "/voyageurs",
+      "linkLabel": "Ver los servicios para huéspedes"
+    },
+    {
+      "id": "rdv",
+      "question": "¿Cómo puedo concertar una cita con Maxime?",
+      "answer": "Si la reserva de citas en línea está habilitada, elige una franja disponible en la sección correspondiente de la página de contacto. En caso contrario, contacta con Maxime para acordar una conversación sobre tu alojamiento.",
+      "keywords": "cita reunión franja llamada Maxime contacto reserva",
+      "href": "/contact#rendez-vous",
+      "linkLabel": "Concertar una cita"
+    }
+  ]
+}

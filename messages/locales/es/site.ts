@@ -284,7 +284,7 @@ const site = {
       "ZenVilla gestiona toda la villa: acogida, limpieza, mantenimiento y, si es preciso, publicación en plataformas. Siga todo en tiempo real con nuestra app.",
     faqZonesTitle: "¿Qué zonas cubre ZenVilla?",
     faqZonesBody:
-      "Intervenimos en Córcega del Sur: Bonifacio, Porto-Vecchio, Propriano, Sartène y alrededores. Pregunte por su zona.",
+      "Trabajamos principalmente en Santa Giulia y Porto-Vecchio. Para otra zona, contáctanos para confirmar las posibilidades de intervención.",
     faqPriceTitle: "¿Cómo es la tarificación?",
     faqPriceBody:
       "Ofrecemos Zen Tranquillité (esencial), Zen Integral (gestión completa) y fórmula a la carte. Pida un presupuesto personalizado.",

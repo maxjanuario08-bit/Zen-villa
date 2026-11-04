@@ -1,4 +1,6 @@
 "use client";
+import AppointmentSection from "@/components/AppointmentSection";
+import {Link} from "@/i18n/navigation";
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
@@ -54,6 +56,7 @@ const FORMSPREE_URL = process.env.NEXT_PUBLIC_FORMSPREE_ID
 
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
+  const assistantT = useTranslations("Assistant");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -149,6 +152,7 @@ export default function ContactPage() {
           <p className="mt-6 text-lg sm:text-xl text-white/95 max-w-2xl mx-auto animate-fade-in-up animation-delay-100">
             {t("heroSubtitle")}
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3"><Link href="/contact#rendez-vous" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-lagoon-dark">{assistantT("appointment")}</Link><Link href="/contact#formulaire" className="rounded-full border border-white/70 px-5 py-3 text-sm font-semibold text-white">{assistantT("formLink")}</Link></div>
           <p className="mt-3 text-sm text-white/90 font-medium animate-fade-in-up animation-delay-100">
             {t("fastReply")}
           </p>
@@ -210,7 +214,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 pb-24 bg-background">
+      <AppointmentSection />
+      <section id="formulaire" className="scroll-mt-28 py-12 sm:py-20 pb-24 bg-background">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
             <div className="lg:col-span-3">
