@@ -1,3 +1,4 @@
+import HomePresentation from "./homePresentation";
 import Assistant from "./assistant";
 import PropertyReviews from "./propertyReviews";
 import PasswordRecovery from "./passwordRecovery";
@@ -13,6 +14,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  HomePresentation,
   Assistant,
   PasswordRecovery,
   PropertyReviews,
