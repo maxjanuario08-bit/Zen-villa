@@ -1,3 +1,4 @@
+import FormulaComparison from "./formulaComparison";
 import HomePresentation from "./homePresentation";
 import Assistant from "./assistant";
 import PropertyReviews from "./propertyReviews";
@@ -14,6 +15,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  FormulaComparison,
   HomePresentation,
   Assistant,
   PasswordRecovery,

@@ -48,6 +48,7 @@ export async function getOwnerCalendarPayload(slug: string) {
     stripePaid = [];
   }
   const icalImportUrl = await getIcalImportUrl(slug);
+  const booking: BookingConfig | undefined = logement?.booking;
   return {
     stays,
     ownerBlocks: mergeDateRanges([...owner, ...icalImport]),
@@ -55,7 +56,7 @@ export async function getOwnerCalendarPayload(slug: string) {
     icalImportUrl,
     icalExportPath: `/api/ical/${slug}`,
     closedMmdd: logement?.booking?.closedMmdd ?? null,
-    openRanges: [...(logement?.booking?.dateOverrides ?? [])],
+    openRanges: [...(booking?.dateOverrides ?? [])],
     staticBlocked: [...(logement?.booking?.blocked ?? [])],
   };
 }

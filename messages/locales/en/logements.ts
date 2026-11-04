@@ -36,7 +36,7 @@ const logements = {
   fromNight: "From {price} / night",
   booking: {
     title: "Book your stay",
-    subtitle: "Rentals from 3 March to 1 November. March and April: 5-night minimum. Rest of the season: 2-night minimum. Each night’s rate is shown on the calendar.",
+    subtitle: "Rental nights from 3 March to 31 October. March and April: 5-night minimum. Rest of the season: 2-night minimum. Each night’s rate is shown on the calendar.",
     fromPrice: "From {price} / night",
     prevMonth: "Previous month",
     nextMonth: "Next month",

@@ -37,7 +37,7 @@ const logements = {
   booking: {
     title: "Réserver",
     subtitle:
-      "Locations du 3 mars au 1er novembre. Mars et avril : 5 nuits minimum. Le reste de la saison : 2 nuits minimum. Le tarif de chaque nuit s’affiche dans le calendrier.",
+      "Locations du 3 mars au 31 octobre (dernière nuit). Mars et avril : 5 nuits minimum. Le reste de la saison : 2 nuits minimum. Le tarif de chaque nuit s’affiche dans le calendrier.",
     fromPrice: "À partir de {price} / nuit",
     prevMonth: "Mois précédent",
     nextMonth: "Mois suivant",
