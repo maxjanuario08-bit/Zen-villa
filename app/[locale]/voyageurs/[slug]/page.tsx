@@ -1,3 +1,5 @@
+import {CalendarDays,Coins,MapPin,Users,Info,Check,ArrowRight} from "lucide-react";
+import {languageAlternates} from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -27,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${tGuest(`${slug}.label`)} | ZenVilla`,
     description: tGuest(`${slug}.description`),
+    alternates: languageAlternates(locale, `/voyageurs/${slug}`),
   };
 }
 
@@ -38,9 +41,11 @@ export default async function VoyageurServicePage({ params }: Props) {
 
   const tGuest = await getTranslations({ locale, namespace: "guestServices" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
-  const tFooter = await getTranslations({ locale, namespace: "Footer" });
+  const presentation = await getTranslations({locale,namespace:"GuestPresentation"});
+  const logistics = presentation.raw(`logistics.${slug}`) as {duration:string;price:string;place:string;capacity:string};
+  const infoFields = [{key:"duration",icon:CalendarDays},{key:"price",icon:Coins},{key:"place",icon:MapPin},{key:"capacity",icon:Users}] as const;
   const label = tGuest(`${slug}.label`);
-  const description = tGuest(`${slug}.description`);
+  const description = presentation(`cards.${slug}`);
   const details = tGuest.raw(`${slug}.details`) as readonly string[];
 
   return (
@@ -48,7 +53,7 @@ export default async function VoyageurServicePage({ params }: Props) {
       <section className="relative hero-bandeau flex flex-col justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/hero-cote.png"
+            src={service.image}
             alt=""
             fill
             className="object-cover"
@@ -76,28 +81,15 @@ export default async function VoyageurServicePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="py-16 sm:py-24 bg-sand-light">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-serif font-semibold text-lagoon-dark mb-8">{tCommon("inDetail")}</h2>
-          <ul className="space-y-4">
-            {details.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <span className="text-lagoon mt-0.5 text-xl">✓</span>
-                <span className="text-foreground/90 text-lg">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-12 pt-8 border-t border-sand/50">
-            <p className="text-foreground/80 mb-6">{tCommon("bookingHintGuest")}</p>
-            <div className="flex flex-wrap gap-4">
-              <Button href="/demander-prestation" variant="primary">
-                {tFooter("linkRequestService")}
-              </Button>
-              <Button href="/voyageurs" variant="outline">
-                {tCommon("viewAllGuestServices")}
-              </Button>
-            </div>
+      <section className="bg-background py-12 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            <div><h2 className="mb-7 font-serif text-3xl font-semibold text-lagoon-dark">{presentation("detailsTitle")}</h2><ul className="space-y-4">{details.map(item=><li key={item} className="flex items-start gap-3"><span className="mt-1 rounded-full bg-lagoon p-1 text-white"><Check size={13} aria-hidden="true"/></span><span className="leading-relaxed text-foreground/90">{item}</span></li>)}</ul></div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl"><Image src={service.image} alt={label} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover"/></div>
           </div>
+          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{infoFields.map(({key,icon:Icon})=><div key={key} className="rounded-2xl border border-sand/60 bg-white p-5"><dt className="font-semibold text-lagoon-dark"><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="mb-3 text-lagoon"/>{presentation(`metaLabels.${key}`)}</dt><dd className="mt-2 text-sm leading-relaxed text-muted">{logistics[key]}</dd></div>)}</dl>
+          <aside className="mt-7 flex items-start gap-3 rounded-2xl bg-sand-light p-5"><Info size={22} aria-hidden="true" className="mt-1 shrink-0 text-lagoon"/><div><h2 className="font-serif text-xl font-semibold text-lagoon-dark">{presentation("infoTitle")}</h2><p className="mt-1 text-sm leading-relaxed text-muted">{presentation("infoBody")}</p></div></aside>
+          <div className="mt-10 rounded-2xl border border-sand/50 bg-white p-6 text-center sm:p-9"><h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{presentation("requestTitle")}</h2><p className="mx-auto mb-6 mt-3 max-w-2xl text-muted">{presentation("requestBody")}</p><Button href={`/demander-prestation?prestation=${service.slug}`}><span>{presentation("requestButton")}</span><ArrowRight size={17} aria-hidden="true" className="ml-2"/></Button><div className="mt-5"><Link href="/voyageurs" className="text-sm font-semibold text-lagoon underline underline-offset-4">{tCommon("viewAllGuestServices")}</Link></div></div>
         </div>
       </section>
     </div>
