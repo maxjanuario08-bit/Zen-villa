@@ -5,6 +5,10 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import providers from "@/data/service-providers.json";
+import ServiceProviders from "@/components/ServiceProviders";
+import ServicePricing from "@/components/ServicePricing";
+import {pricingGroups,priceText} from "@/lib/service-pricing";
 import Button from "@/components/ui/Button";
 import ServiceIcon from "@/components/icons/ServiceIcon";
 import { voyageursServices } from "@/lib/voyageurs-services";
@@ -43,6 +47,11 @@ export default async function VoyageurServicePage({ params }: Props) {
   const tCommon = await getTranslations({ locale, namespace: "Common" });
   const presentation = await getTranslations({locale,namespace:"GuestPresentation"});
   const logistics = presentation.raw(`logistics.${slug}`) as {duration:string;price:string;place:string;capacity:string};
+  const pricing = await getTranslations({locale,namespace:"Pricing"});
+  const priceLabels=Object.fromEntries(["quote","from","bed","person","hour","month","day","halfHour","purchases","equipment","holder","flowers","supplies"].map(key=>[key,pricing(key)]));
+  const firstPrice=pricingGroups("guest",slug)[0]?.rows[0];
+  const hasExternalProvider=providers.some(provider=>provider.enabled && provider.services.includes(slug));
+  const shownPrice=hasExternalProvider?pricing("providerPrices"):slug==="transport"?pricing("transportLabel"):firstPrice?priceText({...firstPrice,mode:"from"},locale,priceLabels):logistics.price;
   const infoFields = [{key:"duration",icon:CalendarDays},{key:"price",icon:Coins},{key:"place",icon:MapPin},{key:"capacity",icon:Users}] as const;
   const label = tGuest(`${slug}.label`);
   const description = presentation(`cards.${slug}`);
@@ -87,9 +96,11 @@ export default async function VoyageurServicePage({ params }: Props) {
             <div><h2 className="mb-7 font-serif text-3xl font-semibold text-lagoon-dark">{presentation("detailsTitle")}</h2><ul className="space-y-4">{details.map(item=><li key={item} className="flex items-start gap-3"><span className="mt-1 rounded-full bg-lagoon p-1 text-white"><Check size={13} aria-hidden="true"/></span><span className="leading-relaxed text-foreground/90">{item}</span></li>)}</ul></div>
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl"><Image src={service.image} alt={label} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover"/></div>
           </div>
-          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{infoFields.map(({key,icon:Icon})=><div key={key} className="rounded-2xl border border-sand/60 bg-white p-5"><dt className="font-semibold text-lagoon-dark"><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="mb-3 text-lagoon"/>{presentation(`metaLabels.${key}`)}</dt><dd className="mt-2 text-sm leading-relaxed text-muted">{logistics[key]}</dd></div>)}</dl>
+          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{infoFields.map(({key,icon:Icon})=><div key={key} className="rounded-2xl border border-sand/60 bg-white p-5"><dt className="font-semibold text-lagoon-dark"><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="mb-3 text-lagoon"/>{presentation(`metaLabels.${key}`)}</dt><dd className="mt-2 text-sm leading-relaxed text-muted">{key==="price"?shownPrice:logistics[key]}</dd></div>)}</dl>
 
-          <div className="mt-10 rounded-2xl border border-sand/50 bg-white p-6 text-center sm:p-9"><h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{presentation("requestTitle")}</h2><p className="mx-auto mb-6 mt-3 max-w-2xl text-muted">{presentation("requestBody")}</p><Button href={`/demander-prestation?prestation=${service.slug}`}><span>{presentation("requestButton")}</span><ArrowRight size={17} aria-hidden="true" className="ml-2"/></Button><div className="mt-5"><Link href="/voyageurs" className="text-sm font-semibold text-lagoon underline underline-offset-4">{tCommon("viewAllGuestServices")}</Link></div></div>
+          <ServiceProviders locale={locale} service={slug}/>
+          <div className="mt-10"><ServicePricing locale={locale} audience="guest" service={slug} compact/></div>
+          {!hasExternalProvider ? <div className="mt-10 rounded-2xl border border-sand/50 bg-white p-6 text-center sm:p-9"><h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{presentation("requestTitle")}</h2><p className="mx-auto mb-6 mt-3 max-w-2xl text-muted">{presentation("requestBody")}</p><Button href={`/demander-prestation?prestation=${service.slug}`}><span>{presentation("requestButton")}</span><ArrowRight size={17} aria-hidden="true" className="ml-2"/></Button><div className="mt-5"><Link href="/voyageurs" className="text-sm font-semibold text-lagoon underline underline-offset-4">{tCommon("viewAllGuestServices")}</Link></div></div> : <div className="mt-8 text-center"><Link href="/voyageurs" className="text-sm font-semibold text-lagoon underline underline-offset-4">{tCommon("viewAllGuestServices")}</Link></div>}
         </div>
       </section>
     </div>

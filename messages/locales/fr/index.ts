@@ -1,3 +1,4 @@
+import Pricing from "./pricing";
 import OwnerWorkspace from "./ownerWorkspace";
 import ServicePresentation from "./servicePresentation";
 import ContactPresentation from "./contactPresentation";
@@ -19,6 +20,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  Pricing,
   OwnerWorkspace,
   ServicePresentation,
   ContactPresentation,

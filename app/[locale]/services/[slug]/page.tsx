@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft, CalendarDays, Camera, Check, CircleCheck, ClipboardCheck, Headset, House, ImageIcon, Info, KeyRound, Leaf, MapPin, MessageCircle, Monitor, Send, Shirt, Sparkles, Wrench } from "lucide-react";
+import ServicePricing from "@/components/ServicePricing";
 import Button from "@/components/ui/Button";
 import { homeServices, type HomeServiceSlug } from "@/lib/services";
 
@@ -63,5 +64,6 @@ export default async function ServiceDetailPage({params}:Props) {
         </aside>
       </div>
     </section>
+    <section className="bg-background py-10 sm:py-14"><div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><ServicePricing locale={locale} audience="owner" service={slug} compact/></div></section>
   </div>;
 }

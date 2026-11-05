@@ -19,7 +19,7 @@
     {
       "id": "formules",
       "question": "Comment choisir entre Zen Tranquillité et Zen Intégral ?",
-      "answer": "Zen Tranquillité comprend notamment l’accueil et le départ, le ménage, le linge et le suivi digital. Zen Intégral y ajoute la création et la diffusion des annonces, les photos et la gestion du calendrier et des réservations ; à la carte permet de choisir des prestations ciblées.",
+      "answer": "Zen Tranquillité (18 %) prévoit l’accueil et le départ, le ménage de rotation standard, la préparation et le suivi digital. Zen Intégral (22 %) y ajoute notamment les photos initiales, le travail sur les annonces, le suivi des réservations et la communication voyageurs. Le linge courant est précisé au contrat. À la carte, vous choisissez des interventions ponctuelles sans commission obligatoire.",
       "keywords": "formules forfaits Zen Tranquillité Zen Intégral à la carte comparer inclus",
       "href": "/formules",
       "linkLabel": "Comparer les formules"
@@ -35,18 +35,18 @@
     {
       "id": "tarifs",
       "question": "Comment obtenir un tarif pour mon logement ?",
-      "answer": "Le devis dépend des caractéristiques du logement, des prestations souhaitées et de leur fréquence. Décrivez votre bien et votre organisation pour recevoir une proposition adaptée.",
+      "answer": "Zen Tranquillité est proposé à 18 % et Zen Intégral à 22 % des loyers d’hébergement, avant frais des plateformes. À la carte, le check-in est à 35 €, le check-out à 30 € et les deux passages à 60 €. Consultez la grille complète pour le ménage, le linge et les autres interventions ; un devis précise le périmètre de votre demande.",
       "keywords": "tarifs prix coût devis budget honoraires combien",
-      "href": "/contact",
-      "linkLabel": "Demander un devis"
+      "href": "/formules#tarifs-a-la-carte",
+      "linkLabel": "Consulter les tarifs"
     },
     {
       "id": "annonces",
       "question": "Pouvez-vous préparer mes annonces de location ?",
       "answer": "Zen Intégral prévoit la création et la diffusion des annonces ainsi que des photos pour présenter votre logement. Échangez avec Maxime sur vos annonces existantes et les plateformes concernées afin de définir le travail à prévoir.",
       "keywords": "annonces Airbnb Booking Abritel photos diffusion création location",
-      "href": "/services/reservations",
-      "linkLabel": "Voir la gestion des réservations"
+      "href": "/services/annonces-photos",
+      "linkLabel": "Voir les annonces et photos"
     },
     {
       "id": "menage",
@@ -141,7 +141,7 @@
     {
       "id": "formules",
       "question": "How do I choose between Zen Tranquillité and Zen Intégral?",
-      "answer": "Zen Tranquillité includes guest arrivals and departures, cleaning, linen management and digital updates. Zen Intégral adds listing creation and publication, photography, calendar and booking management; à la carte lets you select individual services.",
+      "answer": "Zen Tranquillité (18%) covers arrivals and departures, standard changeover cleaning, preparation and digital updates. Zen Intégral (22%) also includes initial photos, work on listings, booking follow-up and guest communication. Everyday linen is defined in the contract. À la carte offers individual services without a mandatory commission.",
       "keywords": "packages plans Zen Tranquillité Zen Intégral à la carte compare included",
       "href": "/formules",
       "linkLabel": "Compare the packages"
@@ -157,18 +157,18 @@
     {
       "id": "tarifs",
       "question": "How can I get a price for my property?",
-      "answer": "Your quote depends on the property, the services required and their frequency. Describe your home and current arrangements to receive a tailored proposal.",
+      "answer": "Zen Tranquillité is priced at 18% and Zen Intégral at 22% of accommodation rental income, before platform fees. À la carte, check-in costs €35, check-out €30, or €60 for both visits. See the full price list for cleaning, linen and other services; a quote defines the scope of your request.",
       "keywords": "prices pricing cost quote budget fees how much",
-      "href": "/contact",
-      "linkLabel": "Request a quote"
+      "href": "/formules#tarifs-a-la-carte",
+      "linkLabel": "View prices"
     },
     {
       "id": "annonces",
       "question": "Can you prepare my rental listings?",
       "answer": "Zen Intégral includes listing creation and publication as well as photography to present your property. Discuss your existing listings and the platforms involved with Maxime to define the work needed.",
       "keywords": "listings Airbnb Booking Abritel photography publication rental creation",
-      "href": "/services/reservations",
-      "linkLabel": "View booking management"
+      "href": "/services/annonces-photos",
+      "linkLabel": "View listings and photos"
     },
     {
       "id": "menage",
@@ -263,7 +263,7 @@
     {
       "id": "formules",
       "question": "¿Cómo elegir entre Zen Tranquillité y Zen Intégral?",
-      "answer": "Zen Tranquillité incluye la llegada y salida de huéspedes, la limpieza, la gestión de ropa de casa y el seguimiento digital. Zen Intégral añade la creación y publicación de anuncios, las fotos y la gestión del calendario y las reservas; la opción à la carte permite elegir servicios concretos.",
+      "answer": "Zen Tranquillité (18 %) contempla llegadas y salidas, limpieza estándar entre estancias, preparación y seguimiento digital. Zen Intégral (22 %) añade fotos iniciales, trabajo sobre los anuncios, seguimiento de reservas y comunicación con viajeros. La ropa habitual se define en el contrato. A la carta permite solicitar intervenciones puntuales sin comisión obligatoria.",
       "keywords": "fórmulas planes Zen Tranquillité Zen Intégral à la carte comparar incluidos",
       "href": "/formules",
       "linkLabel": "Comparar las fórmulas"
@@ -279,18 +279,18 @@
     {
       "id": "tarifs",
       "question": "¿Cómo puedo obtener un precio para mi alojamiento?",
-      "answer": "El presupuesto depende de las características del alojamiento, los servicios solicitados y su frecuencia. Describe tu vivienda y cómo la organizas para recibir una propuesta adaptada.",
+      "answer": "Zen Tranquillité se ofrece al 18 % y Zen Intégral al 22 % de los ingresos de alojamiento, antes de las comisiones de las plataformas. A la carta: check-in 35 €, check-out 30 €, o ambas visitas 60 €. Consulta todas las tarifas de limpieza, ropa y otros servicios; un presupuesto define el alcance de tu solicitud.",
       "keywords": "tarifas precios coste presupuesto honorarios cuánto",
-      "href": "/contact",
-      "linkLabel": "Pedir un presupuesto"
+      "href": "/formules#tarifs-a-la-carte",
+      "linkLabel": "Ver las tarifas"
     },
     {
       "id": "annonces",
       "question": "¿Podéis preparar mis anuncios de alquiler?",
       "answer": "Zen Intégral contempla la creación y publicación de anuncios, además de fotos para presentar el alojamiento. Comenta con Maxime los anuncios existentes y las plataformas utilizadas para definir el trabajo necesario.",
       "keywords": "anuncios Airbnb Booking Abritel fotos publicación alquiler creación",
-      "href": "/services/reservations",
-      "linkLabel": "Ver la gestión de reservas"
+      "href": "/services/annonces-photos",
+      "linkLabel": "Ver anuncios y fotos"
     },
     {
       "id": "menage",

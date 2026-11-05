@@ -28,7 +28,7 @@ export default {
     "capacity": "Participantes"
   },
   "cards": {
-    "transport": "Planifica los traslados entre tu alojamiento, el aeropuerto, la estación o el puerto según tu itinerario.",
+    "transport": "Descubre los trayectos y precios previstos para el futuro transporte privado Zen Villa. Este servicio todavía no está disponible para reservar.",
     "petit-dejeuner": "Consulta las opciones de desayuno en la villa según tus preferencias y la disponibilidad.",
     "linge": "Infórmate sobre las opciones de lavado, secado y planchado durante tu estancia.",
     "courses": "Prepara una lista de la compra para tu llegada o las comidas de tu estancia.",

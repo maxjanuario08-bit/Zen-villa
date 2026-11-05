@@ -1,0 +1,1148 @@
+[
+  {
+    "id": "accueil",
+    "audience": "owner",
+    "services": [
+      "check-in"
+    ],
+    "title": {
+      "fr": "Accueil, départ et préparation",
+      "en": "Arrivals, departures and preparation",
+      "es": "Llegadas, salidas y preparación"
+    },
+    "rows": [
+      {
+        "id": "accueil-0",
+        "label": {
+          "fr": "Check-in physique avec remise des clés",
+          "en": "In-person check-in and key handover",
+          "es": "Check-in presencial y entrega de llaves"
+        },
+        "amount": 35,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-1",
+        "label": {
+          "fr": "Check-out avec vérification du logement",
+          "en": "Check-out and property inspection",
+          "es": "Check-out y revisión del alojamiento"
+        },
+        "amount": 30,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-2",
+        "label": {
+          "fr": "Check-in + check-out",
+          "en": "Check-in + check-out",
+          "es": "Check-in + check-out"
+        },
+        "amount": 60,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-3",
+        "label": {
+          "fr": "Arrivée tardive après 20 h",
+          "en": "Late arrival after 8 pm",
+          "es": "Llegada tardía después de las 20 h"
+        },
+        "amount": 20,
+        "mode": "supplement",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-4",
+        "label": {
+          "fr": "Vérification du logement et photos",
+          "en": "Property inspection and photos",
+          "es": "Revisión del alojamiento y fotos"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-5",
+        "label": {
+          "fr": "Inventaire détaillé",
+          "en": "Detailed inventory",
+          "es": "Inventario detallado"
+        },
+        "amount": 45,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-6",
+        "label": {
+          "fr": "Préparation du logement avant arrivée",
+          "en": "Property preparation before arrival",
+          "es": "Preparación del alojamiento antes de la llegada"
+        },
+        "amount": 35,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "accueil-7",
+        "label": {
+          "fr": "Mise en place du linge propre",
+          "en": "Setting out clean bed linen",
+          "es": "Colocación de ropa de cama limpia"
+        },
+        "amount": 5,
+        "mode": "from",
+        "unit": "bed",
+        "extra": ""
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "menage",
+    "audience": "owner",
+    "services": [
+      "menage"
+    ],
+    "title": {
+      "fr": "Ménage et blanchisserie",
+      "en": "Cleaning and laundry",
+      "es": "Limpieza y lavandería"
+    },
+    "rows": [
+      {
+        "id": "menage-0",
+        "label": {
+          "fr": "Studio / T1, jusqu’à 30 m²",
+          "en": "Studio / T1, up to 30 m²",
+          "es": "Estudio / T1, hasta 30 m²"
+        },
+        "amount": 45,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-1",
+        "label": {
+          "fr": "T2, 31 à 49 m²",
+          "en": "T2, 31–49 m²",
+          "es": "T2, 31–49 m²"
+        },
+        "amount": 60,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-2",
+        "label": {
+          "fr": "T3, 50 à 69 m²",
+          "en": "T3, 50–69 m²",
+          "es": "T3, 50–69 m²"
+        },
+        "amount": 80,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-3",
+        "label": {
+          "fr": "T4, 70 à 89 m²",
+          "en": "T4, 70–89 m²",
+          "es": "T4, 70–89 m²"
+        },
+        "amount": 100,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-4",
+        "label": {
+          "fr": "Grande villa, 90 à 120 m²",
+          "en": "Large villa, 90–120 m²",
+          "es": "Villa grande, 90–120 m²"
+        },
+        "amount": 130,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-5",
+        "label": {
+          "fr": "Villa de plus de 120 m²",
+          "en": "Villa over 120 m²",
+          "es": "Villa de más de 120 m²"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-6",
+        "label": {
+          "fr": "Ménage de printemps / début de saison",
+          "en": "Spring / start-of-season cleaning",
+          "es": "Limpieza de primavera / inicio de temporada"
+        },
+        "amount": 120,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-7",
+        "label": {
+          "fr": "Ménage intermédiaire — minimum 1 h",
+          "en": "Mid-stay cleaning — minimum 1 hour",
+          "es": "Limpieza intermedia — mínimo 1 hora"
+        },
+        "amount": 30,
+        "mode": "fixed",
+        "unit": "hour",
+        "extra": ""
+      },
+      {
+        "id": "menage-8",
+        "label": {
+          "fr": "Lavage d’un jeu de linge de lit double",
+          "en": "Washing one double-bed linen set",
+          "es": "Lavado de un juego de ropa de cama doble"
+        },
+        "amount": 15,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-9",
+        "label": {
+          "fr": "Lavage de deux serviettes",
+          "en": "Washing two towels",
+          "es": "Lavado de dos toallas"
+        },
+        "amount": 8,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-10",
+        "label": {
+          "fr": "Lavage et séchage, panier de 5 kg",
+          "en": "Washing and drying, 5 kg basket",
+          "es": "Lavado y secado, cesta de 5 kg"
+        },
+        "amount": 15,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "menage-11",
+        "label": {
+          "fr": "Location de linge auprès d’un fournisseur",
+          "en": "Linen rental through a supplier",
+          "es": "Alquiler de ropa de cama a un proveedor"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      }
+    ],
+    "note": "cleaning"
+  },
+  {
+    "id": "intendance",
+    "audience": "owner",
+    "services": [
+      "maintenance",
+      "assistance"
+    ],
+    "title": {
+      "fr": "Intendance et suivi du logement",
+      "en": "Property care and monitoring",
+      "es": "Supervisión y cuidado del alojamiento"
+    },
+    "rows": [
+      {
+        "id": "intendance-0",
+        "label": {
+          "fr": "Visite de surveillance avec compte rendu photo",
+          "en": "Inspection visit with photo report",
+          "es": "Visita de supervisión con informe fotográfico"
+        },
+        "amount": 30,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-1",
+        "label": {
+          "fr": "Deux visites mensuelles",
+          "en": "Two visits per month",
+          "es": "Dos visitas mensuales"
+        },
+        "amount": 55,
+        "mode": "fixed",
+        "unit": "month",
+        "extra": ""
+      },
+      {
+        "id": "intendance-2",
+        "label": {
+          "fr": "Quatre visites mensuelles",
+          "en": "Four visits per month",
+          "es": "Cuatro visitas mensuales"
+        },
+        "amount": 100,
+        "mode": "fixed",
+        "unit": "month",
+        "extra": ""
+      },
+      {
+        "id": "intendance-3",
+        "label": {
+          "fr": "Ouverture / fermeture de résidence",
+          "en": "Opening / closing the property",
+          "es": "Apertura / cierre de la vivienda"
+        },
+        "amount": 40,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-4",
+        "label": {
+          "fr": "Visite après intempéries",
+          "en": "Visit after severe weather",
+          "es": "Visita después de un temporal"
+        },
+        "amount": 35,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-5",
+        "label": {
+          "fr": "Réception d’un artisan ou d’une livraison — première heure",
+          "en": "Meeting a tradesperson or receiving a delivery — first hour",
+          "es": "Recepción de un profesional o una entrega — primera hora"
+        },
+        "amount": 30,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-6",
+        "label": {
+          "fr": "Temps supplémentaire sur place",
+          "en": "Additional time on site",
+          "es": "Tiempo adicional en el alojamiento"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "hour",
+        "extra": ""
+      },
+      {
+        "id": "intendance-7",
+        "label": {
+          "fr": "Coordination d’une réparation",
+          "en": "Repair coordination",
+          "es": "Coordinación de una reparación"
+        },
+        "amount": 30,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-8",
+        "label": {
+          "fr": "Vérification visuelle piscine ou jardin",
+          "en": "Visual pool or garden check",
+          "es": "Revisión visual de piscina o jardín"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "intendance-9",
+        "label": {
+          "fr": "Réapprovisionnement de consommables",
+          "en": "Restocking consumables",
+          "es": "Reposición de consumibles"
+        },
+        "amount": 20,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "purchases"
+      },
+      {
+        "id": "intendance-10",
+        "label": {
+          "fr": "Suivi de travaux prolongé",
+          "en": "Extended works monitoring",
+          "es": "Seguimiento prolongado de obras"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      }
+    ],
+    "note": "maintenance"
+  },
+  {
+    "id": "annonces",
+    "audience": "owner",
+    "services": [
+      "annonces-photos",
+      "reservations"
+    ],
+    "title": {
+      "fr": "Mise en valeur, photos et annonces",
+      "en": "Presentation, photos and listings",
+      "es": "Presentación, fotos y anuncios"
+    },
+    "rows": [
+      {
+        "id": "annonces-0",
+        "label": {
+          "fr": "Shooting photo simple, jusqu’à 60 m²",
+          "en": "Simple photo shoot, up to 60 m²",
+          "es": "Sesión fotográfica sencilla, hasta 60 m²"
+        },
+        "amount": 120,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-1",
+        "label": {
+          "fr": "Shooting villa, jusqu’à 120 m²",
+          "en": "Villa photo shoot, up to 120 m²",
+          "es": "Sesión fotográfica de villa, hasta 120 m²"
+        },
+        "amount": 180,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-2",
+        "label": {
+          "fr": "Photos grande villa / extérieur complexe",
+          "en": "Large villa / complex outdoor photography",
+          "es": "Fotos de villa grande / exteriores complejos"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-3",
+        "label": {
+          "fr": "Retouche de photos existantes",
+          "en": "Editing existing photos",
+          "es": "Retoque de fotos existentes"
+        },
+        "amount": 40,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-4",
+        "label": {
+          "fr": "Rédaction d’un descriptif commercial",
+          "en": "Writing a property description",
+          "es": "Redacción de una descripción comercial"
+        },
+        "amount": 60,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-5",
+        "label": {
+          "fr": "Audit de présentation et conseils d’amélioration",
+          "en": "Presentation review and improvement advice",
+          "es": "Revisión de presentación y consejos de mejora"
+        },
+        "amount": 75,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-6",
+        "label": {
+          "fr": "Guide d’accueil digital personnalisé",
+          "en": "Personalised digital welcome guide",
+          "es": "Guía de bienvenida digital personalizada"
+        },
+        "amount": 90,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-7",
+        "label": {
+          "fr": "Mise à jour d’un guide digital",
+          "en": "Updating a digital guide",
+          "es": "Actualización de una guía digital"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "annonces-8",
+        "label": {
+          "fr": "Installation d’une boîte à clés",
+          "en": "Installing a key safe",
+          "es": "Instalación de una caja de llaves"
+        },
+        "amount": 45,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "equipment"
+      },
+      {
+        "id": "annonces-9",
+        "label": {
+          "fr": "Installation d’un QR code et de son support",
+          "en": "Installing a QR code and its holder",
+          "es": "Instalación de un código QR y su soporte"
+        },
+        "amount": 15,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "holder"
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "attentions",
+    "audience": "guest",
+    "services": [
+      "petit-dejeuner",
+      "courses"
+    ],
+    "title": {
+      "fr": "Courses, petit-déjeuner et attentions",
+      "en": "Groceries, breakfast and thoughtful extras",
+      "es": "Compras, desayuno y detalles"
+    },
+    "rows": [
+      {
+        "id": "attentions-0",
+        "label": {
+          "fr": "Petit-déjeuner standard",
+          "en": "Standard breakfast",
+          "es": "Desayuno estándar"
+        },
+        "amount": 15,
+        "mode": "from",
+        "unit": "person",
+        "extra": ""
+      },
+      {
+        "id": "attentions-1",
+        "label": {
+          "fr": "Petit-déjeuner gourmand",
+          "en": "Special breakfast",
+          "es": "Desayuno especial"
+        },
+        "amount": 22,
+        "mode": "from",
+        "unit": "person",
+        "extra": ""
+      },
+      {
+        "id": "attentions-2",
+        "label": {
+          "fr": "Livraison petit-déjeuner hors secteur habituel",
+          "en": "Breakfast delivery outside the usual area",
+          "es": "Entrega de desayuno fuera de la zona habitual"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "attentions-3",
+        "label": {
+          "fr": "Livraison de courses Drive",
+          "en": "Click-and-collect grocery delivery",
+          "es": "Entrega de compra preparada"
+        },
+        "amount": 35,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "purchases"
+      },
+      {
+        "id": "attentions-4",
+        "label": {
+          "fr": "Courses réalisées en magasin",
+          "en": "In-store grocery shopping",
+          "es": "Compra realizada en tienda"
+        },
+        "amount": 45,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "purchases"
+      },
+      {
+        "id": "attentions-5",
+        "label": {
+          "fr": "Réfrigérateur rempli avant arrivée",
+          "en": "Fridge stocked before arrival",
+          "es": "Nevera llena antes de la llegada"
+        },
+        "amount": 45,
+        "mode": "fixed",
+        "unit": "",
+        "extra": "purchases"
+      },
+      {
+        "id": "attentions-6",
+        "label": {
+          "fr": "Panier apéritif corse",
+          "en": "Corsican aperitif basket",
+          "es": "Cesta de aperitivo corso"
+        },
+        "amount": 35,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "attentions-7",
+        "label": {
+          "fr": "Panier pique-nique",
+          "en": "Picnic basket",
+          "es": "Cesta de pícnic"
+        },
+        "amount": 18,
+        "mode": "from",
+        "unit": "person",
+        "extra": ""
+      },
+      {
+        "id": "attentions-8",
+        "label": {
+          "fr": "Livraison de fleurs",
+          "en": "Flower delivery",
+          "es": "Entrega de flores"
+        },
+        "amount": 20,
+        "mode": "from",
+        "unit": "",
+        "extra": "flowers"
+      },
+      {
+        "id": "attentions-9",
+        "label": {
+          "fr": "Produit oublié / achat urgent",
+          "en": "Forgotten item / urgent purchase",
+          "es": "Producto olvidado / compra urgente"
+        },
+        "amount": 15,
+        "mode": "from",
+        "unit": "",
+        "extra": "purchases"
+      },
+      {
+        "id": "attentions-10",
+        "label": {
+          "fr": "Préparation romantique",
+          "en": "Romantic preparation",
+          "es": "Preparación romántica"
+        },
+        "amount": 45,
+        "mode": "from",
+        "unit": "",
+        "extra": "supplies"
+      },
+      {
+        "id": "attentions-11",
+        "label": {
+          "fr": "Décoration anniversaire",
+          "en": "Birthday decoration",
+          "es": "Decoración de cumpleaños"
+        },
+        "amount": 35,
+        "mode": "from",
+        "unit": "",
+        "extra": "supplies"
+      }
+    ],
+    "note": "breakfast"
+  },
+  {
+    "id": "sejour",
+    "audience": "guest",
+    "services": [
+      "linge"
+    ],
+    "title": {
+      "fr": "Entretien et services pendant le séjour",
+      "en": "Cleaning and services during your stay",
+      "es": "Limpieza y servicios durante la estancia"
+    },
+    "rows": [
+      {
+        "id": "sejour-0",
+        "label": {
+          "fr": "Lavage et séchage jusqu’à 5 kg",
+          "en": "Washing and drying, up to 5 kg",
+          "es": "Lavado y secado, hasta 5 kg"
+        },
+        "amount": 15,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-1",
+        "label": {
+          "fr": "Linge avec collecte et retour spécifiques",
+          "en": "Laundry with dedicated collection and return",
+          "es": "Ropa con recogida y devolución específicas"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-2",
+        "label": {
+          "fr": "Repassage simple",
+          "en": "Simple ironing",
+          "es": "Planchado sencillo"
+        },
+        "amount": 15,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-3",
+        "label": {
+          "fr": "Ménage supplémentaire pendant le séjour",
+          "en": "Additional cleaning during your stay",
+          "es": "Limpieza adicional durante la estancia"
+        },
+        "amount": 30,
+        "mode": "fixed",
+        "unit": "hour",
+        "extra": ""
+      },
+      {
+        "id": "sejour-4",
+        "label": {
+          "fr": "Changement de draps et serviettes",
+          "en": "Changing sheets and towels",
+          "es": "Cambio de sábanas y toallas"
+        },
+        "amount": 20,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-5",
+        "label": {
+          "fr": "Installation d’un achat ou cadeau",
+          "en": "Setting up a purchase or gift",
+          "es": "Colocación de una compra o regalo"
+        },
+        "amount": 20,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-6",
+        "label": {
+          "fr": "Livraison d’équipement à la villa",
+          "en": "Equipment delivery to the villa",
+          "es": "Entrega de material en la villa"
+        },
+        "amount": 10,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "sejour-7",
+        "label": {
+          "fr": "Assistance ponctuelle hors services inclus",
+          "en": "One-off support outside agreed services",
+          "es": "Asistencia puntual fuera de los servicios acordados"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "halfHour",
+        "extra": ""
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "plage",
+    "audience": "guest",
+    "services": [
+      "equipement-nautique"
+    ],
+    "title": {
+      "fr": "Matériel de plage et nautique",
+      "en": "Beach and water equipment",
+      "es": "Material de playa y náutico"
+    },
+    "rows": [
+      {
+        "id": "plage-0",
+        "label": {
+          "fr": "Paddle",
+          "en": "Paddleboard",
+          "es": "Paddle surf"
+        },
+        "amount": 25,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 60
+      },
+      {
+        "id": "plage-1",
+        "label": {
+          "fr": "Kit snorkeling : masque, tuba, palmes",
+          "en": "Snorkelling kit: mask, snorkel and fins",
+          "es": "Kit de snorkel: máscara, tubo y aletas"
+        },
+        "amount": 10,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 25
+      },
+      {
+        "id": "plage-2",
+        "label": {
+          "fr": "Bodyboard",
+          "en": "Bodyboard",
+          "es": "Bodyboard"
+        },
+        "amount": 8,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 20
+      },
+      {
+        "id": "plage-3",
+        "label": {
+          "fr": "Parasol",
+          "en": "Beach umbrella",
+          "es": "Sombrilla"
+        },
+        "amount": 6,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 15
+      },
+      {
+        "id": "plage-4",
+        "label": {
+          "fr": "Deux chaises de plage",
+          "en": "Two beach chairs",
+          "es": "Dos sillas de playa"
+        },
+        "amount": 10,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 25
+      },
+      {
+        "id": "plage-5",
+        "label": {
+          "fr": "Glacière",
+          "en": "Cooler",
+          "es": "Nevera portátil"
+        },
+        "amount": 5,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 12
+      },
+      {
+        "id": "plage-6",
+        "label": {
+          "fr": "Pack jeux de plage",
+          "en": "Beach toys set",
+          "es": "Juego de playa"
+        },
+        "amount": 8,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 20
+      }
+    ],
+    "note": "equipment"
+  },
+  {
+    "id": "packs",
+    "audience": "guest",
+    "services": [
+      "equipement-nautique"
+    ],
+    "title": {
+      "fr": "Packs de matériel",
+      "en": "Equipment bundles",
+      "es": "Packs de material"
+    },
+    "rows": [
+      {
+        "id": "packs-0",
+        "label": {
+          "fr": "Plage : parasol, deux chaises, glacière, jeux",
+          "en": "Beach: umbrella, two chairs, cooler and toys",
+          "es": "Playa: sombrilla, dos sillas, nevera y juegos"
+        },
+        "amount": 29,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": ""
+      },
+      {
+        "id": "packs-1",
+        "label": {
+          "fr": "Exploration : paddle et snorkeling",
+          "en": "Explore: paddleboard and snorkelling kit",
+          "es": "Exploración: paddle surf y kit de snorkel"
+        },
+        "amount": 35,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": ""
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "famille",
+    "audience": "guest",
+    "services": [],
+    "title": {
+      "fr": "Équipements pour les familles",
+      "en": "Family equipment",
+      "es": "Equipamiento para familias"
+    },
+    "rows": [
+      {
+        "id": "famille-0",
+        "label": {
+          "fr": "Lit parapluie",
+          "en": "Travel cot",
+          "es": "Cuna de viaje"
+        },
+        "amount": 8,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 20
+      },
+      {
+        "id": "famille-1",
+        "label": {
+          "fr": "Chaise haute",
+          "en": "High chair",
+          "es": "Trona"
+        },
+        "amount": 5,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 12
+      },
+      {
+        "id": "famille-2",
+        "label": {
+          "fr": "Poussette",
+          "en": "Stroller",
+          "es": "Cochecito"
+        },
+        "amount": 10,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": "",
+        "threeDays": 25
+      }
+    ],
+    "note": "equipment"
+  },
+  {
+    "id": "pack-famille",
+    "audience": "guest",
+    "services": [],
+    "title": {
+      "fr": "Pack bébé",
+      "en": "Baby equipment bundle",
+      "es": "Pack bebé"
+    },
+    "rows": [
+      {
+        "id": "packs-2",
+        "label": {
+          "fr": "Bébé : lit parapluie, chaise haute, poussette",
+          "en": "Baby: travel cot, high chair and stroller",
+          "es": "Bebé: cuna de viaje, trona y cochecito"
+        },
+        "amount": 18,
+        "mode": "fixed",
+        "unit": "day",
+        "extra": ""
+      }
+    ],
+    "note": "equipment"
+  },
+  {
+    "id": "transport",
+    "audience": "guest",
+    "services": [
+      "transport"
+    ],
+    "title": {
+      "fr": "Transport privé — prochainement",
+      "en": "Private transfers — coming soon",
+      "es": "Transporte privado — próximamente"
+    },
+    "rows": [
+      {
+        "id": "transport-0",
+        "label": {
+          "fr": "Porto-Vecchio ↔ Santa Giulia",
+          "en": "Porto-Vecchio ↔ Santa Giulia",
+          "es": "Porto-Vecchio ↔ Santa Giulia"
+        },
+        "amount": 45,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-1",
+        "label": {
+          "fr": "Porto-Vecchio ↔ Palombaggia",
+          "en": "Porto-Vecchio ↔ Palombaggia",
+          "es": "Porto-Vecchio ↔ Palombaggia"
+        },
+        "amount": 50,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-2",
+        "label": {
+          "fr": "Figari ↔ Porto-Vecchio",
+          "en": "Figari ↔ Porto-Vecchio",
+          "es": "Figari ↔ Porto-Vecchio"
+        },
+        "amount": 85,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-3",
+        "label": {
+          "fr": "Figari ↔ Santa Giulia",
+          "en": "Figari ↔ Santa Giulia",
+          "es": "Figari ↔ Santa Giulia"
+        },
+        "amount": 95,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-4",
+        "label": {
+          "fr": "Figari ↔ Bonifacio",
+          "en": "Figari ↔ Bonifacio",
+          "es": "Figari ↔ Bonifacio"
+        },
+        "amount": 85,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-5",
+        "label": {
+          "fr": "Porto-Vecchio ↔ Bonifacio",
+          "en": "Porto-Vecchio ↔ Bonifacio",
+          "es": "Porto-Vecchio ↔ Bonifacio"
+        },
+        "amount": 95,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
+      },
+      {
+        "id": "transport-6",
+        "label": {
+          "fr": "Chauffeur privé avec mise à disposition",
+          "en": "Private driver at your disposal",
+          "es": "Chófer privado por tiempo"
+        },
+        "amount": null,
+        "mode": "quote",
+        "unit": "",
+        "extra": ""
+      }
+    ],
+    "note": "transport"
+  }
+]

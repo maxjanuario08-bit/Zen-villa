@@ -1,0 +1,42 @@
+[
+  {
+    "id": "bar-plage",
+    "services": [
+      "activites-nautiques"
+    ],
+    "name": "Le Bar Plage — sorties en mer avec skipper",
+    "url": "https://www.barplage.fr/location-bateau",
+    "verifiedOn": "2026-11-05",
+    "enabled": true
+  },
+  {
+    "id": "a-staffa",
+    "services": [
+      "balades-equestres"
+    ],
+    "name": "Equicomplice A Staffa",
+    "url": "https://www.equicompliceastaffa.com/balades-a-cheval-plages-porto-vecchio-bonifacio",
+    "verifiedOn": "2026-11-05",
+    "enabled": true
+  },
+  {
+    "id": "rent-a-car",
+    "services": [
+      "location-voiture-scooter"
+    ],
+    "name": "Rent A Car Porto-Vecchio",
+    "url": "https://www.rentacar.fr/agences/75-porto-vecchio",
+    "verifiedOn": "2026-11-05",
+    "enabled": true
+  },
+  {
+    "id": "corse-scooters",
+    "services": [
+      "location-voiture-scooter"
+    ],
+    "name": "Corse Scooters Location",
+    "url": "https://location-scooter-porto-vecchio.fr/",
+    "verifiedOn": "2026-11-05",
+    "enabled": true
+  }
+]
