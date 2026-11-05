@@ -1,4 +1,14 @@
 export const ownerServices = {
+  "annonces-photos": {
+  "label": "Création des annonces et photos",
+  "description": "Une présentation soignée de votre logement pour aider les voyageurs à préparer leur séjour.",
+  "details": [
+    "Rédaction de la description du logement",
+    "Présentation des équipements et informations pratiques",
+    "Sélection et organisation des photos",
+    "Accompagnement à la mise en ligne de l’annonce"
+  ]
+},
   "check-in": {
     label: "Accueil check in/out",
     description:
@@ -13,7 +23,7 @@ export const ownerServices = {
   menage: {
     label: "Ménage professionnel",
     description:
-      "Un ménage soigné après chaque séjour pour préserver votre villa. Équipe professionnelle, produits de qualité et linge de maison géré.",
+      "Un logement propre et soigneusement préparé entre chaque séjour.",
     details: [
       "Ménage complet entre chaque location",
       "Changement des draps et serviettes",

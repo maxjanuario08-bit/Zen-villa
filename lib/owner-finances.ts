@@ -12,12 +12,14 @@ export function staysInYear(stays: readonly PaidStay[], year: number) {
 export function yearFinance(stays: readonly PaidStay[], config: BookingConfig, year: number) {
   const rows = staysInYear(stays, year).map((stay) => {
     const quote = quoteStay(stay.checkIn, stay.checkOut, config);
+    const lines = quote.lines.filter(line => line.date.startsWith(`${year}-`));
+    const lodging = lines.reduce((total, line) => total + line.amount, 0);
     return {
       stay,
-      lodging: quote.lodging,
-      nights: quote.nights,
-      fee: Math.round(quote.lodging * ZENVILLA_FEE_RATE),
-      net: quote.lodging - Math.round(quote.lodging * ZENVILLA_FEE_RATE),
+      lodging,
+      nights: lines.length,
+      fee: Math.round(lodging * ZENVILLA_FEE_RATE),
+      net: lodging - Math.round(lodging * ZENVILLA_FEE_RATE),
     };
   });
   const lodging = rows.reduce((sum, row) => sum + row.lodging, 0);

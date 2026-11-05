@@ -1,4 +1,14 @@
 export const ownerServices = {
+  "annonces-photos": {
+  "label": "Listing creation and photos",
+  "description": "A carefully prepared presentation of your property to help guests plan their stay.",
+  "details": [
+    "Writing the property description",
+    "Presenting amenities and practical information",
+    "Selecting and arranging photos",
+    "Support publishing the listing"
+  ]
+},
   "check-in": {
     label: "Check-in / check-out welcome",
     description:

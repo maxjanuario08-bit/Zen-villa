@@ -1,3 +1,5 @@
+import OwnerWorkspace from "./ownerWorkspace";
+import ServicePresentation from "./servicePresentation";
 import ContactPresentation from "./contactPresentation";
 import GuestPresentation from "./guestPresentation";
 import FormulaComparison from "./formulaComparison";
@@ -17,6 +19,8 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  OwnerWorkspace,
+  ServicePresentation,
   ContactPresentation,
   GuestPresentation,
   FormulaComparison,

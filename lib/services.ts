@@ -2,6 +2,7 @@ import type { IconName } from "@/components/icons/ServiceIcons";
 
 /** Métadonnées des services propriétaires (textes dans les fichiers messages) */
 export const homeServices = [
+  { slug: "annonces-photos", icon: "mobile" as IconName },
   { slug: "check-in", icon: "check-in" as IconName },
   { slug: "menage", icon: "menage" as IconName },
   { slug: "reservations", icon: "reservations" as IconName },

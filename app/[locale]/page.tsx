@@ -19,7 +19,7 @@ const services=[
  {icon:KeyRound,href:"/services/check-in"},
  {icon:BrushCleaning,href:"/services/menage"},
  {icon:Wrench,href:"/services/maintenance"},
- {icon:Camera,href:"/proprietaires/mise-en-valeur-annonces"},
+ {icon:Camera,href:"/services/annonces-photos"},
  {icon:Leaf,href:"/services/activites"},
  {icon:Headset,href:"/services/assistance"},
 ];
