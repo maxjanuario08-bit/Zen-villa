@@ -32,14 +32,15 @@ const pricing = {
   "maintenance": "Revisiones visuales y coordinación. Trabajos técnicos y mantenimiento especializado a cargo de los profesionales correspondientes.",
   "breakfast": "Desayuno: pedido mínimo de 30 €. Las compras, flores y suministros se añaden solo cuando se indica. Cualquier desplazamiento adicional se comunica antes de confirmar.",
   "equipmentNote": "Disponibilidad, recogida o entrega y condiciones del alquiler a confirmar antes del acuerdo.",
-  "transport": "Futuro servicio de chófer privado: precios previstos, todavía no disponible para reservar.",
+  "transport": "Acuerda el trayecto y el horario al hacer tu solicitud.",
   "request": "Solicitar este servicio",
   "providers": "Reservar con un proveedor local",
   "providerBody": "Negocios locales independientes para descubrir. Información, tarifas y reservas directamente en sus sitios.",
   "visit": "Sitio oficial y reservas",
   "draftProviders": "Enlaces de proveedores pendientes de confirmar",
-  "transportLabel": "Próximamente — precios previstos",
+  "transportLabel": "Servicio de transporte VTC",
   "tariffs": "Tarifas",
-  "providerPrices": "Tarifas en el sitio del proveedor"
+  "providerPrices": "Tarifas en el sitio del proveedor",
+  "horseTitle": "Paseos propuestos por A Staffa"
 };
 export default pricing;

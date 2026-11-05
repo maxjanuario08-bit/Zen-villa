@@ -24,6 +24,10 @@ La réservation externe reste directement gérée par le prestataire, sans paiem
 - Prix « à partir de », suppléments et achats/matériel/fleurs/fournitures affichés distinctement.
 - Ménage normal ; interventions exceptionnelles sur devis.
 - Petit-déjeuner : commande minimum 30 €, frais de déplacement éventuels annoncés avant accord.
-- Transport VTC : projet futur et prix envisagés, pas une offre disponible à réserver.
+- Transport VTC : service confirmé actuel par Maxime le 5 novembre 2026 ; mentions « prochainement » retirées.
 
 L’information officielle sur les prix demande un affichage clair en euros TTC pour les consommateurs : https://www.economie.gouv.fr/particuliers/mes-droits-conso/bien-consommer/affichage-des-prix-ce-que-vous-devez-savoir
+
+## Ajustements de présentation
+
+Petit-déjeuner, courses et linge séparés. Autres services conservés uniquement dans le catalogue général. Blocs durée/tarif/lieu/participants retirés des fiches. Balades A Staffa résumées depuis leur page officielle le 5 novembre 2026 ; tarifs et réservation restent sur le site du centre.

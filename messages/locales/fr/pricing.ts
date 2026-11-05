@@ -32,14 +32,15 @@ const pricing = {
   "maintenance": "Vérifications visuelles et coordination. Travaux techniques et entretien spécialisé confiés aux professionnels concernés.",
   "breakfast": "Petit-déjeuner : commande minimum de 30 €. Achats, fleurs et fournitures s’ajoutent uniquement lorsqu’ils sont indiqués. Tout déplacement supplémentaire est annoncé avant confirmation.",
   "equipmentNote": "Disponibilité, modalités de retrait ou de livraison et conditions de location à confirmer avant accord.",
-  "transport": "Projet de service VTC : prix envisagés, prestation non disponible à la réservation pour le moment.",
+  "transport": "Trajet et horaires à convenir lors de votre demande.",
   "request": "Demander cette prestation",
   "providers": "Réserver auprès d’un prestataire local",
   "providerBody": "Des adresses locales indépendantes à découvrir. Informations, tarifs et réservation directement sur leurs sites.",
   "visit": "Site officiel et réservation",
   "draftProviders": "Liens de prestataires à confirmer",
-  "transportLabel": "Prochainement — tarifs envisagés",
+  "transportLabel": "Service de transport VTC",
   "tariffs": "Tarifs",
-  "providerPrices": "Tarifs sur le site du prestataire"
+  "providerPrices": "Tarifs sur le site du prestataire",
+  "horseTitle": "Les balades proposées par A Staffa"
 };
 export default pricing;

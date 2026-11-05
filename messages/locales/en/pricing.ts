@@ -32,14 +32,15 @@ const pricing = {
   "maintenance": "Visual checks and coordination. Technical work and specialist maintenance are handled by the relevant professionals.",
   "breakfast": "Breakfast: minimum order €30. Purchases, flowers and supplies are extra only where stated. Any extra travel charge is disclosed before confirmation.",
   "equipmentNote": "Availability, collection or delivery arrangements and rental conditions to be confirmed before agreement.",
-  "transport": "Future private-driver service: proposed prices, not currently available to book.",
+  "transport": "Arrange the route and time when making your request.",
   "request": "Request this service",
   "providers": "Book with a local provider",
   "providerBody": "Independent local businesses to explore. Information, prices and booking directly on their websites.",
   "visit": "Official website and booking",
   "draftProviders": "Provider links awaiting confirmation",
-  "transportLabel": "Coming soon — proposed prices",
+  "transportLabel": "Private transfer service",
   "tariffs": "Prices",
-  "providerPrices": "Prices on the provider’s website"
+  "providerPrices": "Prices on the provider’s website",
+  "horseTitle": "Rides offered by A Staffa"
 };
 export default pricing;

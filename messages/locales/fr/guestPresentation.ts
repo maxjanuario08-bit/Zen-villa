@@ -28,7 +28,7 @@ export default {
     "capacity": "Participants"
   },
   "cards": {
-    "transport": "Découvrez les trajets et tarifs envisagés pour le futur service de transport privé Zen Villa. Ce service n’est pas encore disponible à la réservation.",
+    "transport": "Réservez vos transferts entre Figari, Porto-Vecchio, Santa Giulia, Palombaggia et Bonifacio.",
     "petit-dejeuner": "Envisagez un petit-déjeuner à la villa selon vos préférences et les options disponibles.",
     "linge": "Renseignez-vous sur les possibilités de lavage, de séchage et de repassage pendant votre séjour.",
     "courses": "Composez une liste de courses pour préparer votre arrivée ou les repas de votre séjour.",

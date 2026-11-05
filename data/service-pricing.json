@@ -557,13 +557,12 @@
     "id": "attentions",
     "audience": "guest",
     "services": [
-      "petit-dejeuner",
-      "courses"
+      "petit-dejeuner"
     ],
     "title": {
-      "fr": "Courses, petit-déjeuner et attentions",
-      "en": "Groceries, breakfast and thoughtful extras",
-      "es": "Compras, desayuno y detalles"
+      "fr": "Petit-déjeuner",
+      "en": "Breakfast",
+      "es": "Desayuno"
     },
     "rows": [
       {
@@ -601,7 +600,83 @@
         "mode": "quote",
         "unit": "",
         "extra": ""
+      }
+    ],
+    "note": "breakfast"
+  },
+  {
+    "id": "attentions-sejour",
+    "audience": "guest",
+    "services": [],
+    "title": {
+      "fr": "Paniers et attentions",
+      "en": "Baskets and thoughtful extras",
+      "es": "Cestas y detalles"
+    },
+    "rows": [
+      {
+        "id": "attentions-6",
+        "label": {
+          "fr": "Panier apéritif corse",
+          "en": "Corsican aperitif basket",
+          "es": "Cesta de aperitivo corso"
+        },
+        "amount": 35,
+        "mode": "from",
+        "unit": "",
+        "extra": ""
       },
+      {
+        "id": "attentions-7",
+        "label": {
+          "fr": "Panier pique-nique",
+          "en": "Picnic basket",
+          "es": "Cesta de pícnic"
+        },
+        "amount": 18,
+        "mode": "from",
+        "unit": "person",
+        "extra": ""
+      },
+      {
+        "id": "attentions-10",
+        "label": {
+          "fr": "Préparation romantique",
+          "en": "Romantic preparation",
+          "es": "Preparación romántica"
+        },
+        "amount": 45,
+        "mode": "from",
+        "unit": "",
+        "extra": "supplies"
+      },
+      {
+        "id": "attentions-11",
+        "label": {
+          "fr": "Décoration anniversaire",
+          "en": "Birthday decoration",
+          "es": "Decoración de cumpleaños"
+        },
+        "amount": 35,
+        "mode": "from",
+        "unit": "",
+        "extra": "supplies"
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "livraisons",
+    "audience": "guest",
+    "services": [
+      "courses"
+    ],
+    "title": {
+      "fr": "Livraison des courses",
+      "en": "Grocery delivery",
+      "es": "Entrega de compras"
+    },
+    "rows": [
       {
         "id": "attentions-3",
         "label": {
@@ -639,30 +714,6 @@
         "extra": "purchases"
       },
       {
-        "id": "attentions-6",
-        "label": {
-          "fr": "Panier apéritif corse",
-          "en": "Corsican aperitif basket",
-          "es": "Cesta de aperitivo corso"
-        },
-        "amount": 35,
-        "mode": "from",
-        "unit": "",
-        "extra": ""
-      },
-      {
-        "id": "attentions-7",
-        "label": {
-          "fr": "Panier pique-nique",
-          "en": "Picnic basket",
-          "es": "Cesta de pícnic"
-        },
-        "amount": 18,
-        "mode": "from",
-        "unit": "person",
-        "extra": ""
-      },
-      {
         "id": "attentions-8",
         "label": {
           "fr": "Livraison de fleurs",
@@ -685,33 +736,9 @@
         "mode": "from",
         "unit": "",
         "extra": "purchases"
-      },
-      {
-        "id": "attentions-10",
-        "label": {
-          "fr": "Préparation romantique",
-          "en": "Romantic preparation",
-          "es": "Preparación romántica"
-        },
-        "amount": 45,
-        "mode": "from",
-        "unit": "",
-        "extra": "supplies"
-      },
-      {
-        "id": "attentions-11",
-        "label": {
-          "fr": "Décoration anniversaire",
-          "en": "Birthday decoration",
-          "es": "Decoración de cumpleaños"
-        },
-        "amount": 35,
-        "mode": "from",
-        "unit": "",
-        "extra": "supplies"
       }
     ],
-    "note": "breakfast"
+    "note": null
   },
   {
     "id": "sejour",
@@ -720,9 +747,9 @@
       "linge"
     ],
     "title": {
-      "fr": "Entretien et services pendant le séjour",
-      "en": "Cleaning and services during your stay",
-      "es": "Limpieza y servicios durante la estancia"
+      "fr": "Service linge",
+      "en": "Laundry service",
+      "es": "Servicio de lavandería"
     },
     "rows": [
       {
@@ -760,7 +787,20 @@
         "mode": "from",
         "unit": "",
         "extra": ""
-      },
+      }
+    ],
+    "note": null
+  },
+  {
+    "id": "autres-services-sejour",
+    "audience": "guest",
+    "services": [],
+    "title": {
+      "fr": "Autres services pendant le séjour",
+      "en": "Other services during your stay",
+      "es": "Otros servicios durante la estancia"
+    },
+    "rows": [
       {
         "id": "sejour-3",
         "label": {
@@ -1053,9 +1093,9 @@
       "transport"
     ],
     "title": {
-      "fr": "Transport privé — prochainement",
-      "en": "Private transfers — coming soon",
-      "es": "Transporte privado — próximamente"
+      "fr": "Transport privé VTC",
+      "en": "Private transfers",
+      "es": "Transporte privado VTC"
     },
     "rows": [
       {
@@ -1143,6 +1183,6 @@
         "extra": ""
       }
     ],
-    "note": "transport"
+    "note": null
   }
 ]

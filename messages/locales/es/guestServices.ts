@@ -1,7 +1,7 @@
 export const guestServices = {
   "transport": {
-    "label": "Transporte privado — próximamente",
-    "description": "Traslados desde aeropuerto, estación o puerto hasta tu villa. Desplázate con comodidad por la Córcega del Sur.",
+    "label": "Servicio de transporte VTC",
+    "description": "Reserva traslados entre Figari, Porto-Vecchio, Santa Giulia, Palombaggia y Bonifacio.",
     "details": [
       "Transfer aeropuerto (Figari, Ajaccio) a la villa",
       "Transfer estación o puerto",
@@ -53,10 +53,12 @@ export const guestServices = {
     "label": "Rutas a caballo",
     "description": "Descubre paseos a caballo cerca de Santa Giulia y Porto-Vecchio y contacta directamente con el centro para reservar.",
     "details": [
-      "Consulta los paseos y recorridos del centro",
-      "Comprueba las condiciones de nivel y edad",
-      "Acuerda el horario y punto de encuentro con el centro",
-      "Reserva directamente con el centro ecuestre"
+      "Paseo por el maquis — Recorrido de 90 minutos.",
+      "Santa Giulia — Paseo y baño según temporada.",
+      "Porto Novo — Salida estival para jinetes experimentados.",
+      "Paseo infantil en poni — Acompañado por los padres.",
+      "Bergeries de Luviu — Jornada de montaña, octubre a mayo.",
+      "Baño para adultos — Solo baño, según disponibilidad."
     ]
   },
   "randonnee": {

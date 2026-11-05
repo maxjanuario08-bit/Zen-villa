@@ -1,7 +1,7 @@
 export const guestServices = {
   "transport": {
-    "label": "Private transfers — coming soon",
-    "description": "Airport, train station or port transfer to your villa—comfortably travel across southern Corsica with our transport team.",
+    "label": "Private transfer service",
+    "description": "Book transfers between Figari, Porto-Vecchio, Santa Giulia, Palombaggia and Bonifacio.",
     "details": [
       "Air transfers (Figari, Ajaccio) to your villa",
       "Rail or marina transfers",
@@ -53,10 +53,12 @@ export const guestServices = {
     "label": "Horseback rides",
     "description": "Explore horse rides near Santa Giulia and Porto-Vecchio, then contact the riding centre directly to book.",
     "details": [
-      "Browse the centre’s rides and routes",
-      "Check riding level and age requirements",
-      "Arrange the time and meeting point with the centre",
-      "Book directly with the riding centre"
+      "Maquis ride — A 90-minute outing.",
+      "Santa Giulia — Riding and seasonal swimming.",
+      "Porto Novo — Summer outing for experienced riders.",
+      "Children’s pony outing — Accompanied by parents.",
+      "Luviu shepherd huts — Mountain day, October to May.",
+      "Adult swimming — Swimming only, subject to availability."
     ]
   },
   "randonnee": {

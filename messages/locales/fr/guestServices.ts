@@ -1,7 +1,7 @@
 export const guestServices = {
   "transport": {
-    "label": "Transport privé — prochainement",
-    "description": "Besoin d'un transfert aéroport, gare ou port vers votre villa ? Notre service de transport vous accompagne en toute sérénité à travers la Corse du Sud.",
+    "label": "Service de transport VTC",
+    "description": "Réservez vos transferts entre Figari, Porto-Vecchio, Santa Giulia, Palombaggia et Bonifacio.",
     "details": [
       "Transfert aéroport (Figari, Ajaccio) vers votre villa",
       "Transfert gare ou port",
@@ -53,10 +53,12 @@ export const guestServices = {
     "label": "Balades équestres",
     "description": "Découvrez les balades à cheval proposées près de Santa Giulia et Porto-Vecchio, puis contactez le centre directement pour réserver.",
     "details": [
-      "Consulter les balades et parcours proposés par le centre",
-      "Vérifier les conditions de niveau et d’âge",
-      "Convenir des horaires et du point de rendez-vous avec le centre",
-      "Réserver directement auprès du centre équestre"
+      "Balade dans le maquis — Promenade de 1 h 30.",
+      "Santa Giulia — Balade et baignade selon la saison.",
+      "Porto Novo — Sortie estivale pour cavaliers expérimentés.",
+      "Balade poney enfant — Accompagnement des parents.",
+      "Bergeries de Luviu — Journée en montagne, d’octobre à mai.",
+      "Baignade adulte — Baignade seule, selon les disponibilités."
     ]
   },
   "randonnee": {

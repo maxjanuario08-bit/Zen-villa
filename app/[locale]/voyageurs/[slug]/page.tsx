@@ -1,4 +1,4 @@
-import {CalendarDays,Coins,MapPin,Users,Check,ArrowRight} from "lucide-react";
+import {Check,ArrowRight} from "lucide-react";
 import {languageAlternates} from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
@@ -8,7 +8,6 @@ import Image from "next/image";
 import providers from "@/data/service-providers.json";
 import ServiceProviders from "@/components/ServiceProviders";
 import ServicePricing from "@/components/ServicePricing";
-import {pricingGroups,priceText} from "@/lib/service-pricing";
 import Button from "@/components/ui/Button";
 import ServiceIcon from "@/components/icons/ServiceIcon";
 import { voyageursServices } from "@/lib/voyageurs-services";
@@ -46,13 +45,8 @@ export default async function VoyageurServicePage({ params }: Props) {
   const tGuest = await getTranslations({ locale, namespace: "guestServices" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
   const presentation = await getTranslations({locale,namespace:"GuestPresentation"});
-  const logistics = presentation.raw(`logistics.${slug}`) as {duration:string;price:string;place:string;capacity:string};
-  const pricing = await getTranslations({locale,namespace:"Pricing"});
-  const priceLabels=Object.fromEntries(["quote","from","bed","person","hour","month","day","halfHour","purchases","equipment","holder","flowers","supplies"].map(key=>[key,pricing(key)]));
-  const firstPrice=pricingGroups("guest",slug)[0]?.rows[0];
   const hasExternalProvider=providers.some(provider=>provider.enabled && provider.services.includes(slug));
-  const shownPrice=hasExternalProvider?pricing("providerPrices"):slug==="transport"?pricing("transportLabel"):firstPrice?priceText({...firstPrice,mode:"from"},locale,priceLabels):logistics.price;
-  const infoFields = [{key:"duration",icon:CalendarDays},{key:"price",icon:Coins},{key:"place",icon:MapPin},{key:"capacity",icon:Users}] as const;
+  const pricing=await getTranslations({locale,namespace:"Pricing"});
   const label = tGuest(`${slug}.label`);
   const description = presentation(`cards.${slug}`);
   const details = tGuest.raw(`${slug}.details`) as readonly string[];
@@ -92,11 +86,10 @@ export default async function VoyageurServicePage({ params }: Props) {
 
       <section className="bg-background py-12 sm:py-16">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-            <div><h2 className="mb-7 font-serif text-3xl font-semibold text-lagoon-dark">{presentation("detailsTitle")}</h2><ul className="space-y-4">{details.map(item=><li key={item} className="flex items-start gap-3"><span className="mt-1 rounded-full bg-lagoon p-1 text-white"><Check size={13} aria-hidden="true"/></span><span className="leading-relaxed text-foreground/90">{item}</span></li>)}</ul></div>
+          <div className={`grid items-center gap-8 ${slug==="location-voiture-scooter"?"mx-auto max-w-3xl":"lg:grid-cols-2 lg:gap-12"}`}>
+            {slug!=="location-voiture-scooter" ? <div><h2 className="mb-7 font-serif text-3xl font-semibold text-lagoon-dark">{slug==="balades-equestres"?pricing("horseTitle"):presentation("detailsTitle")}</h2><ul className={slug==="balades-equestres"?"grid gap-3 sm:grid-cols-2":"space-y-4"}>{details.map(item=><li key={item} className={`flex items-start gap-3 ${slug==="balades-equestres"?"rounded-2xl border border-sand/60 bg-white p-4":""}`}><span className="mt-1 rounded-full bg-lagoon p-1 text-white"><Check size={13} aria-hidden="true"/></span><span className="leading-relaxed text-foreground/90">{item}</span></li>)}</ul></div> : null}
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl"><Image src={service.image} alt={label} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover"/></div>
           </div>
-          <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{infoFields.map(({key,icon:Icon})=><div key={key} className="rounded-2xl border border-sand/60 bg-white p-5"><dt className="font-semibold text-lagoon-dark"><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="mb-3 text-lagoon"/>{presentation(`metaLabels.${key}`)}</dt><dd className="mt-2 text-sm leading-relaxed text-muted">{key==="price"?shownPrice:logistics[key]}</dd></div>)}</dl>
 
           <ServiceProviders locale={locale} service={slug}/>
           <div className="mt-10"><ServicePricing locale={locale} audience="guest" service={slug} compact/></div>
