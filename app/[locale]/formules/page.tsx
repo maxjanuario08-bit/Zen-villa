@@ -36,8 +36,20 @@ export default async function FormulesPage({params}:{params:Promise<{locale:stri
   <section className="bg-background px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
    <div className="mx-auto max-w-7xl">
     <p className="mb-3 text-xs text-muted">{pricing("finalVat")}</p>
-    <p id="comparison-scroll-hint" className="mb-4 text-sm text-muted lg:hidden">{comparison("scroll")}</p>
-    <div role="region" aria-label={comparison("caption")} aria-describedby="comparison-scroll-hint" tabIndex={0} className="overflow-x-auto rounded-2xl border border-sand/70 bg-white p-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lagoon sm:p-5">
+    <div className="space-y-5 lg:hidden" aria-label={comparison("caption")}>
+     <p className="mb-6 text-sm leading-relaxed text-muted">{comparison("intro")}</p>
+     {plans.map((plan,index)=><article key={plan.key} className={`min-w-0 overflow-hidden rounded-2xl border bg-white shadow-card ${plan.featured?"border-lagoon ring-1 ring-lagoon/20":"border-sand/70"}`}>
+      <div className="relative aspect-[16/7] overflow-hidden"><Image src={plan.image} alt="" fill sizes="(min-width:1024px) 1px, 100vw" className="object-cover"/>{plan.featured?<span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-lagoon px-3 py-2 text-xs font-medium text-white"><Star size={13} aria-hidden="true"/>{comparison("recommended")}</span>:null}</div>
+      <div className="p-5 sm:p-6">
+       <p className="text-xs font-medium text-lagoon">{descriptions[index]}</p>
+       <h2 className="mt-2 break-words font-serif text-3xl font-semibold text-lagoon-dark">{t(`${plan.key}Title`)}</h2>
+       <p className="mt-4 font-serif text-3xl font-semibold text-lagoon-dark">{plan.key==="carte"?pricing("perIntervention"):`${ownerPlanRates[plan.key]} %`}</p>
+       {plan.key!=="carte"?<p className="mt-2 text-xs leading-relaxed text-muted">{pricing("planBasis")}</p>:<a href="#tarifs-a-la-carte" className="mt-3 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-lagoon underline underline-offset-4">{pricing("allPrices")}<ArrowRight size={16} aria-hidden="true"/></a>}
+       <ul className="mt-5 divide-y divide-sand/50 border-t border-sand/50">{features.map(({icon:Icon,tranquillite},rowIndex)=>{const included=plan.key==="zenP" || tranquillite;return <li key={rows[rowIndex]} className="flex items-start justify-between gap-3 py-3.5 text-sm"><span className="flex min-w-0 items-start gap-3 text-foreground/85"><Icon size={21} strokeWidth={1.6} aria-hidden="true" className="mt-0.5 shrink-0 text-lagoon"/><span className="leading-relaxed">{rows[rowIndex]}</span></span><span className="shrink-0 pt-0.5">{plan.key==="carte"?<span className="text-xs text-muted">{comparison("onRequest")}</span>:included?<><Check size={22} strokeWidth={2.5} aria-hidden="true" className="text-lagoon"/><span className="sr-only">{comparison("yes")}</span></>:<><Minus size={22} aria-hidden="true" className="text-muted"/><span className="sr-only">{comparison("no")}</span></>}</span></li>;})}</ul>
+      </div>
+     </article>)}
+    </div>
+    <div role="region" aria-label={comparison("caption")} tabIndex={0} className="hidden overflow-x-auto rounded-2xl border border-sand/70 bg-white p-3 lg:block focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lagoon sm:p-5">
      <table className="relative w-full min-w-[760px] table-fixed border-separate border-spacing-0 text-sm">
       <caption className="sr-only left-0 top-0">{comparison("caption")}</caption>
       <colgroup><col className="w-[34%]"/><col className="w-[22%]"/><col className="w-[22%]"/><col className="w-[22%]"/></colgroup>
