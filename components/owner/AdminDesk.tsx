@@ -120,7 +120,7 @@ export default function AdminDesk() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="font-medium text-lagoon-dark">{account.name}</p>
-              <p className="text-sm text-foreground/70">{account.email}</p>
+              <p className="break-words text-sm text-foreground/70">{account.email}</p>
               {account.propertyNote ? (
                 <p className="mt-1 text-sm text-foreground/80">
                   {t("note")}: {account.propertyNote}
@@ -149,7 +149,7 @@ export default function AdminDesk() {
                 )}
               </div>
             </div>
-            <div className="flex min-w-[16rem] flex-col gap-2 sm:items-end">
+            <div className="flex w-full min-w-0 flex-col gap-2 sm:w-64 sm:shrink-0 sm:items-end">
               <label className="sr-only" htmlFor={`villa-${account.email}`}>
                 {t("chooseVilla")}
               </label>

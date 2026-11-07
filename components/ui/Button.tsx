@@ -42,7 +42,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseStyles = variantStyles[variant];
-  const combinedClassName = `${baseStyles} ${className}`.trim();
+  const combinedClassName = `min-h-11 max-w-full text-center leading-snug [&>svg]:shrink-0 ${baseStyles} ${className}`.trim();
 
   if ("href" in props && props.href) {
     return (

@@ -59,7 +59,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form method="post" onSubmit={onSubmit} className="space-y-4">
       <div>
         <label htmlFor="owner-email" className="mb-1 block text-sm font-medium">
           {t("loginEmail")}

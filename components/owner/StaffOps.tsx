@@ -262,7 +262,7 @@ export default function StaffOps({ slug, stays, cleanings, onChanged, showHistor
 
         {step === "checkin" || step === "checkout" || step === "wait" || step === "inhouse" ? (
           <div className="mt-4 space-y-3">
-            <div className="grid grid-cols-[1fr_7.5rem] gap-2">
+            <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-[minmax(0,1fr)_7.5rem]">
               <input
                 value={by}
                 onChange={(e) => setBy(e.target.value)}

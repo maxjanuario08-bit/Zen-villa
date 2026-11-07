@@ -32,7 +32,7 @@ export default function PasswordRecoveryForm({ role, token, reset = false }: Pro
   return (
     <div className="space-y-5">
       {status === "success" ? <p role="status" className="rounded-xl bg-lagoon/10 p-4 text-lagoon-dark">{t(reset ? "changed" : "sent")}</p> : (
-        <form onSubmit={submit} className="space-y-5">
+        <form method="post" onSubmit={submit} className="space-y-5">
           {reset ? <>
             <PasswordField name="password" label={t("password")} revealLabel={t("show")} autoComplete="new-password" minLength={12} maxLength={128} required />
             <p className="text-sm text-muted">{t("minimum")}</p>

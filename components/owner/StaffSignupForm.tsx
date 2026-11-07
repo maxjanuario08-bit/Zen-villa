@@ -66,7 +66,7 @@ export default function StaffSignupForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form method="post" onSubmit={onSubmit} className="space-y-4">
       <div>
         <label htmlFor="staff-name" className="mb-1 block text-sm font-medium">
           {t("signupName")}

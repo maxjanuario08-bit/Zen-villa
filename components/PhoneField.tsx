@@ -38,7 +38,7 @@ export default function PhoneField({ id = "telephone", required, placeholder }: 
   const international = composeInternationalPhone(countryByIso(iso).dial, national);
 
   return (
-    <div ref={rootRef} className="flex gap-2">
+    <div ref={rootRef} className="flex min-w-0 flex-col gap-2 sm:flex-row">
       <label htmlFor={`${id}-country`} className="sr-only">
         {t("countryAria")}
       </label>
@@ -48,7 +48,7 @@ export default function PhoneField({ id = "telephone", required, placeholder }: 
         value={iso}
         onChange={(e) => setIso(e.target.value)}
         aria-label={t("countryAria")}
-        className={`${controlClass} w-[9.75rem] shrink-0 sm:w-[11.5rem]`}
+        className={`${controlClass} w-full min-w-0 sm:w-[11.5rem] sm:shrink-0`}
       >
         {COUNTRY_CALLING_CODES.map((c) => (
           <option key={c.iso} value={c.iso}>

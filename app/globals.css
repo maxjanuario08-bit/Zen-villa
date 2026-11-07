@@ -44,6 +44,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  overflow-wrap: anywhere;
 }
 
 h1, h2, h3, h4 {
@@ -127,3 +128,18 @@ h1, h2, h3, h4 {
   line-height: 1.35;
 }
 .animation-delay-500 { animation-delay: 500ms; }
+
+/* Mobile forms remain readable at narrow widths and while the keyboard is open. */
+@media (max-width: 639px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]),
+  select,
+  textarea {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  body:has(input:focus, textarea:focus, select:focus) [data-faq-launcher] {
+    display: none;
+  }
+}

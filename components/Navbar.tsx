@@ -87,10 +87,11 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           type="button"
-          className="lg:hidden p-2 rounded-lg text-foreground hover:bg-sand-light transition-colors"
+          className="lg:hidden flex min-h-11 min-w-11 items-center justify-center p-2 rounded-lg text-foreground hover:bg-sand-light transition-colors"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={t("menuAria")}
           aria-expanded={isOpen}
+          aria-controls="zenvilla-mobile-menu"
         >
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isOpen ? (
@@ -109,7 +110,7 @@ export default function Navbar() {
 
       {/* Mobile */}
       {isOpen && (
-        <div className="lg:hidden border-t border-sand/50 bg-white py-4 px-4 animate-fade-in space-y-4">
+        <div id="zenvilla-mobile-menu" onClick={event => { if ((event.target as Element).closest("a")) setIsOpen(false); }} className="lg:hidden max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain border-t border-sand/50 bg-white px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4 animate-fade-in space-y-4">
           <div className="pb-2">
             <LocaleSwitcher />
           </div>

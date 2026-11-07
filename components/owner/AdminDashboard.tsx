@@ -206,7 +206,9 @@ export default function AdminDashboard({
         {staffRows.length === 0 ? (
           <p className="mt-4 text-sm text-muted">{t("dashStaffEmpty")}</p>
         ) : (
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4">
+            <ul className="space-y-3 md:hidden">{staffRows.map(row=><li key={row.name} className="rounded-xl border border-sand/50 p-4"><p className="font-semibold text-lagoon-dark">{row.name}</p><p className="mt-1 text-sm text-muted">{row.open?`${t("dashOnDuty")} · ${villaName(row.open.slug)} · ${timeFmt.format(new Date(row.open.clockInAt))}`:t("dashOffDuty")}</p><dl className="mt-4 grid grid-cols-2 gap-3 text-sm"><div><dt className="text-xs text-muted">{t("dashHoursToday")}</dt><dd className="mt-1 font-medium">{formatDuration(row.todayMs)}</dd></div><div><dt className="text-xs text-muted">{t("dashHoursWeek")}</dt><dd className="mt-1 font-medium">{formatDuration(row.weekMs)}</dd></div><div><dt className="text-xs text-muted">{t("dashStaffSessions")}</dt><dd className="mt-1 font-medium">{row.sessions}</dd></div></dl></li>)}</ul>
+            <div className="hidden overflow-x-auto md:block">
             <table className="w-full min-w-[36rem] text-left text-sm">
               <thead>
                 <tr className="border-b border-sand/40 text-xs uppercase tracking-wide text-muted">
@@ -237,6 +239,7 @@ export default function AdminDashboard({
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </section>

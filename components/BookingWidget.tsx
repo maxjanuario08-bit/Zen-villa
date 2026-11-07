@@ -342,7 +342,7 @@ export default function BookingWidget({ slug, name, maxGuests, booking, paymentN
       )}
       {errors.dates && <p className="mt-2 text-sm text-red-600">{errors.dates}</p>}
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+      <form method="post" onSubmit={handleSubmit} className="mt-6 space-y-3">
         <div>
           <label htmlFor="guests" className="mb-1 block text-sm font-medium">
             {t("booking.lblGuests")}

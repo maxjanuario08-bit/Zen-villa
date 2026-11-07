@@ -111,7 +111,7 @@ export default function ServiceRequestFormPage({initialService = ""}: {initialSe
               <Card>
                 <h2 className="font-serif text-2xl font-semibold text-lagoon-dark mb-2">{t("formTitle")}</h2>
                 <p className="text-sm text-foreground/80 mb-6">{t("sideParagraph")}</p>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form method="post" onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="prestation" className="block text-sm font-medium text-foreground mb-1">
                       {t("fieldService")}

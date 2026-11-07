@@ -31,7 +31,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
 
   return (
     <div>
-      <div className="flex gap-1 overflow-x-auto rounded-2xl border border-sand/40 bg-white p-1 shadow-card">
+      <div className="grid grid-cols-2 gap-1 rounded-2xl sm:flex sm:overflow-x-auto border border-sand/40 bg-white p-1 shadow-card">
         {tabs.map((item) => {
           const active = tab === item.id;
           return (
@@ -39,7 +39,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
               key={item.id}
               type="button"
               onClick={() => { if (canLeaveAdminSection()) setTab(item.id); }}
-              className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+              className={`min-h-11 rounded-xl px-3 py-2.5 sm:whitespace-nowrap sm:px-4 text-sm font-medium transition-colors ${
                 active ? "bg-lagoon text-white" : "text-foreground/70 hover:bg-sand-light hover:text-lagoon-dark"
               }`}
             >
