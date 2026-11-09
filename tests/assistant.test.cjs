@@ -5,7 +5,9 @@ test('appointment URLs accept only public Google appointment links and reject pr
  const {googleAppointmentUrl}=moduleFrom('lib/appointments.ts');
  for(const value of ['https://calendar.app.google/abc123','https://calendar.google.com/calendar/appointments/schedules/AcZssZ123'])assert.equal(googleAppointmentUrl(value),value);
  for(const value of [undefined,'','javascript:alert(1)','https://example.com/calendar/appointments/schedules/a','https://calendar.google.com/calendar/u/0/r','https://calendar.app.google.evil.com/a','https://user:pass@calendar.app.google/a'])assert.equal(googleAppointmentUrl(value),null);
- assert.equal(moduleFrom('lib/appointments.ts').APPOINTMENT_URL,null);
+ assert.equal(moduleFrom('lib/appointments.ts').APPOINTMENT_URL,'https://calendar.app.google/qPt4zxxzPdqE9mMV7');
+ assert.equal(moduleFrom('lib/appointments.ts',{NEXT_PUBLIC_GOOGLE_APPOINTMENT_URL:'https://calendar.app.google/override'}).APPOINTMENT_URL,'https://calendar.app.google/override');
+ assert.equal(moduleFrom('lib/appointments.ts',{NEXT_PUBLIC_GOOGLE_APPOINTMENT_URL:'javascript:alert(1)'}).APPOINTMENT_URL,'https://calendar.app.google/qPt4zxxzPdqE9mMV7');
 });
 test('FAQ translations have the same 15 real topics and only existing site routes',()=>{
  const data=JSON.parse(fs.readFileSync('data/assistant-faq.json','utf8'));

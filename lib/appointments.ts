@@ -9,4 +9,6 @@ export function googleAppointmentUrl(value: string | undefined): string | null {
   } catch { /* Invalid or incomplete booking URL. */ }
   return null;
 }
-export const APPOINTMENT_URL = googleAppointmentUrl(process.env.NEXT_PUBLIC_GOOGLE_APPOINTMENT_URL);
+const DEFAULT_APPOINTMENT_URL = "https://calendar.app.google/qPt4zxxzPdqE9mMV7";
+export const APPOINTMENT_URL = googleAppointmentUrl(process.env.NEXT_PUBLIC_GOOGLE_APPOINTMENT_URL)
+  ?? DEFAULT_APPOINTMENT_URL;
