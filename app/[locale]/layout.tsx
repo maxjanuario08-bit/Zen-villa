@@ -1,3 +1,4 @@
+import {buildAssistantKnowledge} from "@/lib/assistant-knowledge";
 import FaqAssistant from "@/components/FaqAssistant";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -120,7 +121,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Footer />
           <CookieBanner />
           <SiteAnalytics />
-          <FaqAssistant />
+          <FaqAssistant entries={buildAssistantKnowledge(locale,messages)} />
         </NextIntlClientProvider>
       </body>
     </html>

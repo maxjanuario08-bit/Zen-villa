@@ -31,3 +31,12 @@ Données : data/assistant-faq.json. Textes d’interface : messages/locales/{fr,
 Les questions reflètent les thèmes fréquents du secteur, avec des réponses propres à Zenvilla ; pas de copie des engagements d’une autre conciergerie. Toute évolution de prix, formules, secteurs ou processus doit être répercutée dans les trois langues.
 
 Références : https://support.google.com/accounts/answer/27441?hl=fr ; https://support.google.com/calendar/answer/11608416?hl=fr ; https://support.google.com/calendar/answer/16287038?hl=fr
+
+
+## Évolution du 9 novembre 2026
+
+L’assistant construit désormais son index à partir de la FAQ de base et des contenus publics traduits : services propriétaires et voyageurs, chaque ligne du catalogue tarifaire, équipements, capacité et modalités de réservation de Pinson, ainsi que les langues parlées. La sélection est explicite dans `lib/assistant-knowledge.ts` ; aucune lecture des comptes, du CRM ou des réservations. Les nouvelles prestations et modifications de ces catalogues sont reprises à la prochaine compilation.
+
+La recherche normalise les accents et quelques synonymes, vérifie les correspondances et limite l’affichage à cinq réponses (six suggestions au départ). Une recherche sans résultat propose le lien Google Agenda directement, sans ouverture automatique pendant la saisie. Les demandes de disponibilité renvoient au calendrier réel au lieu de confirmer des dates. L’assistant reste une recherche dans les contenus publiés, sans génération IA : les formulations très éloignées du vocabulaire du site peuvent nécessiter le rendez-vous.
+
+La page Google fournie est `https://calendar.app.google/qPt4zxxzPdqE9mMV7`, définie comme lien public par défaut dans `lib/appointments.ts`. Une variable publique valide peut la remplacer. Les rendez-vous et les liens Meet sont gérés dans le planning Google, pas créés par le moteur de recherche FAQ.

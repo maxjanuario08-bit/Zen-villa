@@ -6,15 +6,15 @@ import {Link,usePathname} from "@/i18n/navigation";
 import {CONTACT} from "@/lib/constants";
 import {analyticsPublicPath} from "@/lib/analytics";
 import {searchFaq} from "@/lib/assistant-search";
-import faq from "@/data/assistant-faq.json";
+import type {FaqEntry} from "@/lib/assistant-search";
+import {APPOINTMENT_URL} from "@/lib/appointments";
 
-export default function FaqAssistant(){
+export default function FaqAssistant({entries}:{entries:readonly FaqEntry[]}){
  const t=useTranslations("Assistant"); const locale=useLocale();const pathname=usePathname();
  const [open,setOpen]=useState(false);const [query,setQuery]=useState("");
  const dialog=useRef<HTMLDialogElement>(null);const launcher=useRef<HTMLButtonElement>(null);
  const allowed=analyticsPublicPath(pathname)&&!/^\/livret(?:\/|$)/.test(pathname);
- const entries=faq[locale as keyof typeof faq]||faq.fr;
- const results=searchFaq(entries,query);
+ const results=searchFaq(entries,query).slice(0,query.trim()?5:6);
  useEffect(()=>{const el=dialog.current;if(!el)return;if(open&&allowed){if(!el.open)el.showModal();}else if(el.open)el.close();},[open,allowed]);
  useEffect(()=>{if(!open||!allowed)return;const before=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=before;};},[open,allowed]);
  function close(){setOpen(false);setQuery("");launcher.current?.focus();}
@@ -25,11 +25,11 @@ export default function FaqAssistant(){
    <div className="flex max-h-[85dvh] flex-col">
     <header className="flex shrink-0 items-start justify-between gap-3 bg-lagoon-dark p-5 text-white"><div><h2 id="assistant-title" className="font-serif text-2xl font-semibold">{t("title")}</h2><p className="mt-1 text-sm text-white/85">{t("subtitle")}</p></div><button type="button" onClick={close} aria-label={t("close")} className="flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 hover:bg-white/15"><X size={20} aria-hidden="true"/></button></header>
     <div className="overflow-y-auto overscroll-contain p-5">
-     <div className="grid grid-cols-2 gap-2"><Link href="/contact#rendez-vous" onClick={close} className="col-span-2 flex items-center justify-center gap-2 rounded-xl bg-lagoon px-3 py-3 text-sm font-semibold text-white"><CalendarDays size={17} aria-hidden="true"/>{t("appointment")}</Link><a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-sand p-3 text-center text-sm font-medium text-lagoon-dark">{t("whatsapp")}</a><Link href="/contact#formulaire" onClick={close} className="flex items-center justify-center gap-2 rounded-xl border border-sand p-3 text-sm font-medium text-lagoon-dark"><Mail size={16} aria-hidden="true"/>{t("message")}</Link></div>
+     <div className="grid grid-cols-2 gap-2"><a href={APPOINTMENT_URL || "/contact#rendez-vous"} target="_blank" rel="noopener noreferrer" className="col-span-2 flex items-center justify-center gap-2 rounded-xl bg-lagoon px-3 py-3 text-sm font-semibold text-white"><CalendarDays size={17} aria-hidden="true"/>{t("meetAppointment")}</a><a href={CONTACT.whatsapp} target="_blank" rel="noopener noreferrer" className="rounded-xl border border-sand p-3 text-center text-sm font-medium text-lagoon-dark">{t("whatsapp")}</a><Link href="/contact#formulaire" onClick={close} className="flex items-center justify-center gap-2 rounded-xl border border-sand p-3 text-sm font-medium text-lagoon-dark"><Mail size={16} aria-hidden="true"/>{t("message")}</Link></div>
      <label htmlFor="assistant-search" className="mb-2 mt-6 block text-sm font-semibold">{t("searchLabel")}</label><div className="relative"><Search className="absolute left-3 top-3 text-muted" size={18} aria-hidden="true"/><input id="assistant-search" type="search" value={query} maxLength={200} onChange={e=>setQuery(e.target.value)} placeholder={t("placeholder")} className="w-full rounded-xl border border-sand py-2.5 pl-10 pr-3 text-base outline-none focus:border-lagoon focus:ring-1 focus:ring-lagoon"/></div>
      <p role="status" className="mt-4 text-xs text-muted">{t("results",{count:results.length})}</p>
-     <div className="mt-2 space-y-2">{results.map(entry=><details key={`${locale}-${entry.id}`} className="rounded-xl border border-sand/70 p-3"><summary className="cursor-pointer text-sm font-semibold text-lagoon-dark">{entry.question}</summary><p className="mt-3 text-sm leading-relaxed text-foreground/85">{entry.answer}</p><Link href={entry.href} onClick={close} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-lagoon underline underline-offset-4">{entry.linkLabel}<ArrowRight size={14} aria-hidden="true"/></Link></details>)}</div>
-     {results.length===0?<p className="mt-3 rounded-xl bg-sand-light p-4 text-sm">{t("noResults")}</p>:null}
+     <div className="mt-2 space-y-2">{results.map(entry=><details key={`${locale}-${query}-${entry.id}`} open={query.trim().length>0} className="rounded-xl border border-sand/70 p-3"><summary className="cursor-pointer text-sm font-semibold text-lagoon-dark">{entry.question}</summary><p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-foreground/85">{entry.answer}</p>{entry.id==="rdv"?<a href={APPOINTMENT_URL || "/contact#rendez-vous"} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-lagoon underline underline-offset-4">{t("meetAppointment")}<ArrowRight size={14} aria-hidden="true"/></a>:<Link href={entry.href} onClick={close} className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-lagoon underline underline-offset-4">{entry.linkLabel}<ArrowRight size={14} aria-hidden="true"/></Link>}</details>)}</div>
+     {results.length===0?<div className="mt-3 rounded-xl bg-sand-light p-4"><p className="text-sm leading-relaxed">{t("noResults")}</p><a href={APPOINTMENT_URL || "/contact#rendez-vous"} target="_blank" rel="noopener noreferrer" className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-xl bg-lagoon px-3 py-3 text-center text-sm font-semibold text-white"><CalendarDays size={18} className="shrink-0" aria-hidden="true"/>{t("meetAppointment")}</a></div>:null}
      <footer className="mt-5 border-t border-sand pt-4"><p className="text-sm font-medium">{t("human")}</p><div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm text-lagoon"><a href={`tel:${CONTACT.telephoneTel}`} className="inline-flex items-center gap-1"><Phone size={14} aria-hidden="true"/>{CONTACT.telephone}</a><a href={`mailto:${CONTACT.email}`} className="break-all underline underline-offset-4">{CONTACT.email}</a></div></footer>
     </div>
    </div>

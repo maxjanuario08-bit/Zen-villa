@@ -1,7 +1,7 @@
 const assistant = {
   "launcher": "A question?",
   "title": "Zenvilla assistant",
-  "subtitle": "Frequently asked questions and contact with Maxime.",
+  "subtitle": "Your questions about Zenvilla, our services and your stay.",
   "close": "Close assistant",
   "appointment": "Book an appointment",
   "whatsapp": "WhatsApp",
@@ -10,17 +10,22 @@ const assistant = {
   "placeholder": "E.g. cleaning, fees, property updates…",
   "privacy": "FAQ assistant: local search, no AI. Your search is neither sent nor saved.",
   "results": "{count} suggested answers",
-  "noResults": "This question deserves a conversation with Maxime. Contact us using the form, by email or on WhatsApp.",
+  "noResults": "I could not find a precise enough answer. Let’s discuss your request in a Google Meet appointment.",
   "human": "Prefer to speak directly?",
   "appointmentEyebrow": "Let’s talk about your property",
   "appointmentTitle": "Arrange a conversation",
   "appointmentDescription": "Let’s discuss your property and what you need.",
-  "googleInfo": "Choose an available time on Google Calendar. Your appointment will be added to Maxime’s calendar; his calendar details remain private.",
+  "googleInfo": "Choose an available time on our Google Calendar booking page.",
   "appointmentFallback": "Agree a time by email or WhatsApp.",
   "chooseSlot": "See available times",
   "newTab": "Opens in a new tab",
   "requestAppointment": "Arrange a time",
   "appointmentSubject": "Owner appointment — Zenvilla",
-  "formLink": "Send a written enquiry"
+  "formLink": "Send a written enquiry",
+  "meetAppointment": "Book a Google Meet appointment",
+  "bookingQuestion": "When and for how many nights can I book Mini Villa Pinson?",
+  "paymentQuestion": "How do I pay and get the Mini Villa Pinson welcome guide?",
+  "availabilityQuestion": "Is Mini Villa Pinson available for my dates?",
+  "availabilityAnswer": "Availability changes as bookings are made. Check the Mini Villa Pinson calendar and select your dates for available nights and the exact total; I cannot confirm availability here."
 };
 export default assistant;

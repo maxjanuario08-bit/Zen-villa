@@ -3,7 +3,7 @@
     {
       "id": "zones",
       "question": "Mon logement se situe-t-il dans votre secteur ?",
-      "answer": "ZenVilla accompagne les propriétaires à Santa Giulia et Porto-Vecchio. Pour un logement dans un autre secteur, communiquez son adresse à Maxime afin de confirmer la possibilité d’intervention.",
+      "answer": "ZenVilla accompagne les propriétaires à Santa Giulia et Porto-Vecchio. Pour un logement dans un autre secteur, communiquez son adresse à notre équipe afin de confirmer la possibilité d’intervention.",
       "keywords": "zone secteur localisation couverture Santa Giulia Porto-Vecchio alentours adresse",
       "href": "/contact",
       "linkLabel": "Vérifier mon secteur"
@@ -43,7 +43,7 @@
     {
       "id": "annonces",
       "question": "Pouvez-vous préparer mes annonces de location ?",
-      "answer": "Zen Intégral prévoit la création et la diffusion des annonces ainsi que des photos pour présenter votre logement. Échangez avec Maxime sur vos annonces existantes et les plateformes concernées afin de définir le travail à prévoir.",
+      "answer": "Zen Intégral prévoit la création et la diffusion des annonces ainsi que des photos pour présenter votre logement. Échangez avec notre équipe sur vos annonces existantes et les plateformes concernées afin de définir le travail à prévoir.",
       "keywords": "annonces Airbnb Booking Abritel photos diffusion création location",
       "href": "/services/annonces-photos",
       "linkLabel": "Voir les annonces et photos"
@@ -83,7 +83,7 @@
     {
       "id": "dates",
       "question": "Puis-je réserver des dates pour mon usage personnel ?",
-      "answer": "Vous pouvez bloquer vos propres dates dans l’espace propriétaire pour prévoir vos séjours personnels. Les locations enregistrées par Zenvilla ou confirmées après paiement sur le site figurent également dans le planning ; contactez Maxime pour modifier un séjour déjà réservé.",
+      "answer": "Vous pouvez bloquer vos propres dates dans l’espace propriétaire pour prévoir vos séjours personnels. Les locations enregistrées par Zenvilla ou confirmées après paiement sur le site figurent également dans le planning ; contactez notre équipe pour modifier un séjour déjà réservé.",
       "keywords": "dates bloquer calendrier disponibilité séjour personnel propriétaire planning",
       "href": "/compte",
       "linkLabel": "Consulter mon calendrier"
@@ -99,7 +99,7 @@
     {
       "id": "demarrage",
       "question": "Que préparer pour commencer avec ZenVilla ?",
-      "answer": "Présentez la localisation de votre logement, sa capacité, votre calendrier et les tâches que vous souhaitez déléguer. Un échange avec Maxime permettra de préciser vos besoins et de définir la formule et le devis avant d’organiser les prestations.",
+      "answer": "Présentez la localisation de votre logement, sa capacité, votre calendrier et les tâches que vous souhaitez déléguer. Un échange avec notre équipe permettra de préciser vos besoins et de définir la formule et le devis avant d’organiser les prestations.",
       "keywords": "démarrage commencer confier logement première demande documents besoins",
       "href": "/contact",
       "linkLabel": "Présenter mon projet"
@@ -114,9 +114,9 @@
     },
     {
       "id": "rdv",
-      "question": "Comment prendre rendez-vous avec Maxime ?",
-      "answer": "Si la prise de rendez-vous en ligne est activée, choisissez un créneau disponible dans la rubrique dédiée de la page contact. Sinon, contactez Maxime pour convenir d’un échange sur votre logement.",
-      "keywords": "rendez-vous rdv créneau appel rencontre Maxime contact réservation",
+      "question": "Comment prendre rendez-vous avec Zenvilla ?",
+      "answer": "Choisissez un créneau sur notre page de réservation Google Agenda pour échanger sur votre bien et vos besoins en visioconférence Google Meet.",
+      "keywords": "rendez-vous rdv créneau appel rencontre Zenvilla contact réservation",
       "href": "/contact#rendez-vous",
       "linkLabel": "Organiser un rendez-vous"
     }
@@ -125,7 +125,7 @@
     {
       "id": "zones",
       "question": "Is my property within your service area?",
-      "answer": "ZenVilla supports owners in Santa Giulia and Porto-Vecchio. For a property elsewhere, send Maxime the address so he can confirm whether service is possible.",
+      "answer": "ZenVilla supports owners in Santa Giulia and Porto-Vecchio. For a property elsewhere, send our team the address so we can confirm whether service is possible.",
       "keywords": "area location coverage Santa Giulia Porto-Vecchio nearby address",
       "href": "/contact",
       "linkLabel": "Check my location"
@@ -165,7 +165,7 @@
     {
       "id": "annonces",
       "question": "Can you prepare my rental listings?",
-      "answer": "Zen Intégral includes listing creation and publication as well as photography to present your property. Discuss your existing listings and the platforms involved with Maxime to define the work needed.",
+      "answer": "Zen Intégral includes listing creation and publication as well as photography to present your property. Discuss your existing listings and the platforms involved with our team to define the work needed.",
       "keywords": "listings Airbnb Booking Abritel photography publication rental creation",
       "href": "/services/annonces-photos",
       "linkLabel": "View listings and photos"
@@ -205,7 +205,7 @@
     {
       "id": "dates",
       "question": "Can I reserve dates for my own stays?",
-      "answer": "You can block dates in the owner space for your personal stays. Rentals entered by Zenvilla or confirmed after payment on the website also appear in the calendar; contact Maxime to change an existing booking.",
+      "answer": "You can block dates in the owner space for your personal stays. Rentals entered by Zenvilla or confirmed after payment on the website also appear in the calendar; contact our team to change an existing booking.",
       "keywords": "dates block calendar availability personal stay owner schedule",
       "href": "/compte",
       "linkLabel": "View my calendar"
@@ -221,7 +221,7 @@
     {
       "id": "demarrage",
       "question": "What should I prepare to get started with ZenVilla?",
-      "answer": "Share your property’s location, capacity, calendar and the tasks you want to delegate. A discussion with Maxime will help clarify your needs and define the package and quote before services are arranged.",
+      "answer": "Share your property’s location, capacity, calendar and the tasks you want to delegate. A discussion with our team will help clarify your needs and define the package and quote before services are arranged.",
       "keywords": "start getting started property first request requirements onboarding",
       "href": "/contact",
       "linkLabel": "Tell us about my property"
@@ -236,9 +236,9 @@
     },
     {
       "id": "rdv",
-      "question": "How can I book an appointment with Maxime?",
-      "answer": "If online appointment booking is enabled, select an available slot in the dedicated section of the contact page. Otherwise, contact Maxime to arrange a conversation about your property.",
-      "keywords": "appointment meeting slot call Maxime contact booking",
+      "question": "How can I book an appointment with Zenvilla?",
+      "answer": "Choose an available time on our Google Calendar booking page to discuss your property and needs on Google Meet.",
+      "keywords": "appointment meeting slot call Zenvilla contact booking",
       "href": "/contact#rendez-vous",
       "linkLabel": "Arrange an appointment"
     }
@@ -247,7 +247,7 @@
     {
       "id": "zones",
       "question": "¿Mi alojamiento está dentro de vuestra zona de servicio?",
-      "answer": "ZenVilla acompaña a propietarios en Santa Giulia y Porto-Vecchio. Para un alojamiento en otra zona, envía la dirección a Maxime para confirmar si es posible prestar el servicio.",
+      "answer": "ZenVilla acompaña a propietarios en Santa Giulia y Porto-Vecchio. Para un alojamiento en otra zona, envía la dirección a nuestro equipo para confirmar si es posible prestar el servicio.",
       "keywords": "zona ubicación cobertura Santa Giulia Porto-Vecchio alrededores dirección",
       "href": "/contact",
       "linkLabel": "Consultar mi zona"
@@ -287,7 +287,7 @@
     {
       "id": "annonces",
       "question": "¿Podéis preparar mis anuncios de alquiler?",
-      "answer": "Zen Intégral contempla la creación y publicación de anuncios, además de fotos para presentar el alojamiento. Comenta con Maxime los anuncios existentes y las plataformas utilizadas para definir el trabajo necesario.",
+      "answer": "Zen Intégral contempla la creación y publicación de anuncios, además de fotos para presentar el alojamiento. Comenta con nuestro equipo los anuncios existentes y las plataformas utilizadas para definir el trabajo necesario.",
       "keywords": "anuncios Airbnb Booking Abritel fotos publicación alquiler creación",
       "href": "/services/annonces-photos",
       "linkLabel": "Ver anuncios y fotos"
@@ -327,7 +327,7 @@
     {
       "id": "dates",
       "question": "¿Puedo reservar fechas para mi uso personal?",
-      "answer": "Puedes bloquear fechas en el espacio del propietario para tus estancias personales. Las reservas registradas por Zenvilla o confirmadas tras el pago en el sitio también aparecen en el calendario; contacta con Maxime para modificar una reserva existente.",
+      "answer": "Puedes bloquear fechas en el espacio del propietario para tus estancias personales. Las reservas registradas por Zenvilla o confirmadas tras el pago en el sitio también aparecen en el calendario; contacta con nuestro equipo para modificar una reserva existente.",
       "keywords": "fechas bloquear calendario disponibilidad estancia personal propietario",
       "href": "/compte",
       "linkLabel": "Consultar mi calendario"
@@ -343,7 +343,7 @@
     {
       "id": "demarrage",
       "question": "¿Qué debo preparar para empezar con ZenVilla?",
-      "answer": "Presenta la ubicación del alojamiento, su capacidad, tu calendario y las tareas que quieres delegar. Una conversación con Maxime permitirá concretar tus necesidades y definir la fórmula y el presupuesto antes de organizar los servicios.",
+      "answer": "Presenta la ubicación del alojamiento, su capacidad, tu calendario y las tareas que quieres delegar. Una conversación con nuestro equipo permitirá concretar tus necesidades y definir la fórmula y el presupuesto antes de organizar los servicios.",
       "keywords": "empezar inicio alojamiento primera solicitud necesidades incorporación",
       "href": "/contact",
       "linkLabel": "Presentar mi proyecto"
@@ -358,9 +358,9 @@
     },
     {
       "id": "rdv",
-      "question": "¿Cómo puedo concertar una cita con Maxime?",
-      "answer": "Si la reserva de citas en línea está habilitada, elige una franja disponible en la sección correspondiente de la página de contacto. En caso contrario, contacta con Maxime para acordar una conversación sobre tu alojamiento.",
-      "keywords": "cita reunión franja llamada Maxime contacto reserva",
+      "question": "¿Cómo puedo concertar una cita con Zenvilla?",
+      "answer": "Elige un horario disponible en nuestra página de reservas de Google Calendar para hablar de tu propiedad y tus necesidades por Google Meet.",
+      "keywords": "cita reunión franja llamada Zenvilla contacto reserva",
       "href": "/contact#rendez-vous",
       "linkLabel": "Concertar una cita"
     }

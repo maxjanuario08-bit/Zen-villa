@@ -1,7 +1,7 @@
 const assistant = {
   "launcher": "¿Una pregunta?",
   "title": "Asistente Zenvilla",
-  "subtitle": "Preguntas frecuentes y contacto con Maxime.",
+  "subtitle": "Tus preguntas sobre Zenvilla, nuestros servicios y tu estancia.",
   "close": "Cerrar el asistente",
   "appointment": "Pedir una cita",
   "whatsapp": "WhatsApp",
@@ -10,17 +10,22 @@ const assistant = {
   "placeholder": "Ej.: limpieza, tarifas, seguimiento de mi villa…",
   "privacy": "Asistente FAQ: búsqueda local, sin IA. Tu búsqueda no se envía ni se guarda.",
   "results": "{count} respuestas sugeridas",
-  "noResults": "Esta pregunta merece una conversación con Maxime. Escríbenos mediante el formulario, por email o por WhatsApp.",
+  "noResults": "No he encontrado una respuesta suficientemente precisa. Hablemos de tu solicitud en una cita por Google Meet.",
   "human": "¿Prefieres hablar directamente?",
   "appointmentEyebrow": "Hablemos de tu propiedad",
   "appointmentTitle": "Reservar una conversación",
   "appointmentDescription": "Hablemos de tu propiedad y de lo que necesitas.",
-  "googleInfo": "Elige un horario disponible en Google Calendar. La cita se añadirá a la agenda de Maxime; los detalles de su agenda siguen siendo privados.",
+  "googleInfo": "Elige un horario disponible en nuestra página de reservas de Google Calendar.",
   "appointmentFallback": "Acordemos un horario por email o WhatsApp.",
   "chooseSlot": "Ver horarios disponibles",
   "newTab": "Se abre en una pestaña nueva",
   "requestAppointment": "Acordar un horario",
   "appointmentSubject": "Cita con propietario — Zenvilla",
-  "formLink": "Enviar una consulta por escrito"
+  "formLink": "Enviar una consulta por escrito",
+  "meetAppointment": "Reservar una cita por Google Meet",
+  "bookingQuestion": "¿Cuándo y por cuántas noches puedo reservar Mini Villa Pinson?",
+  "paymentQuestion": "¿Cómo pagar y recibir la guía de bienvenida de Mini Villa Pinson?",
+  "availabilityQuestion": "¿Está disponible Mini Villa Pinson para mis fechas?",
+  "availabilityAnswer": "La disponibilidad cambia con las reservas. Consulta el calendario de Mini Villa Pinson y selecciona tus fechas para ver las noches disponibles y el importe exacto; no puedo confirmar disponibilidad aquí."
 };
 export default assistant;
