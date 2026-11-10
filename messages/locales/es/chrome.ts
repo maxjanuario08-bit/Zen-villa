@@ -42,6 +42,11 @@ const navFooter = {
     esLong: "Español",
   },
   CookieBanner: {
+    excludeDevice: "Excluir mis visitas de prueba",
+    includeDevice: "Volver a permitir estadísticas en este dispositivo",
+    excludedStatus: "Las visitas desde este navegador quedan excluidas, aunque aceptes las cookies.",
+    excludeHint: "¿Trabajas en el sitio? Puedes excluir las visitas de este navegador.",
+
     manage: "Gestionar cookies",
     title: "Uso de cookies",
     description:

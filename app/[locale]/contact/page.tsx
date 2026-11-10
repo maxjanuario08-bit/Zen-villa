@@ -1,4 +1,5 @@
 "use client";
+import {trackSiteEvent} from "@/lib/analytics";
 import AppointmentSection from "@/components/AppointmentSection";
 import {Link} from "@/i18n/navigation";
 
@@ -112,6 +113,7 @@ export default function ContactPage() {
       });
       if (res.ok) {
         setStatus("success");
+        trackSiteEvent("generate_lead","contact");
         form.reset();
         return;
       }
@@ -126,6 +128,7 @@ export default function ContactPage() {
       });
       if (fallback.ok) {
         setStatus("success");
+        trackSiteEvent("generate_lead","contact");
         form.reset();
       } else {
         setStatus("error");
@@ -150,7 +153,7 @@ export default function ContactPage() {
         <div className="flex items-start gap-3"><MapPin size={19} aria-hidden="true" className="shrink-0 text-lagoon"/><div><dt className="inline font-semibold">{presentation("zones")} : </dt><dd className="inline text-muted">{presentation("zonesBody")}</dd></div></div>
       </dl></Card>
       <div id="formulaire" className="scroll-mt-28 min-w-0"><Card hover={false} className="!p-5 sm:!p-6"><h2 className="mb-6 font-serif text-2xl font-semibold text-lagoon-dark">{presentation("write")}</h2>
-                <form method="post" onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <form data-analytics-form="contact" method="post" onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="nom" className="block text-sm font-medium text-foreground mb-1">
                       {t("lblName")}

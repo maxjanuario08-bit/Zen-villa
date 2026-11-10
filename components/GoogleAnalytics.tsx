@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { analyticsPublicPath, GOOGLE_ANALYTICS_ID } from "@/lib/analytics";
+import { analyticsPublicPath, analyticsPageLocation, analyticsReferrer, GOOGLE_ANALYTICS_ID } from "@/lib/analytics";
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
@@ -27,7 +27,7 @@ export default function GoogleAnalytics({ consent }: { consent: boolean }) {
     if (!analyticsWindow.zvGoogleInitialized) {
       gtag("consent", "default", { analytics_storage: "granted", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
       gtag("js", new Date());
-      gtag("config", GOOGLE_ANALYTICS_ID, { send_page_view: false, cookie_expires: 60 * 60 * 24 * 395, cookie_update: false, allow_google_signals: false, allow_ad_personalization_signals: false });
+      gtag("config", GOOGLE_ANALYTICS_ID, { page_location: analyticsPageLocation(window.location.origin,pathname,window.location.search), page_referrer: analyticsReferrer(document.referrer,window.location.origin), send_page_view: false, cookie_expires: 60 * 60 * 24 * 395, cookie_update: false, allow_google_signals: false, allow_ad_personalization_signals: false });
       const script = document.createElement("script");
       script.async = true;
       script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
@@ -36,7 +36,7 @@ export default function GoogleAnalytics({ consent }: { consent: boolean }) {
     }
     if (lastPage.current !== pathname) {
       // Never send query strings, fragments, booking references or form values.
-      gtag("event", "page_view", { page_location: `${window.location.origin}${pathname}`, page_title: document.title, page_referrer: "" });
+      gtag("event", "page_view", { page_location: analyticsPageLocation(window.location.origin,pathname,window.location.search), page_title: document.title, page_referrer: analyticsReferrer(document.referrer,window.location.origin) });
       lastPage.current = pathname;
     }
   }, [consent, pathname]);

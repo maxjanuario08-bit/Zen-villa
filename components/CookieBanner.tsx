@@ -4,7 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { useState, useEffect, useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 
-const COOKIE_CONSENT_KEY = "zenvilla-cookie-consent";
+import {COOKIE_CONSENT_KEY,ANALYTICS_OPTOUT_KEY} from "@/lib/analytics";
+const readOptOut = () => localStorage.getItem(ANALYTICS_OPTOUT_KEY)==="1";
 
 function subscribeConsent(callback: () => void) {
   window.addEventListener("zenvilla-consent", callback);
@@ -21,6 +22,11 @@ export default function CookieBanner() {
   const t = useTranslations("CookieBanner");
   const [isVisible, setIsVisible] = useState(false);
   const consent = useSyncExternalStore(subscribeConsent, readConsent, serverConsent);
+  const optedOut=useSyncExternalStore(subscribeConsent,readOptOut,()=>false);
+  const toggleOptOut=()=>{
+    if(optedOut)localStorage.removeItem(ANALYTICS_OPTOUT_KEY);else localStorage.setItem(ANALYTICS_OPTOUT_KEY,"1");
+    window.dispatchEvent(new Event("zenvilla-consent"));
+  };
 
   useEffect(() => {
     const open = () => setIsVisible(true);
@@ -60,8 +66,9 @@ export default function CookieBanner() {
               {t("learnMore")}
             </Link>
           </p>
+          <p className="mt-2 text-xs text-muted">{t(optedOut?"excludedStatus":"excludeHint")}</p>
         </div>
-        <div className="flex w-full flex-wrap gap-3 sm:w-auto sm:shrink-0">
+        <div className="flex w-full min-w-0 flex-wrap gap-3 sm:w-80 sm:shrink-0">
           <button
             type="button"
             onClick={refuseCookies}
@@ -76,6 +83,7 @@ export default function CookieBanner() {
           >
             {t("accept")}
           </button>
+          <button type="button" aria-pressed={optedOut} onClick={toggleOptOut} className="min-h-11 rounded-full border border-sand px-4 py-2 text-sm font-medium text-lagoon-dark">{t(optedOut?"includeDevice":"excludeDevice")}</button>
         </div>
       </div>
     </div>

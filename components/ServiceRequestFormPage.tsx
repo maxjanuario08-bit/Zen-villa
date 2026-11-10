@@ -1,4 +1,5 @@
 "use client";
+import {trackSiteEvent} from "@/lib/analytics";
 
 import { useState, FormEvent } from "react";
 import Image from "next/image";
@@ -58,6 +59,7 @@ export default function ServiceRequestFormPage({initialService = ""}: {initialSe
       });
       if (res.ok) {
         setStatus("success");
+        trackSiteEvent("generate_lead","service");
         form.reset();
         return;
       }
@@ -73,6 +75,7 @@ export default function ServiceRequestFormPage({initialService = ""}: {initialSe
       });
       if (fallback.ok) {
         setStatus("success");
+        trackSiteEvent("generate_lead","service");
         form.reset();
       } else {
         setStatus("error");
@@ -111,7 +114,7 @@ export default function ServiceRequestFormPage({initialService = ""}: {initialSe
               <Card>
                 <h2 className="font-serif text-2xl font-semibold text-lagoon-dark mb-2">{t("formTitle")}</h2>
                 <p className="text-sm text-foreground/80 mb-6">{t("sideParagraph")}</p>
-                <form method="post" onSubmit={handleSubmit} className="space-y-4">
+                <form data-analytics-form="service" method="post" onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="prestation" className="block text-sm font-medium text-foreground mb-1">
                       {t("fieldService")}
