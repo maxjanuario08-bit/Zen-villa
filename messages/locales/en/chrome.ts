@@ -8,7 +8,7 @@ const navFooter = {
     contact: "Contact",
     phoneAria: "Call",
     menuAria: "Menu",
-    ctaQuote: "Request a quote",
+    ctaContact: "Contact us",
     member: "Member space",
     staff: "Staff space",
     staffSignup: "Create a staff account",

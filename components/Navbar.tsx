@@ -79,7 +79,7 @@ export default function Navbar() {
               href="/contact"
               className="shrink-0 whitespace-nowrap rounded-full bg-lagoon px-4 py-2 text-sm font-medium text-white shadow-md transition-all hover:bg-lagoon-dark hover:shadow-lg"
             >
-              {t("ctaQuote")}
+              {t("ctaContact")}
             </Link>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function Navbar() {
               className="rounded-full bg-lagoon px-5 py-3 text-center text-sm font-medium text-white mt-2"
               onClick={() => setIsOpen(false)}
             >
-              {t("ctaQuote")}
+              {t("ctaContact")}
             </Link>
           </div>
         </div>
