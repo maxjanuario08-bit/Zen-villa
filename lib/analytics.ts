@@ -40,3 +40,18 @@ export function trackSiteEvent(name:SiteEvent,formType?:"contact"|"service") {
   target.gtag?.("event",name,{send_to:GOOGLE_ANALYTICS_ID,page_location:`${window.location.origin}${window.location.pathname}`,...(formType?{form_type:formType}:{})});
  } catch { /* Analytics must never interrupt a contact or reservation. */ }
 }
+
+
+const INQUIRY_SOURCE_KEY = "zenvilla-inquiry-source";
+export function rememberInquirySource(pageLocation: string) {
+  try {
+    const source = new URL(pageLocation).searchParams.get("utm_source");
+    if (analyticsEnabled() && source) sessionStorage.setItem(INQUIRY_SOURCE_KEY, source);
+  } catch { /* The form can still be sent with browser storage disabled. */ }
+}
+
+export function inquirySource() {
+  try {
+    return analyticsEnabled() ? sessionStorage.getItem(INQUIRY_SOURCE_KEY) ?? "" : "";
+  } catch { return ""; }
+}

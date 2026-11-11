@@ -85,3 +85,14 @@ Elle ne se charge qu’après acceptation du bandeau cookies. Le pied de page pe
 Le suivi manuel exclut les espaces privés et supprime les paramètres et fragments des URL envoyées.
 Dans Google Analytics → Administration → Flux de données → Web → Mesures améliorées → Pages vues → Paramètres avancés, désactiver **Changements de page basés sur les événements de l’historique du navigateur**, car le site envoie déjà les vues lors des navigations Next.js. Cela évite les doublons et les vues automatiques des espaces exclus.
 Vérifier ensuite la collecte dans le rapport Temps réel, avec les cookies acceptés et sans bloqueur de publicité.
+
+## Administration — Pilotage
+
+Les nouveaux formulaires de contact et de prestation sont enregistrés dans la base Postgres avant la notification Resend. La table est initialisée avec le schéma existant. Les anciens formulaires peuvent être consultés dans la boîte de réception s'ils y ont été livrés.
+
+- **Google Analytics et Search Console** — activer Google Analytics Data API et Google Search Console API dans un projet Google Cloud. Créer un compte de service. Donner à son adresse le rôle Lecteur dans la propriété GA4 et un accès restreint dans Search Console. Placer le JSON de la clé dans la variable sensible de production `ZENVILLA_GOOGLE_SERVICE_ACCOUNT_JSON`. Vérifier l'identifiant numérique de la propriété GA4 dans Administration → Détails de la propriété, puis définir `ZENVILLA_GA_PROPERTY_ID`. Le domaine Search Console est par défaut `sc-domain:zen-villa.fr`, personnalisable via `ZENVILLA_SEARCH_CONSOLE_SITE`.
+- **Rendez-vous** — activer Google Calendar API et partager en lecture le calendrier qui reçoit les rendez-vous avec le même compte de service. Configurer `ZENVILLA_GOOGLE_CALENDAR_ID` et `ZENVILLA_GOOGLE_APPOINTMENT_TITLE` avec l'identifiant du calendrier et le titre exact du planning public. Utiliser un calendrier dédié aux rendez-vous clients.
+- **Emails** — renseigner l'adresse de la boîte via `ZENVILLA_IMAP_USER` et son mot de passe via la variable sensible `ZENVILLA_IMAP_PASSWORD`. Le panneau lit INBOX via IMAP sur le port 993 en TLS, sans marquer les messages comme lus. Les réponses et pièces jointes restent accessibles dans le webmail.
+- **Paiements** — le panneau lit les demandes enregistrées par le site. Le compte PayPal reste la référence pour les frais et les remboursements.
+
+Redéployer après modification des variables Vercel, puis vérifier chaque rubrique. Conserver les clés et mots de passe dans les variables serveur et renouveler les clés inutilisées ou exposées.

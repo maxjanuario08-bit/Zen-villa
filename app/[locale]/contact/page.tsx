@@ -1,5 +1,5 @@
 "use client";
-import {trackSiteEvent} from "@/lib/analytics";
+import {trackSiteEvent,inquirySource} from "@/lib/analytics";
 import AppointmentSection from "@/components/AppointmentSection";
 import {Link} from "@/i18n/navigation";
 
@@ -103,6 +103,7 @@ export default function ContactPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          source: inquirySource(),
           nom: data.nom,
           email: data.email,
           telephone: data.telephone,

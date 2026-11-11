@@ -187,6 +187,20 @@ export async function ensureOwnerSchema() {
   await sql`CREATE TABLE IF NOT EXISTS crm_tasks (id TEXT PRIMARY KEY, prospect_id TEXT NOT NULL, title TEXT NOT NULL, due TEXT NOT NULL DEFAULT '', done BOOLEAN NOT NULL DEFAULT FALSE, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`;
   await sql`CREATE INDEX IF NOT EXISTS crm_tasks_prospect ON crm_tasks (prospect_id)`;
   await sql`CREATE UNIQUE INDEX IF NOT EXISTS crm_source_identity ON crm_prospects ((profile_json::jsonb->>'sourceId')) WHERE (profile_json::jsonb->>'sourceId') IS NOT NULL AND (profile_json::jsonb->>'sourceId') <> ''`;
+  await sql`
+    CREATE TABLE IF NOT EXISTS site_inquiries (
+      id TEXT PRIMARY KEY,
+      kind TEXT NOT NULL,
+      data JSONB NOT NULL,
+      source TEXT NOT NULL DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'new',
+      email_status TEXT NOT NULL DEFAULT 'pending',
+      next_action TEXT NOT NULL DEFAULT '',
+      due_date TEXT NOT NULL DEFAULT '',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS site_inquiries_created ON site_inquiries (created_at DESC, id DESC)`;
   ready = true;
 }
 

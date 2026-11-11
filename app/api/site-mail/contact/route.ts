@@ -1,3 +1,4 @@
+import { receiveInquiry } from "@/lib/admin-inbox";
 import { NextResponse } from "next/server";
 import { notifyContactMessage } from "@/lib/site-mail";
 
@@ -23,12 +24,15 @@ export async function POST(req: Request) {
     ville?: string;
     type?: string;
     message?: string;
+    source?: string;
   };
   try {
     body = (await req.json()) as typeof body;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
+
+  if (!body || typeof body !== "object") return NextResponse.json({ error: "invalid" }, { status: 400 });
 
   const nom = String(body.nom ?? "").trim().slice(0, 80);
   const email = String(body.email ?? "").trim().toLowerCase().slice(0, 120);
@@ -38,13 +42,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
 
-  await notifyContactMessage({
-    nom,
-    email,
-    telephone,
-    ville: String(body.ville ?? "").trim().slice(0, 80),
-    type: String(body.type ?? "").trim().slice(0, 80),
-    message,
-  });
+  try {
+    await receiveInquiry("contact", {
+      nom,
+      email,
+      telephone,
+      ville: String(body.ville ?? "").trim().slice(0, 80),
+      type: String(body.type ?? "").trim().slice(0, 80),
+      message,
+    }, body.source, notifyContactMessage);
+  } catch {
+    return NextResponse.json({ error: "inbox_unavailable" }, { status: 503 });
+  }
   return NextResponse.json({ ok: true });
 }

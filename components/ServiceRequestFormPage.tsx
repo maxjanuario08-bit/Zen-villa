@@ -1,5 +1,5 @@
 "use client";
-import {trackSiteEvent} from "@/lib/analytics";
+import {trackSiteEvent,inquirySource} from "@/lib/analytics";
 
 import { useState, FormEvent } from "react";
 import Image from "next/image";
@@ -48,6 +48,7 @@ export default function ServiceRequestFormPage({initialService = ""}: {initialSe
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          source: inquirySource(),
           nom: data.nom,
           email: data.email,
           telephone: data.telephone,

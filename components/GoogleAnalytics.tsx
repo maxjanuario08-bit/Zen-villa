@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { analyticsPublicPath, analyticsPageLocation, analyticsReferrer, GOOGLE_ANALYTICS_ID } from "@/lib/analytics";
+import { analyticsPublicPath, analyticsPageLocation, analyticsReferrer, rememberInquirySource, GOOGLE_ANALYTICS_ID } from "@/lib/analytics";
 
 type AnalyticsWindow = Window & {
   dataLayer?: unknown[];
@@ -35,8 +35,9 @@ export default function GoogleAnalytics({ consent }: { consent: boolean }) {
       analyticsWindow.zvGoogleInitialized = true;
     }
     if (lastPage.current !== pathname) {
-      // Never send query strings, fragments, booking references or form values.
-      gtag("event", "page_view", { page_location: analyticsPageLocation(window.location.origin,pathname,window.location.search), page_title: document.title, page_referrer: analyticsReferrer(document.referrer,window.location.origin) });
+      const pageLocation = analyticsPageLocation(window.location.origin,pathname,window.location.search);
+      rememberInquirySource(pageLocation);
+      gtag("event", "page_view", { page_location: pageLocation, page_title: document.title, page_referrer: analyticsReferrer(document.referrer,window.location.origin) });
       lastPage.current = pathname;
     }
   }, [consent, pathname]);

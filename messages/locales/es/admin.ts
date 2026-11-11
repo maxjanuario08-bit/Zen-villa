@@ -26,6 +26,7 @@ const Admin = {
   opsTitle: "Check-in, check-out y limpieza",
   opsLead: "Registre aquí quién hizo la llegada, la salida y la limpieza — no en el espacio del propietario.",
   workspaceLead: "Panel, CRM, propietarios, planning, terreno e historial.",
+  tabPilotage: "Seguimiento",
   tabDashboard: "Panel",
   tabCrm: "Prospección",
   tabClients: "Clientes",

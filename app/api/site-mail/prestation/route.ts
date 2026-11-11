@@ -1,3 +1,4 @@
+import { receiveInquiry } from "@/lib/admin-inbox";
 import { NextResponse } from "next/server";
 import { notifyServiceRequest } from "@/lib/site-mail";
 
@@ -24,12 +25,15 @@ export async function POST(req: Request) {
     lieu?: string;
     dates?: string;
     message?: string;
+    source?: string;
   };
   try {
     body = (await req.json()) as typeof body;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
+
+  if (!body || typeof body !== "object") return NextResponse.json({ error: "invalid" }, { status: 400 });
 
   const nom = String(body.nom ?? "").trim().slice(0, 80);
   const email = String(body.email ?? "").trim().toLowerCase().slice(0, 120);
@@ -38,14 +42,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
 
-  await notifyServiceRequest({
-    nom,
-    email,
-    telephone,
-    prestation: String(body.prestation ?? "").trim().slice(0, 120),
-    lieu: String(body.lieu ?? "").trim().slice(0, 120),
-    dates: String(body.dates ?? "").trim().slice(0, 120),
-    message: String(body.message ?? "").trim().slice(0, 4000),
-  });
+  try {
+    await receiveInquiry("service", {
+      nom,
+      email,
+      telephone,
+      prestation: String(body.prestation ?? "").trim().slice(0, 120),
+      lieu: String(body.lieu ?? "").trim().slice(0, 120),
+      dates: String(body.dates ?? "").trim().slice(0, 120),
+      message: String(body.message ?? "").trim().slice(0, 4000),
+    }, body.source, notifyServiceRequest);
+  } catch {
+    return NextResponse.json({ error: "inbox_unavailable" }, { status: 503 });
+  }
   return NextResponse.json({ ok: true });
 }

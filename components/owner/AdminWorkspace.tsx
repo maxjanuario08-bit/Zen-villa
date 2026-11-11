@@ -6,19 +6,21 @@ import { useTranslations } from "next-intl";
 import AdminCrmDesk from "@/components/owner/AdminCrmDesk";
 import AdminDashboard from "@/components/owner/AdminDashboard";
 import AdminDesk from "@/components/owner/AdminDesk";
+import AdminPilotage from "@/components/owner/AdminPilotage";
 import AdminHistory from "@/components/owner/AdminHistory";
 import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
 
 type Villa = { slug: string; copyKey: string; guests: number };
-type Tab = "dashboard" | "owners" | "planning" | "ops" | "history" | "crm";
+type Tab = "pilotage" | "dashboard" | "owners" | "planning" | "ops" | "history" | "crm";
 
 export default function AdminWorkspace({ villas }: { villas: readonly Villa[] }) {
   const t = useTranslations("Admin");
-  const [tab, setTab] = useState<Tab>("dashboard");
+  const [tab, setTab] = useState<Tab>("pilotage");
 
   const tabs = useMemo(
     () =>
       [
+        { id: "pilotage" as const, label: t("tabPilotage") },
         { id: "dashboard" as const, label: t("tabDashboard") },
         { id: "crm" as const, label: t("tabCrm") },
         { id: "owners" as const, label: t("tabOwners") },
@@ -50,6 +52,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
       </div>
 
       <div className="mt-8">
+        {tab === "pilotage" ? <AdminPilotage onOpenCrm={() => setTab("crm")} onOpenPlanning={() => setTab("planning")} /> : null}
         {tab === "dashboard" ? <AdminDashboard villas={villas} onOpenTab={setTab} /> : null}
         {tab === "crm" ? (
           <div>

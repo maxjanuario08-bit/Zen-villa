@@ -79,7 +79,7 @@ export async function notifyContactMessage(input: {
     .filter((line): line is string => line !== null)
     .join("\n");
 
-  await sendMail({
+  const accepted = await sendMail({
     to: CONTACT.email,
     replyTo: input.email,
     subject: `Contact – ${input.nom}`,
@@ -97,7 +97,8 @@ export async function notifyContactMessage(input: {
       `${CONTACT.telephone}`,
       `${CONTACT.email}`,
     ].join("\n"),
-  });
+  }).catch(() => console.error("site-mail: acknowledgement failed"));
+  return accepted === true;
 }
 
 export async function notifyServiceRequest(input: {
@@ -110,7 +111,7 @@ export async function notifyServiceRequest(input: {
   message?: string;
 }) {
   const label = input.prestation?.trim() || "Prestation";
-  await sendMail({
+  const accepted = await sendMail({
     to: CONTACT.email,
     replyTo: input.email,
     subject: `Demande – ${label} – ${input.nom}`,
@@ -139,5 +140,6 @@ export async function notifyServiceRequest(input: {
       `Zenvilla`,
       `${CONTACT.telephone}`,
     ].join("\n"),
-  });
+  }).catch(() => console.error("site-mail: acknowledgement failed"));
+  return accepted === true;
 }
