@@ -26,6 +26,7 @@ const Admin = {
   opsTitle: "Check-in, check-out and cleaning",
   opsLead: "Record who did arrival, departure and cleaning here — not in the owner space.",
   workspaceLead: "Dashboard, CRM, owners, planning, on-site work and history.",
+  tabAssistant: "AI assistant",
   tabPilotage: "Monitoring",
   tabDashboard: "Dashboard",
   tabCrm: "Prospecting",

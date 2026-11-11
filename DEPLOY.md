@@ -96,3 +96,7 @@ Les nouveaux formulaires de contact et de prestation sont enregistrés dans la b
 - **Paiements** — le panneau lit les demandes enregistrées par le site. Le compte PayPal reste la référence pour les frais et les remboursements.
 
 Redéployer après modification des variables Vercel, puis vérifier chaque rubrique. Conserver les clés et mots de passe dans les variables serveur et renouveler les clés inutilisées ou exposées.
+
+## Administration — Assistant commercial
+
+Le suivi des demandes et des relances est disponible dans l’onglet Assistant IA. Pour activer les réponses, ajouter `OPENAI_API_KEY` comme variable sensible en production dans Vercel et redéployer. Le modèle `gpt-5-mini` peut être remplacé via `ZENVILLA_OPENAI_MODEL` par un modèle Responses compatible avec l’effort de raisonnement minimal. Les questions et les indicateurs du CRM sont envoyés à OpenAI avec `store: false`. Les noms, coordonnées et notes du CRM sont exclus du contexte transmis.

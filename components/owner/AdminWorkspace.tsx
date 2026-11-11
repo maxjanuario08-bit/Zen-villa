@@ -3,6 +3,7 @@
 import { canLeaveAdminSection } from "@/lib/admin-navigation";
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
+import AdminCommercialAssistant from "@/components/owner/AdminCommercialAssistant";
 import AdminCrmDesk from "@/components/owner/AdminCrmDesk";
 import AdminDashboard from "@/components/owner/AdminDashboard";
 import AdminDesk from "@/components/owner/AdminDesk";
@@ -11,7 +12,7 @@ import AdminHistory from "@/components/owner/AdminHistory";
 import StaffOpsDesk from "@/components/owner/StaffOpsDesk";
 
 type Villa = { slug: string; copyKey: string; guests: number };
-type Tab = "pilotage" | "dashboard" | "owners" | "planning" | "ops" | "history" | "crm";
+type Tab = "assistant" | "pilotage" | "dashboard" | "owners" | "planning" | "ops" | "history" | "crm";
 
 export default function AdminWorkspace({ villas }: { villas: readonly Villa[] }) {
   const t = useTranslations("Admin");
@@ -21,6 +22,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
     () =>
       [
         { id: "pilotage" as const, label: t("tabPilotage") },
+        { id: "assistant" as const, label: t("tabAssistant") },
         { id: "dashboard" as const, label: t("tabDashboard") },
         { id: "crm" as const, label: t("tabCrm") },
         { id: "owners" as const, label: t("tabOwners") },
@@ -53,6 +55,7 @@ export default function AdminWorkspace({ villas }: { villas: readonly Villa[] })
 
       <div className="mt-8">
         {tab === "pilotage" ? <AdminPilotage onOpenCrm={() => setTab("crm")} onOpenPlanning={() => setTab("planning")} /> : null}
+        {tab === "assistant" ? <AdminCommercialAssistant onOpenCrm={() => setTab("crm")} onOpenInbox={() => setTab("pilotage")} /> : null}
         {tab === "dashboard" ? <AdminDashboard villas={villas} onOpenTab={setTab} /> : null}
         {tab === "crm" ? (
           <div>
