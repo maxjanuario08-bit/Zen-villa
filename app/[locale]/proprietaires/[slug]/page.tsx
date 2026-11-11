@@ -6,6 +6,7 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import ServiceIcon from "@/components/icons/ServiceIcon";
 import { proprietairesAvantages } from "@/lib/proprietaires-avantages";
+import { localizedPageMetadata } from "@/lib/seo";
 
 interface Props {
   params: Promise<{ locale: string; slug: string }>;
@@ -24,10 +25,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: `${tCommon("serviceNotFound")} | ZenVilla` };
 
   const tBenefit = await getTranslations({ locale, namespace: "ownerBenefits" });
-  return {
-    title: `${tBenefit(`${slug}.titre`)} | ZenVilla`,
+  return localizedPageMetadata({
+    locale,
+    path: `/proprietaires/${slug}`,
+    title: tBenefit(`${slug}.titre`),
     description: tBenefit(`${slug}.description`),
-  };
+  });
 }
 
 export default async function ProprietaireAvantagePage({ params }: Props) {

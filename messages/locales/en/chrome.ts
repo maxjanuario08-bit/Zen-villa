@@ -138,9 +138,9 @@ const navFooter = {
     seeTrust: "See villas in our care",
   },
   Metadata: {
-    siteTitle: "Zenvilla – South Corsica concierge | Standout villas",
+    siteTitle: "Villa concierge Porto-Vecchio & Santa Giulia | Zenvilla",
     siteDescription:
-      "Complete digital concierge for villa owners and guests in South Corsica. Transparency, simplicity, bespoke services.",
+      "Villa concierge in Porto-Vecchio and Santa Giulia: guest welcome, cleaning, linen, maintenance and rental management. Request a quote from Zenvilla.",
   },
 } as const;
 

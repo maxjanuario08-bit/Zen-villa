@@ -7,6 +7,7 @@ import { ArrowLeft, CalendarDays, Camera, Check, CircleCheck, ClipboardCheck, He
 import ServicePricing from "@/components/ServicePricing";
 import Button from "@/components/ui/Button";
 import { homeServices, type HomeServiceSlug } from "@/lib/services";
+import { localizedPageMetadata } from "@/lib/seo";
 
 interface Props { params: Promise<{ locale: string; slug: string }> }
 const serviceIcons = {
@@ -24,7 +25,12 @@ export async function generateMetadata({params}:Props):Promise<Metadata> {
   const {locale,slug}=await params;
   if(!homeServices.some(s=>s.slug===slug)) return {};
   const t=await getTranslations({locale,namespace:"ownerServices"});
-  return {title:`${t(`${slug}.label`)} | ZenVilla`,description:t(`${slug}.description`)};
+  return localizedPageMetadata({
+    locale,
+    path: `/services/${slug}`,
+    title: t(`${slug}.label`),
+    description: t(`${slug}.description`),
+  });
 }
 export default async function ServiceDetailPage({params}:Props) {
   const {locale,slug}=await params;

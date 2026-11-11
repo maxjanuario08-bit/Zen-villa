@@ -8,10 +8,21 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Titles" });
+  const url = `${SITE.url}${locale === "fr" ? "" : `/${locale}`}/mentions-legales`;
   return {
     title: t("mentionsMetaTitle"),
     description: t("mentionsMetaDesc"),
-    robots: { index: true, follow: true },
+    alternates: { canonical: `${SITE.url}/mentions-legales` },
+    robots: { index: locale === "fr", follow: true },
+    openGraph: {
+      type: "website",
+      locale: locale === "fr" ? "fr_FR" : locale === "es" ? "es_ES" : "en_US",
+      url,
+      siteName: SITE.name,
+      title: t("mentionsMetaTitle"),
+      description: t("mentionsMetaDesc"),
+      images: [{ url: SITE.ogImage, alt: SITE.name }],
+    },
   };
 }
 

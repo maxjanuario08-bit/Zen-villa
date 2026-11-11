@@ -138,9 +138,9 @@ const navFooter = {
     seeTrust: "Voir les villas confiées",
   },
   Metadata: {
-    siteTitle: "Zenvilla – Conciergerie Corse Sud | Gestion de villas",
+    siteTitle: "Conciergerie villa Porto-Vecchio & Santa Giulia | Zenvilla",
     siteDescription:
-      "Solution complète et digitale de conciergerie pour propriétaires de villas et voyageurs en Corse Sud. Transparence, simplicité, services personnalisés.",
+      "Conciergerie de villas à Porto-Vecchio et Santa Giulia : accueil, ménage, linge, maintenance et gestion locative. Demandez votre devis à Zenvilla.",
   },
 } as const;
 

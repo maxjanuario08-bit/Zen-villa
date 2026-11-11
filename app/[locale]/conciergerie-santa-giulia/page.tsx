@@ -2,22 +2,21 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Button from "@/components/ui/Button";
-import { languageAlternates } from "@/lib/seo";
+import { localizedPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Titles" });
-  return {
+  return localizedPageMetadata({
+    locale,
+    path: "/conciergerie-santa-giulia",
     title: t("sgMetaTitle"),
     description: t("sgMetaDesc"),
-    openGraph: {
-      title: t("sgOgTitle"),
-      description: t("sgOgDesc"),
-    },
-    alternates: languageAlternates(locale, "/conciergerie-santa-giulia"),
-  };
+    openGraphTitle: t("sgOgTitle"),
+    openGraphDescription: t("sgOgDesc"),
+  });
 }
 
 export default async function ConciergerieSantaGiuliaPage({ params }: Props) {
@@ -25,6 +24,7 @@ export default async function ConciergerieSantaGiuliaPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "ConciergeSG" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
+  const services = t.raw("servicesList") as readonly string[];
 
   return (
     <div>
@@ -64,6 +64,9 @@ export default async function ConciergerieSantaGiuliaPage({ params }: Props) {
           <div className="prose prose-lg text-foreground/90 space-y-4">
             <p>{t("bodyLead")}</p>
             <p>{t("bodyNext")}</p>
+            <ul className="list-disc space-y-2 pl-6">
+              {services.map((service) => <li key={service}>{service}</li>)}
+            </ul>
           </div>
         </div>
       </section>

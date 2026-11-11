@@ -138,9 +138,9 @@ const navFooter = {
     seeTrust: "Ver las villas confiadas",
   },
   Metadata: {
-    siteTitle: "Zenvilla – Conserjería Córcega del Sur | Gestión de villas",
+    siteTitle: "Conserjería de villas Porto-Vecchio y Santa Giulia | Zenvilla",
     siteDescription:
-      "Conserjería digital completa para propietarios y viajeros en Córcega del Sur. Transparencia, simplicidad, servicios a medida.",
+      "Conserjería de villas en Porto-Vecchio y Santa Giulia: acogida, limpieza, ropa blanca, mantenimiento y gestión de alquileres. Pida presupuesto a Zenvilla.",
   },
 } as const;
 

@@ -13,7 +13,7 @@ import PhotoCarousel from "@/components/PhotoCarousel";
 import { getLogement, logements } from "@/lib/logements";
 import type { BookingConfig } from "@/lib/booking";
 import { getBookingWithAvailability } from "@/lib/owner-calendar";
-import { languageAlternates } from "@/lib/seo";
+import { localizedPageMetadata } from "@/lib/seo";
 import JsonLd from "@/components/JsonLd";
 import { CONTACT, SITE } from "@/lib/constants";
 
@@ -35,11 +35,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: t("notFound") };
   }
 
-  return {
-    title: `${t(`${logement.copyKey}.name`)} | ZenVilla`,
+  return localizedPageMetadata({
+    locale,
+    path: `/logements/${slug}`,
+    title: t(`${logement.copyKey}.name`),
     description: t(`${logement.copyKey}.description`),
-    alternates: languageAlternates(locale, `/logements/${slug}`),
-  };
+    image: logement.image.startsWith("http")
+      ? logement.image
+      : `${SITE.url}${logement.image}`,
+  });
 }
 
 export default async function LogementDetailPage({ params, searchParams }: Props) {

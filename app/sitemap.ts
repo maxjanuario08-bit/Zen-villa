@@ -11,95 +11,58 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const servicesPages = homeServices.map((s) => ({
     url: `${baseUrl}/services/${s.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
   }));
 
   const proprietairesPages = proprietairesAvantages.map((s) => ({
     url: `${baseUrl}/proprietaires/${s.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
   }));
 
   const voyageursPages = voyageursServices.map((s) => ({
     url: `${baseUrl}/voyageurs/${s.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
   }));
 
   const frPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 1 },
-    {
-      url: `${baseUrl}/proprietaires`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/voyageurs`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/formules`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/demander-prestation`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/conciergerie-porto-vecchio`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/conciergerie-santa-giulia`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/mentions-legales`,
-      lastModified: new Date(),
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/politique-confidentialite`,
-      lastModified: new Date(),
-      changeFrequency: "yearly" as const,
-      priority: 0.3,
-    },
-    { url: `${baseUrl}/logements`, changeFrequency: "monthly", priority: 0.8 },
+    { url: baseUrl },
+    { url: `${baseUrl}/proprietaires` },
+    { url: `${baseUrl}/voyageurs` },
+    { url: `${baseUrl}/formules` },
+    { url: `${baseUrl}/contact` },
+    { url: `${baseUrl}/demander-prestation` },
+    { url: `${baseUrl}/conciergerie-porto-vecchio` },
+    { url: `${baseUrl}/conciergerie-santa-giulia` },
+    { url: `${baseUrl}/mentions-legales` },
+    { url: `${baseUrl}/politique-confidentialite` },
+    { url: `${baseUrl}/logements` },
     ...logementsForRent.map((home) => ({
-      url: `${baseUrl}/logements/${home.slug}`, changeFrequency: "monthly" as const, priority: 0.8,
+      url: `${baseUrl}/logements/${home.slug}`,
     })),
     ...servicesPages,
     ...proprietairesPages,
     ...voyageursPages,
   ];
 
-  return frPages.flatMap((page) => {
+  return frPages.map((page) => {
     const path = page.url.slice(baseUrl.length);
-    return routing.locales.map((locale) => ({
+    const isFrenchOnlyPage = [
+      "/mentions-legales",
+      "/politique-confidentialite",
+    ].includes(path);
+
+    return {
       ...page,
-      url: locale === "fr" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`,
-    }));
+      alternates: {
+        languages: isFrenchOnlyPage
+          ? {
+              fr: `${baseUrl}${path}`,
+              "x-default": `${baseUrl}${path}`,
+            }
+          : Object.fromEntries(
+              routing.locales.map((locale) => [
+                locale,
+                locale === "fr" ? `${baseUrl}${path}` : `${baseUrl}/${locale}${path}`,
+              ]),
+            ),
+      },
+    };
   });
 }

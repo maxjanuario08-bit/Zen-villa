@@ -6,11 +6,18 @@ import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import JsonLd from "@/components/JsonLd";
 import { CONTACT, SITE } from "@/lib/constants";
-import { languageAlternates } from "@/lib/seo";
+import { localizedPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
- const {locale}=await params;return {alternates:languageAlternates(locale,"/")};
+ const {locale}=await params;
+ const t=await getTranslations({locale,namespace:"Metadata"});
+ return localizedPageMetadata({
+  locale,
+  path:"/",
+  title:t("siteTitle"),
+  description:t("siteDescription"),
+ });
 }
 const benefitIcons=[CalendarDays,ShieldCheck,Laptop,Sparkles];
 const stepIcons=[MessageCircle,House,FileText,CircleCheck];
@@ -34,9 +41,11 @@ export default async function HomePage({params}:Props){
         data={{
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
+          "@id": `${SITE.url}#business`,
           name: SITE.name,
           url: SITE.url,
           image: SITE.ogImage,
+          description: SITE.description,
           telephone: CONTACT.telephoneTel,
           email: CONTACT.email,
           address: {
@@ -48,6 +57,8 @@ export default async function HomePage({params}:Props){
             addressCountry: "FR",
           },
           areaServed: ["Santa Giulia", "Porto-Vecchio"],
+            sameAs: [CONTACT.facebook, CONTACT.instagram],
+            knowsLanguage: ["fr", "en", "es"],
         }}
       />
 

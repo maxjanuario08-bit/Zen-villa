@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
     openGraph: {
       type: "website",
       locale: ogLocale,
-      url: SITE.url,
+      url: locale === "fr" ? SITE.url : `${SITE.url}/${locale}`,
       siteName: SITE.name,
       title: t("siteTitle"),
       description: t("siteDescription"),

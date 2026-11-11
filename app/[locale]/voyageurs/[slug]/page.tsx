@@ -1,5 +1,5 @@
 import {Check,ArrowRight} from "lucide-react";
-import {languageAlternates} from "@/lib/seo";
+import {localizedPageMetadata} from "@/lib/seo";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -29,11 +29,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: `${tCommon("serviceNotFound")} | ZenVilla` };
 
   const tGuest = await getTranslations({ locale, namespace: "guestServices" });
-  return {
-    title: `${tGuest(`${slug}.label`)} | ZenVilla`,
+  return localizedPageMetadata({
+    locale,
+    path: `/voyageurs/${slug}`,
+    title: tGuest(`${slug}.label`),
     description: tGuest(`${slug}.description`),
-    alternates: languageAlternates(locale, `/voyageurs/${slug}`),
-  };
+  });
 }
 
 export default async function VoyageurServicePage({ params }: Props) {

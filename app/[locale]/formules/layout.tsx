@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { localizedPageMetadata } from "@/lib/seo";
 
 type Props = Readonly<{ children: ReactNode; params: Promise<{ locale: string }> }>;
 
@@ -12,12 +13,14 @@ export async function generateMetadata({ params }: Pick<Props, "params">): Promi
   const title = t("metaTitlePacks");
   const description = t("metaDescPacks");
   return {
-    title,
-    description,
-    openGraph: {
-      title: t("ogTitle"),
-      description: tTitles("packsOg"),
-    },
+    ...localizedPageMetadata({
+      locale,
+      path: "/formules",
+      title,
+      description,
+      openGraphTitle: t("ogTitle"),
+      openGraphDescription: tTitles("packsOg"),
+    }),
     robots: { index: true, follow: true },
   };
 }
