@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import {CalendarDays, ShieldCheck, Laptop, Sparkles, KeyRound, BrushCleaning, Wrench, Camera, Headset, Leaf, MessageCircle, House, FileText, CircleCheck, Check, ArrowRight} from "lucide-react";
+import {CalendarDays, ShieldCheck, Laptop, Sparkles, KeyRound, BrushCleaning, Wrench, Camera, Headset, Leaf, MessageCircle, House, FileText, CircleCheck, ArrowRight} from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import JsonLd from "@/components/JsonLd";
@@ -29,7 +29,6 @@ export default async function HomePage({params}:Props){
  const benefits=presentation.raw("benefits") as [string,string][];
  const steps=presentation.raw("steps") as [string,string][];
  const labels=presentation.raw("services") as string[];
- const points=presentation.raw("examplePoints") as string[];
  return <div>
       <JsonLd
         data={{
@@ -81,10 +80,6 @@ export default async function HomePage({params}:Props){
   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
    <div className="grid gap-8 lg:grid-cols-[1fr_3fr] lg:items-start"><div className="lg:border-r lg:border-sand lg:pr-6"><p className="text-xs font-semibold uppercase tracking-[0.2em] text-lagoon">{presentation("processKicker")}</p><h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-lagoon-dark">{presentation("processTitle")}</h2></div>
     <ol className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">{steps.map(([title,body],i)=>{const Icon=stepIcons[i];return <li key={title}><div className="mb-3 flex items-center gap-3"><span className="flex h-7 w-7 items-center justify-center rounded-full bg-lagoon text-sm font-semibold text-white">{i+1}</span><Icon size={25} strokeWidth={1.5} aria-hidden="true" className="text-lagoon"/></div><h3 className="font-semibold text-lagoon-dark">{title}</h3><p className="mt-2 text-sm leading-relaxed text-muted">{body}</p></li>;})}</ol>
-   </div>
-   <div className="mt-12 grid items-center gap-8 lg:mt-16 lg:grid-cols-2 lg:gap-14">
-    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:aspect-[16/10]"><Image src="/logements/pinson/terrasse.jpg" alt={presentation("exampleAlt")} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover"/><span className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-lagoon-dark"><House size={17} aria-hidden="true"/>Santa Giulia · Bella Vista</span></div>
-    <div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-lagoon">{presentation("exampleKicker")}</p><h2 className="mt-3 font-serif text-3xl font-semibold text-lagoon-dark sm:text-4xl">{presentation("exampleTitle")}</h2><p className="mt-4 max-w-xl leading-relaxed text-muted">{presentation("exampleBody")}</p><ul className="mt-6 space-y-3">{points.map(point=><li key={point} className="flex items-start gap-3 text-sm font-medium text-lagoon-dark"><span className="mt-0.5 rounded-full bg-lagoon p-1 text-white"><Check size={12} aria-hidden="true"/></span>{point}</li>)}</ul></div>
    </div>
   </div>
  </section>
