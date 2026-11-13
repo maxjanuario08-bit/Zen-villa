@@ -33,14 +33,57 @@ async function accessToken(account: Account, section: GoogleSection) {
 
 type MetricRow = { dimensionValues?: { value: string }[]; metricValues?: { value: string }[] };
 
-export async function readGoogleSection(section: GoogleSection) {
+async function federatedAnalyticsToken(audience: string, account: string, oidcToken: string | null) {
+  if (!oidcToken) throw new Error("Vercel identity token unavailable");
+  const exchange = await fetch("https://sts.googleapis.com/v1/token", {
+    method: "POST",
+    body: new URLSearchParams({
+      audience,
+      grant_type: "urn:ietf:params:oauth:grant-type:token-exchange",
+      requested_token_type: "urn:ietf:params:oauth:token-type:access_token",
+      scope: "https://www.googleapis.com/auth/cloud-platform",
+      subject_token_type: "urn:ietf:params:oauth:token-type:jwt",
+      subject_token: oidcToken,
+    }),
+    signal: AbortSignal.timeout(6500),
+    cache: "no-store",
+  });
+  if (!exchange.ok) throw new Error(`Google identity exchange failed (${exchange.status})`);
+  const { access_token } = await exchange.json();
+  if (typeof access_token !== "string") throw new Error("Google identity token unavailable");
+
+  const response = await fetch(
+    `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${encodeURIComponent(account)}:generateAccessToken`,
+    {
+      method: "POST",
+      headers: { Authorization: `Bearer ${access_token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ scope: [scopes.analytics] }),
+      signal: AbortSignal.timeout(6500),
+      cache: "no-store",
+    },
+  );
+  if (!response.ok) throw new Error(`Google service account authorization failed (${response.status})`);
+  const { accessToken } = await response.json();
+  if (typeof accessToken !== "string") throw new Error("Google Analytics access token unavailable");
+  return accessToken;
+}
+
+export async function readGoogleSection(section: GoogleSection, oidcToken: string | null = null) {
   const config = process.env.ZENVILLA_GOOGLE_SERVICE_ACCOUNT_JSON;
+  const audience = process.env.ZENVILLA_GOOGLE_WIF_AUDIENCE?.trim();
+  const serviceAccount = process.env.ZENVILLA_GOOGLE_WIF_SERVICE_ACCOUNT?.trim();
   const calendar = process.env.ZENVILLA_GOOGLE_CALENDAR_ID;
   const appointmentTitle = process.env.ZENVILLA_GOOGLE_APPOINTMENT_TITLE?.trim();
-  if (!config || (section === "calendar" && (!calendar || !appointmentTitle))) return null;
+  if (section === "calendar" && (!calendar || !appointmentTitle)) return null;
 
-  const account = JSON.parse(config) as Account;
-  const token = await accessToken(account, section);
+  let token: string;
+  if (section === "analytics" && audience && serviceAccount) {
+    token = await federatedAnalyticsToken(audience, serviceAccount, oidcToken);
+  } else if (config) {
+    token = await accessToken(JSON.parse(config) as Account, section);
+  } else {
+    return null;
+  }
   async function google(url: string, body?: object) {
     const response = await fetch(url, {
       method: body ? "POST" : "GET",

@@ -13,7 +13,9 @@ export async function GET(req: Request, context: { params: Promise<{ section: st
   const { section } = await context.params;
   try {
     if (section === "analytics" || section === "seo" || section === "calendar") {
-      return NextResponse.json({ data: await readGoogleSection(section) }, { headers });
+      return NextResponse.json({
+        data: await readGoogleSection(section, req.headers.get("x-vercel-oidc-token")),
+      }, { headers });
     }
     if (section === "payments") {
       const sql = await pg();
