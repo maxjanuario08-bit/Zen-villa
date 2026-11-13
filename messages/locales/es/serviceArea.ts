@@ -1,4 +1,6 @@
 const serviceArea = {
+  photoCredits: "Créditos de las fotos",
+  photoAdaptation: "Imagen redimensionada y recortada para su visualización",
   "metaTitle": "Zona de servicio · Porto-Vecchio & Santa Giulia",
   "eyebrow": "Conserjería para alquiler vacacional",
   "title": "De Santa Giulia a los alrededores de Porto-Vecchio",

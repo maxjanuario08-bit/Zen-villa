@@ -1,4 +1,6 @@
 const serviceArea = {
+  photoCredits: "Crédits photo",
+  photoAdaptation: "Image redimensionnée et recadrée à l’affichage",
   "metaTitle": "Zone d’intervention · Porto-Vecchio & Santa Giulia",
   "eyebrow": "Conciergerie de location saisonnière",
   "title": "De Santa Giulia aux environs de Porto-Vecchio",

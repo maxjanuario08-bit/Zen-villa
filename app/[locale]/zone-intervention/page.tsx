@@ -7,9 +7,9 @@ import { localizedPageMetadata } from "@/lib/seo";
 type Props = { params: Promise<{ locale: string }> };
 
 const sectors = [
-  { key: "core", id: "porto-vecchio", places: ["Porto-Vecchio", "Santa Giulia", "Bocca dell’Oro", "Piccovaggia", "Palombaggia", "Tamaricciu"] },
-  { key: "north", id: "nord-du-golfe", places: ["Lecci", "Cala Rossa", "Saint-Cyprien", "Pinarello", "Sainte-Lucie-de-Porto-Vecchio"] },
-  { key: "south", id: "sud-et-interieur", places: ["Bonifacio", "Sotta", "Figari", "Pianottoli-Caldarello"] },
+  { key: "core", image: "/zone-intervention/porto-vecchio.webp", author: "Nerijp", source: "https://commons.wikimedia.org/wiki/File:Port-Porto-vecchio.jpg", license: "3.0", id: "porto-vecchio", places: ["Porto-Vecchio", "Santa Giulia", "Bocca dell’Oro", "Piccovaggia", "Palombaggia", "Tamaricciu"] },
+  { key: "north", image: "/zone-intervention/pinarello.webp", author: "Rémih", source: "https://commons.wikimedia.org/wiki/File:Pinarellu_beach.jpg", license: "4.0", id: "nord-du-golfe", places: ["Lecci", "Cala Rossa", "Saint-Cyprien", "Pinarello", "Sainte-Lucie-de-Porto-Vecchio"] },
+  { key: "south", image: "/zone-intervention/bonifacio.webp", author: "Aymeric Chanut-Lourme", source: "https://commons.wikimedia.org/wiki/File:Bonifacio_cliff.jpg", license: "4.0", id: "sud-et-interieur", places: ["Bonifacio", "Sotta", "Figari", "Pianottoli-Caldarello"] },
 ] as const;
 
 export async function generateMetadata({ params }: Props) {
@@ -46,15 +46,30 @@ export default async function ServiceAreaPage({ params }: Props) {
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("sectors")}</h2>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          {sectors.map(({ key, id, places }) => (
-            <article key={key} id={id} className="scroll-mt-28 rounded-3xl border border-sand/60 bg-sand-light p-6 text-lagoon-dark">
+          {sectors.map(({ key, id, places, image }) => (
+            <article key={key} id={id} className="relative isolate min-h-64 scroll-mt-28 overflow-hidden rounded-3xl bg-lagoon-dark p-6 text-white">
+              <Image src={image} alt="" fill sizes="(min-width: 1024px) 33vw, 100vw" className="-z-20 object-cover" />
+              <div className="absolute inset-0 -z-10 bg-black/55" />
               <h3 className="font-serif text-2xl font-semibold">{t(`${key}Title`)}</h3>
               <ul className="mt-5 flex flex-wrap gap-2">
-                {places.map(place => <li key={place} className="rounded-full border border-current/25 px-3 py-1 text-sm">{place}</li>)}
+                {places.map(place => <li key={place} className="rounded-full border border-white/50 bg-black/25 px-3 py-1 text-sm">{place}</li>)}
               </ul>
             </article>
           ))}
         </div>
+        <details className="mt-3 text-xs text-foreground/75">
+          <summary className="cursor-pointer">{t("photoCredits")}</summary>
+          <ul className="mt-2 space-y-1">
+            {sectors.map(({ key, source, author, license }) => (
+              <li key={key}>
+                <a href={source} className="underline">{t(`${key}Title`)} · {author}</a>
+                {" · "}
+                <a href={`https://creativecommons.org/licenses/by-sa/${license}/`} className="underline">CC BY-SA {license}</a>
+                {" · "}{t("photoAdaptation")}
+              </li>
+            ))}
+          </ul>
+        </details>
         <div className="mt-8 flex flex-wrap items-center justify-between gap-5 rounded-3xl border border-sand/60 p-6 sm:p-8">
           <div className="max-w-2xl">
             <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("contactTitle")}</h2>

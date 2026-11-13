@@ -1,4 +1,6 @@
 const serviceArea = {
+  photoCredits: "Photo credits",
+  photoAdaptation: "Image resized and cropped for display",
   "metaTitle": "Service area · Porto-Vecchio & Santa Giulia",
   "eyebrow": "Holiday rental concierge",
   "title": "From Santa Giulia to the Porto-Vecchio area",
