@@ -25,7 +25,6 @@ const pricing = {
   "allPrices": "Voir les tarifs à la carte",
   "guestPrices": "Voir tous les tarifs voyageurs",
   "pendingVat": "Grille en préparation : traitement de la TVA à confirmer avant publication.",
-  "finalVat": "Prix finaux en euros, toutes taxes comprises.",
   "franchiseVat": "Prix en euros. TVA non applicable, art. 293 B du CGI.",
   "contractNote": "Pour les propriétaires sous contrat Zen Tranquillité (18 %) ou Zen Intégral (22 %), le ménage de rotation standard est inclus : ces tarifs ponctuels ne s’ajoutent pas pour la même prestation. Le linge courant et la préparation sont définis dans votre contrat.",
   "cleaning": "Tarifs pour un logement laissé dans un état normal. Nettoyage exceptionnel, vitres difficiles d’accès et équipements spécifiques : sur devis.",

@@ -33,7 +33,7 @@ export function buildAssistantKnowledge(locale:string, messages:unknown):FaqEntr
    const note=group.note?copy.Pricing[group.note==="equipment"?"equipmentNote":group.note]:"";
    const answer=[`${label} : ${priceText(row,locale,copy.Pricing)}`,
     row.threeDays!==undefined?`${copy.Pricing.threeDays} : ${new Intl.NumberFormat(locale,{style:"currency",currency:"EUR"}).format(row.threeDays)}`:"",
-    copy.Pricing.finalVat,group.audience==="owner"?copy.Pricing.contractNote:"",note].filter(Boolean).join("\n");
+    group.audience==="owner"?copy.Pricing.contractNote:"",note].filter(Boolean).join("\n");
    const href=group.audience==="owner"?"/formules#tarifs-a-la-carte":group.services[0]?`/voyageurs/${group.services[0]}#tarifs-voyageurs`:"/voyageurs#tarifs-voyageurs";
    add(`price-${group.id}-${row.id}`,label,answer,href,copy.Pricing.tariffs,`${group.title[locale] || group.title.fr} prix tarif price cost precio tarifa ${group.audience==="owner"?"proprietaire owner propietario":"voyageur guest viajero"}`);
   }

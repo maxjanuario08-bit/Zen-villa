@@ -25,7 +25,6 @@ const pricing = {
   "allPrices": "View à la carte prices",
   "guestPrices": "View all guest prices",
   "pendingVat": "Draft price list: VAT treatment to be confirmed before publication.",
-  "finalVat": "Final prices in euros, including applicable taxes.",
   "franchiseVat": "Prices in euros. VAT not applicable under article 293 B of the French tax code.",
   "contractNote": "For owners with a Zen Tranquillité (18%) or Zen Intégral (22%) contract, standard changeover cleaning is included: the same service is not billed again at these one-off rates. Everyday linen and property preparation are defined in your contract.",
   "cleaning": "Prices assume the property is left in a normal condition. Exceptional cleaning, hard-to-reach windows and specific equipment: on request.",

@@ -35,7 +35,6 @@ export default async function FormulesPage({params}:{params:Promise<{locale:stri
   </section>
   <section className="bg-background px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
    <div className="mx-auto max-w-7xl">
-    <p className="mb-3 text-xs text-muted">{pricing("finalVat")}</p>
     <div className="space-y-5 lg:hidden" aria-label={comparison("caption")}>
      <p className="mb-6 text-sm leading-relaxed text-muted">{comparison("intro")}</p>
      {plans.map((plan,index)=><article key={plan.key} className={`min-w-0 overflow-hidden rounded-2xl border bg-white shadow-card ${plan.featured?"border-lagoon ring-1 ring-lagoon/20":"border-sand/70"}`}>

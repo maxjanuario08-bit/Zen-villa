@@ -25,7 +25,6 @@ const pricing = {
   "allPrices": "Ver las tarifas a la carta",
   "guestPrices": "Ver todas las tarifas para viajeros",
   "pendingVat": "Tarifas en preparación: tratamiento del IVA pendiente de confirmar antes de publicar.",
-  "finalVat": "Precios finales en euros, con los impuestos aplicables incluidos.",
   "franchiseVat": "Precios en euros. IVA no aplicable según el artículo 293 B del código fiscal francés.",
   "contractNote": "Para los propietarios con contrato Zen Tranquillité (18 %) o Zen Intégral (22 %), la limpieza estándar entre estancias está incluida: no se cobra de nuevo el mismo servicio con estas tarifas puntuales. La ropa habitual y la preparación se definen en el contrato.",
   "cleaning": "Tarifas para un alojamiento dejado en un estado normal. Limpieza excepcional, cristales de difícil acceso y equipos específicos: bajo presupuesto.",
