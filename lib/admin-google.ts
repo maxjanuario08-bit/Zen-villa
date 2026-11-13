@@ -39,7 +39,7 @@ export class GoogleAnalyticsError extends Error {
   }
 }
 
-async function federatedAnalyticsToken(audience: string, account: string, oidcToken: string | null) {
+async function federatedGoogleToken(audience: string, account: string, oidcToken: string | null, section: "analytics" | "seo") {
   if (!oidcToken) throw new GoogleAnalyticsError("identity");
   const exchange = await fetch("https://sts.googleapis.com/v1/token", {
     method: "POST",
@@ -63,7 +63,7 @@ async function federatedAnalyticsToken(audience: string, account: string, oidcTo
     {
       method: "POST",
       headers: { Authorization: `Bearer ${access_token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ scope: [scopes.analytics] }),
+      body: JSON.stringify({ scope: [scopes[section]] }),
       signal: AbortSignal.timeout(6500),
       cache: "no-store",
     },
@@ -83,8 +83,8 @@ export async function readGoogleSection(section: GoogleSection, oidcToken: strin
   if (section === "calendar" && (!calendar || !appointmentTitle)) return null;
 
   let token: string;
-  if (section === "analytics" && audience && serviceAccount) {
-    token = await federatedAnalyticsToken(audience, serviceAccount, oidcToken);
+  if (section !== "calendar" && audience && serviceAccount) {
+    token = await federatedGoogleToken(audience, serviceAccount, oidcToken, section);
   } else if (config) {
     token = await accessToken(JSON.parse(config) as Account, section);
   } else {
