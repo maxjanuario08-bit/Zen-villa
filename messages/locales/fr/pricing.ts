@@ -26,7 +26,6 @@ const pricing = {
   "guestPrices": "Voir tous les tarifs voyageurs",
   "pendingVat": "Grille en préparation : traitement de la TVA à confirmer avant publication.",
   "franchiseVat": "Prix en euros. TVA non applicable, art. 293 B du CGI.",
-  "contractNote": "Pour les propriétaires sous contrat Zen Tranquillité (18 %) ou Zen Intégral (22 %), le ménage de rotation standard est inclus : ces tarifs ponctuels ne s’ajoutent pas pour la même prestation. Le linge courant et la préparation sont définis dans votre contrat.",
   "cleaning": "Tarifs pour un logement laissé dans un état normal. Nettoyage exceptionnel, vitres difficiles d’accès et équipements spécifiques : sur devis.",
   "maintenance": "Vérifications visuelles et coordination. Travaux techniques et entretien spécialisé confiés aux professionnels concernés.",
   "breakfast": "Petit-déjeuner : commande minimum de 30 €. Achats, fleurs et fournitures s’ajoutent uniquement lorsqu’ils sont indiqués. Tout déplacement supplémentaire est annoncé avant confirmation.",
@@ -40,6 +39,16 @@ const pricing = {
   "transportLabel": "Service de transport VTC",
   "tariffs": "Tarifs",
   "providerPrices": "Tarifs sur le site du prestataire",
-  "horseTitle": "Les balades proposées par A Staffa"
+  "horseTitle": "Les balades proposées par A Staffa",
+  "formEmail": "Adresse e-mail",
+  "formOffers": "J’accepte de recevoir par e-mail les offres de Zen Villa pour mon logement.",
+  "formCallback": "Je souhaite être rappelé par Zen Villa pour parler de mon logement.",
+  "formPhone": "Numéro de téléphone",
+  "formPrivacy": "Politique de confidentialité",
+  "formSending": "Envoi en cours…",
+  "formSubmit": "M’envoyer le PDF",
+  "formSuccess": "La grille tarifaire a été envoyée. Pensez à vérifier vos courriers indésirables.",
+  "formError": "Envoi impossible. Vérifiez vos coordonnées ou réessayez plus tard.",
+  "formPdflanguage": ""
 };
 export default pricing;

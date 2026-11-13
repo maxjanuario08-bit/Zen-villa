@@ -103,6 +103,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
             <p>Vos données sont utilisées pour :</p>
             <ul className="mt-4 list-disc list-inside space-y-2">
               <li>Répondre à vos demandes de contact et de devis</li>
+              <li>Envoyer la grille tarifaire à l’adresse e-mail fournie. Les offres par e-mail et le rappel téléphonique font chacun l’objet d’un accord facultatif. Nous enregistrons vos choix et leur date avec la demande. Vous pouvez retirer votre accord à tout moment en nous contactant.</li>
               <li>Vous contacter dans le cadre de nos services de conciergerie</li>
               <li>Gérer l’espace membre : accès au logement, disponibilités, suivi du ménage et de la facturation</li>
               <li>Améliorer le fonctionnement et l'expérience utilisateur du site</li>
@@ -124,7 +125,7 @@ export default async function PolitiqueConfidentialitePage({ params }: Props) {
               5. Durée de conservation
             </h2>
             <p>
-              Les données du formulaire de contact sont conservées pendant 3 ans à compter du dernier contact, puis supprimées. Les comptes de l’espace membre et les données de gestion (calendrier, ménages, revenus) sont conservés pendant la durée du mandat puis 3 ans, sauf obligation comptable plus longue (10 ans). Les données nécessaires à la tenue de notre comptabilité sont conservées 10 ans conformément aux obligations légales.
+              Les données des formulaires de contact et de demande de grille tarifaire sont conservées pendant 3 ans à compter du dernier contact, puis supprimées. Les comptes de l’espace membre et les données de gestion (calendrier, ménages, revenus) sont conservés pendant la durée du mandat puis 3 ans, sauf obligation comptable plus longue (10 ans). Les données nécessaires à la tenue de notre comptabilité sont conservées 10 ans conformément aux obligations légales.
             </p>
           </div>
 

@@ -10,7 +10,7 @@ const contactPresentation = {
   "languages": "Idiomas",
   "languagesBody": "Francés, inglés y español",
   "zones": "Zonas",
-  "zonesBody": "Santa Giulia y Porto-Vecchio; otras zonas por confirmar.",
+  "zonesBody": "Santa Giulia, Porto-Vecchio y alrededores.",
   "faq": "Preguntas frecuentes",
   "processQ": "¿Cómo empezamos a trabajar juntos?",
   "processA": "Una primera conversación permite concretar tus necesidades. Después, una visita y un presupuesto definen los servicios antes de su puesta en marcha.",

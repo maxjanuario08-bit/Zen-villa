@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/contact` },
     { url: `${baseUrl}/demander-prestation` },
     { url: `${baseUrl}/zone-intervention` },
+    { url: `${baseUrl}/blog/preparer-villa-saison-porto-vecchio` },
     { url: `${baseUrl}/mentions-legales` },
     { url: `${baseUrl}/politique-confidentialite` },
     { url: `${baseUrl}/logements` },
@@ -43,6 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return frPages.map((page) => {
     const path = page.url.slice(baseUrl.length);
     const isFrenchOnlyPage = [
+      "/blog/preparer-villa-saison-porto-vecchio",
       "/mentions-legales",
       "/politique-confidentialite",
     ].includes(path);

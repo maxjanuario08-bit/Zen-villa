@@ -10,7 +10,7 @@ const contactPresentation = {
   "languages": "Languages spoken",
   "languagesBody": "French, English and Spanish",
   "zones": "Areas",
-  "zonesBody": "Santa Giulia and Porto-Vecchio; other areas to be confirmed.",
+  "zonesBody": "Santa Giulia, Porto-Vecchio and the surrounding areas.",
   "faq": "Frequently asked questions",
   "processQ": "How do we start working together?",
   "processA": "We first discuss your needs, then a property visit and a quote define the services before we get started.",

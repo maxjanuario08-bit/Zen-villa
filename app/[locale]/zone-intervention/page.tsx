@@ -32,7 +32,7 @@ export default async function ServiceAreaPage({ params }: Props) {
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8 lg:py-16">
           <div>
             <p className="text-sm font-semibold text-lagoon-dark">{t("eyebrow")}</p>
-            <h1 className="mt-3 font-serif text-4xl font-semibold text-lagoon-dark sm:text-5xl">{t("title")}</h1>
+            <h1 className="hero-title mt-3 font-serif text-4xl font-semibold text-lagoon-dark sm:text-5xl">{t("title")}</h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-foreground/80">{t("intro")}</p>
             <Button href={APPOINTMENT_URL} className="mt-7">{t("cta")}</Button>
           </div>

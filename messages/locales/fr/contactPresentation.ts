@@ -10,7 +10,7 @@ const contactPresentation = {
   "languages": "Langues parlées",
   "languagesBody": "Français, anglais et espagnol",
   "zones": "Secteurs",
-  "zonesBody": "Santa Giulia et Porto-Vecchio ; autres secteurs à confirmer.",
+  "zonesBody": "Santa Giulia, Porto-Vecchio et leurs alentours.",
   "faq": "Questions fréquentes",
   "processQ": "Comment se déroule la prise en charge de mon bien ?",
   "processA": "Un premier échange permet de préciser vos besoins, puis une visite et un devis définissent les prestations avant leur mise en place.",

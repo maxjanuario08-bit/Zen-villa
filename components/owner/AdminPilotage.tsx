@@ -135,15 +135,16 @@ function Inquiry({ item, onSave }: { item: InboxItem; onSave: () => void }) {
     </summary>
     <div className="mt-4 space-y-3 text-sm">
       <div className="flex flex-wrap gap-x-4 gap-y-1">
-        <a className="break-all text-lagoon-dark underline" href={`mailto:${encodeURIComponent(data.email)}`}>{data.email}</a>
+        {(!data.pricingConsent || data.pricingConsent.email) ? <a className="break-all text-lagoon-dark underline" href={`mailto:${encodeURIComponent(data.email)}`}>{data.email}</a> : <span className="break-all">{data.email}</span>}
         {data.telephone && <a className="text-lagoon-dark underline" href={`tel:${data.telephone.replace(/[^+\d]/g, "")}`}>{data.telephone}</a>}
       </div>
       <p>{[data.ville || data.lieu, data.type, data.dates, item.source && `Source : ${item.source}`].filter(Boolean).join(" · ")}</p>
       {data.propertyAddress && <p className="break-words">Adresse du bien : {data.propertyAddress}</p>}
       {data.contactConsent && <p>Accord donné pour être recontacté au sujet de cette demande.</p>}
+      {data.pricingConsent && <p>Autorisations enregistrées le {date(data.pricingConsent.recordedAt)} · Relance par e-mail {data.pricingConsent.email ? "autorisée" : "non autorisée"} · Rappel {data.pricingConsent.phone ? "demandé" : "non demandé"}</p>}
       <p className="whitespace-pre-wrap break-words">{data.message}</p>
       <p className="text-xs text-foreground/70">{{
-        accepted: "Notification acceptée par Resend", failed: "Notification email en échec", pending: "Notification en attente",
+        accepted: data.pricingConsent ? "Grille acceptée par Resend" : "Notification acceptée par Resend", failed: "Notification email en échec", pending: "Notification en attente",
       }[item.email_status]}</p>
       <form className="grid items-end gap-2 sm:grid-cols-2 lg:grid-cols-[1fr_2fr_1fr_auto]" onSubmit={e => { e.preventDefault(); void save(); }}>
         <label>Statut<select className={field} value={status} onChange={e => setStatus(e.target.value as InboxStatus)}>

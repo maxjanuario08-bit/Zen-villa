@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {getTranslations} from "next-intl/server";
 import {CalendarDays, BedDouble, Laptop, Camera, Image as ImageIcon, CalendarCheck, Headset, Wrench, Check, Minus, Star, ArrowRight} from "lucide-react";
-import ServicePricing from "@/components/ServicePricing";
+import OwnerPricingForm from "@/components/OwnerPricingForm";
 import {ownerPlanRates} from "@/lib/service-pricing";
 import Button from "@/components/ui/Button";
 
@@ -64,7 +64,7 @@ export default async function FormulesPage({params}:{params:Promise<{locale:stri
       </tr>)}</tbody>
      </table>
     </div>
-    <div className="mt-12"><ServicePricing locale={locale} audience="owner"/></div>
+    <OwnerPricingForm />
     <div className="mt-9 flex flex-col justify-center gap-4 sm:flex-row"><Button href="/contact"><span>{common("requestQuote")}</span><ArrowRight size={17} aria-hidden="true" className="ml-2"/></Button><Button href="/contact#rendez-vous" variant="outline"><CalendarDays size={18} aria-hidden="true" className="mr-2"/>{comparison("appointment")}</Button></div>
    </div>
   </section>

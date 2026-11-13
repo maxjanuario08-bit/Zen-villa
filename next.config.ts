@@ -4,6 +4,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
+  outputFileTracingIncludes: {
+    "/api/site-mail/contact": ["./output/pdf/zenvilla-tarifs-proprietaires.pdf"],
+  },
   async redirects() {
     return [
       ...["", "/fr", "/en", "/es"].flatMap(prefix =>

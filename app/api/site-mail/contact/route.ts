@@ -1,3 +1,7 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+import { CONTACT } from "@/lib/constants";
+import { sendMail } from "@/lib/mail";
 import { receiveInquiry } from "@/lib/admin-inbox";
 import { NextResponse } from "next/server";
 import { notifyContactMessage } from "@/lib/site-mail";
@@ -28,6 +32,9 @@ export async function POST(req: Request) {
     form?: string;
     propertyAddress?: string;
     contactConsent?: boolean;
+    pricingEmailConsent?: boolean;
+    pricingPhoneConsent?: boolean;
+    website?: string;
   };
   try {
     body = (await req.json()) as typeof body;
@@ -40,6 +47,40 @@ export async function POST(req: Request) {
   const nom = String(body.nom ?? "").trim().slice(0, 80);
   const email = String(body.email ?? "").trim().toLowerCase().slice(0, 120);
   const telephone = String(body.telephone ?? "").trim().slice(0, 40);
+  if (body.form === "owner-pricing") {
+    const phone = body.pricingPhoneConsent === true;
+    if (body.website || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+        (phone && !/^\+?[\d .()-]{7,30}$/.test(telephone)) ||
+        (phone && telephone.replace(/\D/g, "").length < 7)) {
+      return NextResponse.json({ error: "invalid" }, { status: 400 });
+    }
+
+    try {
+      const filename = "zenvilla-tarifs-proprietaires.pdf";
+      const pdf = await readFile(join(process.cwd(), "output", "pdf", "zenvilla-tarifs-proprietaires.pdf"));
+      const accepted = await receiveInquiry("contact", {
+        nom: email,
+        email,
+        telephone: phone ? telephone : "",
+        message: "Grille tarifaire propriétaires demandée.",
+        prestation: "Grille tarifaire",
+        pricingConsent: {
+          email: body.pricingEmailConsent === true,
+          phone,
+          recordedAt: new Date().toISOString(),
+        },
+      }, "grille-tarifaire", async () => (await sendMail({
+        to: email,
+        subject: "Votre grille tarifaire propriétaires | Zen Villa",
+        text: "Bonjour,\n\nVous trouverez en pièce jointe la grille des tarifs à la carte de Zen Villa.\n\nL’équipe Zen Villa",
+        replyTo: CONTACT.email,
+        attachments: [{ filename, content: pdf.toString("base64") }],
+      })) === true);
+      return accepted ? NextResponse.json({ ok: true }) : NextResponse.json({ error: "delivery_failed" }, { status: 503 });
+    } catch {
+      return NextResponse.json({ error: "pricing_unavailable" }, { status: 503 });
+    }
+  }
   const ownerForm = body.form === "owner";
   const propertyAddress = typeof body.propertyAddress === "string" ? body.propertyAddress.trim().slice(0, 250) : "";
   const message = String(body.message ?? "").trim().slice(0, 4000);

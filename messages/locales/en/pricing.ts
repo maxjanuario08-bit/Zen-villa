@@ -26,7 +26,6 @@ const pricing = {
   "guestPrices": "View all guest prices",
   "pendingVat": "Draft price list: VAT treatment to be confirmed before publication.",
   "franchiseVat": "Prices in euros. VAT not applicable under article 293 B of the French tax code.",
-  "contractNote": "For owners with a Zen Tranquillité (18%) or Zen Intégral (22%) contract, standard changeover cleaning is included: the same service is not billed again at these one-off rates. Everyday linen and property preparation are defined in your contract.",
   "cleaning": "Prices assume the property is left in a normal condition. Exceptional cleaning, hard-to-reach windows and specific equipment: on request.",
   "maintenance": "Visual checks and coordination. Technical work and specialist maintenance are handled by the relevant professionals.",
   "breakfast": "Breakfast: minimum order €30. Purchases, flowers and supplies are extra only where stated. Any extra travel charge is disclosed before confirmation.",
@@ -40,6 +39,16 @@ const pricing = {
   "transportLabel": "Private transfer service",
   "tariffs": "Prices",
   "providerPrices": "Prices on the provider’s website",
-  "horseTitle": "Rides offered by A Staffa"
+  "horseTitle": "Rides offered by A Staffa",
+  "formEmail": "Email address",
+  "formOffers": "I agree to receive Zen Villa offers for my property by email.",
+  "formCallback": "I would like Zen Villa to call me about my property.",
+  "formPhone": "Phone number",
+  "formPrivacy": "Privacy policy",
+  "formSending": "Sending…",
+  "formSubmit": "Send me the PDF",
+  "formSuccess": "The price list was sent. Please check your spam folder as well.",
+  "formError": "We couldn’t send the email. Check your details or try again later.",
+  "formPdflanguage": "The PDF is in French."
 };
 export default pricing;

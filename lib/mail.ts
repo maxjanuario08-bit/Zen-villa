@@ -11,6 +11,7 @@ export async function sendMail(input: {
   html?: string;
   replyTo?: string;
   idempotencyKey?: string;
+  attachments?: { filename: string; content: string }[];
 }) {
   const to = input.to.trim().toLowerCase();
   if (!to.includes("@") || to.endsWith("@localhost")) return;
@@ -31,6 +32,7 @@ export async function sendMail(input: {
       to: [to],
       subject: input.subject,
       text: input.text,
+      ...(input.attachments ? { attachments: input.attachments } : {}),
       ...(input.html ? { html: input.html } : {}),
       ...(input.replyTo ? { reply_to: input.replyTo } : {}),
     }),

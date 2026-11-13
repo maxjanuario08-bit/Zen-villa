@@ -8,6 +8,7 @@ export type SiteInquiry = {
   message: string;
   propertyAddress?: string;
   contactConsent?: boolean;
+  pricingConsent?: { email: boolean; phone: boolean; recordedAt: string };
   ville?: string;
   type?: string;
   prestation?: string;
@@ -38,7 +39,7 @@ export async function receiveInquiry(
 ) {
   const sql = await pg();
   const id = randomUUID();
-  const channel = typeof source === "string" && ["instagram", "facebook", "flyer", "google"].includes(source)
+  const channel = typeof source === "string" && ["instagram", "facebook", "flyer", "google", "grille-tarifaire"].includes(source)
     ? source : "";
   await sql`INSERT INTO site_inquiries (id, kind, data, source)
     VALUES (${id}, ${kind}, ${JSON.stringify(data)}::jsonb, ${channel})`;
@@ -54,6 +55,7 @@ export async function receiveInquiry(
   } catch {
     console.error("site-inquiry: notification status unavailable", id);
   }
+  return accepted;
 }
 
 export async function listInquiries(offset = 0) {

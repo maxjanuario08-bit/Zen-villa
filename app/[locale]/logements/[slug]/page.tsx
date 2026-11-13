@@ -119,7 +119,7 @@ export default async function LogementDetailPage({ params, searchParams }: Props
           >
             ← {t("backHome")}
           </Link>
-          <h1 className="text-3xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg">{name}</h1>
+          <h1 className="hero-title text-3xl sm:text-5xl font-serif font-semibold text-white drop-shadow-lg">{name}</h1>
           <p className="mt-4 text-lg text-white/95 max-w-2xl">{tagline}</p>
           <p className="mt-3 text-sm text-white/80">{address}</p>
         </div>

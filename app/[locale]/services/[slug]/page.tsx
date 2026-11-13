@@ -4,7 +4,6 @@ import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeft, CalendarDays, Camera, Check, CircleCheck, ClipboardCheck, Headset, House, ImageIcon, Info, KeyRound, Leaf, MapPin, MessageCircle, Monitor, Send, Shirt, Sparkles, Wrench } from "lucide-react";
-import ServicePricing from "@/components/ServicePricing";
 import Button from "@/components/ui/Button";
 import { homeServices, type HomeServiceSlug } from "@/lib/services";
 import { localizedPageMetadata } from "@/lib/seo";
@@ -44,6 +43,7 @@ export default async function ServiceDetailPage({params}:Props) {
   const details=t.raw(`${slug}.details`) as readonly string[];
   const benefits=presentation.raw(`benefits.${slug}`) as readonly string[];
   const {hero:HeroIcon,items}=serviceIcons[service.slug];
+  const pricing = await getTranslations({ locale, namespace: "Pricing" });
   return <div>
     <section className="relative isolate overflow-hidden bg-lagoon-dark text-white">
       <Image src="/hero-eau.png" alt="" fill priority sizes="100vw" className="-z-20 object-cover"/>
@@ -52,7 +52,7 @@ export default async function ServiceDetailPage({params}:Props) {
         <Link href="/#services" className="inline-flex items-center gap-2 rounded-md text-sm font-medium text-white/95 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"><ArrowLeft size={17} aria-hidden="true"/>{presentation("back")}</Link>
         <div className="mt-8 flex flex-col gap-5 pb-4 sm:flex-row sm:items-center sm:gap-7 sm:pb-6">
           <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-3xl border border-white/15 bg-white/25 backdrop-blur-sm sm:h-24 sm:w-24"><HeroIcon size={46} strokeWidth={1.5} aria-hidden="true"/></div>
-          <div><h1 className="text-balance font-serif text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{label}</h1><p className="mt-4 max-w-3xl text-base leading-relaxed text-white/95 sm:text-lg">{t(`${slug}.description`)}</p></div>
+          <div><h1 className="hero-title text-balance font-serif text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">{label}</h1><p className="mt-4 max-w-3xl text-base leading-relaxed text-white/95 sm:text-lg">{t(`${slug}.description`)}</p></div>
         </div>
       </div>
     </section>
@@ -70,6 +70,8 @@ export default async function ServiceDetailPage({params}:Props) {
         </aside>
       </div>
     </section>
-    <section className="bg-background py-10 sm:py-14"><div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"><ServicePricing locale={locale} audience="owner" service={slug} compact/></div></section>
+    <section className="bg-background px-4 py-10 text-center">
+      <Button href="/formules#tarifs-a-la-carte" variant="outline">{pricing("allPrices")}</Button>
+    </section>
   </div>;
 }
