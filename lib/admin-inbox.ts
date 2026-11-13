@@ -13,8 +13,8 @@ export type SiteInquiry = {
   dates?: string;
 };
 
-export type InboxStatus = "new" | "contacted" | "appointment" | "quote" | "signed" | "closed";
-export const inboxStatuses: readonly InboxStatus[] = ["new", "contacted", "appointment", "quote", "signed", "closed"];
+export type InboxStatus = "new" | "contacted" | "qualified" | "appointment" | "quote" | "signed" | "closed";
+export const inboxStatuses: readonly InboxStatus[] = ["new", "contacted", "qualified", "appointment", "quote", "signed", "closed"];
 
 export type InboxItem = {
   id: string;
@@ -56,11 +56,12 @@ export async function receiveInquiry(
 
 export async function listInquiries(offset = 0) {
   const sql = await pg();
-  const [items, counts] = await Promise.all([
+  const [items, counts, ownerStages] = await Promise.all([
     sql`SELECT id, kind, data, source, status, email_status, created_at, next_action, due_date FROM site_inquiries ORDER BY created_at DESC, id DESC LIMIT 25 OFFSET ${offset}`,
     sql`SELECT status, count(*)::int AS count FROM site_inquiries GROUP BY status`,
+    sql`SELECT source, status, count(*)::int AS count FROM site_inquiries WHERE kind = 'contact' GROUP BY source, status`,
   ]);
-  return { items: items as InboxItem[], counts: Object.fromEntries(counts.map(row => [row.status, row.count])) as Partial<Record<InboxStatus, number>> };
+  return { ownerStages: ownerStages as { source: string; status: InboxStatus; count: number }[], items: items as InboxItem[], counts: Object.fromEntries(counts.map(row => [row.status, row.count])) as Partial<Record<InboxStatus, number>> };
 }
 
 export async function updateInquiryStatus(id: string, status: InboxStatus, action: string, due: string) {

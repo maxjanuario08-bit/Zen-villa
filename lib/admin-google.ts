@@ -111,7 +111,7 @@ export async function readGoogleSection(section: GoogleSection, oidcToken: strin
     const dateRanges = [{ startDate: "28daysAgo", endDate: "yesterday" }];
     const endpoint = `https://analyticsdata.googleapis.com/v1beta/properties/${property}:batchRunReports`;
     const events = ["generate_lead", "contact_whatsapp", "contact_phone", "contact_email", "appointment_click", "lead_form_start", "assistant_no_result"];
-    const { reports } = await google(endpoint, { requests: [
+    const [{ reports }, attribution] = await Promise.all([google(endpoint, { requests: [
       { dateRanges, metrics: [{ name: "activeUsers" }, { name: "sessions" }, { name: "screenPageViews" }] },
       { dateRanges, dimensions: [{ name: "eventName" }], metrics: [{ name: "eventCount" }],
         dimensionFilter: { filter: { fieldName: "eventName", inListFilter: { values: events } } } },
@@ -119,12 +119,42 @@ export async function readGoogleSection(section: GoogleSection, oidcToken: strin
         orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 8 },
       { dateRanges, dimensions: [{ name: "pagePath" }], metrics: [{ name: "screenPageViews" }],
         orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }], limit: 8 },
-    ] });
+    ] }), google(endpoint, { requests: ["sessionSourceMedium", "landingPage"].flatMap(name => [
+      { dateRanges, dimensions: [{ name }], metrics: [{ name: "sessions" }],
+        orderBys: [{ metric: { metricName: "sessions" }, desc: true }], limit: 20 },
+      { dateRanges, dimensions: [{ name }, { name: "eventName" }], metrics: [{ name: "eventCount" }],
+        dimensionFilter: { filter: { fieldName: "eventName", inListFilter: { values: ["generate_lead", "appointment_click"] } } },
+        orderBys: [{ metric: { metricName: "eventCount" }, desc: true }], limit: 250 },
+    ]) }).catch(() => null)]);
+
     const asRows = (rows: MetricRow[] = []) => rows.map(row => ({
       label: row.dimensionValues?.[0]?.value || "—", value: Number(row.metricValues?.[0]?.value || 0),
     }));
+    function breakdown(index: number) {
+      if (!attribution) return null;
+      const sessions = asRows(attribution.reports[index].rows);
+      const actions: MetricRow[] = attribution.reports[index + 1].rows ?? [];
+      const counts = new Map<string, { leads?: number; appointments?: number }>();
+      for (const row of actions) {
+        const [label, event] = row.dimensionValues?.map(d => d.value) ?? [];
+        if (!label) continue;
+        const value = Number(row.metricValues?.[0]?.value ?? 0);
+        const entry = counts.get(label) ?? {};
+        if (event === "generate_lead") entry.leads = (entry.leads ?? 0) + value;
+        if (event === "appointment_click") entry.appointments = (entry.appointments ?? 0) + value;
+        counts.set(label, entry);
+      }
+      const byLabel = new Map(sessions.map(row => [row.label, row.value]));
+      const partial = Number(attribution.reports[index + 1].rowCount ?? 0) > actions.length;
+      return [...new Set([...counts.keys(), ...byLabel.keys()])].map(label => ({
+        label, sessions: byLabel.get(label) ?? null,
+        leads: counts.get(label)?.leads ?? (partial ? null : 0),
+        appointments: counts.get(label)?.appointments ?? (partial ? null : 0),
+      }));
+    }
     return {
       totals: ((reports[0].rows?.[0]?.metricValues ?? []) as { value: string }[]).map(row => Number(row.value)),
+      bySource: breakdown(0), byLanding: breakdown(2),
       events: asRows(reports[1].rows), sources: asRows(reports[2].rows), pages: asRows(reports[3].rows),
     };
   }
@@ -134,12 +164,15 @@ export async function readGoogleSection(section: GoogleSection, oidcToken: strin
     const date = (days: number) => new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
     const period = { startDate: date(30), endDate: date(3), type: "web", dataState: "final" };
     const endpoint = `https://www.googleapis.com/webmasters/v3/sites/${property}/searchAnalytics/query`;
-    const [total, queries, pages] = await Promise.all([
+    const previousPeriod = { ...period, startDate: date(58), endDate: date(31) };
+    const [total, queries, pages, previous, pairs] = await Promise.all([
       google(endpoint, period),
       google(endpoint, { ...period, dimensions: ["query"], rowLimit: 10 }),
       google(endpoint, { ...period, dimensions: ["page"], rowLimit: 8 }),
+      google(endpoint, previousPeriod),
+      google(endpoint, { ...period, dimensions: ["query", "page"], rowLimit: 25 }),
     ]);
-    return { period, total: total.rows?.[0] ?? null, queries: queries.rows ?? [], pages: pages.rows ?? [] };
+    return { period, previousPeriod, previous: previous.rows?.[0] ?? null, pairs: pairs.rows ?? [], total: total.rows?.[0] ?? null, queries: queries.rows ?? [], pages: pages.rows ?? [] };
   }
 
   const now = new Date();

@@ -10,8 +10,8 @@ const sections = {
 } as const;
 type Section = keyof typeof sections;
 const statuses: Record<InboxStatus, string> = {
-  new: "À traiter", contacted: "Contacté", appointment: "Rendez-vous",
-  quote: "Devis envoyé", signed: "Client", closed: "Clôturé",
+  new: "À traiter", contacted: "Contacté", qualified: "Qualifié", appointment: "Rendez-vous confirmé",
+  quote: "Devis envoyé", signed: "Signé", closed: "Clôturé",
 };
 const links = {
   mail: ["Webmail Hostinger", "https://mail.hostinger.com/"],
@@ -38,17 +38,21 @@ function date(value: string, time = false) {
   }).format(parsed);
 }
 type Metric = { label: string; value: number };
+type Attribution = { label: string; sessions: number | null; leads: number | null; appointments: number | null };
+type AnalyticsReport = { totals: number[]; events: Metric[]; sources: Metric[]; pages: Metric[]; bySource: Attribution[] | null; byLanding: Attribution[] | null };
+type Period = { startDate: string; endDate: string };
+type SeoReport = { period: Period; previousPeriod: Period; total: SeoRow | null; previous: SeoRow | null; queries: SeoRow[]; pages: SeoRow[]; pairs: SeoRow[] };
 type SeoRow = { keys?: string[]; clicks: number; impressions: number; ctr: number; position: number };
 type Email = { uid: number; subject: string; from: string; date: string; unread: boolean };
 type Payment = { slug: string; guest_label: string; check_in: string; check_out: string; amount: string; status: string; paid_at: string | null; created_at: string };
 type Appointment = { id: string; summary: string; start: { dateTime?: string; date?: string }; htmlLink?: string };
-type Inbox = { items: InboxItem[]; counts: Partial<Record<InboxStatus, number>> };
+type Inbox = { items: InboxItem[]; ownerStages: { source: string; status: InboxStatus; count: number }[]; counts: Partial<Record<InboxStatus, number>> };
 type Report =
   | Inbox
   | { data: null | { messages: Email[]; total: number } }
   | { data: null | { body?: string; missing?: boolean; tooLarge?: boolean } }
-  | { data: null | { totals: number[]; events: Metric[]; sources: Metric[]; pages: Metric[] } }
-  | { data: null | { period: { startDate: string; endDate: string }; total: SeoRow | null; queries: SeoRow[]; pages: SeoRow[] } }
+  | { data: null | AnalyticsReport }
+  | { data: null | SeoReport }
   | { data: null | { appointments: Appointment[]; truncated: boolean } }
   | { data: Payment[] };
 
@@ -68,6 +72,34 @@ function Metrics({ title, rows }: { title: string; rows: Metric[] }) {
         <dt className="min-w-0 break-words">{label}</dt><dd>{number(value)}</dd>
       </div>
     ))}</dl> : <p className="text-sm text-foreground/70">Aucune donnée sur cette période.</p>}</div>;
+}
+
+function DetailTable({ title, columns, rows }: { title: string; columns: string[]; rows: (string | number | null)[][] }) {
+  return <div className={card}>
+    <h3 className="mb-2 font-semibold">{title}</h3>
+    {rows.length ? <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={title}>
+      <table className="w-full text-left text-sm">
+        <thead><tr>{columns.map(label => <th scope="col" className="px-2 py-2" key={label}>{label}</th>)}</tr></thead>
+        <tbody>{rows.map((row, index) => <tr className="border-t border-sand/40" key={index}>
+          <th scope="row" className="min-w-28 break-all px-2 py-2 font-medium">{row[0]}</th>
+          {row.slice(1).map((value, cell) => <td className="break-words px-2 py-2" key={cell}>{typeof value === "number" ? number(value) : value ?? "—"}</td>)}
+        </tr>)}</tbody>
+      </table>
+    </div> : <p className="text-sm text-foreground/70">Aucune donnée.</p>}
+  </div>;
+}
+
+const campaignLinks = [
+  ["Instagram", "instagram", "social"],
+  ["Facebook", "facebook", "social"],
+  ["Flyer / QR code", "flyer", "offline"],
+] as const;
+const stages: InboxStatus[] = ["new", "contacted", "qualified", "appointment", "quote", "signed", "closed"];
+
+function seoValues(row: SeoRow | null) {
+  return [row?.clicks ?? 0, row?.impressions ?? 0,
+    row ? number(Math.round(row.ctr * 1000) / 10) + " %" : null,
+    row ? Math.round(row.position * 10) / 10 : null];
 }
 
 function Inquiry({ item, onSave }: { item: InboxItem; onSave: () => void }) {
@@ -182,11 +214,18 @@ export default function AdminPilotage({ onOpenCrm, onOpenPlanning }: { onOpenCrm
         ? "Ajoute l’accès en lecture à la boîte Hostinger dans les réglages serveur."
         : "Configure l’accès Google en lecture pour afficher les données ici."}</p></div>;
   else if (section === "inbox") {
-    const { items, counts } = report as Inbox;
+    const { items, counts, ownerStages } = report as Inbox;
     const total = Object.values(counts).reduce((a, b) => a + b, 0);
     content = <>
       <Stats items={[["Demandes", total], ["À traiter", counts.new ?? 0], ["Rendez-vous", counts.appointment ?? 0], ["Clients", counts.signed ?? 0]]} />
       <p className="text-sm text-foreground/70">Formulaires du site. Ouvre une demande pour préparer la suite ou planifier une relance.</p>
+      <DetailTable title="Suivi des demandes propriétaires par source"
+        columns={["Source", ...stages.map(stage => statuses[stage])]}
+        rows={[...new Set(ownerStages.map(row => row.source))].map(source => [
+          source || "Non renseignée",
+          ...stages.map(status => ownerStages.find(row => row.source === source && row.status === status)?.count ?? 0),
+        ])} />
+      <p className="text-sm text-foreground/70">Chaque demande est comptée dans son statut actuel. Confirme le rendez-vous dans la fiche quand un créneau est réellement réservé.</p>
       {items.map(item => <Inquiry key={item.id} item={item} onSave={reload} />)}
       {!items.length && <p>Aucune demande sur cette page.</p>}
       {(offset > 0 || total > 25) && page(offset + 25 < total)}
@@ -213,23 +252,47 @@ export default function AdminPilotage({ onOpenCrm, onOpenPlanning }: { onOpenCrm
         {(offset > 0 || data.total > 25) && page(offset + 25 < data.total)}</>;
     }
   } else if (section === "analytics") {
-    const { data } = report as { data: { totals: number[]; events: Metric[]; sources: Metric[]; pages: Metric[] } };
+    const { data } = report as { data: AnalyticsReport };
     content = <><p className="text-sm text-foreground/70">28 derniers jours complets. Les clics rendez-vous et WhatsApp mesurent une intention.</p>
       <Stats items={[["Utilisateurs actifs", data.totals[0] ?? 0], ["Sessions", data.totals[1] ?? 0], ["Pages vues", data.totals[2] ?? 0]]} />
       <div className="grid gap-3 lg:grid-cols-3">
         <Metrics title="Actions sur le site" rows={Object.entries(events).map(([key, label]) => ({ label, value: data.events.find(row => row.label === key)?.value ?? 0 }))} />
         <Metrics title="Sources · sessions" rows={data.sources} /><Metrics title="Pages · vues" rows={data.pages} />
+      </div>
+      {([["Sources des sessions", data.bySource], ["Pages d’entrée", data.byLanding]] as const).map(([title, rows]) => rows
+        ? <DetailTable key={title} title={title} columns={["Origine", "Sessions", "Formulaires envoyés", "Clics RDV"]}
+          rows={rows.map(row => [row.label, row.sessions, row.leads, row.appointments])} />
+        : <p key={title} role="status">{title} : rapport indisponible.</p>)}
+      <p className="text-sm text-foreground/70">Les formulaires comptent les envois mesurés, pas les contacts uniques. Un tiret indique une valeur non disponible dans le détail.</p>
+      <div className={card}>
+        <h3 className="mb-2 font-semibold">Liens à utiliser pour identifier tes visites</h3>
+        {campaignLinks.map(([name, source, medium]) => {
+          const href = `https://www.zen-villa.fr/?utm_source=${source}&utm_medium=${medium}&utm_campaign=prospection`;
+          return <label className="mb-2 block text-sm" key={source}>{name}
+            <input className={field} value={href} readOnly onFocus={event => event.currentTarget.select()} />
+          </label>;
+        })}
       </div></>;
   } else if (section === "seo") {
-    const { data } = report as { data: { period: { startDate: string; endDate: string }; total: SeoRow | null; queries: SeoRow[]; pages: SeoRow[] } };
+    const { data } = report as { data: SeoReport };
     content = <><p className="text-sm text-foreground/70">Recherche Google du {date(data.period.startDate)} au {date(data.period.endDate)}.</p>
       <Stats items={[["Clics", data.total?.clicks ?? 0], ["Impressions", data.total?.impressions ?? 0],
         ["Taux de clic", data.total ? number(data.total.ctr * 100) + " %" : "—"],
         ["Position moyenne", data.total ? number(Math.round(data.total.position * 10) / 10) : "—"]]} />
+      <DetailTable title="Comparaison avec les 28 jours précédents"
+        columns={["Période", "Clics", "Impressions", "Taux de clic", "Position moyenne"]}
+        rows={([[data.period, data.total], [data.previousPeriod, data.previous]] as const).map(([period, total]) =>
+          [`${date(period.startDate)} → ${date(period.endDate)}`, ...seoValues(total)])} />
+      <DetailTable title="Requêtes et pages associées"
+        columns={["Requête", "Page", "Clics", "Impressions", "Taux de clic", "Position moyenne"]}
+        rows={data.pairs.map(row => [row.keys?.[0] ?? "—", row.keys?.[1] ?? "—", ...seoValues(row)])} />
       <div className="grid gap-3 lg:grid-cols-2">
-        <Metrics title="Requêtes · clics" rows={data.queries.map(row => ({ label: row.keys?.[0] ?? "—", value: row.clicks }))} />
-        <Metrics title="Pages · clics" rows={data.pages.map(row => ({ label: row.keys?.[0] ?? "—", value: row.clicks }))} />
-      </div></>;
+        <DetailTable title="Principales requêtes" columns={["Requête", "Clics", "Impressions", "Taux de clic", "Position moyenne"]}
+          rows={data.queries.map(row => [row.keys?.[0] ?? "—", ...seoValues(row)])} />
+        <DetailTable title="Principales pages" columns={["Page", "Clics", "Impressions", "Taux de clic", "Position moyenne"]}
+          rows={data.pages.map(row => [row.keys?.[0] ?? "—", ...seoValues(row)])} />
+      </div>
+      <p className="text-sm text-foreground/70">Search Console affiche les principales lignes disponibles. Les requêtes anonymisées ne figurent pas dans le détail.</p></>;
   } else if (section === "calendar") {
     const { data } = report as { data: { appointments: Appointment[]; truncated: boolean } };
     content = <><p className="text-sm text-foreground/70">Créneaux confirmés sur l’agenda configuré pour les 90 prochains jours.</p>
