@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "ServiceArea" });
   return localizedPageMetadata({
     locale, path: "/zone-intervention", title: t("metaTitle"),
-    description: t("intro"), image: "/hero-baie.png",
+    description: t("intro"), image: "/santa-giulia-baie.jpg",
   });
 }
 
@@ -38,9 +38,8 @@ export default async function ServiceAreaPage({ params }: Props) {
           </div>
           <figure>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl sm:aspect-[16/10]">
-              <Image src="/hero-baie.png" alt={t("photoAlt")} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              <Image src="/santa-giulia-baie.jpg" alt={t("photoAlt")} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover object-left" />
             </div>
-            <figcaption className="mt-2 text-sm text-foreground/70">Santa Giulia · Porto-Vecchio</figcaption>
           </figure>
         </div>
       </section>
