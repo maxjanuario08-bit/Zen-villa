@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   if (now - (lastRequest.get(session.email) ?? 0) < 5000) return reply({ error: "rate_limit" }, 429);
   lastRequest.set(session.email, now);
   try {
-    return reply({ answer: await askCommercialAssistant(question, key) });
+    return reply({ answer: await askCommercialAssistant(question, key, req.headers.get("x-vercel-oidc-token")) });
   } catch (error) {
     const reason = error instanceof AssistantProviderError ? error.reason
       : error instanceof Error && error.name === "TimeoutError" ? "timeout"

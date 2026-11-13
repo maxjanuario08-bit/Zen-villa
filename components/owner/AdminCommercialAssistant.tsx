@@ -6,6 +6,7 @@ import type { readCommercialBrief } from "@/lib/admin-assistant";
 type Brief = Awaited<ReturnType<typeof readCommercialBrief>>;
 const endpoint = "/api/owner/admin/assistant";
 const prompts = [
+  ["Analyser mon trafic et mon SEO", "Croise Google Analytics, Search Console et les demandes propriétaires. Donne-moi trois actions prioritaires et indique les chiffres et périodes qui les justifient."],
   ["Mes priorités", "À partir du suivi disponible, donne-moi trois actions commerciales à faire aujourd’hui."],
   ["Attirer des propriétaires", "Propose un plan sur sept jours pour attirer des propriétaires à Santa Giulia via SEO local, Instagram et Facebook, avec un appel à prendre rendez-vous."],
   ["Préparer une relance", "Rédige une relance courte et chaleureuse pour un propriétaire qui a déjà demandé à être rappelé. Prévois un champ pour le prénom et le lien de rendez-vous."],
@@ -111,7 +112,7 @@ export default function AdminCommercialAssistant({ onOpenCrm, onOpenInbox }: { o
           <label className="block text-sm" htmlFor="commercial-question">Que veux-tu préparer ?</label>
           <textarea id="commercial-question" rows={3} maxLength={1600} value={question} onChange={event => setQuestion(event.target.value)}
             className="w-full rounded-xl border border-sand/60 p-3 text-sm" placeholder="Par exemple, que publier cette semaine pour attirer des propriétaires ?" />
-          <p className="text-xs text-muted">Ta question et des indicateurs du CRM sont envoyés à OpenAI. Utilise des champs génériques pour les données personnelles.</p>
+          <p className="text-xs text-muted">Ta question, le contenu public du site et des indicateurs agrégés de l’administration sont envoyés à OpenAI. Utilise des champs génériques pour les données personnelles.</p>
           <button type="submit" disabled={busy || !question.trim()} className="min-h-11 rounded-xl bg-lagoon px-4 text-sm font-semibold text-white disabled:opacity-50">
             {busy ? "Réflexion en cours…" : "Demander à l’assistant"}
           </button>
