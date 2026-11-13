@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import Button from "@/components/ui/Button";
+import { APPOINTMENT_URL } from "@/lib/appointments";
 import { localizedPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "ServiceArea" });
   return localizedPageMetadata({
     locale, path: "/zone-intervention", title: t("metaTitle"),
-    description: t("intro"), image: "/logements/pinson/terrasse.jpg",
+    description: t("intro"), image: "/hero-baie.png",
   });
 }
 
@@ -33,13 +34,13 @@ export default async function ServiceAreaPage({ params }: Props) {
             <p className="text-sm font-semibold text-lagoon-dark">{t("eyebrow")}</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold text-lagoon-dark sm:text-5xl">{t("title")}</h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-foreground/80">{t("intro")}</p>
-            <Button href="/contact#formulaire" className="mt-7">{t("cta")}</Button>
+            <Button href={APPOINTMENT_URL} className="mt-7">{t("cta")}</Button>
           </div>
           <figure>
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl sm:aspect-[16/10]">
-              <Image src="/logements/pinson/terrasse.jpg" alt={t("photoAlt")} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              <Image src="/hero-baie.png" alt={t("photoAlt")} fill priority sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
             </div>
-            <figcaption className="mt-2 text-sm text-foreground/70">Mini Villa Pinson · Santa Giulia</figcaption>
+            <figcaption className="mt-2 text-sm text-foreground/70">Santa Giulia · Porto-Vecchio</figcaption>
           </figure>
         </div>
       </section>
@@ -47,9 +48,8 @@ export default async function ServiceAreaPage({ params }: Props) {
         <h2 className="font-serif text-3xl font-semibold text-lagoon-dark">{t("sectors")}</h2>
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
           {sectors.map(({ key, id, places }) => (
-            <article key={key} id={id} className={`scroll-mt-28 rounded-3xl border border-sand/60 p-6 ${key === "core" ? "bg-lagoon-dark text-white" : "bg-sand-light text-lagoon-dark"}`}>
+            <article key={key} id={id} className="scroll-mt-28 rounded-3xl border border-sand/60 bg-sand-light p-6 text-lagoon-dark">
               <h3 className="font-serif text-2xl font-semibold">{t(`${key}Title`)}</h3>
-              <p className="mt-2 text-sm leading-relaxed">{t(`${key}Text`)}</p>
               <ul className="mt-5 flex flex-wrap gap-2">
                 {places.map(place => <li key={place} className="rounded-full border border-current/25 px-3 py-1 text-sm">{place}</li>)}
               </ul>
@@ -61,7 +61,7 @@ export default async function ServiceAreaPage({ params }: Props) {
             <h2 className="font-serif text-2xl font-semibold text-lagoon-dark">{t("contactTitle")}</h2>
             <p className="mt-2 leading-relaxed text-foreground/80">{t("contactText")}</p>
           </div>
-          <Button href="/contact#formulaire">{t("cta")}</Button>
+          <Button href={APPOINTMENT_URL}>{t("cta")}</Button>
         </div>
       </section>
     </div>
