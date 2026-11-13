@@ -6,6 +6,13 @@ const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      ...["", "/fr", "/en", "/es"].flatMap(prefix =>
+        ["porto-vecchio", "santa-giulia"].map(sector => ({
+          source: `${prefix}/conciergerie-${sector}`,
+          destination: `${prefix === "/fr" ? "" : prefix}/zone-intervention#${sector}`,
+          permanent: true,
+        })),
+      ),
       {
         source: "/packs",
         destination: "/formules",

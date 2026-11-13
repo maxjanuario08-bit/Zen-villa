@@ -1,3 +1,4 @@
+import ServiceArea from "./serviceArea";
 import Pricing from "./pricing";
 import OwnerWorkspace from "./ownerWorkspace";
 import ServicePresentation from "./servicePresentation";
@@ -20,6 +21,7 @@ import Admin from "./admin";
 import Equipe from "./equipe";
 
 export default {
+  ServiceArea,
   Pricing,
   OwnerWorkspace,
   ServicePresentation,
