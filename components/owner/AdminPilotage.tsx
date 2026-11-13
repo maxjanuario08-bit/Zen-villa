@@ -136,9 +136,11 @@ function Inquiry({ item, onSave }: { item: InboxItem; onSave: () => void }) {
     <div className="mt-4 space-y-3 text-sm">
       <div className="flex flex-wrap gap-x-4 gap-y-1">
         <a className="break-all text-lagoon-dark underline" href={`mailto:${encodeURIComponent(data.email)}`}>{data.email}</a>
-        <a className="text-lagoon-dark underline" href={`tel:${data.telephone.replace(/[^+\d]/g, "")}`}>{data.telephone}</a>
+        {data.telephone && <a className="text-lagoon-dark underline" href={`tel:${data.telephone.replace(/[^+\d]/g, "")}`}>{data.telephone}</a>}
       </div>
       <p>{[data.ville || data.lieu, data.type, data.dates, item.source && `Source : ${item.source}`].filter(Boolean).join(" · ")}</p>
+      {data.propertyAddress && <p className="break-words">Adresse du bien : {data.propertyAddress}</p>}
+      {data.contactConsent && <p>Accord donné pour être recontacté au sujet de cette demande.</p>}
       <p className="whitespace-pre-wrap break-words">{data.message}</p>
       <p className="text-xs text-foreground/70">{{
         accepted: "Notification acceptée par Resend", failed: "Notification email en échec", pending: "Notification en attente",

@@ -25,6 +25,9 @@ export async function POST(req: Request) {
     type?: string;
     message?: string;
     source?: string;
+    form?: string;
+    propertyAddress?: string;
+    contactConsent?: boolean;
   };
   try {
     body = (await req.json()) as typeof body;
@@ -37,8 +40,13 @@ export async function POST(req: Request) {
   const nom = String(body.nom ?? "").trim().slice(0, 80);
   const email = String(body.email ?? "").trim().toLowerCase().slice(0, 120);
   const telephone = String(body.telephone ?? "").trim().slice(0, 40);
+  const ownerForm = body.form === "owner";
+  const propertyAddress = typeof body.propertyAddress === "string" ? body.propertyAddress.trim().slice(0, 250) : "";
   const message = String(body.message ?? "").trim().slice(0, 4000);
-  if (!nom || !email.includes("@") || !telephone || message.length < 2) {
+  const validDetails = ownerForm
+    ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && propertyAddress && body.contactConsent === true
+    : email.includes("@") && telephone && message.length >= 2;
+  if (!nom || !validDetails) {
     return NextResponse.json({ error: "invalid" }, { status: 400 });
   }
 
@@ -49,7 +57,8 @@ export async function POST(req: Request) {
       telephone,
       ville: String(body.ville ?? "").trim().slice(0, 80),
       type: String(body.type ?? "").trim().slice(0, 80),
-      message,
+      message: ownerForm ? "Demande de contact propriétaire." : message,
+      ...(ownerForm ? { propertyAddress, contactConsent: true } : {}),
     }, body.source, notifyContactMessage);
   } catch {
     return NextResponse.json({ error: "inbox_unavailable" }, { status: 503 });

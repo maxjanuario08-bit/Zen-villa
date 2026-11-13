@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import OwnerLeadForm from "@/components/OwnerLeadForm";
+import { APPOINTMENT_URL } from "@/lib/appointments";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import ServiceIcon from "@/components/icons/ServiceIcon";
@@ -19,7 +21,18 @@ export default async function ProprietairesPage({
   const tOwners = await getTranslations({ locale, namespace: "Owners" });
   const tBenefits = await getTranslations({ locale, namespace: "ownerBenefits" });
   const tCommon = await getTranslations({ locale, namespace: "Common" });
-  const tHome = await getTranslations({ locale, namespace: "Home" });
+  const tLead = await getTranslations({ locale, namespace: "OwnerLead" });
+  const leadCopy = {
+    name: tLead("name"),
+    email: tLead("email"),
+    address: tLead("address"),
+    consent: tLead("consent"),
+    privacy: tLead("privacy"),
+    submit: tLead("submit"),
+    sending: tLead("sending"),
+    success: tLead("success"),
+    error: tLead("error"),
+  };
   const tPacks = await getTranslations({ locale, namespace: "Packs" });
 
   const whyBullets = tOwners.raw("whyBullets") as readonly string[];
@@ -59,17 +72,24 @@ export default async function ProprietairesPage({
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-300">
-            <Button href="/formules" variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
-              {tHome("ctaTrustVilla")}
+            <Button href={APPOINTMENT_URL} variant="primary" className="!bg-white !text-lagoon hover:!bg-sand-light">
+              {tLead("appointment")}
             </Button>
             <Button
-              href="/contact"
+              href="#demande-proprietaire"
               variant="outline"
               className="!border-white !text-white hover:!bg-white hover:!text-lagoon-dark"
             >
-              {tCommon("contactUs")}
+              {tLead("submit")}
             </Button>
           </div>
+        </div>
+      </section>
+
+      <section id="demande-proprietaire" className="scroll-mt-28 bg-sand-light px-4 py-10 sm:px-6">
+        <div className="mx-auto max-w-2xl rounded-3xl border border-sand-dark/25 bg-white p-5 sm:p-8">
+          <h2 className="mb-5 font-serif text-3xl font-semibold text-lagoon-dark">{tLead("title")}</h2>
+          <OwnerLeadForm copy={leadCopy} />
         </div>
       </section>
 

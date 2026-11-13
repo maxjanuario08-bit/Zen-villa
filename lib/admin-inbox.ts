@@ -6,6 +6,8 @@ export type SiteInquiry = {
   email: string;
   telephone: string;
   message: string;
+  propertyAddress?: string;
+  contactConsent?: boolean;
   ville?: string;
   type?: string;
   prestation?: string;

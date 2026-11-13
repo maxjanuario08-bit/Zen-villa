@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import Button from "@/components/ui/Button";
 import LogementCard from "@/components/LogementCard";
 import { logementsForRent } from "@/lib/logements";
@@ -10,6 +11,8 @@ export default async function LogementsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Logements" });
+
+  const tLead = await getTranslations({ locale, namespace: "OwnerLead" });
 
   return (
     <div>
@@ -55,6 +58,11 @@ export default async function LogementsPage({ params }: Props) {
               ))}
             </div>
           )}
+          <p className="mt-8 text-center text-sm">
+            <Link href="/proprietaires" className="inline-flex min-h-11 items-center text-lagoon-dark underline underline-offset-4">
+              {tLead("ownerLink")}
+            </Link>
+          </p>
         </div>
       </section>
     </div>

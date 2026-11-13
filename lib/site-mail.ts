@@ -61,6 +61,8 @@ export async function notifyContactMessage(input: {
   nom: string;
   email: string;
   telephone: string;
+  propertyAddress?: string;
+  contactConsent?: boolean;
   ville?: string;
   type?: string;
   message: string;
@@ -70,7 +72,9 @@ export async function notifyContactMessage(input: {
     ``,
     `Nom : ${input.nom}`,
     `Email : ${input.email}`,
-    `Téléphone : ${input.telephone}`,
+    input.telephone ? `Téléphone : ${input.telephone}` : null,
+    input.propertyAddress ? `Adresse du bien : ${input.propertyAddress}` : null,
+    input.contactConsent ? "Accord donné pour être recontacté au sujet de cette demande." : null,
     input.ville ? `Ville : ${input.ville}` : null,
     input.type ? `Type : ${input.type}` : null,
     ``,
