@@ -49,7 +49,20 @@ export default function AdminCommercialAssistant({ onOpenCrm, onOpenInbox }: { o
       if (response.ok) setAnswer(data.answer);
       else if (response.status === 429) setError("Attends quelques secondes avant de réessayer.");
       else if (response.status === 401) setError("Reconnecte-toi à l’administration.");
-      else setError("OpenAI est indisponible. Vérifie la configuration ou réessaie.");
+      else {
+        const messages: Record<string, string> = {
+          credentials: "OpenAI a refusé la clé API. Vérifie la clé de production dans Vercel.",
+          quota: "Le projet OpenAI a atteint son quota. Vérifie ses crédits et sa limite de dépenses.",
+          access: "OpenAI a refusé l’accès au modèle. Vérifie les permissions de la clé et le modèle configuré.",
+          configuration: "OpenAI a refusé les paramètres de la requête. Vérifie le modèle configuré dans Vercel.",
+          busy: "OpenAI a limité le nombre de requêtes. Réessaie dans un instant.",
+          timeout: "OpenAI a mis trop de temps à répondre. Réessaie.",
+          empty: "OpenAI n’a renvoyé aucun texte. Réessaie avec une question plus courte.",
+        };
+        setError(typeof data.reason === "string" && Object.hasOwn(messages, data.reason)
+          ? messages[data.reason]
+          : "L’assistant n’a pas pu obtenir de réponse. Réessaie dans un instant.");
+      }
     } catch {
       setError("La demande a échoué. Réessaie.");
     } finally {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/owner-admin";
-import { askCommercialAssistant, readCommercialBrief } from "@/lib/admin-assistant";
+import { AssistantProviderError, askCommercialAssistant, readCommercialBrief } from "@/lib/admin-assistant";
 
 export const maxDuration = 40;
 const headers = { "Cache-Control": "private, no-store" };
@@ -29,7 +29,13 @@ export async function POST(req: Request) {
   lastRequest.set(session.email, now);
   try {
     return reply({ answer: await askCommercialAssistant(question, key) });
-  } catch {
-    return reply({ error: "provider_unavailable" }, 502);
+  } catch (error) {
+    const reason = error instanceof AssistantProviderError ? error.reason
+      : error instanceof Error && error.name === "TimeoutError" ? "timeout"
+      : "unavailable";
+    console.warn("Commercial assistant request failed", {
+      reason, upstreamStatus: error instanceof AssistantProviderError ? error.status : undefined,
+    });
+    return reply({ error: "provider_unavailable", reason }, 502);
   }
 }
