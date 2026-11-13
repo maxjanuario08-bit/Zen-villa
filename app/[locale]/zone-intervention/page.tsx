@@ -49,10 +49,10 @@ export default async function ServiceAreaPage({ params }: Props) {
           {sectors.map(({ key, id, places, image }) => (
             <article key={key} id={id} className="relative isolate min-h-64 scroll-mt-28 overflow-hidden rounded-3xl bg-lagoon-dark p-6 text-white">
               <Image src={image} alt="" fill sizes="(min-width: 1024px) 33vw, 100vw" className="-z-20 object-cover" />
-              <div className="absolute inset-0 -z-10 bg-black/55" />
-              <h3 className="font-serif text-2xl font-semibold">{t(`${key}Title`)}</h3>
+              <div className="absolute inset-0 -z-10 bg-black/10" />
+              <h3 className="w-fit rounded-xl bg-lagoon-dark/90 px-3 py-2 font-serif text-2xl font-semibold">{t(`${key}Title`)}</h3>
               <ul className="mt-5 flex flex-wrap gap-2">
-                {places.map(place => <li key={place} className="rounded-full border border-white/50 bg-black/25 px-3 py-1 text-sm">{place}</li>)}
+                {places.map(place => <li key={place} className="rounded-full border border-white/40 bg-lagoon-dark/90 px-3 py-1 text-sm">{place}</li>)}
               </ul>
             </article>
           ))}
