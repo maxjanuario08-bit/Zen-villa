@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getAdminSession } from "@/lib/owner-admin";
-import { readGoogleSection } from "@/lib/admin-google";
+import { GoogleAnalyticsError, readGoogleSection } from "@/lib/admin-google";
 import { pg } from "@/lib/owner-pg";
 import { readMailbox } from "@/lib/admin-mailbox";
 
@@ -31,7 +31,11 @@ export async function GET(req: Request, context: { params: Promise<{ section: st
       return NextResponse.json({ data: await readMailbox(uid === null ? null : Number(uid), Number(offset)) }, { headers });
     }
     return NextResponse.json({ error: "not_found" }, { status: 404, headers });
-  } catch {
+  } catch (error) {
+    if (section === "analytics" && error instanceof GoogleAnalyticsError) {
+      console.warn("Google Analytics", error.stage, error.status);
+      return NextResponse.json({ error: "provider_unavailable", stage: error.stage, upstreamStatus: error.status }, { status: 502, headers });
+    }
     return NextResponse.json({ error: "provider_unavailable" }, { status: 502, headers });
   }
 }

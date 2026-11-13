@@ -141,17 +141,30 @@ export default function AdminPilotage({ onOpenCrm, onOpenPlanning }: { onOpenCrm
     async function load() {
       try {
         const response = await fetch(url, { signal: controller.signal, cache: "no-store" });
-        if (!response.ok) throw new Error(response.status === 401 ? "Reconnecte-toi à l’administration." : "Données indisponibles pour le moment.");
+        if (!response.ok) {
+          const diagnostic = section === "analytics" ? await response.json().catch(() => null) : null;
+          const stages: Record<string, string> = {
+            identity: "Vercel ne fournit pas de jeton OIDC.",
+            federation: "Google Cloud a refusé le jeton Vercel.",
+            service_account: "Google Cloud a refusé l’accès au compte de service.",
+            report: "Google Analytics a refusé la requête de rapport.",
+          };
+          const detail = diagnostic && Object.hasOwn(stages, diagnostic.stage) ? stages[diagnostic.stage] : "";
+          const status = typeof diagnostic?.upstreamStatus === "number" ? ` (HTTP ${diagnostic.upstreamStatus})` : "";
+          const error = response.status === 401 ? "Reconnecte-toi à l’administration."
+            : detail ? detail + status : "Données indisponibles pour le moment.";
+          if (!controller.signal.aborted) setResult({ key, error });
+          return;
+        }
         const report = await response.json() as Report;
         if (!controller.signal.aborted) setResult({ key, report });
-      } catch (error) {
-        if (!controller.signal.aborted) setResult({ key, error: error instanceof Error && error.message === "Reconnecte-toi à l’administration."
-          ? error.message : "Données indisponibles pour le moment." });
+      } catch {
+        if (!controller.signal.aborted) setResult({ key, error: "Données indisponibles pour le moment." });
       }
     }
     void load();
     return () => controller.abort();
-  }, [key, url]);
+  }, [key, section, url]);
 
   const report = state?.report;
   const page = (next: boolean) => (

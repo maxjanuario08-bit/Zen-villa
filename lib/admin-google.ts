@@ -33,8 +33,14 @@ async function accessToken(account: Account, section: GoogleSection) {
 
 type MetricRow = { dimensionValues?: { value: string }[]; metricValues?: { value: string }[] };
 
+export class GoogleAnalyticsError extends Error {
+  constructor(public readonly stage: "identity" | "federation" | "service_account" | "report", public readonly status?: number) {
+    super("Google Analytics request failed");
+  }
+}
+
 async function federatedAnalyticsToken(audience: string, account: string, oidcToken: string | null) {
-  if (!oidcToken) throw new Error("Vercel identity token unavailable");
+  if (!oidcToken) throw new GoogleAnalyticsError("identity");
   const exchange = await fetch("https://sts.googleapis.com/v1/token", {
     method: "POST",
     body: new URLSearchParams({
@@ -48,7 +54,7 @@ async function federatedAnalyticsToken(audience: string, account: string, oidcTo
     signal: AbortSignal.timeout(6500),
     cache: "no-store",
   });
-  if (!exchange.ok) throw new Error(`Google identity exchange failed (${exchange.status})`);
+  if (!exchange.ok) throw new GoogleAnalyticsError("federation", exchange.status);
   const { access_token } = await exchange.json();
   if (typeof access_token !== "string") throw new Error("Google identity token unavailable");
 
@@ -62,7 +68,7 @@ async function federatedAnalyticsToken(audience: string, account: string, oidcTo
       cache: "no-store",
     },
   );
-  if (!response.ok) throw new Error(`Google service account authorization failed (${response.status})`);
+  if (!response.ok) throw new GoogleAnalyticsError("service_account", response.status);
   const { accessToken } = await response.json();
   if (typeof accessToken !== "string") throw new Error("Google Analytics access token unavailable");
   return accessToken;
@@ -92,7 +98,10 @@ export async function readGoogleSection(section: GoogleSection, oidcToken: strin
       signal: AbortSignal.timeout(6500),
       cache: "no-store",
     });
-    if (!response.ok) throw new Error("Google report unavailable");
+    if (!response.ok) {
+      if (section === "analytics") throw new GoogleAnalyticsError("report", response.status);
+      throw new Error("Google report unavailable");
+    }
     return response.json();
   }
 
